@@ -1,0 +1,53 @@
+{
+  "nav": {
+    "title": "PromptMaster",
+    "explorer": "探索",
+    "guide": "指南",
+    "library": "库",
+    "proUpgrade": "升级专业版",
+    "tryLive": "在线试用"
+  },
+  "hero": {
+    "title": "精通 AI 提示词 <br /> 的艺术",
+    "subtitle": "发现精选的高效提示词集合。通过实例学习，优化您的 AI 交互体验。",
+    "searchPlaceholder": "搜索提示词、标签或主题...",
+    "searchButton": "搜索"
+  },
+  "categories": {
+    "All": "全部",
+    "Creative Writing": "创意写作",
+    "Coding & Technical": "编程与技术",
+    "Productivity": "生产力",
+    "Academic & Research": "学术研究",
+    "Roleplay": "角色扮演",
+    "Business & Marketing": "商业营销"
+  },
+  "card": {
+    "copy": "复制提示词",
+    "snippet": "提示词片段",
+    "tryLive": "在线试用",
+    "chineseTranslation": "中文对照"
+  },
+  "modal": {
+    "title": "实时预览",
+    "subtitle": "使用 Gemini 3 Flash 实时预览",
+    "promptConfig": "提示词配置",
+    "expertTip": "专家建议",
+    "generating": "生成中...",
+    "runLive": "运行实时演示",
+    "resultOutput": "结果输出",
+    "idleMessage": "点击“运行实时演示”以查看提示词效果。",
+    "copyResult": "复制结果",
+    "close": "关闭"
+  },
+  "noResults": {
+    "message": "未找到匹配当前筛选条件的提示词。",
+    "clear": "清除所有筛选"
+  },
+  "footer": {
+    "curatedPrompts": "精选提示词",
+    "communityUses": "社区使用",
+    "openLibrary": "开放库",
+    "contribute": "贡献您的提示词"
+  }
+}

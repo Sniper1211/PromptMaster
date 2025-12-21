@@ -1,0 +1,53 @@
+{
+  "nav": {
+    "title": "PromptMaster",
+    "explorer": "Explorer",
+    "guide": "Guide",
+    "library": "Library",
+    "proUpgrade": "Pro Upgrade",
+    "tryLive": "Try Live"
+  },
+  "hero": {
+    "title": "Master the Art of <br /> AI Prompting",
+    "subtitle": "Discover a curated collection of high-performance prompts. Learn through real examples and optimize your AI interactions.",
+    "searchPlaceholder": "Search for prompts by title, tag, or topic...",
+    "searchButton": "Search"
+  },
+  "categories": {
+    "All": "All",
+    "Creative Writing": "Creative Writing",
+    "Coding & Technical": "Coding & Technical",
+    "Productivity": "Productivity",
+    "Academic & Research": "Academic & Research",
+    "Roleplay": "Roleplay",
+    "Business & Marketing": "Business & Marketing"
+  },
+  "card": {
+    "copy": "Copy Prompt",
+    "snippet": "PROMPT SNIPPET",
+    "tryLive": "Try Live",
+    "chineseTranslation": "Chinese Translation"
+  },
+  "modal": {
+    "title": "Live Preview",
+    "subtitle": "Live Preview with Gemini 3 Flash",
+    "promptConfig": "Prompt Configuration",
+    "expertTip": "Expert Tip",
+    "generating": "Generating...",
+    "runLive": "Run Live Demo",
+    "resultOutput": "Result Output",
+    "idleMessage": "Click \"Run Live Demo\" to see the prompt in action.",
+    "copyResult": "Copy Result",
+    "close": "Close"
+  },
+  "noResults": {
+    "message": "No prompts found matching your current filters.",
+    "clear": "Clear all filters"
+  },
+  "footer": {
+    "curatedPrompts": "Curated Prompts",
+    "communityUses": "Community Uses",
+    "openLibrary": "Open Library",
+    "contribute": "Contribute your own prompts"
+  }
+}

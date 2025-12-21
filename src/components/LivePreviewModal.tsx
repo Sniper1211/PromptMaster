@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Prompt, GenerationResult } from '../types';
 import { X, Sparkles, AlertCircle, Copy, Check, Play } from 'lucide-react';
 import { generatePreview } from '../services/geminiService';
+import { useTranslation } from 'react-i18next';
 
 interface LivePreviewModalProps {
   prompt: Prompt | null;
@@ -11,6 +12,7 @@ interface LivePreviewModalProps {
 const LivePreviewModal: React.FC<LivePreviewModalProps> = ({ prompt, onClose }) => {
   const [result, setResult] = useState<GenerationResult>({ text: '', status: 'idle' });
   const [copied, setCopied] = useState(false);
+  const { t } = useTranslation();
 
   if (!prompt) return null;
 
@@ -41,7 +43,7 @@ const LivePreviewModal: React.FC<LivePreviewModalProps> = ({ prompt, onClose }) 
             </div>
             <div>
               <h2 className="text-xl font-bold">{prompt.title}</h2>
-              <p className="text-sm text-slate-400">Live Preview with Gemini 3 Flash</p>
+              <p className="text-sm text-slate-400">{t('modal.subtitle')}</p>
             </div>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors">
@@ -53,13 +55,20 @@ const LivePreviewModal: React.FC<LivePreviewModalProps> = ({ prompt, onClose }) 
         <div className="flex-1 overflow-y-auto p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Prompt Configuration</label>
+              <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">{t('modal.promptConfig')}</label>
               <div className="p-4 bg-slate-900/50 rounded-2xl border border-white/5 text-sm leading-relaxed text-slate-300 whitespace-pre-wrap">
                 {prompt.content}
               </div>
+              {/* Optional: Show Chinese translation if available and different */}
+              {prompt.chineseContent && prompt.chineseContent !== prompt.content && (
+                <div className="mt-2 p-3 bg-slate-800/30 rounded-xl border border-white/5 text-xs text-slate-400 italic">
+                  <span className="font-bold not-italic text-slate-500 block mb-1">中文对照 (Chinese Translation):</span>
+                  {prompt.chineseContent}
+                </div>
+              )}
             </div>
             <div className="p-4 bg-indigo-500/10 rounded-2xl border border-indigo-500/20">
-              <h4 className="text-sm font-semibold text-indigo-300 mb-1">Expert Tip</h4>
+              <h4 className="text-sm font-semibold text-indigo-300 mb-1">{t('modal.expertTip')}</h4>
               <p className="text-xs text-indigo-200/70">{prompt.expectedOutput}</p>
             </div>
             <button
@@ -70,25 +79,24 @@ const LivePreviewModal: React.FC<LivePreviewModalProps> = ({ prompt, onClose }) 
               {result.status === 'loading' ? (
                 <>
                   <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
-                  Generating...
+                  {t('modal.generating')}
                 </>
               ) : (
                 <>
-                  {/* Added missing Play icon import to resolve "Cannot find name 'Play'" error */}
                   <Play size={18} className="fill-current" />
-                  Run Live Demo
+                  {t('modal.runLive')}
                 </>
               )}
             </button>
           </div>
 
           <div className="flex flex-col h-full min-h-[400px]">
-            <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Result Output</label>
+            <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">{t('modal.resultOutput')}</label>
             <div className="flex-1 glass bg-slate-950/50 rounded-2xl p-6 border border-white/5 relative overflow-y-auto max-h-[500px]">
               {result.status === 'idle' && (
                 <div className="h-full flex flex-col items-center justify-center text-slate-500 italic text-center">
                   <Sparkles size={40} className="mb-4 opacity-20" />
-                  <p>Click "Run Live Demo" to see the prompt in action.</p>
+                  <p>{t('modal.idleMessage')}</p>
                 </div>
               )}
 
@@ -102,22 +110,22 @@ const LivePreviewModal: React.FC<LivePreviewModalProps> = ({ prompt, onClose }) 
               )}
 
               {result.status === 'success' && (
-                <div className="text-slate-200 text-sm leading-relaxed whitespace-pre-wrap animate-in fade-in duration-500">
+                <div className="animate-in fade-in duration-500">
+                  <p className="text-slate-300 whitespace-pre-wrap leading-relaxed">{result.text}</p>
                   <button 
                     onClick={copyResult}
-                    className="absolute top-4 right-4 p-2 bg-slate-800/80 hover:bg-slate-700 rounded-lg transition-all"
+                    className="absolute top-4 right-4 p-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors text-slate-400 hover:text-white"
                   >
-                    {copied ? <Check size={14} className="text-green-400" /> : <Copy size={14} />}
+                    {copied ? <Check size={16} className="text-green-400" /> : <Copy size={16} />}
                   </button>
-                  {result.text}
                 </div>
               )}
 
               {result.status === 'error' && (
-                <div className="flex flex-col items-center justify-center h-full text-red-400">
-                  <AlertCircle size={32} className="mb-2" />
-                  <p className="text-sm font-medium">Generation Failed</p>
-                  <p className="text-xs mt-1 text-center opacity-70">{result.error}</p>
+                <div className="h-full flex flex-col items-center justify-center text-red-400 text-center p-4">
+                  <AlertCircle size={40} className="mb-4 opacity-50" />
+                  <p className="font-bold mb-2">Generation Failed</p>
+                  <p className="text-sm opacity-80">{result.error}</p>
                 </div>
               )}
             </div>

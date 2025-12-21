@@ -14,6 +14,7 @@ export interface Prompt {
   title: string;
   description: string;
   content: string;
+  chineseContent?: string; // Optional Chinese translation for display
   category: Category;
   tags: string[];
   expectedOutput: string;
