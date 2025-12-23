@@ -44,9 +44,9 @@ const App: React.FC = () => {
           <span className="text-xl font-bold tracking-tight">{t('nav.title')}</span>
         </div>
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
-          <a href="#" className="text-white hover:text-indigo-400 transition-colors">{t('nav.explorer')}</a>
-          <a href="#" className="hover:text-indigo-400 transition-colors">{t('nav.guide')}</a>
-          <a href="#" className="hover:text-indigo-400 transition-colors">{t('nav.library')}</a>
+          <a href="#" className="text-white hover:text-indigo-400 transition-colors min-w-[60px] text-center">{t('nav.explorer')}</a>
+          <a href="#" className="hover:text-indigo-400 transition-colors min-w-[60px] text-center">{t('nav.guide')}</a>
+          <a href="#" className="hover:text-indigo-400 transition-colors min-w-[60px] text-center">{t('nav.library')}</a>
         </div>
         <div className="flex items-center gap-4">
           <button 
@@ -55,9 +55,9 @@ const App: React.FC = () => {
             title="Switch Language"
           >
             <Globe size={20} />
-            <span className="text-sm font-medium">{i18n.language.startsWith('en') ? '中文' : 'EN'}</span>
+            <span className="text-sm font-medium w-8 text-center">{i18n.language.startsWith('en') ? '中文' : 'EN'}</span>
           </button>
-          <button className="hidden sm:flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 transition-colors rounded-xl text-sm font-bold">
+          <button className="hidden sm:flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 transition-colors rounded-xl text-sm font-bold min-w-[140px]">
             <Rocket size={16} />
             {t('nav.proUpgrade')}
           </button>
@@ -70,8 +70,10 @@ const App: React.FC = () => {
       <main className="max-w-7xl mx-auto px-6">
         {/* Hero Section */}
         <section className="text-center mb-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-transparent leading-tight" dangerouslySetInnerHTML={{ __html: t('hero.title') }} />
-          <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+          <div className="min-h-[160px] md:min-h-[200px] flex items-center justify-center mb-6">
+             <h1 className="text-5xl md:text-7xl font-black bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-transparent leading-tight" dangerouslySetInnerHTML={{ __html: t('hero.title') }} />
+          </div>
+          <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed min-h-[3.5rem] flex items-center justify-center">
             {t('hero.subtitle')}
           </p>
 
@@ -137,17 +139,17 @@ const App: React.FC = () => {
         {/* Footer Meta */}
         <section className="mt-24 pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex items-center gap-12">
-            <div className="text-center md:text-left">
+            <div className="text-center md:text-left min-w-[160px]">
               <p className="text-3xl font-bold text-white mb-1">2.4k+</p>
               <p className="text-xs text-slate-500 uppercase tracking-widest font-bold">{t('footer.curatedPrompts')}</p>
             </div>
-            <div className="text-center md:text-left">
+            <div className="text-center md:text-left min-w-[160px]">
               <p className="text-3xl font-bold text-white mb-1">15k+</p>
               <p className="text-xs text-slate-500 uppercase tracking-widest font-bold">{t('footer.communityUses')}</p>
             </div>
           </div>
           <div className="flex gap-4">
-             <div className="glass px-6 py-4 rounded-2xl flex items-center gap-3">
+             <div className="glass px-6 py-4 rounded-2xl flex items-center gap-3 min-w-[280px]">
                 <Layers className="text-indigo-400" size={20} />
                 <div>
                   <p className="text-sm font-bold">{t('footer.openLibrary')}</p>

@@ -60,5 +60,33 @@ export const PROMPTS_ZH: Prompt[] = [
     content: 'I will give you a draft prompt. Your job is to critique it using the following criteria: clarity, context, constraints, and goal-orientation. Then, provide an optimized version of that prompt that will yield better results from an LLM.',
     chineseContent: '我将给你一个 Prompt 草稿。你的工作是根据以下标准对其进行批评：清晰度、背景、约束和目标导向。然后，提供该 Prompt 的优化版本，以便从 LLM 获得更好的结果。',
     expectedOutput: '详细的反馈，随后是用户输入的显著改进版本。'
+  },
+  {
+    id: '7',
+    title: '全栈工程师 (i18n & 布局)',
+    description: '确保 UI 在多语言切换时保持布局稳定的高级开发指令。',
+    category: Category.CODING,
+    tags: ['i18n', 'Frontend', 'Best Practices'],
+    content: `Layout & i18n Requirement:
+
+"In writing UI components, strictly adhere to the **'Layout Stability'** principle, especially for future multi-language (i18n) support:
+
+1.  **Do not rely on content to size containers**: For interactive elements like buttons, nav items, and tabs, set reasonable \`min-width\` or fixed \`width\` to prevent layout jumping due to text length changes.
+2.  **Unified height and alignment**: In Grid or Flex lists, card components must use \`flex-col\` and fix the height of text areas (using \`line-clamp\` and \`min-height\`) to ensure all cards align neatly.
+3.  **Reserve space for titles**: The Hero Section title container should reserve enough height (\`min-height\`) to accommodate potential line wrapping in different languages.
+4.  **Centered layout**: Inside fixed-size containers, use Flex centering (\`justify-center\`) by default so short text doesn't look off-center.
+
+Goal: Regardless of how long the English text or how short the Chinese text becomes, the page skeleton should remain immovable."`,
+    chineseContent: `布局与国际化 (i18n) 开发规范：
+
+"在编写 UI 组件时，请严格遵循 **'Layout Stability'（布局稳定性）** 原则，特别是为了将来的多语言（i18n）支持：
+
+1.  **不要依赖内容撑开容器**：对于按钮、导航项、标签等交互元素，请设置合理的 \`min-width\` 或固定 \`width\`，防止文字长短变化导致布局跳动。
+2.  **统一高度与对齐**：在 Grid 或 Flex 列表中，卡片组件必须使用 \`flex-col\` 并固定文本区域的高度（使用 \`line-clamp\` 和 \`min-height\`），确保所有卡片高度整齐划一。
+3.  **预留标题空间**：Hero Section 的大标题容器应预留足够的高度（\`min-height\`），以容纳可能出现的折行。
+4.  **居中布局**：在固定尺寸的容器内，默认使用 Flex 居中（\`justify-center\`），确保短文本不会显得偏左或偏右。
+
+目标是：无论将来文案变成多长的英文或多短的中文，页面的骨架结构（Skeleton）都保持不动。"`,
+    expectedOutput: '一份清晰、可执行的开发规范，指导 AI 生成高质量、布局稳定的前端代码。'
   }
 ];

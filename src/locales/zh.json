@@ -30,8 +30,9 @@
   },
   "modal": {
     "title": "实时预览",
-    "subtitle": "使用 Gemini 3 Flash 实时预览",
+    "subtitle": "使用 DeepSeek 实时预览",
     "promptConfig": "提示词配置",
+    "modelProvider": "AI 模型",
     "expertTip": "专家建议",
     "generating": "生成中...",
     "runLive": "运行实时演示",
