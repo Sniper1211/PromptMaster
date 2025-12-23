@@ -30,8 +30,9 @@
   },
   "modal": {
     "title": "Live Preview",
-    "subtitle": "Live Preview with Gemini 3 Flash",
+    "subtitle": "Live Preview with DeepSeek",
     "promptConfig": "Prompt Configuration",
+    "modelProvider": "Model Provider",
     "expertTip": "Expert Tip",
     "generating": "Generating...",
     "runLive": "Run Live Demo",

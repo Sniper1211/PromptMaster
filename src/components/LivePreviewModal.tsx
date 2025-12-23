@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Prompt, GenerationResult } from '../types';
 import { X, Sparkles, AlertCircle, Copy, Check, Play } from 'lucide-react';
-import { generatePreview } from '../services/geminiService';
+import { generatePreview, AIProvider } from '../services/aiService';
 import { useTranslation } from 'react-i18next';
 
 interface LivePreviewModalProps {
@@ -12,6 +12,7 @@ interface LivePreviewModalProps {
 const LivePreviewModal: React.FC<LivePreviewModalProps> = ({ prompt, onClose }) => {
   const [result, setResult] = useState<GenerationResult>({ text: '', status: 'idle' });
   const [copied, setCopied] = useState(false);
+  const [provider, setProvider] = useState<AIProvider>('deepseek');
   const { t } = useTranslation();
 
   if (!prompt) return null;
@@ -19,7 +20,7 @@ const LivePreviewModal: React.FC<LivePreviewModalProps> = ({ prompt, onClose }) 
   const handleRun = async () => {
     setResult({ text: '', status: 'loading' });
     try {
-      const output = await generatePreview(prompt.content);
+      const output = await generatePreview(prompt.content, provider);
       setResult({ text: output, status: 'success' });
     } catch (error: any) {
       setResult({ text: '', status: 'error', error: error.message });
@@ -71,6 +72,7 @@ const LivePreviewModal: React.FC<LivePreviewModalProps> = ({ prompt, onClose }) 
               <h4 className="text-sm font-semibold text-indigo-300 mb-1">{t('modal.expertTip')}</h4>
               <p className="text-xs text-indigo-200/70">{prompt.expectedOutput}</p>
             </div>
+
             <button
               onClick={handleRun}
               disabled={result.status === 'loading'}

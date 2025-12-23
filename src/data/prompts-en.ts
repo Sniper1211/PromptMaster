@@ -54,5 +54,23 @@ export const PROMPTS_EN: Prompt[] = [
     tags: ['Meta-Prompting', 'Optimization'],
     content: 'I will give you a draft prompt. Your job is to critique it using the following criteria: clarity, context, constraints, and goal-orientation. Then, provide an optimized version of that prompt that will yield better results from an LLM.',
     expectedOutput: 'Detailed feedback followed by a significantly improved version of the user\'s input.'
+  },
+  {
+    id: '7',
+    title: 'Full Stack Engineer (i18n & Layout)',
+    description: 'Advanced instructions to ensure UI layout stability during multi-language switching.',
+    category: Category.CODING,
+    tags: ['i18n', 'Frontend', 'Best Practices'],
+    content: `Layout & i18n Requirement:
+
+"In writing UI components, strictly adhere to the **'Layout Stability'** principle, especially for future multi-language (i18n) support:
+
+1.  **Do not rely on content to size containers**: For interactive elements like buttons, nav items, and tabs, set reasonable \`min-width\` or fixed \`width\` to prevent layout jumping due to text length changes.
+2.  **Unified height and alignment**: In Grid or Flex lists, card components must use \`flex-col\` and fix the height of text areas (using \`line-clamp\` and \`min-height\`) to ensure all cards align neatly.
+3.  **Reserve space for titles**: The Hero Section title container should reserve enough height (\`min-height\`) to accommodate potential line wrapping in different languages.
+4.  **Centered layout**: Inside fixed-size containers, use Flex centering (\`justify-center\`) by default so short text doesn't look off-center.
+
+Goal: Regardless of how long the English text or how short the Chinese text becomes, the page skeleton should remain immovable."`,
+    expectedOutput: 'A clear, actionable development specification guiding AI to generate high-quality, layout-stable frontend code.'
   }
 ];

@@ -36,16 +36,16 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onTry }) => {
         </div>
       </div>
 
-      <h3 className="text-xl font-bold mb-2 text-white group-hover:text-indigo-300 transition-colors">
+      <h3 className="text-xl font-bold mb-2 text-white group-hover:text-indigo-300 transition-colors line-clamp-2 min-h-[3.5rem]">
         {prompt.title}
       </h3>
-      <p className="text-slate-400 text-sm mb-4 line-clamp-2">
+      <p className="text-slate-400 text-sm mb-4 line-clamp-2 min-h-[2.5rem]">
         {prompt.description}
       </p>
 
-      <div className="bg-slate-900/50 rounded-xl p-4 mb-6 border border-white/5 relative">
+      <div className="bg-slate-900/50 rounded-xl p-4 mb-6 border border-white/5 relative h-[140px] flex flex-col">
         <p className="text-xs text-slate-500 uppercase tracking-wider mb-2 font-bold">{t('card.snippet')}</p>
-        <p className="text-sm text-slate-300 italic line-clamp-3">
+        <p className="text-sm text-slate-300 italic line-clamp-4">
           "{prompt.content}"
         </p>
       </div>
