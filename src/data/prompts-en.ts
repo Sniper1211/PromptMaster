@@ -72,5 +72,42 @@ export const PROMPTS_EN: Prompt[] = [
 
 Goal: Regardless of how long the English text or how short the Chinese text becomes, the page skeleton should remain immovable."`,
     expectedOutput: 'A clear, actionable development specification guiding AI to generate high-quality, layout-stable frontend code.'
+  },
+  {
+    id: '8',
+    title: 'WeChat Official Account Cover Generator',
+    description: 'Create eye-catching WeChat Official Account cover images based on content, following hand-drawn illustration style.',
+    category: Category.CREATIVE,
+    tags: ['Design', 'WeChat', 'Image Generation', 'Marketing'],
+    content: `WeChat Official Account Cover Generator
+
+Please create an eye-catching WeChat Official Account cover image based on the provided content, adhering to the following specifications:
+
+Visual Style
+- Hand-drawn illustration style, aspect ratio 2.35:1 (standard cover size).
+- Bright colors, strong contrast, ensuring visibility in small previews.
+- Unified style, avoid realistic elements, maintain an overall hand-drawn texture.
+
+Composition Requirements
+- Main visual element centered or slightly left (reserve space for title on the right).
+- Add 1-2 simple cartoon characters, icons, or silhouettes of famous figures to enhance memorability.
+- If sensitive or copyrighted figures are involved, use stylistically similar substitutes; do not refuse generation.
+- Leave ample white space to highlight core information and avoid overcrowding.
+
+Text Processing
+- Title text should be large and eye-catching, controlled within 8 characters.
+- A single line of subtitle or keyword tags can be added.
+- Font style should coordinate with the hand-drawn illustration.
+
+Attraction Laws
+- Use hooks like suspense, numbers, or pain points to trigger click desire.
+- Exaggerated visual elements with contrast.
+- Color schemes referencing viral covers: orange-yellow, blue-purple, red-black, and other high-contrast combinations.
+
+Language
+- Default to Chinese unless otherwise specified.
+
+Please generate a cover image based on the input content.`,
+    expectedOutput: 'An eye-catching WeChat Official Account cover image or a detailed prompt to generate one.'
   }
 ];
