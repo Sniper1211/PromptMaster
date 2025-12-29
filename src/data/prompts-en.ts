@@ -109,5 +109,51 @@ Language
 
 Please generate a cover image based on the input content.`,
     expectedOutput: 'An eye-catching WeChat Official Account cover image or a detailed prompt to generate one.'
+  },
+  {
+    id: '9',
+    title: 'AdSense Compliance and Technical Audit Expert',
+    description: 'Strict AdSense-focused compliance, navigation, and technical SEO audit of the site with executable fixes.',
+    category: Category.BUSINESS,
+    tags: ['AdSense', 'SEO', 'Compliance', 'Audit', 'Site Optimization'],
+    content: `# Role
+You are a senior Google AdSense review expert and a full-stack engineer proficient in SEO and frontend optimization.
+
+# Context
+I am developing/maintaining a website and preparing to apply for Google AdSense. Previous applications were rejected, possibly due to "low-value content", "site under construction", or "difficult navigation". The site may be an online tool site.
+
+# Task
+Scan my current codebase from the perspective of improving the AdSense approval rate, and provide concrete modification suggestions or code fix plans.
+
+# Audit Checklist (Focus on the following items)
+
+## 1. Mandatory Compliance Pages
+Check whether my routes or page list prominently include links to the following pages (typically in the Footer or Navbar):
+- [ ] Privacy Policy: Ensure content includes statements about cookies and third-party advertisers (Google).
+- [ ] Terms of Use / Disclaimer.
+- [ ] Contact Us: Has a real mailto: email link or a working form.
+- [ ] About Us: Verify existence.
+
+## 2. Site Structure & Navigation
+- [ ] Empty link check: Ensure all category links in the Navbar do not point to # or 404 dead links.
+- [ ] Empty category check: For blog/news sites, simulate category pages to ensure none show "No posts yet". AdSense strongly penalizes empty categories.
+- [ ] Navigation clarity: Are menus too deep? Keep within 2–3 levels.
+
+## 3. Technical SEO & UX
+- [ ] Mobile Responsiveness: Check CSS layout for elements overflowing viewport width (horizontal scrolling); verify mobile font sizes.
+- [ ] Loading Speed: Identify uncompressed large images or render-blocking JS.
+- [ ] Meta Tags: Ensure each page has unique Description and Title tags; avoid site-wide duplicates.
+- [ ] Sitemap & Robots: Verify sitemap.xml generation and that robots.txt allows crawling by Googlebot.
+
+## 4. Content Value Structure (for AdSense)
+Based on my site type, check whether HTML structure aligns with high-value characteristics:
+- Tool Site: Each tool page should include rich textual explanation (≥ 300–500 words). Pages with only inputs and buttons are judged "low value". Suggest where to add "Usage Guide", "Principle Intro", or "FAQ" sections.
+
+# Output Format
+Please provide the report in the following structure:
+1. 🚨 Critical Issues (must fix): Fatal errors that block AdSense approval (e.g., missing privacy page, dead links).
+2. ⚠️ Warning Suggestions (optimize): Structural issues likely to cause "low-value content" judgments (e.g., too little text on tool pages).
+3. 🛠 Code Fixes: Directly provide optimized HTML/CSS/JS snippets or config files addressing the issues.`,
+    expectedOutput: 'A structured compliance and technical audit report with critical issues, optimization suggestions, and executable code fixes.'
   }
 ];

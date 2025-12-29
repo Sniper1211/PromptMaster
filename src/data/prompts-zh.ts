@@ -154,5 +154,89 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
 
 请根据输入内容生成封面图。`,
     expectedOutput: '一张符合视觉规范的公众号封面图，或用于生成该图的详细提示词。'
+  },
+  {
+    id: '9',
+    title: 'AdSense 审核合规与技术审计专家',
+    description: '从 AdSense 通过率角度对站点进行严格合规、导航与技术 SEO 审计，并输出可执行修复方案。',
+    category: Category.BUSINESS,
+    tags: ['AdSense', 'SEO', '合规', '审核', '站点优化'],
+    content: `# Role 
+你现在是一位资深的 Google AdSense 审核专家，同时也是一位精通 SEO 和前端优化的全栈工程师。 
+
+# Context 
+我正在开发/维护一个网站，准备申请 Google AdSense。此前申请已被拒绝，理由可能是“低价值内容”、“网站还在建设中”或“导航困难”。我的网站类型可能是在线工具站。 
+
+# Task 
+请扫描我的当前代码库，从“AdSense 通过率”的角度进行严格的审计，并给出具体的修改建议或代码修复方案。 
+
+# Audit Checklist (请重点检查以下项目) 
+
+## 1. 核心合规性页面 (Mandatory Compliance) 
+检查我的路由或页面列表中，是否**显著**包含以下页面的链接（通常在 Footer 或 Navbar）： 
+- [ ] Privacy Policy (隐私政策): 检查内容是否包含关于 Cookie 和第三方广告商（Google）的声明。 
+- [ ] Terms of Use / Disclaimer (条款/免责声明)。 
+- [ ] Contact Us (联系我们): 是否有真实的邮箱 mailto: 链接或工作的表单。 
+- [ ] About Us (关于我们): 是否存在该页面。 
+
+## 2. 网站结构与导航 (Site Structure) 
+- [ ] 空链接检查: 检查导航栏（Navbar）中的所有分类链接，确保没有指向 # 或 404 的死链。 
+- [ ] 空分类检查: 对于博客/资讯站，模拟检查分类页面，确保没有任何一个分类显示“暂无文章”。AdSense 严厉打击空分类。 
+- [ ] 导航清晰度: 菜单是否层级过深？建议保持在 2-3 级以内。 
+
+## 3. 技术 SEO 与体验 (Technical SEO) 
+- [ ] Mobile Responsiveness: 检查 CSS 布局，确保没有元素超出屏幕宽度（Horizontal Scrolling），字体在移动端是否过小。 
+- [ ] Loading Speed: 检查是否有未压缩的大图或阻塞渲染的 JS。 
+- [ ] Meta Tags: 确保每个页面都有独立的 Description 和 Title 标签，不能全站重复。 
+- [ ] Sitemap & Robots: 检查 sitemap.xml 是否生成正确，robots.txt 是否允许 Googlebot 抓取。 
+
+## 4. 内容价值结构化 (Content Layout for AdSense) 
+根据我的网站类型，检查 HTML 结构是否符合高价值特征： 
+- 如果是工具站 (Tool Site): 检查工具页面是否有丰富的文字说明（至少 300-500 字）。只有输入框和按钮的工具页会被判为“低价值”。请建议我在哪里添加“使用说明”、“原理介绍”或“FAQ”板块。 
+
+# Output Format 
+请按照以下格式给我输出报告： 
+1. 🚨 严重问题 (必须要改): 阻碍 AdSense 审核通过的致命错误（如缺少隐私页、存在死链）。 
+2. ⚠️ 警告建议 (建议优化): 可能导致“低价值内容”判定的结构问题（如工具页文字太少）。 
+3. 🛠 代码修复: 针对上述问题，直接给出优化的 HTML/CSS/JS 代码片段或配置文件。`,
+    chineseContent: `# Role 
+你现在是一位资深的 Google AdSense 审核专家，同时也是一位精通 SEO 和前端优化的全栈工程师。 
+
+# Context 
+我正在开发/维护一个网站，准备申请 Google AdSense。此前申请已被拒绝，理由可能是“低价值内容”、“网站还在建设中”或“导航困难”。我的网站类型可能是在线工具站。 
+
+# Task 
+请扫描我的当前代码库，从“AdSense 通过率”的角度进行严格的审计，并给出具体的修改建议或代码修复方案。 
+
+# Audit Checklist (请重点检查以下项目) 
+
+## 1. 核心合规性页面 (Mandatory Compliance) 
+检查我的路由或页面列表中，是否**显著**包含以下页面的链接（通常在 Footer 或 Navbar）： 
+- [ ] Privacy Policy (隐私政策): 检查内容是否包含关于 Cookie 和第三方广告商（Google）的声明。 
+- [ ] Terms of Use / Disclaimer (条款/免责声明)。 
+- [ ] Contact Us (联系我们): 是否有真实的邮箱 mailto: 链接或工作的表单。 
+- [ ] About Us (关于我们): 是否存在该页面。 
+
+## 2. 网站结构与导航 (Site Structure) 
+- [ ] 空链接检查: 检查导航栏（Navbar）中的所有分类链接，确保没有指向 # 或 404 的死链。 
+- [ ] 空分类检查: 对于博客/资讯站，模拟检查分类页面，确保没有任何一个分类显示“暂无文章”。AdSense 严厉打击空分类。 
+- [ ] 导航清晰度: 菜单是否层级过深？建议保持在 2-3 级以内。 
+
+## 3. 技术 SEO 与体验 (Technical SEO) 
+- [ ] Mobile Responsiveness: 检查 CSS 布局，确保没有元素超出屏幕宽度（Horizontal Scrolling），字体在移动端是否过小。 
+- [ ] Loading Speed: 检查是否有未压缩的大图或阻塞渲染的 JS。 
+- [ ] Meta Tags: 确保每个页面都有独立的 Description 和 Title 标签，不能全站重复。 
+- [ ] Sitemap & Robots: 检查 sitemap.xml 是否生成正确，robots.txt 是否允许 Googlebot 抓取。 
+
+## 4. 内容价值结构化 (Content Layout for AdSense) 
+根据我的网站类型，检查 HTML 结构是否符合高价值特征： 
+- 如果是工具站 (Tool Site): 检查工具页面是否有丰富的文字说明（至少 300-500 字）。只有输入框和按钮的工具页会被判为“低价值”。请建议我在哪里添加“使用说明”、“原理介绍”或“FAQ”板块。 
+
+# Output Format 
+请按照以下格式给我输出报告： 
+1. 🚨 严重问题 (必须要改): 阻碍 AdSense 审核通过的致命错误（如缺少隐私页、存在死链）。 
+2. ⚠️ 警告建议 (建议优化): 可能导致“低价值内容”判定的结构问题（如工具页文字太少）。 
+3. 🛠 代码修复: 针对上述问题，直接给出优化的 HTML/CSS/JS 代码片段或配置文件。`,
+    expectedOutput: '一份结构化的合规与技术审计报告，包含严重问题、优化建议与可执行代码修复片段。'
   }
 ];
