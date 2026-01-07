@@ -1,4 +1,5 @@
-import { GoogleGenAI } from "@google/genai";
+// NOTE: Gemini support is temporarily disabled. Uncomment the import and generateGeminiResponse function to re-enable.
+// import { GoogleGenAI } from "@google/genai";
 
 export type AIProvider = 'gemini' | 'deepseek';
 
@@ -6,13 +7,19 @@ export type AIProvider = 'gemini' | 'deepseek';
  * Generates a preview response using the specified AI provider.
  */
 export const generatePreview = async (prompt: string, provider: AIProvider = 'deepseek'): Promise<string> => {
-  if (provider === 'deepseek') {
+  // NOTE: Force DeepSeek for now. Uncomment the else block to restore Gemini support.
+  if (provider === 'deepseek' || true) {
     return generateDeepSeekResponse(prompt);
-  } else {
-    return generateGeminiResponse(prompt);
-  }
+  } 
+  // else {
+  //   return generateGeminiResponse(prompt);
+  // }
+  
+  // Make TS happy since we commented out the return above
+  return ""; 
 };
 
+/*
 const generateGeminiResponse = async (prompt: string): Promise<string> => {
   // Use VITE_ prefix for client-side environment variables
   const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
@@ -62,6 +69,7 @@ const generateGeminiResponse = async (prompt: string): Promise<string> => {
   console.error("All Gemini models failed.");
   throw lastError;
 };
+*/
 
 const generateDeepSeekResponse = async (prompt: string): Promise<string> => {
   const apiKey = import.meta.env.VITE_DEEPSEEK_API_KEY;

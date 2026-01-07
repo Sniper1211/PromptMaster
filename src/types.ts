@@ -14,10 +14,11 @@ export interface Prompt {
   title: string;
   description: string;
   content: string;
-  chineseContent?: string; // Optional Chinese translation for display
+  chineseContent?: string; // Optional Chinese translation for display or reference
   category: Category;
   tags: string[];
   expectedOutput: string;
+  usage?: string; // Instructions on how to use this prompt (e.g. "Replace [placeholder] with...")
 }
 
 export interface GenerationResult {

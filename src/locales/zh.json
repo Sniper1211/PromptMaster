@@ -34,6 +34,7 @@
     "promptConfig": "提示词配置",
     "modelProvider": "AI 模型",
     "expertTip": "专家建议",
+    "usageGuide": "使用指南",
     "generating": "生成中...",
     "runLive": "运行实时演示",
     "resultOutput": "结果输出",

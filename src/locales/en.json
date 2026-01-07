@@ -34,6 +34,7 @@
     "promptConfig": "Prompt Configuration",
     "modelProvider": "Model Provider",
     "expertTip": "Expert Tip",
+    "usageGuide": "Usage Guide",
     "generating": "Generating...",
     "runLive": "Run Live Demo",
     "resultOutput": "Result Output",
