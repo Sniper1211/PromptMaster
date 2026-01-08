@@ -1,12 +1,12 @@
 
 export enum Category {
   ALL = 'All',
-  CREATIVE = 'Creative Writing',
-  CODING = 'Coding & Technical',
-  PRODUCTIVITY = 'Productivity',
-  ACADEMIC = 'Academic & Research',
-  ROLEPLAY = 'Roleplay',
-  BUSINESS = 'Business & Marketing'
+  CODING = 'Coding',
+  WRITING = 'Writing',
+  BUSINESS = 'Business',
+  PHOTOGRAPHY = 'Photography',
+  ART = 'Art & Design',
+  COMMERCIAL = 'Commercial Visuals'
 }
 
 export interface Prompt {

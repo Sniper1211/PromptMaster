@@ -15,12 +15,12 @@
   },
   "categories": {
     "All": "全部",
-    "Creative Writing": "创意写作",
-    "Coding & Technical": "编程与技术",
-    "Productivity": "生产力",
-    "Academic & Research": "学术研究",
-    "Roleplay": "角色扮演",
-    "Business & Marketing": "商业营销"
+    "Coding": "编程开发",
+    "Writing": "写作与内容",
+    "Business": "商业策略",
+    "Photography": "摄影与写实",
+    "Art & Design": "艺术与设计",
+    "Commercial Visuals": "商业视觉"
   },
   "card": {
     "copy": "复制提示词",
