@@ -14,10 +14,10 @@ const PromptGrid: React.FC<PromptGridProps> = ({ prompts, onSelectPrompt, onClea
     const { t } = useTranslation();
 
     return (
-        <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
+        <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-6">
             {prompts.length > 0 ? (
                 prompts.map(prompt => (
-                    <div key={prompt.id} className="break-inside-avoid">
+                    <div key={prompt.id} className="break-inside-avoid mb-6">
                         <PromptCard
                             prompt={prompt}
                             onTry={onSelectPrompt}

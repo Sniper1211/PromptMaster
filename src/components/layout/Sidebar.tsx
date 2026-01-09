@@ -35,23 +35,23 @@ const Sidebar: React.FC<SidebarProps> = ({
     const categories = Object.values(Category);
 
     return (
-        <aside className="w-64 border-r-[2.5px] border-black bg-white flex flex-col h-screen h-full overflow-y-auto custom-scrollbar shrink-0">
+        <aside className="w-64 border-r-[3px] border-black bg-white flex flex-col h-screen overflow-y-auto custom-scrollbar shrink-0">
             {/* Brand */}
-            <div className="p-6 border-b-[2.5px] border-black">
-                <h1 className="text-2xl font-black uppercase tracking-tighter">PromptMaster</h1>
+            <div className="p-6 border-b-[3px] border-black hover:bg-[#FACC15] transition-colors group cursor-pointer">
+                <h1 className="text-2xl font-black uppercase tracking-tighter group-hover:translate-x-[2px] group-hover:translate-y-[2px] transition-transform">PromptMaster</h1>
             </div>
 
             {/* Search */}
-            <div className="p-4 px-6 border-b-[2.5px] border-black">
+            <div className="p-4 px-6 border-b-[3px] border-black bg-white">
                 <div className="relative group">
                     <input
                         type="text"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder={t('hero.searchPlaceholder')}
-                        className="w-full pl-10 pr-4 py-2 border-[2px] border-black rounded-lg focus:outline-none focus:ring-0 placeholder:text-slate-400 font-medium bg-gray-50 group-hover:bg-white transition-colors"
+                        className="w-full pl-10 pr-4 py-2 border-[2.5px] border-black rounded-none focus:outline-none focus:ring-0 placeholder:text-slate-400 font-bold bg-white focus:bg-gray-50 transition-all focus:shadow-[inset_3px_3px_0px_0px_rgba(0,0,0,0.1)]"
                     />
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-black" size={18} strokeWidth={2.5} />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-black" size={18} strokeWidth={3} />
                 </div>
             </div>
 
@@ -61,9 +61,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                 <div>
                     <button
                         onClick={() => setActiveCategory(Category.ALL)}
-                        className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl transition-all ${activeCategory === Category.ALL
-                                ? 'bg-[#FF4D4D] text-white border-[2px] border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
-                                : 'hover:bg-gray-100 text-black font-bold'
+                        className={`w-full flex items-center gap-3 px-4 py-3 border-[2.5px] border-black rounded-none transition-all ${activeCategory === Category.ALL
+                                ? 'bg-[#FF4D4D] text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] translate-x-[-2px] translate-y-[-2px]'
+                                : 'bg-white hover:bg-gray-100 text-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]'
                             }`}
                     >
                         <LayoutGrid size={20} strokeWidth={2.5} />
@@ -72,17 +72,17 @@ const Sidebar: React.FC<SidebarProps> = ({
                 </div>
 
                 {/* Sort Section */}
-                <section className="space-y-2">
-                    <div className="flex items-center gap-2 px-3 text-slate-400 font-black uppercase tracking-widest text-[10px]">
+                <section className="space-y-3">
+                    <div className="flex items-center gap-2 px-1 text-black font-black uppercase tracking-widest text-[10px] border-b-[2px] border-black pb-1 w-fit">
                         <ArrowUpDown size={12} strokeWidth={3} />
                         <span>排序</span>
                     </div>
-                    <div className="space-y-1">
-                        <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 text-black font-bold text-sm">
+                    <div className="space-y-2">
+                        <button className="w-full flex items-center gap-3 px-3 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm">
                             <Clock size={18} strokeWidth={2.5} />
                             <span>最近</span>
                         </button>
-                        <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 text-black font-bold text-sm">
+                        <button className="w-full flex items-center gap-3 px-3 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm">
                             <Shuffle size={18} strokeWidth={2.5} />
                             <span>随机</span>
                         </button>
@@ -90,18 +90,18 @@ const Sidebar: React.FC<SidebarProps> = ({
                 </section>
 
                 {/* Categories Section */}
-                <section className="space-y-2">
-                    <div className="flex items-center gap-2 px-3 text-slate-400 font-black uppercase tracking-widest text-[10px]">
+                <section className="space-y-3">
+                    <div className="flex items-center gap-2 px-1 text-black font-black uppercase tracking-widest text-[10px] border-b-[2px] border-black pb-1 w-fit">
                         <span>分类</span>
                     </div>
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                         {categories.filter(c => c !== Category.ALL).map((category) => (
                             <button
                                 key={category}
                                 onClick={() => setActiveCategory(category)}
-                                className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm font-bold ${activeCategory === category
-                                        ? 'text-[#FF4D4D] bg-[#FF4D4D]/5'
-                                        : 'text-black hover:bg-gray-100'
+                                className={`w-full flex items-center gap-3 px-3 py-2 border-[2px] transition-all text-sm font-bold ${activeCategory === category
+                                        ? 'border-black bg-[#FACC15] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+                                        : 'border-transparent text-black hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
                                     }`}
                             >
                                 <span>{t(`categories.${category}`)}</span>
@@ -111,12 +111,12 @@ const Sidebar: React.FC<SidebarProps> = ({
                 </section>
 
                 {/* Other Sections */}
-                <section className="space-y-1 border-t-[2px] border-dashed border-slate-200 pt-6">
-                    <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 text-black font-bold text-sm">
+                <section className="space-y-2 border-t-[3px] border-black pt-6">
+                    <button className="w-full flex items-center gap-3 px-3 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm">
                         <Users size={18} strokeWidth={2.5} />
                         <span>创作者</span>
                     </button>
-                    <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 text-black font-bold text-sm">
+                    <button className="w-full flex items-center gap-3 px-3 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm">
                         <BookOpen size={18} strokeWidth={2.5} />
                         <span>提示词教程</span>
                     </button>
@@ -124,10 +124,10 @@ const Sidebar: React.FC<SidebarProps> = ({
             </div>
 
             {/* Footer / Language */}
-            <div className="p-6 border-t-[2.5px] border-black bg-gray-50 mt-auto">
+            <div className="p-6 border-t-[3px] border-black bg-[#F2F2F2] mt-auto">
                 <button
                     onClick={toggleLanguage}
-                    className="w-full flex items-center justify-between px-3 py-2 border-[2px] border-black rounded-xl bg-white hover:bg-gray-50 transition-all shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"
+                    className="w-full flex items-center justify-between px-4 py-3 border-[2.5px] border-black bg-white hover:bg-[#2DD4BF] transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                 >
                     <Globe size={18} strokeWidth={2.5} />
                     <span className="font-black text-xs uppercase">{currentLanguage.toUpperCase()}</span>
