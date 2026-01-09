@@ -1,23 +1,49 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Category, Prompt } from './types';
-import { PROMPTS_EN, PROMPTS_ZH } from './constants';
-import PromptCard from './components/PromptCard';
-import LivePreviewModal from './components/LivePreviewModal';
-import { Search, Sparkles, Rocket, Compass, Layers, Github, Globe, X, Menu } from 'lucide-react';
+import { Plus } from 'lucide-react';
+// import { PROMPTS_EN, PROMPTS_ZH } from './constants'; // Replaced with dynamic imports
+import PromptDetailModal from './components/PromptDetailModal';
+
+// Layout & Home Components
+import Sidebar from './components/layout/Sidebar';
+import Footer from './components/layout/Footer';
+import PromptGrid from './components/home/PromptGrid';
 
 const App: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const [activeCategory, setActiveCategory] = useState<Category>(Category.ALL);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPrompt, setSelectedPrompt] = useState<Prompt | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [currentPrompts, setCurrentPrompts] = useState<Prompt[]>([]);
+  const [isLoadingPrompts, setIsLoadingPrompts] = useState(true);
 
-  const currentPrompts = i18n.language === 'zh' ? PROMPTS_ZH : PROMPTS_EN;
+  // Load prompts dynamically based on language
+  useEffect(() => {
+    const loadPrompts = async () => {
+      setIsLoadingPrompts(true);
+      try {
+        const lang = i18n.language.startsWith('zh') ? 'zh' : 'en';
+        if (lang === 'zh') {
+          const { PROMPTS_ZH } = await import('./data/prompts-zh');
+          setCurrentPrompts(PROMPTS_ZH);
+        } else {
+          const { PROMPTS_EN } = await import('./data/prompts-en');
+          setCurrentPrompts(PROMPTS_EN);
+        }
+      } catch (error) {
+        console.error('Failed to load prompts:', error);
+      } finally {
+        setIsLoadingPrompts(false);
+      }
+    };
+
+    loadPrompts();
+  }, [i18n.language]);
 
   const toggleLanguage = () => {
     const currentLang = i18n.language;
-    // Check if current language starts with 'en' to handle 'en-US', 'en-GB' etc.
     const isEnglish = currentLang.startsWith('en');
     const newLang = isEnglish ? 'zh' : 'en';
     i18n.changeLanguage(newLang);
@@ -26,182 +52,66 @@ const App: React.FC = () => {
   const filteredPrompts = useMemo(() => {
     return currentPrompts.filter(prompt => {
       const matchesCategory = activeCategory === Category.ALL || prompt.category === activeCategory;
-      const matchesSearch = prompt.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                            prompt.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            prompt.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+      const matchesSearch = prompt.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        prompt.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        prompt.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
       return matchesCategory && matchesSearch;
     });
   }, [activeCategory, searchQuery, currentPrompts]);
 
+  const clearFilters = () => {
+    setActiveCategory(Category.ALL);
+    setSearchQuery('');
+  };
+
   return (
-    <div className="min-h-screen pb-20">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-40 w-full glass border-b border-white/10 px-6 py-4 mb-12">
-        <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-                <Sparkles size={18} className="text-white fill-current" />
-            </div>
-            <span className="text-xl font-bold tracking-tight">{t('nav.title')}</span>
-            </div>
-            
-            {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
-            <a href="#" className="text-white hover:text-indigo-400 transition-colors min-w-[60px] text-center">{t('nav.explorer')}</a>
-            <a href="#" className="hover:text-indigo-400 transition-colors min-w-[60px] text-center">{t('nav.guide')}</a>
-            <a href="#" className="hover:text-indigo-400 transition-colors min-w-[60px] text-center">{t('nav.library')}</a>
-            </div>
+    <div className="flex h-screen bg-gray-50 text-slate-900 overflow-hidden font-sans">
+      <Sidebar
+        activeCategory={activeCategory}
+        setActiveCategory={setActiveCategory}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        toggleLanguage={toggleLanguage}
+        currentLanguage={i18n.language}
+      />
 
-            <div className="flex items-center gap-4">
-            <button 
-                onClick={toggleLanguage}
-                className="flex items-center gap-2 px-3 py-2 text-slate-400 hover:text-white transition-colors"
-                title="Switch Language"
-            >
-                <Globe size={20} />
-                <span className="text-sm font-medium w-8 text-center">{i18n.language.startsWith('en') ? '中文' : 'EN'}</span>
+      <main className="flex-1 flex flex-col min-w-0 h-full overflow-hidden border-l-[2.5px] border-black">
+        {/* Navigation / Header placeholder or mobile toggler could go here if needed */}
+
+        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-10">
+          <header className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+              <h2 className="text-4xl font-black italic uppercase tracking-tighter mb-2">Explore Prompts</h2>
+              <p className="text-slate-500 font-medium">Curated collection of the best AI prompts.</p>
+            </div>
+            <button className="flex items-center gap-2 bg-[#FF4D4D] text-white px-6 py-3 border-[2.5px] border-black rounded-2xl font-black uppercase italic shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all">
+              <Plus size={20} strokeWidth={3} />
+              <span>升级专业版</span>
             </button>
-            <button className="hidden sm:flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 transition-colors rounded-xl text-sm font-bold min-w-[140px]">
-                <Rocket size={16} />
-                {t('nav.proUpgrade')}
-            </button>
-            <div className="hidden sm:flex w-10 h-10 rounded-full bg-slate-800 border border-white/10 items-center justify-center cursor-pointer hover:bg-slate-700 transition-colors">
-                <Github size={20} />
+          </header>
+
+          {isLoadingPrompts ? (
+            <div className="flex flex-col items-center justify-center py-20">
+              <div className="w-10 h-10 border-4 border-black/10 border-t-black rounded-full animate-spin mb-4"></div>
+              <p className="text-slate-500 font-bold animate-pulse uppercase tracking-widest text-xs">Loading prompts...</p>
             </div>
-
-            {/* Mobile Menu Toggle */}
-            <button 
-                className="md:hidden p-2 text-slate-400 hover:text-white"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                aria-label="Toggle menu"
-            >
-                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-            </div>
-        </div>
-
-        {/* Mobile Menu Dropdown */}
-        {isMobileMenuOpen && (
-            <div className="md:hidden absolute top-full left-0 w-full glass border-b border-white/10 p-4 flex flex-col gap-4 animate-in slide-in-from-top-2 shadow-2xl">
-                <a href="#" className="text-white hover:text-indigo-400 py-2 px-2 font-medium">{t('nav.explorer')}</a>
-                <a href="#" className="text-slate-400 hover:text-indigo-400 py-2 px-2 font-medium">{t('nav.guide')}</a>
-                <a href="#" className="text-slate-400 hover:text-indigo-400 py-2 px-2 font-medium">{t('nav.library')}</a>
-                <div className="h-px bg-white/10 my-2"></div>
-                <button className="flex items-center justify-center gap-2 px-4 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-bold w-full transition-colors">
-                    <Rocket size={16} />
-                    {t('nav.proUpgrade')}
-                </button>
-            </div>
-        )}
-      </nav>
-
-      <main className="max-w-7xl mx-auto px-6">
-        {/* Hero Section */}
-        <section className="text-center mb-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <div className="min-h-[160px] md:min-h-[200px] flex items-center justify-center mb-6">
-             <h1 className="text-5xl md:text-7xl font-black bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-transparent leading-tight" dangerouslySetInnerHTML={{ __html: t('hero.title') }} />
-          </div>
-          <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed min-h-[3.5rem] flex items-center justify-center">
-            {t('hero.subtitle')}
-          </p>
-
-          <div className="max-w-2xl mx-auto relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
-            <div className="relative flex items-center glass rounded-2xl p-2 pl-6">
-              <Search className="text-slate-500 mr-4 shrink-0" size={20} />
-              <input 
-                type="text" 
-                placeholder={t('hero.searchPlaceholder')}
-                className="bg-transparent border-none outline-none text-white w-full py-2 placeholder:text-slate-600"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              {searchQuery && (
-                <button 
-                  onClick={() => setSearchQuery('')}
-                  className="p-1.5 hover:bg-white/10 rounded-full mr-2 text-slate-500 hover:text-white transition-colors"
-                  aria-label="Clear search"
-                >
-                  <X size={16} />
-                </button>
-              )}
-              <button className="px-6 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-indigo-50 transition-colors ml-2 whitespace-nowrap hidden sm:block">
-                {t('hero.searchButton')}
-              </button>
-            </div>
-          </div>
-        </section>
-
-        {/* Categories */}
-        <div className="flex flex-wrap items-center justify-center gap-3 mb-12">
-          {Object.values(Category).map(cat => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2.5 rounded-2xl text-sm font-semibold transition-all duration-300 border ${
-                activeCategory === cat 
-                ? 'bg-indigo-600 border-indigo-500 text-white shadow-lg shadow-indigo-600/20' 
-                : 'glass border-white/5 text-slate-400 hover:border-white/20 hover:text-white'
-              }`}
-            >
-              {t(`categories.${cat}`)}
-            </button>
-          ))}
-        </div>
-
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPrompts.length > 0 ? (
-            filteredPrompts.map(prompt => (
-              <PromptCard 
-                key={prompt.id} 
-                prompt={prompt} 
-                onTry={(p) => setSelectedPrompt(p)} 
-              />
-            ))
           ) : (
-            <div className="col-span-full py-20 text-center">
-              <Compass size={48} className="mx-auto text-slate-600 mb-4 opacity-20" />
-              <p className="text-slate-400 text-lg">{t('noResults.message')}</p>
-              <button 
-                onClick={() => { setActiveCategory(Category.ALL); setSearchQuery(''); }}
-                className="mt-4 text-indigo-400 hover:underline"
-              >
-                {t('noResults.clear')}
-              </button>
-            </div>
+            <PromptGrid
+              prompts={filteredPrompts}
+              onSelectPrompt={setSelectedPrompt}
+              onClearFilters={clearFilters}
+            />
           )}
-        </div>
 
-        {/* Footer Meta */}
-        <section className="mt-24 pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="flex items-center gap-12">
-            <div className="text-center md:text-left min-w-[160px]">
-              <p className="text-3xl font-bold text-white mb-1">2.4k+</p>
-              <p className="text-xs text-slate-500 uppercase tracking-widest font-bold">{t('footer.curatedPrompts')}</p>
-            </div>
-            <div className="text-center md:text-left min-w-[160px]">
-              <p className="text-3xl font-bold text-white mb-1">15k+</p>
-              <p className="text-xs text-slate-500 uppercase tracking-widest font-bold">{t('footer.communityUses')}</p>
-            </div>
-          </div>
-          <div className="flex gap-4">
-             <div className="glass px-6 py-4 rounded-2xl flex items-center gap-3 min-w-[280px]">
-                <Layers className="text-indigo-400" size={20} />
-                <div>
-                  <p className="text-sm font-bold">{t('footer.openLibrary')}</p>
-                  <p className="text-xs text-slate-500">{t('footer.contribute')}</p>
-                </div>
-             </div>
-          </div>
-        </section>
+          <Footer />
+        </div>
       </main>
 
       {/* Modal */}
       {selectedPrompt && (
-        <LivePreviewModal 
-          prompt={selectedPrompt} 
-          onClose={() => setSelectedPrompt(null)} 
+        <PromptDetailModal
+          prompt={selectedPrompt}
+          onClose={() => setSelectedPrompt(null)}
         />
       )}
     </div>

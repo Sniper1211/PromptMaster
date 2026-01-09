@@ -1,14 +1,14 @@
 [Last updated on 2025.12.19: Added photo book style magazine covers, country island dioramas, novel scene posters, miniature swimming pools, Christmas ornaments, surreal wrinkle removal, isometric photography, wide angle edits, shop window cartoons, 3D LED displays, trans-dimensional liquid pours, fisheye portraits, IXUS aesthetic photos, and anime spotlights]
 
-# Awesome Nano Banana Pro 🍌
+# Awesome PromptMaster 🍌
 
 [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome) [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/) [![GitHub stars](https://img.shields.io/github/stars/ZeroLu/awesome-nanobanana-pro?style=social)](https://github.com/ZeroLu/awesome-nanobanana-pro/stargazers)
 
-> A curated collection of the **best Nano Banana prompts**, image generation styles, and resources for advanced AI visual experiments.
+> A curated collection of the **best PromptMaster prompts**, image generation styles, and resources for advanced AI visual experiments.
 
 This repository focuses on **high-fidelity image prompts** sourced from X (Twitter), WeChat, Replicate, and top prompt engineers. Whether you are looking for **photorealistic portraits**, **stylized aesthetics**, or complex creative experiments, you will find the most effective inputs here to unlock the full potential of the model. 
 
-### Try the prompts with actual Nano Banana Pro here 👉 [https://nanobananaprompts.com](https://www.nanobananaproprompts.com/)
+### Try the prompts with actual PromptMaster here 👉 [https://nanobananaprompts.com](https://www.nanobananaproprompts.com/)
 
 Consider subscribing to [this free newsletter](https://zerolu.substack.com/p/hello-there) or follow me on [X](https://x.com/zerolu_eth) if you want more high quality content like this.
 
@@ -58,7 +58,7 @@ THE ENVIRONMENT: A luxurious open-air rooftop terrace at sunset overlooking a mo
 
 **Prompt:**
 ```json
-Create a 2000s Mirror Selfie of yourself using Gemini Nano Banana.
+Create a 2000s Mirror Selfie of yourself using Gemini PromptMaster.
 
 {
   "subject": {
@@ -463,13 +463,13 @@ Color grading: nostalgic digital-camera tones, high contrast flash, subtle displ
 
 **Prompt:**
 ```text
-A photo of a glossy magazine cover, the cover has the large bold words "Nano Banana Pro". The text is in a serif font, black on white, and fills the view. No other text.
+A photo of a glossy magazine cover, the cover has the large bold words "PromptMaster". The text is in a serif font, black on white, and fills the view. No other text.
 
 In front of the text there is a dynamic portrait of a person in green and banana yellow colored high-end fashion.
 
 Put the issue number and today's date in the corner along with a barcode and a price. The magazine is on a white shelf against a wall.
 ```
-*Source: Nano Banana Pro ([@NanoBanana](https://x.com/NanoBanana)) - [Post](https://x.com/NanoBanana/status/1996262496802361675?s=20)*
+*Source: PromptMaster ([@NanoBanana](https://x.com/NanoBanana)) - [Post](https://x.com/NanoBanana/status/1996262496802361675?s=20)*
 
 ### 1.17. Luxury Product Photography
 *Create a floating luxury product shot*
@@ -677,7 +677,7 @@ Based on you know about me, generate a 3D isometric colored illustration of me w
 ```text
 combine these emojis: 🍌 + 😎, on a white background as a google emoji design
 ```
-*Source: Nano Banana Pro ([@NanoBanana](https://x.com/NanoBanana)) - [Post](https://x.com/NanoBanana/status/1996193397913317384?s=20)*
+*Source: PromptMaster ([@NanoBanana](https://x.com/NanoBanana)) - [Post](https://x.com/NanoBanana/status/1996193397913317384?s=20)*
 
 ### 2.15. Torn Paper Art Effect
 *Add torn paper effect to specific areas of an image*
@@ -943,7 +943,7 @@ Cinematic lighting, shallow depth of field, soft reflections on the glass, ultra
 ```text
 Make a photo that is perfectly isometric. It is not a miniature, it is a captured photo that just happened to be perfectly isometric. It is a photo of [subject].
 ```
-*Source: Nano Banana Pro ([@NanoBanana](https://x.com/NanoBanana)) - [Post](https://x.com/NanoBanana/status/1998085942201163905)*
+*Source: PromptMaster ([@NanoBanana](https://x.com/NanoBanana)) - [Post](https://x.com/NanoBanana/status/1998085942201163905)*
 
 ### 2.24. Extreme Wide Angle Phone Screen Replacement
 *Edit photo with extreme wide angle and phone screen replacement.*
@@ -1746,11 +1746,11 @@ Keep the tone supportive, simple and clear.
 ## 11. Resources
 
 - [Official Prompting Guide](https://blog.google/products/gemini/prompting-tips-nano-banana-pro/) - Learn how to structure your prompts effectively.
-- [How to prompt Nano Banana Pro](https://www.fofr.ai/nano-banana-pro-guide)
+- [How to prompt PromptMaster](https://www.fofr.ai/nano-banana-pro-guide)
 
 ## 12. Contributing
 
-Contributions are welcome! If you have an **awesome Nano Banana prompt**, please submit a Pull Request.
+Contributions are welcome! If you have an **awesome PromptMaster prompt**, please submit a Pull Request.
 
 1. Fork the repo.
 2. Create a new branch.

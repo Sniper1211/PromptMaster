@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Prompt } from '../types';
-import { Copy, Check, Play } from 'lucide-react';
+import { Copy, Check, Play, Image as ImageIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface PromptCardProps {
@@ -20,49 +20,61 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onTry }) => {
   };
 
   return (
-    <div className="glass rounded-2xl p-6 flex flex-col h-full transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-indigo-500/10 group">
-      <div className="flex justify-between items-start mb-4">
-        <span className="px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-          {t(`categories.${prompt.category}`)}
-        </span>
-        <div className="flex gap-2">
+    <div className="brutal-card group flex flex-col h-full rounded-none">
+      {/* Image Container */}
+      <div className="relative overflow-hidden border-b-[2.5px] border-black">
+        {prompt.previewImageUrl ? (
+          <img
+            src={prompt.previewImageUrl}
+            alt={prompt.title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <div className="aspect-video bg-red-100 flex flex-col items-center justify-center text-red-500">
+            <ImageIcon size={40} strokeWidth={2.5} />
+            <span className="text-[10px] font-black uppercase mt-2">{t('card.needImage')}</span>
+          </div>
+        )}
+
+        {/* Overlay Actions */}
+        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+          <button
+            onClick={() => onTry(prompt)}
+            className="p-3 bg-white border-[2px] border-black rounded-lg brutal-shadow-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all"
+          >
+            <Play size={20} className="fill-black" />
+          </button>
           <button
             onClick={handleCopy}
-            className="p-2 rounded-lg hover:bg-slate-700/50 transition-colors text-slate-400 hover:text-white"
-            title={t('card.copy')}
+            className="p-3 bg-white border-[2px] border-black rounded-lg brutal-shadow-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all"
           >
-            {copied ? <Check size={18} className="text-green-400" /> : <Copy size={18} />}
+            {copied ? <Check size={20} className="text-green-600" /> : <Copy size={20} />}
           </button>
         </div>
       </div>
 
-      <h3 className="text-xl font-bold mb-2 text-white group-hover:text-indigo-300 transition-colors line-clamp-2 min-h-[3.5rem]">
-        {prompt.title}
-      </h3>
-      <p className="text-slate-400 text-sm mb-4 line-clamp-2 min-h-[2.5rem]">
-        {prompt.description}
-      </p>
-
-      <div className="bg-slate-900/50 rounded-xl p-4 mb-6 border border-white/5 relative h-[140px] flex flex-col">
-        <p className="text-xs text-slate-500 uppercase tracking-wider mb-2 font-bold">{t('card.snippet')}</p>
-        <p className="text-sm text-slate-300 italic line-clamp-4">
-          "{prompt.content}"
+      {/* Content */}
+      <div className="p-5 flex flex-col flex-1">
+        <h3 className="text-lg font-black mb-2 line-clamp-2 leading-tight uppercase tracking-tight group-hover:text-[#FF4D4D] transition-colors">
+          {prompt.title}
+        </h3>
+        <p className="text-slate-500 text-xs font-medium mb-6 line-clamp-3 leading-relaxed flex-1">
+          {prompt.description}
         </p>
-      </div>
 
-      <div className="mt-auto flex items-center justify-between pt-4 border-t border-white/5">
-        <div className="flex gap-1 flex-wrap">
-          {prompt.tags.slice(0, 2).map(tag => (
-            <span key={tag} className="text-[10px] text-slate-500">#{tag}</span>
-          ))}
+        {/* Footer */}
+        <div className="flex items-center justify-between pt-4 border-t-[2px] border-dashed border-slate-200">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-full border-[1.5px] border-black bg-indigo-100 flex items-center justify-center overflow-hidden">
+              <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${prompt.id}`} alt="avatar" />
+            </div>
+            <span className="text-[10px] font-black text-slate-400">@author_id</span>
+          </div>
+
+          <span className="px-2 py-1 bg-white border-[1.5px] border-black text-[9px] font-black uppercase tracking-tighter rounded-md brutal-shadow-sm">
+            PromptMaster
+          </span>
         </div>
-        <button
-          onClick={() => onTry(prompt)}
-          className="flex items-center gap-2 text-sm font-semibold text-indigo-400 hover:text-indigo-300 transition-colors group/btn"
-        >
-          {t('card.tryLive')}
-          <Play size={14} className="fill-current group-hover/btn:translate-x-1 transition-transform" />
-        </button>
       </div>
     </div>
   );

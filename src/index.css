@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .brutal-border {
+    @apply border-[2.5px] border-black;
+  }
+  
+  .brutal-shadow {
+    @apply shadow-[4px_4px_0px_0px_rgba(0,0,0,1)];
+  }
+
+  .brutal-shadow-sm {
+    @apply shadow-[2px_2px_0px_0px_rgba(0,0,0,1)];
+  }
+
+  .brutal-card {
+    @apply border-[2.5px] border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] transition-all bg-white overflow-hidden;
+  }
+}

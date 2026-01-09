@@ -19,6 +19,10 @@ export interface Prompt {
   tags: string[];
   expectedOutput: string;
   usage?: string; // Instructions on how to use this prompt (e.g. "Replace [placeholder] with...")
+  previewImageUrl?: string; // Optional path to a preview image
+  authorId?: string;
+  model?: string;
+  format?: string;
 }
 
 export interface GenerationResult {

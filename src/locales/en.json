@@ -4,8 +4,7 @@
     "explorer": "Explorer",
     "guide": "Guide",
     "library": "Library",
-    "proUpgrade": "Pro Upgrade",
-    "tryLive": "Try Live"
+    "proUpgrade": "Pro Upgrade"
   },
   "hero": {
     "title": "Master the Art of <br /> AI Prompting",
@@ -25,21 +24,16 @@
   "card": {
     "copy": "Copy Prompt",
     "snippet": "PROMPT SNIPPET",
-    "tryLive": "Try Live",
+    "details": "Details",
     "chineseTranslation": "Chinese Translation"
   },
   "modal": {
-    "title": "Live Preview",
-    "subtitle": "Live Preview with DeepSeek",
-    "promptConfig": "Prompt Configuration",
-    "modelProvider": "Model Provider",
+    "title": "Prompt Details",
+    "promptConfig": "Prompt Content",
     "expertTip": "Expert Tip",
     "usageGuide": "Usage Guide",
-    "generating": "Generating...",
-    "runLive": "Run Live Demo",
-    "resultOutput": "Result Output",
-    "idleMessage": "Click \"Run Live Demo\" to see the prompt in action.",
-    "copyResult": "Copy Result",
+    "copyResult": "Copy Prompt",
+    "copied": "Copied!",
     "close": "Close"
   },
   "noResults": {

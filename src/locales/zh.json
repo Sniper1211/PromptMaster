@@ -4,8 +4,7 @@
     "explorer": "探索",
     "guide": "指南",
     "library": "库",
-    "proUpgrade": "升级专业版",
-    "tryLive": "在线试用"
+    "proUpgrade": "升级专业版"
   },
   "hero": {
     "title": "精通 AI 提示词 <br /> 的艺术",
@@ -25,21 +24,16 @@
   "card": {
     "copy": "复制提示词",
     "snippet": "提示词片段",
-    "tryLive": "在线试用",
+    "details": "详情",
     "chineseTranslation": "中文对照"
   },
   "modal": {
-    "title": "实时预览",
-    "subtitle": "使用 DeepSeek 实时预览",
-    "promptConfig": "提示词配置",
-    "modelProvider": "AI 模型",
+    "title": "提示词详情",
+    "promptConfig": "提示词内容",
     "expertTip": "专家建议",
     "usageGuide": "使用指南",
-    "generating": "生成中...",
-    "runLive": "运行实时演示",
-    "resultOutput": "结果输出",
-    "idleMessage": "点击“运行实时演示”以查看提示词效果。",
-    "copyResult": "复制结果",
+    "copyResult": "复制内容",
+    "copied": "已复制!",
     "close": "关闭"
   },
   "noResults": {

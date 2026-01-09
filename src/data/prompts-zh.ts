@@ -9,8 +9,11 @@ export const PROMPTS_ZH: Prompt[] = [
     tags: ['React', 'TypeScript', '最佳实践'],
     content: 'Act as a senior frontend engineer. I will describe a UI component requirement, and you will provide a complete, well-documented TypeScript React component using Tailwind CSS. Focus on accessibility, performance, and clean code principles.\n\nRequirement: [DESCRIBE YOUR COMPONENT HERE]',
     chineseContent: '扮演一位高级前端工程师。我将描述一个 UI 组件需求，你需要提供一个完整的、文档齐全的 TypeScript React 组件，并使用 Tailwind CSS。请关注无障碍性、性能和整洁代码原则。\n\n需求：[在此处描述你的组件]',
-    expectedOutput: '一个包含清晰注释和现代 Hook 用法的完整 React 组件文件。',
-    usage: '将“[DESCRIBE YOUR COMPONENT HERE]”替换为你想要构建的具体 UI 元素（例如，“带有深色模式切换的响应式导航栏”）。'
+    expectedOutput: '一个包含清晰注释和现代 Hook 用法的完整 React 组件 file。',
+    usage: '将“[DESCRIBE YOUR COMPONENT HERE]”替换为你想要构建的具体 UI 元素（例如，“带有深色模式切换的响应式导航栏”）。',
+    authorId: 'lucas_dev',
+    model: 'GPT-4o',
+    format: 'TypeScript'
   },
   {
     id: '2',
@@ -263,7 +266,8 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     content: 'Create a hyper-realistic, ultra-sharp, full-color large-format image featuring a massive group of celebrities from different eras, all standing together in a single wide cinematic frame. The image must look like a perfectly photographed editorial cover with impeccable lighting, lifelike skin texture, micro-details of hair, pores, reflections, and fabric fibers.\n\nGENERAL STYLE & MOOD: Photorealistic, 8k, shallow depth of field, soft natural fill light + strong golden rim light. High dynamic range, calibrated color grading. Skin tones perfectly accurate. Crisp fabric detail with individual threads visible. Balanced composition, slightly wide-angle lens (35mm), center-weighted. All celebrities interacting naturally, smiling, posing, or conversing. Minimal background noise, but with enough world-building to feel real.\n\nTHE ENVIRONMENT: A luxurious open-air rooftop terrace at sunset overlooking a modern city skyline. Elements include: Warm golden light wrapping around silhouettes. Polished marble.',
     chineseContent: '创建一个超写实、超清晰的全彩大画幅图像，展示一大群来自不同时代的名人，他们都站在同一个宽阔的电影画面中。该图像必须看起来像一张拍摄完美的杂志封面，拥有无可挑剔的灯光、逼真的皮肤纹理，以及头发、毛孔、反射和织物纤维的微观细节。\n\n整体风格与基调：照片级写实，8k，浅景深，柔和的自然补光 + 强烈的金色轮廓光。高动态范围，经过校准的色彩分级。肤色完全准确。清晰的织物细节，单根线清晰可见。平衡的构图，稍广角镜头（35mm），中心加权。所有名人自然互动，微笑、摆姿势或交谈。背景噪音极小，但有足够的世界构建感。\n\n环境：日落时分，俯瞰现代城市天际线的豪华露天屋顶露台。元素包括：包裹剪影的温暖金光。抛光大理石。',
     expectedOutput: 'A detailed prompt for generating a hyper-realistic crowd image.',
-    usage: '此提示词专为高端图像生成模型（如 Midjourney 或 Flux）设计。你可以将“来自不同时代的名人”修改为特定群体，如“漫威超级英雄”或“科技公司 CEO”。'
+    usage: '此提示词专为高端图像生成模型（如 Midjourney 或 Flux）设计。你可以将“来自不同时代的名人”修改为特定群体，如“漫威超级英雄”或“科技公司 CEO”。',
+    previewImageUrl: '/previews/crowd.png'
   },
   {
     id: '11',
@@ -271,10 +275,11 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     description: '生成具有闪光灯摄影和怀旧元素的正宗2000年代早期美学。',
     category: Category.PHOTOGRAPHY,
     tags: ['Photography', 'Vintage', '2000s', 'Selfie'],
-    content: 'Create a 2000s Mirror Selfie of yourself using Gemini Nano Banana.\n\n{\n  "subject": {\n    "description": "A young woman taking a mirror selfie with very long voluminous dark waves and soft wispy bangs",\n    "age": "young adult",\n    "expression": "confident and slightly playful",\n    "hair": {\n      "color": "dark",\n      "style": "very long, voluminous waves with soft wispy bangs"\n    },\n    "clothing": {\n      "top": {\n        "type": "fitted cropped t-shirt",\n        "color": "cream white",\n        "details": "features a large cute anime-style cat face graphic with big blue eyes, whiskers, and a small pink mouth"\n      }\n    },\n    "face": {\n      "preserve_original": true,\n      "makeup": "natural glam makeup with soft pink dewy blush and glossy red pouty lips"\n    }\n  },\n  "accessories": {\n    "earrings": {\n      "type": "gold geometric hoop earrings"\n    },\n    "jewelry": {\n      "waistchain": "silver waistchain"\n    },\n    "device": {\n      "type": "smartphone",\n      "details": "patterned case"\n    }\n  },\n  "photography": {\n    "camera_style": "early-2000s digital camera aesthetic",\n    "lighting": "harsh super-flash with bright blown-out highlights but subject still visible",\n    "angle": "mirror selfie",\n    "shot_type": "tight selfie composition",\n    "texture": "subtle grain, retro highlights, V6 realism, crisp details, soft shadows"\n  },\n  "background": {\n    "setting": "nostalgic early-2000s bedroom",\n    "wall_color": "pastel tones",\n    "elements": [\n      "chunky wooden dresser",\n      "CD player",\n      "posters of 2000s pop icons",\n      "hanging beaded door curtain",\n      "cluttered vanity with lip glosses"\n    ],\n    "atmosphere": "authentic 2000s nostalgic vibe",\n    "lighting": "retro"\n  }\n}',
-    chineseContent: '创建一个使用 Gemini Nano Banana 的 2000 年代镜面自拍。\n\n（这是一个 JSON 格式的结构化提示词，包含主题描述、配件、摄影风格和背景设置。中文用户请直接复制英文 JSON 使用，以确保模型正确解析。）',
+    content: 'Create a 2000s Mirror Selfie of yourself using Gemini PromptMaster.\n\n{\n  "subject": {\n    "description": "A young woman taking a mirror selfie with very long voluminous dark waves and soft wispy bangs",\n    "age": "young adult",\n    "expression": "confident and slightly playful",\n    "hair": {\n      "color": "dark",\n      "style": "very long, voluminous waves with soft wispy bangs"\n    },\n    "clothing": {\n      "top": {\n        "type": "fitted cropped t-shirt",\n        "color": "cream white",\n        "details": "features a large cute anime-style cat face graphic with big blue eyes, whiskers, and a small pink mouth"\n      }\n    },\n    "face": {\n      "preserve_original": true,\n      "makeup": "natural glam makeup with soft pink dewy blush and glossy red pouty lips"\n    }\n  },\n  "accessories": {\n    "earrings": {\n      "type": "gold geometric hoop earrings"\n    },\n    "jewelry": {\n      "waistchain": "silver waistchain"\n    },\n    "device": {\n      "type": "smartphone",\n      "details": "patterned case"\n    }\n  },\n  "photography": {\n    "camera_style": "early-2000s digital camera aesthetic",\n    "lighting": "harsh super-flash with bright blown-out highlights but subject still visible",\n    "angle": "mirror selfie",\n    "shot_type": "tight selfie composition",\n    "texture": "subtle grain, retro highlights, V6 realism, crisp details, soft shadows"\n  },\n  "background": {\n    "setting": "nostalgic early-2000s bedroom",\n    "wall_color": "pastel tones",\n    "elements": [\n      "chunky wooden dresser",\n      "CD player",\n      "posters of 2000s pop icons",\n      "hanging beaded door curtain",\n      "cluttered vanity with lip glosses"\n    ],\n    "atmosphere": "authentic 2000s nostalgic vibe",\n    "lighting": "retro"\n  }\n}',
+    chineseContent: '创建一个使用 Gemini PromptMaster 的 2000 年代镜面自拍。\n\n（这是一个 JSON 格式的结构化提示词，包含主题描述、配件、摄影风格和背景设置。中文用户请直接复制英文 JSON 使用，以确保模型正确解析。）',
     expectedOutput: 'A structured JSON prompt for generating a 2000s style mirror selfie.',
-    usage: '使用 JSON 结构进行精确控制。编辑 "subject"（主体）字段中的 hair（头发）和 clothing（服装）以匹配你想要的外观。'
+    usage: '使用 JSON 结构进行精确控制。编辑 "subject"（主体）字段中的 hair（头发）和 clothing（服装）以匹配你想要的外观。',
+    previewImageUrl: '/previews/vibe-2000s.png'
   },
   {
     id: '12',
@@ -285,7 +290,8 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     content: 'Create a glamorous photoshoot in the style of Victoria\'s Secret. A young woman attached in the uploaded reference image ( Keep the face of the person 100% accurate from the reference image ) stands almost sideways, slightly bent forward, during the final preparation for the show. Makeup artists apply lipstick to her (only her hands are visible in the frame). She is wearing a corset decorated with beaded embroidery and crystals with a short fluffy skirt, as well as large feather wings. The image has a "backstage" effect.\n\nThe background is a darkly lit room, probably under the podium. The main emphasis is on the girl\'s face and the details of her costume. Emphasize the expressiveness of the gaze and the luxurious look of the outfit. The photo is lit by a flash from the camera, which emphasizes the shine of the beads and crystals on the corset, as well as the girl\'s shiny skin. Victoria\'s Secret style: sensuality, luxury, glamour. Very detailed. Important: do not change the face.',
     chineseContent: '以维多利亚的秘密风格创作一张迷人的照片。上传参考图片中的年轻女子（保持人物面部与参考图片 100% 准确）几乎侧身站立，身体微前倾，正在进行走秀前的最后准备。化妆师正在为她涂口红（画面中只见手）。她穿着一件饰有珠绣和水晶的紧身胸衣，搭配一条蓬松短裙，还戴着巨大的羽毛翅膀。图像具有“后台”效果。\n\n背景是一个光线昏暗的房间，可能在舞台下方。主要重点是女孩的脸和服装细节。强调眼神的表现力和服装的奢华感。照片由相机闪光灯照亮，突出了紧身胸衣上珠子和水晶的光泽，以及女孩闪亮的皮肤。维多利亚的秘密风格：性感、奢华、魅力。非常详细。重要：不要改变面部。',
     expectedOutput: 'A detailed description for a high-fashion backstage photo.',
-    usage: '最好配合“图生图”功能使用。如果仅通过文本生成，请删除关于“uploaded reference image”（上传参考图片）的引用。'
+    usage: '最好配合“图生图”功能使用。如果仅通过文本生成，请删除关于“uploaded reference image”（上传参考图片）的引用。',
+    previewImageUrl: '/previews/backstage.png'
   },
   {
     id: '13',
@@ -296,7 +302,8 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     content: 'Without changing her original face, create a portrait of a beautiful young woman with porcelain-white skin, captured with a 1990s-style camera using a direct front flash. Her messy dark brown hair is tied up, posing with a calm yet playful smile. She wears a modern oversized cream sweater. The background is a dark white wall covered with aesthetic magazine posters and stickers, evoking a cozy bedroom or personal room atmosphere under dim lighting. The 35mm lens flash creates a nostalgic glow.',
     chineseContent: '在不改变她原有面貌的前提下，创作一幅皮肤白皙如瓷的美丽年轻女子的肖像，使用 90 年代风格的相机和正面直闪拍摄。她凌乱的深棕色头发扎了起来，带着平静而顽皮的微笑摆姿势。她穿着一件现代超大号米色毛衣。背景是一面贴满美学杂志海报和贴纸的暗白色墙壁，在昏暗的灯光下营造出舒适的卧室或个人房间的氛围。35mm 镜头闪光灯营造出怀旧的光辉。',
     expectedOutput: 'A prompt for a 90s style flash photography portrait.',
-    usage: '专注于“直接闪光”美学。你可以将“young woman”（年轻女子）更改为任何主体描述。'
+    usage: '专注于“直接闪光”美学。你可以将“young woman”（年轻女子）更改为任何主体描述。',
+    previewImageUrl: '/previews/film-90s.png'
   },
   {
     id: '14',
@@ -318,7 +325,8 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     content: 'Keep the facial features of the person in the uploaded image exactly consistent . Style : A cinematic, emotional portrait shot on Kodak Portra 400 film . Setting : An urban street coffee shop window at Golden Hour (sunset) . Warm, nostalgic lighting hitting the side of the face. Atmosphere : Apply a subtle film grain and soft focus to create a dreamy, storytelling vibe. Action : The subject is looking slightly away from the camera, holding a coffee cup, with a relaxed, candid expression. Details : High quality, depth of field, bokeh background of city lights.',
     chineseContent: '保持上传图片中人物的面部特征完全一致。风格：使用柯达 Portra 400 胶卷拍摄的电影感、情感肖像。场景：黄金时段（日落）的城市街道咖啡馆橱窗。温暖、怀旧的光线打在脸侧。氛围：应用微妙的胶片颗粒和柔焦，营造梦幻、叙事般的氛围。动作：主体稍微看向镜头外，手持咖啡杯，表情放松、自然。细节：高质量，景深，城市灯光的散景背景。',
     expectedOutput: 'A prompt for emotional film photography style.',
-    usage: '模拟柯达 Portra 400 胶卷质感。非常适合创作情绪化、电影感的肖像。'
+    usage: '模拟柯达 Portra 400 胶卷质感。非常适合创作情绪化、电影感的肖像名。',
+    previewImageUrl: '/previews/emotional-film.png'
   },
   {
     id: '16',
@@ -329,7 +337,8 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     content: '"A professional, high-resolution profile photo, maintaining the exact facial structure, identity, and key features of the person in the input image. The subject is framed from the chest up, with ample headroom. The person looks directly at the camera. They are styled for a professional photo studio shoot, wearing a premium smart casual blazer in a subtle charcoal gray. The background is a solid \'#562226\' neutral studio color. Shot from a high angle with bright and airy soft, diffused studio lighting, gently illuminating the face and creating a subtle catchlight in the eyes, conveying a sense of clarity. Captured on an 85mm f/1.8 lens with a shallow depth of field, exquisite focus on the eyes, and beautiful, soft bokeh. Observe crisp detail on the fabric texture of the blazer, individual strands of hair, and natural, realistic skin texture. The atmosphere exudes confidence, professionalism, and approachability. Clean and bright cinematic color grading with subtle warmth and balanced tones, ensuring a polished and contemporary feel."',
     chineseContent: '“一张专业、高分辨率的个人资料照片，保持输入图像中人物的确切面部结构、身份和关键特征。主体取景从胸部以上，头顶留有充足空间。人物直视镜头。造型为专业摄影棚拍摄，穿着高级商务休闲西装外套，颜色为微妙的炭灰色。背景是纯色 \'#562226\' 中性摄影棚色。从高角度拍摄，明亮通风的柔和漫射演播室灯光，轻柔地照亮脸部并在眼睛中营造出微妙的眼神光，传达清晰感。使用 85mm f/1.8 镜头拍摄，浅景深，焦点精准在眼睛上，拥有美丽的柔和散景。观察西装外套面料纹理、单根头发和自然逼真皮肤纹理的清晰细节。氛围散发出自信、专业和亲和力。干净明亮的电影级调色，带有微妙的温暖和平衡的色调，确保精致和现代的感觉。”',
     expectedOutput: 'A detailed prompt for professional profile photos.',
-    usage: '使用此提示词将随意自拍升级为 LinkedIn 适用的照片。需要输入图像。'
+    usage: '使用此提示词将随意自拍升级为 LinkedIn 适用的照片。需要输入图像。',
+    previewImageUrl: '/previews/business-headshot.png'
   },
   {
     id: '17',
@@ -340,7 +349,8 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     content: 'Generate a hyperrealistic realistic-anime portrait of a female character standing in a completely black background.\nLighting: use a **narrow beam spotlight** focused only on the center of the face. \nThe edges of the light must be sharp and dramatic. \nAll areas outside the spotlight should fall quickly into deep darkness \n(high falloff shadow), almost blending into the black background. \nNot soft lighting.\nHair: long dark hair with some strands falling over the face. The lower parts of the hair should fade into the shadows.\nPose: one hand raised gently to the lips in a shy, hesitant gesture. \nEyes looking directly at the camera with a mysterious mood.\nClothing: black long-sleeve knit sweater; \nthe sweater and body should mostly disappear into the darkness with minimal detail.\nOverall tone: dark, moody, dramatic, mysterious. \nHigh-contrast only in the lit portion of the face. \nEverything outside the spotlight should be nearly invisible.',
     chineseContent: '生成一张站在全黑背景中的女性角色的超写实写实动漫肖像。\n灯光：使用**窄光束聚光灯**仅聚焦在脸部中心。\n光线边缘必须锐利且具有戏剧性。\n聚光灯外的所有区域应迅速落入深沉的黑暗中\n（高衰减阴影），几乎融入黑色背景。\n不要柔光。\n头发：长长的黑发，几缕发丝垂在脸上。头发的下部应逐渐消失在阴影中。\n姿势：一只手轻轻举到唇边，做出害羞、犹豫的手势。\n眼睛直视镜头，带着神秘的情绪。\n服装：黑色长袖针织毛衣；\n毛衣和身体应大部分消失在黑暗中，细节极少。\n整体基调：黑暗、情绪化、戏剧性、神秘。\n仅在脸部受光部分有高对比度。\n聚光灯外的所有东西应几乎不可见。',
     expectedOutput: 'A prompt for dramatic lighting anime portrait.',
-    usage: '创造高对比度、戏剧性的外观。你可以更改“female character”（女性角色）和“long dark hair”（长黑发）来定制主体。'
+    usage: '创造高对比度、戏剧性的外观。你可以更改“female character”（女性角色）和“long dark hair”（长黑发）来定制主体。',
+    previewImageUrl: '/previews/anime-spotlight.png'
   },
   {
     id: '18',
@@ -417,7 +427,8 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     content: 'Use facial feature of attached photo. A close-up shot of a young woman displayed on the screen of a compact Canon digital camera. The camera body surrounds the image with its buttons, dials, and textured surface visible, including the FUNC/SET wheel, DISP button, and the "IMAGE STABILIZER" label along the side. The photo on the screen shows the woman indoors at night, illuminated by a bright built-in flash that creates sharp highlights on her face and hair. She has long dark hair falling across part of her face in loose strands, with a soft, slightly open-lip expression. The flash accentuates her features against a dim, cluttered kitchen background with appliances, shelves, and metallic surfaces softly blurred. The mood is candid, raw, nostalgic, and reminiscent of early 2000s digital camera snapshots. Colors are slightly muted with cool undertones, strong flash contrast, and natural grain from the display. No text, no logos inside the photo preview itself.\n\nScale ratio: 4:5 vertical\n\nCamera: compact digital camera simulation\nLens: equivalent to 28–35mm\nAperture: f/2.8\nISO: 400\nShutter speed: 1/60 with flash\nWhite balance: auto flash\nLighting: harsh direct flash on subject, ambient low light in the background\nColor grading: nostalgic digital-camera tones, high contrast flash, subtle display grain, authentic screen glow.',
     chineseContent: '使用附件照片的面部特征。一张紧凑型佳能数码相机屏幕上显示的年轻女子的特写镜头。相机机身围绕着图像，可见其按钮、拨盘和纹理表面，包括 FUNC/SET 轮、DISP 按钮和侧面的“IMAGE STABILIZER”标签。屏幕上的照片显示女子在夜间室内，被明亮的内置闪光灯照亮，在她的脸和头发上产生锐利的高光。她留着长长的黑发，几缕松散的发丝垂在脸上，表情柔和，嘴唇微张。闪光灯在昏暗、杂乱的厨房背景（电器、架子和金属表面柔和模糊）的衬托下突出了她的特征。这种情绪是坦率的、原始的、怀旧的，让人想起 2000 年代初的数码相机快照。颜色略微柔和，带有冷色调，强烈的闪光对比，以及显示屏自然的颗粒感。照片预览本身内部没有文字，没有徽标。',
     expectedOutput: 'A detailed prompt for simulating a camera screen view.',
-    usage: '创建“画中画”效果。你可以将“young woman”（年轻女子）更改为其他主体。'
+    usage: '创建“画中画”效果。你可以将“young woman”（年轻女子）更改为其他主体。',
+    previewImageUrl: '/previews/camera-screen.png'
   },
   {
     id: '25',
@@ -428,7 +439,8 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     content: 'A photo of a glossy magazine cover, the cover has the large bold words "[MAGAZINE TITLE]". The text is in a serif font, black on white, and fills the view. No other text.\n\nIn front of the text there is a dynamic portrait of [SUBJECT DESCRIPTION] in high-end fashion.\n\nPut the issue number and today\'s date in the corner along with a barcode and a price. The magazine is on a white shelf against a wall.',
     chineseContent: '一张光面杂志封面的照片，封面上写着巨大的粗体字“[MAGAZINE TITLE]”。文字采用衬线字体，白底黑字，占据了整个视野。没有其他文字。\n\n在文字前方是一张身着高端时尚服装的[SUBJECT DESCRIPTION]的动态肖像。\n\n在角落放上期号和今天的日期，以及条形码和价格。杂志放在靠墙的白色架子上。',
     expectedOutput: 'A prompt for a magazine cover design.',
-    usage: '将 [MAGAZINE TITLE]（例如 "VOGUE"）和 [SUBJECT DESCRIPTION] 替换为你想要的内容。'
+    usage: '将 [MAGAZINE TITLE]（例如 "VOGUE"）和 [SUBJECT DESCRIPTION] 替换为你想要的内容。',
+    previewImageUrl: '/previews/magazine-cover.png'
   },
   {
     id: '26',
@@ -439,7 +451,8 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     content: 'Product:\n[BRAND] [PRODUCT NAME] - [bottle shape], [label description], [liquid color]\n\nScene:\nLuxury product shot floating on dark water with [flower type] in [colors] arranged around it.\n[Lighting style - e.g., "golden hour glow" /\n"bright fresh light"] creates reflections and ripples across the water.\n\nMood & Style:\n[Adjectives - e.g., "ethereal and luxurious" /\n"fresh and clean"], high-end commercial photography, [camera angle], shallow depth of field with soft bokeh background',
     chineseContent: '产品：\n[BRAND] [PRODUCT NAME] - [瓶形], [标签描述], [液体颜色]\n\n场景：\n漂浮在深色水面上的奢华产品拍摄，周围布置着[颜色]的[花卉类型]。\n[灯光风格 - 例如，“黄金时刻的光辉” / “明亮清新的光线”]在水面上产生反射和涟漪。\n\n情绪与风格：\n[形容词 - 例如，“空灵奢华” / “清新干净”]，高端商业摄影，[拍摄角度]，浅景深配柔和散景背景',
     expectedOutput: 'A template prompt for luxury product photography.',
-    usage: '填写括号内的部分，如 [BRAND], [PRODUCT NAME] 和 [flower type]，以生成产品照片。'
+    usage: '填写括号内的部分，如 [BRAND], [PRODUCT NAME] 和 [flower type]，以生成产品照片。',
+    previewImageUrl: '/previews/product-lux.png'
   },
   {
     id: '27',
@@ -450,7 +463,8 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     content: 'A where is waldo image showing all Star Wars characters on Tatooine\n\nFirst one to pull this off. First take. Even Waldo is there.',
     chineseContent: '一张“威利在哪里”风格的图片，展示了塔图因星球上的所有星球大战角色。\n\n第一个做到的。一次成功。甚至威利也在那里。',
     expectedOutput: 'A prompt for a crowded "Where\'s Waldo" style image.',
-    usage: '有趣的提示词。你可以将“星球大战”和“塔图因”替换为其他特许经营权（例如，“霍格沃茨”的“哈利波特”）。'
+    usage: '有趣的提示词。你可以将“星球大战”和“塔图因”替换为其他特许经营权（例如，“霍格沃茨”的“哈利波特”）。',
+    previewImageUrl: '/previews/waldo-starwars.png'
   },
   {
     id: '28',
@@ -472,7 +486,8 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     content: 'recursive image of an orange cat sitting in an office chair holding up an iPad. On the iPad is the same cat in the same scene holding up the same iPad. Repeated on each iPad.',
     chineseContent: '一只橘猫坐在办公椅上举着 iPad 的递归图像。在 iPad 上是同一只猫在同一场景中举着同一个 iPad。在每个 iPad 上重复。',
     expectedOutput: 'A prompt for a recursive visual effect.',
-    usage: '“德罗斯特效应”。将“orange cat”（橘猫）更改为任何其他主体。'
+    usage: '“德罗特效应”。将“orange cat”（橘猫）更改为任何其他主体。',
+    previewImageUrl: '/previews/recursive-cat.png'
   },
   {
     id: '30',
@@ -538,6 +553,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     content: 'Create a high-quality, realistic 3D render of exactly one instance of the object: [OBJECT NAME].\nThe object must float freely in mid-air and be gently tilted and rotated in 3D space (not front-facing).\nUse a soft, minimalist dark background in a clean 1080×1080 composition.\nLeft Half — Full Realism\nThe left half of the object should appear exactly as it looks in real life\n— accurate materials, colors, textures, reflections, and proportions.\nThis half must be completely opaque with no transparency and no wireframe overlay.\nNo soft transition, no fading, no blending.\nRight Half — Hard Cut Wireframe Interior\nThe right half must switch cleanly to a wireframe interior diagram.\nThe boundary between the two halves must be a perfectly vertical, perfectly sharp, crisp cut line, stretching straight from the top edge to the bottom edge of the object.\nNo diagonal edges, no curved slicing, no gradient.\nThe wireframe must use only two line colors:\nPrimary: white (≈80% of all lines)\nSecondary: a color sampled from the dominant color of the realistic half (<20% of lines)\nThe wireframe lines must be thin, precise, aligned, and engineering-style.\nEvery wireframe component must perfectly match the geometry of the object.\nStrict Single-Object Rule\nRender only ONE object in the entire frame.  Render only one physical object.\nDo NOT show a second object from any angle. Do NOT show a second object for comparison or display purposes.\nOnly one single object is allowed in the entire frame.\nThe object must appear alone, floating.\nPose & Lighting:\nApply a natural, subtle tilt + rotation in 3D.',
     chineseContent: '创建对象：[OBJECT NAME] 的高质量、逼真 3D 渲染，且仅渲染一个实例。\n物体必须在半空中自由漂浮，并在 3D 空间中轻微倾斜和旋转（非正面朝向）。\n在干净的 1080×1080 构图中使用柔和、简约的深色背景。\n左半部分 — 全写实\n物体的左半部分应与现实生活中的样子完全一致\n——准确的材质、颜色、纹理、反射和比例。\n这一半必须完全不透明，没有透明度，也没有线框覆盖。\n没有柔和过渡，没有褪色，没有混合。\n右半部分 — 硬切线框内部\n右半部分必须干净利落地切换到线框内部图。\n两半之间的边界必须是一条完美垂直、完美锐利、清晰的切割线，从物体的顶部边缘一直延伸到底部边缘。\n没有对角边缘，没有弯曲切片，没有渐变。\n线框只能使用两种线条颜色：\n主色：白色（约占所有线条的 80%）\n次色：从写实半部分的主色中采样的颜色（<20% 的线条）\n线框线条必须细、精确、对齐，具有工程风格。\n每个线框组件必须与物体的几何形状完美匹配。\n严格的单对象规则\n在整个框架中仅渲染一个对象。仅渲染一个物理对象。\n不要从任何角度显示第二个对象。不要将第二个对象显示为反射、阴影、轮廓、轮廓、重影或透明度。不要显示第二个对象以进行比较或展示。\n在整个框架中仅允许一个对象。\n物体必须单独出现，漂浮。\n姿势与灯光：\n在 3D 中应用自然、微妙的倾斜 + 旋转。',
     expectedOutput: 'A complex prompt for split-view 3D rendering.',
-    usage: '将 [OBJECT NAME] 替换为特定产品（例如，“橙色 iPhone 17 Pro”或“Nike Air Jordan”）。'
+    usage: '将 [OBJECT NAME] 替换为特定产品（例如，“橙色 iPhone 17 Pro”或“Nike Air Jordan”）。',
+    previewImageUrl: '/previews/3d-split.png'
   }
 ];
