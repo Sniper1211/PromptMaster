@@ -10,12 +10,17 @@ interface PromptDetailModalProps {
 
 const PromptDetailModal: React.FC<PromptDetailModalProps> = ({ prompt, onClose }) => {
   const [copied, setCopied] = useState(false);
+  const [showFullImage, setShowFullImage] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onClose();
+        if (showFullImage) {
+          setShowFullImage(false);
+        } else {
+          onClose();
+        }
       }
     };
 
@@ -44,105 +49,89 @@ const PromptDetailModal: React.FC<PromptDetailModalProps> = ({ prompt, onClose }
       onClick={onClose}
     >
       <div
-        className="bg-white brutal-border brutal-shadow w-full max-w-4xl max-h-[90vh] flex flex-col md:flex-row animate-in fade-in zoom-in-95 duration-200 pointer-events-auto overflow-hidden"
+        className="bg-white brutal-border brutal-shadow w-full max-w-4xl h-[520px] max-h-[90vh] flex flex-col animate-in fade-in zoom-in-95 duration-200 pointer-events-auto overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Left: Image Side */}
-        <div className="md:w-1/2 p-6 flex flex-col bg-gray-50 border-r-[2.5px] border-black">
-          <div className="relative group brutal-border bg-black overflow-hidden aspect-square flex items-center justify-center">
-            {prompt.previewImageUrl ? (
-              <img
-                src={prompt.previewImageUrl}
-                alt={prompt.title}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100"
-              />
-            ) : (
-              <div className="flex flex-col items-center justify-center text-slate-500">
-                <ImageIcon size={64} strokeWidth={1.5} />
-                <span className="text-xs font-black uppercase mt-4 tracking-widest">{t('card.needImage')}</span>
+        {/* Content Side */}
+        <div className="flex flex-col h-full min-h-0 bg-white">
+          {/* Top Bar: User & Close */}
+          <div className="p-6 border-b-[2.5px] border-black flex items-center justify-between gap-4">
+            <h2 className="text-xl font-black uppercase italic tracking-tighter line-clamp-2 pr-2">{prompt.title}</h2>
+            <div className="flex items-center gap-3 shrink-0">
+              <button
+                onClick={copyPrompt}
+                className="flex items-center gap-2 px-4 py-1.5 bg-[#2DD4BF] border-[2.5px] border-black font-black uppercase text-[10px] hover:-translate-x-[2px] hover:-translate-y-[2px] hover:brutal-shadow-sm transition-all"
+              >
+                <Copy size={14} strokeWidth={3} />
+                <span>{copied ? '已复制' : '复制'}</span>
+              </button>
+              <button
+                onClick={onClose}
+                className="w-8 h-8 flex items-center justify-center brutal-border bg-white hover:bg-gray-100 transition-colors brutal-shadow-sm active:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
+              >
+                <X size={18} strokeWidth={3} />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex-1 overflow-hidden p-6 flex flex-col md:flex-row gap-6">
+            {/* Left: Image */}
+            {prompt.previewImageUrl && (
+              <div className="w-full md:w-1/3 flex-shrink-0 flex flex-col justify-center">
+                <div className="relative group brutal-border bg-black overflow-hidden aspect-square flex items-center justify-center w-full">
+                  <img
+                    src={prompt.previewImageUrl}
+                    alt={prompt.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <button
+                    onClick={() => setShowFullImage(true)}
+                    className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 cursor-zoom-in"
+                  >
+                    <div className="p-3 bg-white/90 rounded-full border-[2px] border-black brutal-shadow-sm hover:scale-110 transition-transform">
+                      <Search size={20} strokeWidth={3} className="text-black" />
+                    </div>
+                  </button>
+                </div>
               </div>
             )}
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-              <div className="p-4 bg-white/90 rounded-full border-[2px] border-black brutal-shadow-sm">
-                <Search size={24} strokeWidth={3} className="text-black" />
-              </div>
-            </div>
-          </div>
-        </div>
 
-        {/* Right: Content Side */}
-        <div className="md:w-1/2 flex flex-col h-full min-h-0 bg-white">
-          {/* Top Bar: User & Close */}
-          <div className="p-6 border-b-[2.5px] border-black flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg brutal-border bg-[#F26522] flex items-center justify-center overflow-hidden">
-                <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${prompt.authorId || prompt.id}`} alt="avatar" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-sm font-black uppercase tracking-tight">@{prompt.authorId || 'craftian_keskin'}</span>
-                <span className="text-[10px] font-bold text-slate-400 uppercase">创作者</span>
-              </div>
-            </div>
-            <button
-              onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center brutal-border bg-white hover:bg-gray-100 transition-colors brutal-shadow-sm active:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
-            >
-              <X size={18} strokeWidth={3} />
-            </button>
-          </div>
-
-          <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
-            {/* Prompt Title Section */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Cpu size={18} className="text-[#8B5CF6]" strokeWidth={3} />
-                  <h3 className="text-sm font-black uppercase italic tracking-tighter">提示词</h3>
-                </div>
-                <button
-                  onClick={copyPrompt}
-                  className="flex items-center gap-2 px-4 py-1.5 bg-[#FACC15] border-[2.5px] border-black font-black uppercase text-[10px] brutal-shadow-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all"
+            {/* Full Image Overlay */}
+            {showFullImage && prompt.previewImageUrl && (
+              <div 
+                className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 p-4 animate-in fade-in duration-200"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowFullImage(false);
+                }}
+              >
+                <button 
+                  className="absolute top-6 right-6 p-2 bg-white rounded-full hover:bg-gray-200 transition-colors"
+                  onClick={() => setShowFullImage(false)}
                 >
-                  <Copy size={14} strokeWidth={3} />
-                  <span>{copied ? '已复制' : '复制'}</span>
+                  <X size={24} strokeWidth={3} />
                 </button>
+                <img 
+                  src={prompt.previewImageUrl} 
+                  alt={prompt.title} 
+                  className="max-w-full max-h-full object-contain brutal-shadow"
+                  onClick={(e) => e.stopPropagation()}
+                />
+              </div>
+            )}
+
+            {/* Right: Prompt Text */}
+            <div className="flex-1 flex flex-col min-h-0">
+              <div className="flex items-center gap-2 mb-3">
+                <Cpu size={18} className="text-[#8B5CF6]" strokeWidth={3} />
+                <h3 className="text-sm font-black uppercase italic tracking-tighter">提示词</h3>
               </div>
 
-              <div className="brutal-border p-4 bg-gray-50 min-h-[120px]">
+              <div className="brutal-border p-4 bg-gray-50 flex-1 overflow-y-auto custom-scrollbar">
                 <p className="font-mono text-xs leading-relaxed text-black/80 font-bold whitespace-pre-wrap">
                   {prompt.content}
                 </p>
               </div>
-            </div>
-
-            {/* Params Grid */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="brutal-border p-4 bg-gray-50 flex flex-col gap-1">
-                <div className="flex items-center gap-1.5 text-slate-400">
-                  <Cpu size={12} strokeWidth={3} />
-                  <span className="text-[9px] font-black uppercase">模型</span>
-                </div>
-                <span className="text-xs font-black uppercase tracking-tight">PromptMaster</span>
-              </div>
-              <div className="brutal-border p-4 bg-gray-50 flex flex-col gap-1">
-                <div className="flex items-center gap-1.5 text-slate-400">
-                  <FileText size={12} strokeWidth={3} />
-                  <span className="text-[9px] font-black uppercase">提示词格式</span>
-                </div>
-                <span className="text-xs font-black uppercase tracking-tight">text</span>
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
-              <button className="flex items-center justify-center gap-2 py-4 bg-[#FF4D4D] text-white border-[2.5px] border-black font-black uppercase italic text-sm brutal-shadow hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-sm transition-all group">
-                <Download size={18} strokeWidth={3} className="group-hover:scale-110 transition-transform" />
-                <span>下载</span>
-              </button>
-              <button className="flex items-center justify-center gap-2 py-4 bg-white text-black border-[2.5px] border-black font-black uppercase italic text-sm brutal-shadow hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-sm transition-all group">
-                <ExternalLink size={18} strokeWidth={3} className="group-hover:scale-110 transition-transform" />
-                <span>查看原贴</span>
-              </button>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Prompt } from '../types';
-import { Copy, Check, Play, Image as ImageIcon } from 'lucide-react';
+import { Copy, Check, Eye, Image as ImageIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface PromptCardProps {
@@ -71,13 +71,13 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onTry }) => {
         <div className="absolute inset-0 z-20 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-6">
           <button
             onClick={() => onTry(prompt)}
-            className="p-4 bg-white border-[2.5px] border-black rounded-xl brutal-shadow hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
+            className="p-4 bg-white border-[2.5px] border-black rounded-xl brutal-shadow-sm hover:-translate-x-[2px] hover:-translate-y-[2px] hover:brutal-shadow transition-all"
           >
-            <Play size={32} className="fill-black" strokeWidth={2.5} />
+            <Eye size={32} className="text-black" strokeWidth={2.5} />
           </button>
           <button
             onClick={handleCopy}
-            className="p-4 bg-white border-[2.5px] border-black rounded-xl brutal-shadow hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
+            className="p-4 bg-white border-[2.5px] border-black rounded-xl brutal-shadow-sm hover:-translate-x-[2px] hover:-translate-y-[2px] hover:brutal-shadow transition-all"
           >
             {copied ? <Check size={32} className="text-green-600" strokeWidth={3} /> : <Copy size={32} strokeWidth={2.5} />}
           </button>

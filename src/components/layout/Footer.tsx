@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
             
             {/* Copyright / Brand */}
             <div className="border-t-[3px] border-black p-4 bg-black text-white text-center">
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em]">PromptMaster © 2024 • DESIGNED FOR BUILDERS</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em]">PromptMaster © 2026 • DESIGNED FOR BUILDERS</p>
             </div>
         </footer>
     );
