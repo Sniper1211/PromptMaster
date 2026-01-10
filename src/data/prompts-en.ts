@@ -442,5 +442,16 @@ Current Codebase/Site Structure:
     expectedOutput: 'A complex prompt for split-view 3D rendering.',
     usage: 'Replace [OBJECT NAME] with a specific product (e.g., "Orange iPhone 17 Pro" or "Nike Air Jordan").',
     previewImageUrl: '/previews/3d-split-view.webp'
+  },
+  {
+    id: '36',
+    title: 'Anthropomorphic Bunny Selfie',
+    description: 'A snapshot selfie of a weary anthropomorphic bunny in an office setting.',
+    category: Category.PHOTOGRAPHY,
+    tags: ['Anthropomorphic', 'Selfie', 'Office', 'Snapshot', 'Weary'],
+    content: 'A snapshot photo of an anthropomorphic small rabbit with a weary, cynical expression. The rabbit is taking a close-up selfie (headshot), occupying the center of the frame. It wears a work badge around its neck featuring its own headshot. The photo has a casual, daily snapshot visual style with no clear subject or deliberate composition, and features slight motion blur. Background is an office setting with a computer screen showing a graphic design page nearby. The atmosphere is mundane yet unique.',
+    expectedOutput: 'A unique anthropomorphic character snapshot.',
+    usage: 'Great for generating character-driven snapshots with specific mood and storytelling elements.',
+    previewImageUrl: '/previews/weary-bunny-office-selfie.webp'
   }
 ];

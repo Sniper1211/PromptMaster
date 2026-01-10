@@ -556,5 +556,17 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     expectedOutput: 'A complex prompt for split-view 3D rendering.',
     usage: '将 [OBJECT NAME] 替换为特定产品（例如，“橙色 iPhone 17 Pro”或“Nike Air Jordan”）。',
     previewImageUrl: '/previews/3d-split-view.webp'
+  },
+  {
+    id: '36',
+    title: '拟人化兔子自拍',
+    description: '厌世脸的拟人化小兔在办公室的快照自拍，带有工牌和设计背景。',
+    category: Category.PHOTOGRAPHY,
+    tags: ['Anthropomorphic', 'Selfie', 'Office', 'Snapshot', 'Weary'],
+    content: 'A snapshot photo of an anthropomorphic small rabbit with a weary, cynical expression. The rabbit is taking a close-up selfie (headshot), occupying the center of the frame. It wears a work badge around its neck featuring its own headshot. The photo has a casual, daily snapshot visual style with no clear subject or deliberate composition, and features slight motion blur. Background is an office setting with a computer screen showing a graphic design page nearby. The atmosphere is mundane yet unique.',
+    chineseContent: '一只拟人化的小兔，以日常快照的视觉风格展现，照片中没有明确的主体或构图感，还带有轻微的运动模糊。主角占据画面中心位置，是自拍的大头照，脸上带着厌世的神情，它脖子上挂着一个带有自己大头照的工牌。背景是办公场景，旁边的电脑屏幕上是平面设计的页面，营造出一种平凡又独特的氛围。',
+    expectedOutput: 'A unique anthropomorphic character snapshot.',
+    usage: '适合生成具有独特情绪和故事感的拟人化角色日常照。',
+    previewImageUrl: '/previews/weary-bunny-office-selfie.webp'
   }
 ];
