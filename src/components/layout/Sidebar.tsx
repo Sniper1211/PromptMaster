@@ -62,46 +62,51 @@ const Sidebar: React.FC<SidebarProps> = ({
                     <button
                         onClick={() => setActiveCategory(Category.ALL)}
                         className={`w-full flex items-center gap-3 px-4 py-3 border-[2.5px] border-black rounded-none transition-all ${activeCategory === Category.ALL
-                                ? 'bg-[#FF4D4D] text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] translate-x-[-2px] translate-y-[-2px]'
-                                : 'bg-white hover:bg-gray-100 text-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]'
+                            ? 'bg-[#FF4D4D] text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] translate-x-[-2px] translate-y-[-2px]'
+                            : 'bg-white hover:bg-gray-100 text-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]'
                             }`}
                     >
                         <LayoutGrid size={20} strokeWidth={2.5} />
-                        <span className="font-black italic uppercase">全部</span>
+                        <span className="font-black italic uppercase">{t('sidebar.all')}</span>
                     </button>
+
                 </div>
 
                 {/* Sort Section */}
                 <section className="space-y-3">
                     <div className="flex items-center gap-2 px-1 text-black font-black uppercase tracking-widest text-[10px] border-b-[2px] border-black pb-1 w-fit">
                         <ArrowUpDown size={12} strokeWidth={3} />
-                        <span>排序</span>
+                        <span>{t('sidebar.sort')}</span>
                     </div>
+
                     <div className="space-y-2">
                         <button className="w-full flex items-center gap-3 px-3 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm">
                             <Clock size={18} strokeWidth={2.5} />
-                            <span>最近</span>
+                            <span>{t('sidebar.recent')}</span>
                         </button>
+
                         <button className="w-full flex items-center gap-3 px-3 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm">
                             <Shuffle size={18} strokeWidth={2.5} />
-                            <span>随机</span>
+                            <span>{t('sidebar.random')}</span>
                         </button>
+
                     </div>
                 </section>
 
                 {/* Categories Section */}
                 <section className="space-y-3">
                     <div className="flex items-center gap-2 px-1 text-black font-black uppercase tracking-widest text-[10px] border-b-[2px] border-black pb-1 w-fit">
-                        <span>分类</span>
+                        <span>{t('sidebar.categories')}</span>
                     </div>
+
                     <div className="space-y-2">
                         {categories.filter(c => c !== Category.ALL).map((category) => (
                             <button
                                 key={category}
                                 onClick={() => setActiveCategory(category)}
                                 className={`w-full flex items-center gap-3 px-3 py-2 border-[2px] transition-all text-sm font-bold ${activeCategory === category
-                                        ? 'border-black bg-[#FACC15] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
-                                        : 'border-transparent text-black hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+                                    ? 'border-black bg-[#FACC15] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+                                    : 'border-transparent text-black hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
                                     }`}
                             >
                                 <span>{t(`categories.${category}`)}</span>
@@ -114,12 +119,13 @@ const Sidebar: React.FC<SidebarProps> = ({
                 <section className="space-y-2 border-t-[3px] border-black pt-6">
                     <button className="w-full flex items-center gap-3 px-3 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm">
                         <Users size={18} strokeWidth={2.5} />
-                        <span>创作者</span>
+                        <span>{t('sidebar.creators')}</span>
                     </button>
                     <button className="w-full flex items-center gap-3 px-3 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm">
                         <BookOpen size={18} strokeWidth={2.5} />
-                        <span>提示词教程</span>
+                        <span>{t('sidebar.tutorials')}</span>
                     </button>
+
                 </section>
             </div>
 
@@ -130,7 +136,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                     className="w-full flex items-center justify-between px-4 py-3 border-[2.5px] border-black bg-white hover:bg-[#2DD4BF] transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                 >
                     <Globe size={18} strokeWidth={2.5} />
-                    <span className="font-black text-xs uppercase">{currentLanguage.toUpperCase()}</span>
+                    <span className="font-black text-xs uppercase">
+                        {currentLanguage.startsWith('zh') ? 'English' : '简体中文'}
+                    </span>
                 </button>
             </div>
         </aside>

@@ -1,16 +1,30 @@
 {
+  "sidebar": {
+    "all": "All",
+    "sort": "Sort",
+    "recent": "Recent",
+    "random": "Random",
+    "categories": "Categories",
+    "creators": "Creators",
+    "tutorials": "Prompt Tutorials"
+  },
   "nav": {
     "title": "PromptMaster",
     "explorer": "Explorer",
     "guide": "Guide",
     "library": "Library",
-    "proUpgrade": "Pro Upgrade"
+    "proUpgrade": "Pro Upgrade",
+    "addPrompt": "Add Prompt"
   },
   "hero": {
     "title": "Master the Art of <br /> AI Prompting",
     "subtitle": "Discover a curated collection of high-performance prompts. Learn through real examples and optimize your AI interactions.",
     "searchPlaceholder": "Search for prompts by title, tag, or topic...",
     "searchButton": "Search"
+  },
+  "home": {
+    "exploreTitle": "Explore Prompts",
+    "exploreSubtitle": "Curated collection of the best AI prompts."
   },
   "categories": {
     "All": "All",
@@ -45,5 +59,50 @@
     "communityUses": "Community Uses",
     "openLibrary": "Open Library",
     "contribute": "Contribute your own prompts"
+  },
+  "addPrompt": {
+    "title": "Add New Prompt",
+    "tabs": {
+      "editor": "Editor",
+      "preview": "Preview & Code"
+    },
+    "form": {
+      "title": "Title",
+      "titlePlaceholder": "e.g. Modern React Architect",
+      "category": "Category",
+      "model": "Model",
+      "tags": "Tags (Enter to add)",
+      "tagPlaceholder": "Add tag...",
+      "description": "Short Description",
+      "descPlaceholder": "Briefly describe what this prompt does...",
+      "contentEn": "English Content",
+      "mandatory": "Mandatory",
+      "contentEnPlaceholder": "The actual prompt text in English...",
+      "contentZh": "Chinese Content",
+      "optional": "Optional",
+      "contentZhPlaceholder": "Translation or Chinese explanation...",
+      "expectedOutput": "Expected Output",
+      "outputPlaceholder": "What should the AI respond with?",
+      "usage": "Usage Instructions",
+      "usagePlaceholder": "How to use placeholders etc."
+    },
+    "preview": {
+      "notice": "NOTICE",
+      "noticeText": "Fill in the fields and then copy this code. As your AI developer, I can help you save it to the database files!",
+      "copyCode": "Copy Code",
+      "copied": "Copied",
+      "howTo": "How to Proceed?",
+      "step1Title": "Copy to Clipboard",
+      "step1Desc": "Copy the JSON block above and send it to me in the chat.",
+      "step2Title": "AI Sync (Direct Save)",
+      "step2Desc": "Directly write this prompt to your .ts files.",
+      "success": "✅ Saved successfully!",
+      "error": "❌ Failed to save. Ensure dev server is running."
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "next": "Next: Review",
+      "copyFinal": "Copy Final Result"
+    }
   }
 }

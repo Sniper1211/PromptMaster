@@ -9,15 +9,20 @@ import PromptDetailModal from './components/PromptDetailModal';
 import Sidebar from './components/layout/Sidebar';
 import Footer from './components/layout/Footer';
 import PromptGrid from './components/home/PromptGrid';
+import AddPromptModal from './components/admin/AddPromptModal';
+
 
 const App: React.FC = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [activeCategory, setActiveCategory] = useState<Category>(Category.ALL);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPrompt, setSelectedPrompt] = useState<Prompt | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentPrompts, setCurrentPrompts] = useState<Prompt[]>([]);
   const [isLoadingPrompts, setIsLoadingPrompts] = useState(true);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
 
   // Load prompts dynamically based on language
   useEffect(() => {
@@ -59,7 +64,14 @@ const App: React.FC = () => {
     });
   }, [activeCategory, searchQuery, currentPrompts]);
 
+  const nextId = useMemo(() => {
+    if (currentPrompts.length === 0) return '1';
+    const ids = currentPrompts.map(p => parseInt(p.id)).filter(id => !isNaN(id));
+    return ids.length > 0 ? (Math.max(...ids) + 1).toString() : (currentPrompts.length + 1).toString();
+  }, [currentPrompts]);
+
   const clearFilters = () => {
+
     setActiveCategory(Category.ALL);
     setSearchQuery('');
   };
@@ -81,14 +93,26 @@ const App: React.FC = () => {
         <div className="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-10">
           <header className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-              <h2 className="text-4xl font-black italic uppercase tracking-tighter mb-2">Explore Prompts</h2>
-              <p className="text-slate-500 font-medium">Curated collection of the best AI prompts.</p>
+              <h2 className="text-4xl font-black italic uppercase tracking-tighter mb-2">{t('home.exploreTitle')}</h2>
+              <p className="text-slate-500 font-medium">{t('home.exploreSubtitle')}</p>
             </div>
-            <button className="flex items-center gap-2 bg-[#FF4D4D] text-white px-6 py-3 border-[2.5px] border-black rounded-2xl font-black uppercase italic shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all">
-              <Plus size={20} strokeWidth={3} />
-              <span>升级专业版</span>
-            </button>
+
+            <div className="flex gap-4">
+              <button
+                onClick={() => setIsAddModalOpen(true)}
+                className="flex items-center gap-2 bg-[#66D9E8] text-black px-6 py-3 border-[2.5px] border-black rounded-2xl font-black uppercase italic shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+              >
+                <Plus size={20} strokeWidth={3} />
+                <span>{t('nav.addPrompt')}</span>
+              </button>
+              <button className="flex items-center gap-2 bg-[#FF4D4D] text-white px-6 py-3 border-[2.5px] border-black rounded-2xl font-black uppercase italic shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all">
+                <Plus size={20} strokeWidth={3} />
+                <span>{t('nav.proUpgrade')}</span>
+              </button>
+            </div>
+
           </header>
+
 
           {isLoadingPrompts ? (
             <div className="flex flex-col items-center justify-center py-20">
@@ -114,7 +138,15 @@ const App: React.FC = () => {
           onClose={() => setSelectedPrompt(null)}
         />
       )}
+
+      {isAddModalOpen && (
+        <AddPromptModal
+          onClose={() => setIsAddModalOpen(false)}
+          nextId={nextId}
+        />
+      )}
     </div>
+
   );
 };
 

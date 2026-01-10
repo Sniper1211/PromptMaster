@@ -1,16 +1,30 @@
 {
+  "sidebar": {
+    "all": "全部",
+    "sort": "排序",
+    "recent": "最近",
+    "random": "随机",
+    "categories": "分类",
+    "creators": "创作者",
+    "tutorials": "提示词教程"
+  },
   "nav": {
     "title": "PromptMaster",
     "explorer": "探索",
     "guide": "指南",
     "library": "库",
-    "proUpgrade": "升级专业版"
+    "proUpgrade": "升级专业版",
+    "addPrompt": "添加提示词"
   },
   "hero": {
     "title": "精通 AI 提示词 <br /> 的艺术",
     "subtitle": "发现精选的高效提示词集合。通过实例学习，优化您的 AI 交互体验。",
     "searchPlaceholder": "搜索提示词、标签或主题...",
     "searchButton": "搜索"
+  },
+  "home": {
+    "exploreTitle": "探索提示词",
+    "exploreSubtitle": "精选的最佳 AI 提示词合集。"
   },
   "categories": {
     "All": "全部",
@@ -45,5 +59,50 @@
     "communityUses": "社区使用",
     "openLibrary": "开放库",
     "contribute": "贡献您的提示词"
+  },
+  "addPrompt": {
+    "title": "添加新提示词",
+    "tabs": {
+      "editor": "编辑",
+      "preview": "预览与代码"
+    },
+    "form": {
+      "title": "标题",
+      "titlePlaceholder": "例如：现代 React 架构师",
+      "category": "分类",
+      "model": "模型",
+      "tags": "标签 (回车添加)",
+      "tagPlaceholder": "添加标签...",
+      "description": "简短描述",
+      "descPlaceholder": "简要描述此提示词的作用...",
+      "contentEn": "英文内容 (核心)",
+      "mandatory": "必填",
+      "contentEnPlaceholder": "英文提示词原始内容...",
+      "contentZh": "中文内容 (翻译)",
+      "optional": "选填",
+      "contentZhPlaceholder": "翻译或中文说明...",
+      "expectedOutput": "预期输出",
+      "outputPlaceholder": "AI 应该如何回复？",
+      "usage": "使用说明",
+      "usagePlaceholder": "如何使用占位符等..."
+    },
+    "preview": {
+      "notice": "注意",
+      "noticeText": "填写字段并复制此代码。作为你的 AI 开发者，我可以帮你将其保存到数据库文件中！",
+      "copyCode": "复制代码",
+      "copied": "已复制",
+      "howTo": "如何继续？",
+      "step1Title": "复制到剪贴板",
+      "step1Desc": "复制上面的 JSON 代码块并发给我。",
+      "step2Title": "AI 同步 (直接保存)",
+      "step2Desc": "直接将此提示词写入你的 .ts 文件。",
+      "success": "✅ 保存成功！",
+      "error": "❌ 保存失败，请确保开发服务器正在运行。"
+    },
+    "buttons": {
+      "cancel": "取消",
+      "next": "下一步：预览",
+      "copyFinal": "复制最终结果"
+    }
   }
 }
