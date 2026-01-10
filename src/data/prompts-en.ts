@@ -221,7 +221,8 @@ Current Codebase/Site Structure:
     tags: ['Photography', 'Business', 'Headshot', 'Professional'],
     content: 'Keep the facial features of the person in the uploaded image exactly consistent . Dress them in a professional navy blue business suit with a white shirt, similar to the reference image. Background : Place the subject against a clean, solid dark gray studio photography backdrop . The background should have a subtle gradient , slightly lighter behind the subject and darker towards the edges (vignette effect). There should be no other objects. Photography Style : Shot on a Sony A7III with an 85mm f/1.4 lens , creating a flattering portrait compression. Lighting : Use a classic three-point lighting setup . The main key light should create soft, defining shadows on the face. A subtle rim light should separate the subject\'s shoulders and hair from the dark background. Crucial Details : Render natural skin texture with visible pores , not an airbrushed look. Add natural catchlights to the eyes . The fabric of the suit should show a subtle wool texture.Final image should be an ultra-realistic, 8k professional headshot.',
     expectedOutput: 'A professional headshot generation prompt.',
-    usage: 'Designed for "Face Swap" or "Image-to-Image" workflows. For text-to-image, replace "person in the uploaded image" with a specific person description.'
+    usage: 'Designed for "Face Swap" or "Image-to-Image" workflows. For text-to-image, replace "person in the uploaded image" with a specific person description.',
+    previewImageUrl: '/previews/silicon-valley.png'
   },
   {
     id: '15',
@@ -232,7 +233,7 @@ Current Codebase/Site Structure:
     content: 'Keep the facial features of the person in the uploaded image exactly consistent . Style : A cinematic, emotional portrait shot on Kodak Portra 400 film . Setting : An urban street coffee shop window at Golden Hour (sunset) . Warm, nostalgic lighting hitting the side of the face. Atmosphere : Apply a subtle film grain and soft focus to create a dreamy, storytelling vibe. Action : The subject is looking slightly away from the camera, holding a coffee cup, with a relaxed, candid expression. Details : High quality, depth of field, bokeh background of city lights.',
     expectedOutput: 'A prompt for emotional film photography style.',
     usage: 'Simulates the look and feel of Kodak Portra 400. Perfect for creating moody, cinematic portraits.',
-    previewImageUrl: '/previews/emotional-film.png'
+    // previewImageUrl: '/previews/emotional-film.png'
   },
   {
     id: '16',
@@ -325,7 +326,7 @@ Current Codebase/Site Structure:
     content: 'Use facial feature of attached photo. A close-up shot of a young woman displayed on the screen of a compact Canon digital camera. The camera body surrounds the image with its buttons, dials, and textured surface visible, including the FUNC/SET wheel, DISP button, and the "IMAGE STABILIZER" label along the side. The photo on the screen shows the woman indoors at night, illuminated by a bright built-in flash that creates sharp highlights on her face and hair. She has long dark hair falling across part of her face in loose strands, with a soft, slightly open-lip expression. The flash accentuates her features against a dim, cluttered kitchen background with appliances, shelves, and metallic surfaces softly blurred. The mood is candid, raw, nostalgic, and reminiscent of early 2000s digital camera snapshots. Colors are slightly muted with cool undertones, strong flash contrast, and natural grain from the display. No text, no logos inside the photo preview itself.\n\nScale ratio: 4:5 vertical\n\nCamera: compact digital camera simulation\nLens: equivalent to 28–35mm\nAperture: f/2.8\nISO: 400\nShutter speed: 1/60 with flash\nWhite balance: auto flash\nLighting: harsh direct flash on subject, ambient low light in the background\nColor grading: nostalgic digital-camera tones, high contrast flash, subtle display grain, authentic screen glow.',
     expectedOutput: 'A detailed prompt for simulating a camera screen view.',
     usage: 'Creates a "picture within a picture" effect. You can change "young woman" to any other subject.',
-    previewImageUrl: '/previews/camera-screen.png'
+    previewImageUrl: '/previews/DM_20260110111659_001.webp'
   },
   {
     id: '25',
@@ -335,30 +336,30 @@ Current Codebase/Site Structure:
     tags: ['Design', 'Magazine', 'Cover', 'Fashion'],
     content: 'A photo of a glossy magazine cover, the cover has the large bold words "[MAGAZINE TITLE]". The text is in a serif font, black on white, and fills the view. No other text.\n\nIn front of the text there is a dynamic portrait of [SUBJECT DESCRIPTION] in high-end fashion.\n\nPut the issue number and today\'s date in the corner along with a barcode and a price. The magazine is on a white shelf against a wall.',
     expectedOutput: 'A prompt for a magazine cover design.',
-    usage: 'Replace [MAGAZINE TITLE] (e.g., "VOGUE") and [SUBJECT DESCRIPTION] with your choices.',
-    previewImageUrl: '/previews/magazine-cover.png'
+    usage: 'Replace "[MAGAZINE TITLE]" (e.g., "VOGUE") and "[SUBJECT DESCRIPTION]" with your desired content.',
+    // previewImageUrl: '/previews/magazine-cover.png'
   },
   {
     id: '26',
     title: 'Luxury Product Photography',
-    description: 'Create a floating luxury product shot with specific lighting.',
+    description: 'High-end product shot floating on water with florals and lighting.',
     category: Category.COMMERCIAL,
     tags: ['Photography', 'Product', 'Luxury', 'Commercial'],
     content: 'Product:\n[BRAND] [PRODUCT NAME] - [bottle shape], [label description], [liquid color]\n\nScene:\nLuxury product shot floating on dark water with [flower type] in [colors] arranged around it.\n[Lighting style - e.g., "golden hour glow" /\n"bright fresh light"] creates reflections and ripples across the water.\n\nMood & Style:\n[Adjectives - e.g., "ethereal and luxurious" /\n"fresh and clean"], high-end commercial photography, [camera angle], shallow depth of field with soft bokeh background',
     expectedOutput: 'A template prompt for luxury product photography.',
-    usage: 'Fill in the bracketed sections like [BRAND], [PRODUCT NAME], and [flower type] to generate your product shot.',
-    previewImageUrl: '/previews/product-lux.png'
+    usage: 'Fill in the bracketed sections like [BRAND], [PRODUCT NAME], and [flower type] to generate product photos.',
+    previewImageUrl: '/previews/DM_20260110113438_001.webp'
   },
   {
     id: '27',
     title: 'Star Wars "Where\'s Waldo"',
-    description: 'A complex prompt testing the model\'s ability to handle dense crowds.',
+    description: 'Dense crowd seeking game image featuring all Star Wars characters.',
     category: Category.ART,
     tags: ['Creative', 'Crowd', 'Star Wars', 'Fun'],
     content: 'A where is waldo image showing all Star Wars characters on Tatooine\n\nFirst one to pull this off. First take. Even Waldo is there.',
     expectedOutput: 'A prompt for a crowded "Where\'s Waldo" style image.',
-    usage: 'A fun, experimental prompt. You can replace "Star Wars" and "Tatooine" with other franchises (e.g., "Harry Potter" with "Hogwarts").',
-    previewImageUrl: '/previews/waldo-starwars.png'
+    usage: 'Fun prompt. You can replace "Star Wars" and "Tatooine" with other franchises (e.g., "Harry Potter" at "Hogwarts").',
+    // previewImageUrl: '/previews/waldo-starwars.png'
   },
   {
     id: '28',
@@ -440,6 +441,6 @@ Current Codebase/Site Structure:
     content: 'Create a high-quality, realistic 3D render of exactly one instance of the object: [OBJECT NAME].\nThe object must float freely in mid-air and be gently tilted and rotated in 3D space (not front-facing).\nUse a soft, minimalist dark background in a clean 1080×1080 composition.\nLeft Half — Full Realism\nThe left half of the object should appear exactly as it looks in real life\n— accurate materials, colors, textures, reflections, and proportions.\nThis half must be completely opaque with no transparency and no wireframe overlay.\nNo soft transition, no fading, no blending.\nRight Half — Hard Cut Wireframe Interior\nThe right half must switch cleanly to a wireframe interior diagram.\nThe boundary between the two halves must be a perfectly vertical, perfectly sharp, crisp cut line, stretching straight from the top edge to the bottom edge of the object.\nNo diagonal edges, no curved slicing, no gradient.\nThe wireframe must use only two line colors:\nPrimary: white (≈80% of all lines)\nSecondary: a color sampled from the dominant color of the realistic half (<20% of lines)\nThe wireframe lines must be thin, precise, aligned, and engineering-style.\nEvery wireframe component must perfectly match the geometry of the object.\nStrict Single-Object Rule\nRender only ONE object in the entire frame.  Render only one physical object.\nDo NOT show a second object from any angle. Do NOT show a second object for comparison or display purposes.\nOnly one single object is allowed in the entire frame.\nThe object must appear alone, floating.\nPose & Lighting:\nApply a natural, subtle tilt + rotation in 3D.',
     expectedOutput: 'A complex prompt for split-view 3D rendering.',
     usage: 'Replace [OBJECT NAME] with a specific product (e.g., "Orange iPhone 17 Pro" or "Nike Air Jordan").',
-    previewImageUrl: '/previews/3d-split.png'
+    previewImageUrl: '/previews/3d-split.webp'
   }
 ];

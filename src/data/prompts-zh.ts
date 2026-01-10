@@ -314,7 +314,8 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     content: 'Keep the facial features of the person in the uploaded image exactly consistent . Dress them in a professional navy blue business suit with a white shirt, similar to the reference image. Background : Place the subject against a clean, solid dark gray studio photography backdrop . The background should have a subtle gradient , slightly lighter behind the subject and darker towards the edges (vignette effect). There should be no other objects. Photography Style : Shot on a Sony A7III with an 85mm f/1.4 lens , creating a flattering portrait compression. Lighting : Use a classic three-point lighting setup . The main key light should create soft, defining shadows on the face. A subtle rim light should separate the subject\'s shoulders and hair from the dark background. Crucial Details : Render natural skin texture with visible pores , not an airbrushed look. Add natural catchlights to the eyes . The fabric of the suit should show a subtle wool texture.Final image should be an ultra-realistic, 8k professional headshot.',
     chineseContent: '保持上传图片中人物的面部特征完全一致。让他们穿上专业的深蓝色商务西装搭配白衬衫，类似于参考图片。背景：将主体置于干净、纯深灰色的摄影棚背景前。背景应有微妙的渐变，主体后方稍亮，边缘较暗（晕影效果）。不应有其他物体。摄影风格：使用 Sony A7III 搭配 85mm f/1.4 镜头拍摄，营造出讨喜的人像压缩感。灯光：使用经典的三点布光。主光应在脸上投下柔和、轮廓分明的阴影。微妙的轮廓光应将主体的肩膀和头发与黑暗背景分离开来。关键细节：渲染可见毛孔的自然皮肤纹理，而不是喷枪处理的外观。在眼睛中添加自然眼神光。西装面料应显示出微妙的羊毛质感。最终图像应为超写实、8k 专业头像。',
     expectedOutput: 'A professional headshot generation prompt.',
-    usage: '专为“换脸”或“图生图”工作流设计。如果是文生图，请将“person in the uploaded image”（上传图片中的人）替换为具体的人物描述。'
+    usage: '专为“换脸”或“图生图”工作流设计。如果是文生图，请将“person in the uploaded image”（上传图片中的人）替换为具体的人物描述。',
+    // previewImageUrl: '/previews/silicon-valley.png'
   },
   {
     id: '15',
@@ -326,7 +327,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     chineseContent: '保持上传图片中人物的面部特征完全一致。风格：使用柯达 Portra 400 胶卷拍摄的电影感、情感肖像。场景：黄金时段（日落）的城市街道咖啡馆橱窗。温暖、怀旧的光线打在脸侧。氛围：应用微妙的胶片颗粒和柔焦，营造梦幻、叙事般的氛围。动作：主体稍微看向镜头外，手持咖啡杯，表情放松、自然。细节：高质量，景深，城市灯光的散景背景。',
     expectedOutput: 'A prompt for emotional film photography style.',
     usage: '模拟柯达 Portra 400 胶卷质感。非常适合创作情绪化、电影感的肖像名。',
-    previewImageUrl: '/previews/emotional-film.png'
+    // previewImageUrl: '/previews/emotional-film.png'
   },
   {
     id: '16',
@@ -428,7 +429,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     chineseContent: '使用附件照片的面部特征。一张紧凑型佳能数码相机屏幕上显示的年轻女子的特写镜头。相机机身围绕着图像，可见其按钮、拨盘和纹理表面，包括 FUNC/SET 轮、DISP 按钮和侧面的“IMAGE STABILIZER”标签。屏幕上的照片显示女子在夜间室内，被明亮的内置闪光灯照亮，在她的脸和头发上产生锐利的高光。她留着长长的黑发，几缕松散的发丝垂在脸上，表情柔和，嘴唇微张。闪光灯在昏暗、杂乱的厨房背景（电器、架子和金属表面柔和模糊）的衬托下突出了她的特征。这种情绪是坦率的、原始的、怀旧的，让人想起 2000 年代初的数码相机快照。颜色略微柔和，带有冷色调，强烈的闪光对比，以及显示屏自然的颗粒感。照片预览本身内部没有文字，没有徽标。',
     expectedOutput: 'A detailed prompt for simulating a camera screen view.',
     usage: '创建“画中画”效果。你可以将“young woman”（年轻女子）更改为其他主体。',
-    previewImageUrl: '/previews/camera-screen.png'
+    previewImageUrl: '/previews/DM_20260110111659_001.webp'
   },
   {
     id: '25',
@@ -440,7 +441,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     chineseContent: '一张光面杂志封面的照片，封面上写着巨大的粗体字“[MAGAZINE TITLE]”。文字采用衬线字体，白底黑字，占据了整个视野。没有其他文字。\n\n在文字前方是一张身着高端时尚服装的[SUBJECT DESCRIPTION]的动态肖像。\n\n在角落放上期号和今天的日期，以及条形码和价格。杂志放在靠墙的白色架子上。',
     expectedOutput: 'A prompt for a magazine cover design.',
     usage: '将 [MAGAZINE TITLE]（例如 "VOGUE"）和 [SUBJECT DESCRIPTION] 替换为你想要的内容。',
-    previewImageUrl: '/previews/magazine-cover.png'
+    // previewImageUrl: '/previews/magazine-cover.png'
   },
   {
     id: '26',
@@ -452,7 +453,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     chineseContent: '产品：\n[BRAND] [PRODUCT NAME] - [瓶形], [标签描述], [液体颜色]\n\n场景：\n漂浮在深色水面上的奢华产品拍摄，周围布置着[颜色]的[花卉类型]。\n[灯光风格 - 例如，“黄金时刻的光辉” / “明亮清新的光线”]在水面上产生反射和涟漪。\n\n情绪与风格：\n[形容词 - 例如，“空灵奢华” / “清新干净”]，高端商业摄影，[拍摄角度]，浅景深配柔和散景背景',
     expectedOutput: 'A template prompt for luxury product photography.',
     usage: '填写括号内的部分，如 [BRAND], [PRODUCT NAME] 和 [flower type]，以生成产品照片。',
-    previewImageUrl: '/previews/product-lux.png'
+    previewImageUrl: '/previews/DM_20260110113438_001.webp'
   },
   {
     id: '27',
@@ -464,7 +465,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     chineseContent: '一张“威利在哪里”风格的图片，展示了塔图因星球上的所有星球大战角色。\n\n第一个做到的。一次成功。甚至威利也在那里。',
     expectedOutput: 'A prompt for a crowded "Where\'s Waldo" style image.',
     usage: '有趣的提示词。你可以将“星球大战”和“塔图因”替换为其他特许经营权（例如，“霍格沃茨”的“哈利波特”）。',
-    previewImageUrl: '/previews/waldo-starwars.png'
+    // previewImageUrl: '/previews/waldo-starwars.png'
   },
   {
     id: '28',
@@ -487,7 +488,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     chineseContent: '一只橘猫坐在办公椅上举着 iPad 的递归图像。在 iPad 上是同一只猫在同一场景中举着同一个 iPad。在每个 iPad 上重复。',
     expectedOutput: 'A prompt for a recursive visual effect.',
     usage: '“德罗特效应”。将“orange cat”（橘猫）更改为任何其他主体。',
-    previewImageUrl: '/previews/recursive-cat.png'
+    // previewImageUrl: '/previews/recursive-cat.png'
   },
   {
     id: '30',
@@ -554,6 +555,6 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     chineseContent: '创建对象：[OBJECT NAME] 的高质量、逼真 3D 渲染，且仅渲染一个实例。\n物体必须在半空中自由漂浮，并在 3D 空间中轻微倾斜和旋转（非正面朝向）。\n在干净的 1080×1080 构图中使用柔和、简约的深色背景。\n左半部分 — 全写实\n物体的左半部分应与现实生活中的样子完全一致\n——准确的材质、颜色、纹理、反射和比例。\n这一半必须完全不透明，没有透明度，也没有线框覆盖。\n没有柔和过渡，没有褪色，没有混合。\n右半部分 — 硬切线框内部\n右半部分必须干净利落地切换到线框内部图。\n两半之间的边界必须是一条完美垂直、完美锐利、清晰的切割线，从物体的顶部边缘一直延伸到底部边缘。\n没有对角边缘，没有弯曲切片，没有渐变。\n线框只能使用两种线条颜色：\n主色：白色（约占所有线条的 80%）\n次色：从写实半部分的主色中采样的颜色（<20% 的线条）\n线框线条必须细、精确、对齐，具有工程风格。\n每个线框组件必须与物体的几何形状完美匹配。\n严格的单对象规则\n在整个框架中仅渲染一个对象。仅渲染一个物理对象。\n不要从任何角度显示第二个对象。不要将第二个对象显示为反射、阴影、轮廓、轮廓、重影或透明度。不要显示第二个对象以进行比较或展示。\n在整个框架中仅允许一个对象。\n物体必须单独出现，漂浮。\n姿势与灯光：\n在 3D 中应用自然、微妙的倾斜 + 旋转。',
     expectedOutput: 'A complex prompt for split-view 3D rendering.',
     usage: '将 [OBJECT NAME] 替换为特定产品（例如，“橙色 iPhone 17 Pro”或“Nike Air Jordan”）。',
-    previewImageUrl: '/previews/3d-split.png'
+    previewImageUrl: '/previews/3d-split.webp'
   }
 ];
