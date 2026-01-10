@@ -177,7 +177,7 @@ Current Codebase/Site Structure:
     content: 'Create a hyper-realistic, ultra-sharp, full-color large-format image featuring a massive group of celebrities from different eras, all standing together in a single wide cinematic frame. The image must look like a perfectly photographed editorial cover with impeccable lighting, lifelike skin texture, micro-details of hair, pores, reflections, and fabric fibers.\n\nGENERAL STYLE & MOOD: Photorealistic, 8k, shallow depth of field, soft natural fill light + strong golden rim light. High dynamic range, calibrated color grading. Skin tones perfectly accurate. Crisp fabric detail with individual threads visible. Balanced composition, slightly wide-angle lens (35mm), center-weighted. All celebrities interacting naturally, smiling, posing, or conversing. Minimal background noise, but with enough world-building to feel real.\n\nTHE ENVIRONMENT: A luxurious open-air rooftop terrace at sunset overlooking a modern city skyline. Elements include: Warm golden light wrapping around silhouettes. Polished marble.',
     expectedOutput: 'A detailed prompt for generating a hyper-realistic crowd image.',
     usage: 'This prompt is designed for high-end image generation models like Midjourney or Flux. You can change "celebrities from different eras" to a specific group like "Marvel Superheroes" or "Tech CEOs".',
-    previewImageUrl: '/previews/crowd.png'
+    previewImageUrl: '/previews/hyper-realistic-crowd.png'
   },
   {
     id: '11',
@@ -189,7 +189,7 @@ Current Codebase/Site Structure:
     "device": {\n      "type": "smartphone",\n      "details": "patterned case"\n    }\n  },\n  "photography": {\n    "camera_style": "early-2000s digital camera aesthetic",\n    "lighting": "harsh super-flash with bright blown-out highlights but subject still visible",\n    "angle": "mirror selfie",\n    "shot_type": "tight selfie composition",\n    "texture": "subtle grain, retro highlights, V6 realism, crisp details, soft shadows"\n  },\n  "background": {\n    "setting": "nostalgic early-2000s bedroom",\n    "wall_color": "pastel tones",\n    "elements": [\n      "chunky wooden dresser",\n      "CD player",\n      "posters of 2000s pop icons",\n      "hanging beaded door curtain",\n      "cluttered vanity with lip glosses"\n    ],\n    "atmosphere": "authentic 2000s nostalgic vibe",\n    "lighting": "retro"\n  }\n}',
     expectedOutput: 'A structured JSON prompt for generating a 2000s style mirror selfie.',
     usage: 'Provides precise control using JSON structure. Edit the hair and clothing in the "subject" field to match your desired look.',
-    previewImageUrl: '/previews/vibe-2000s.png'
+    previewImageUrl: '/previews/y2k-mirror-selfie.png'
   },
   {
     id: '12',
@@ -200,7 +200,7 @@ Current Codebase/Site Structure:
     content: 'Create a glamorous photoshoot in the style of Victoria\'s Secret. A young woman attached in the uploaded reference image ( Keep the face of the person 100% accurate from the reference image ) stands almost sideways, slightly bent forward, during the final preparation for the show. Makeup artists apply lipstick to her (only her hands are visible in the frame). She is wearing a corset decorated with beaded embroidery and crystals with a short fluffy skirt, as well as large feather wings. The image has a "backstage" effect.\n\nThe background is a darkly lit room, probably under the podium. The main emphasis is on the girl\'s face and the details of her costume. Emphasize the expressiveness of the gaze and the luxurious look of the outfit. The photo is lit by a flash from the camera, which emphasizes the shine of the beads and crystals on the corset, as well as the girl\'s shiny skin. Victoria\'s Secret style: sensuality, luxury, glamour. Very detailed. Important: do not change the face.',
     expectedOutput: 'A detailed description for a high-fashion backstage photo.',
     usage: 'Best used with "Image-to-Image" features. If generating from text only, remove the references to "uploaded reference image".',
-    previewImageUrl: '/previews/backstage.png'
+    previewImageUrl: '/previews/backstage-fashion.png'
   },
   {
     id: '13',
@@ -211,7 +211,7 @@ Current Codebase/Site Structure:
     content: 'Without changing her original face, create a portrait of a beautiful young woman with porcelain-white skin, captured with a 1990s-style camera using a direct front flash. Her messy dark brown hair is tied up, posing with a calm yet playful smile. She wears a modern oversized cream sweater. The background is a dark white wall covered with aesthetic magazine posters and stickers, evoking a cozy bedroom or personal room atmosphere under dim lighting. The 35mm lens flash creates a nostalgic glow.',
     expectedOutput: 'A prompt for a 90s style flash photography portrait.',
     usage: 'Focuses on the "direct flash" aesthetic. You can change "young woman" to any subject description.',
-    previewImageUrl: '/previews/film-90s.png'
+    previewImageUrl: '/previews/90s-film-portrait.png'
   },
   {
     id: '14',
@@ -222,7 +222,7 @@ Current Codebase/Site Structure:
     content: 'Keep the facial features of the person in the uploaded image exactly consistent . Dress them in a professional navy blue business suit with a white shirt, similar to the reference image. Background : Place the subject against a clean, solid dark gray studio photography backdrop . The background should have a subtle gradient , slightly lighter behind the subject and darker towards the edges (vignette effect). There should be no other objects. Photography Style : Shot on a Sony A7III with an 85mm f/1.4 lens , creating a flattering portrait compression. Lighting : Use a classic three-point lighting setup . The main key light should create soft, defining shadows on the face. A subtle rim light should separate the subject\'s shoulders and hair from the dark background. Crucial Details : Render natural skin texture with visible pores , not an airbrushed look. Add natural catchlights to the eyes . The fabric of the suit should show a subtle wool texture.Final image should be an ultra-realistic, 8k professional headshot.',
     expectedOutput: 'A professional headshot generation prompt.',
     usage: 'Designed for "Face Swap" or "Image-to-Image" workflows. For text-to-image, replace "person in the uploaded image" with a specific person description.',
-    previewImageUrl: '/previews/silicon-valley.png'
+    previewImageUrl: '/previews/silicon-valley-style.webp'
   },
   {
     id: '15',
@@ -244,7 +244,7 @@ Current Codebase/Site Structure:
     content: '"A professional, high-resolution profile photo, maintaining the exact facial structure, identity, and key features of the person in the input image. The subject is framed from the chest up, with ample headroom. The person looks directly at the camera. They are styled for a professional photo studio shoot, wearing a premium smart casual blazer in a subtle charcoal gray. The background is a solid \'#562226\' neutral studio color. Shot from a high angle with bright and airy soft, diffused studio lighting, gently illuminating the face and creating a subtle catchlight in the eyes, conveying a sense of clarity. Captured on an 85mm f/1.8 lens with a shallow depth of field, exquisite focus on the eyes, and beautiful, soft bokeh. Observe crisp detail on the fabric texture of the blazer, individual strands of hair, and natural, realistic skin texture. The atmosphere exudes confidence, professionalism, and approachability. Clean and bright cinematic color grading with subtle warmth and balanced tones, ensuring a polished and contemporary feel."',
     expectedOutput: 'A detailed prompt for professional profile photos.',
     usage: 'Use this to upgrade a casual selfie into a LinkedIn-ready headshot. Requires an input image.',
-    previewImageUrl: '/previews/business-headshot.png'
+    previewImageUrl: '/previews/professional-headshot.png'
   },
   {
     id: '17',
@@ -326,7 +326,7 @@ Current Codebase/Site Structure:
     content: 'Use facial feature of attached photo. A close-up shot of a young woman displayed on the screen of a compact Canon digital camera. The camera body surrounds the image with its buttons, dials, and textured surface visible, including the FUNC/SET wheel, DISP button, and the "IMAGE STABILIZER" label along the side. The photo on the screen shows the woman indoors at night, illuminated by a bright built-in flash that creates sharp highlights on her face and hair. She has long dark hair falling across part of her face in loose strands, with a soft, slightly open-lip expression. The flash accentuates her features against a dim, cluttered kitchen background with appliances, shelves, and metallic surfaces softly blurred. The mood is candid, raw, nostalgic, and reminiscent of early 2000s digital camera snapshots. Colors are slightly muted with cool undertones, strong flash contrast, and natural grain from the display. No text, no logos inside the photo preview itself.\n\nScale ratio: 4:5 vertical\n\nCamera: compact digital camera simulation\nLens: equivalent to 28–35mm\nAperture: f/2.8\nISO: 400\nShutter speed: 1/60 with flash\nWhite balance: auto flash\nLighting: harsh direct flash on subject, ambient low light in the background\nColor grading: nostalgic digital-camera tones, high contrast flash, subtle display grain, authentic screen glow.',
     expectedOutput: 'A detailed prompt for simulating a camera screen view.',
     usage: 'Creates a "picture within a picture" effect. You can change "young woman" to any other subject.',
-    previewImageUrl: '/previews/DM_20260110111659_001.webp'
+    previewImageUrl: '/previews/camera-screen-playback.webp'
   },
   {
     id: '25',
@@ -348,7 +348,7 @@ Current Codebase/Site Structure:
     content: 'Product:\n[BRAND] [PRODUCT NAME] - [bottle shape], [label description], [liquid color]\n\nScene:\nLuxury product shot floating on dark water with [flower type] in [colors] arranged around it.\n[Lighting style - e.g., "golden hour glow" /\n"bright fresh light"] creates reflections and ripples across the water.\n\nMood & Style:\n[Adjectives - e.g., "ethereal and luxurious" /\n"fresh and clean"], high-end commercial photography, [camera angle], shallow depth of field with soft bokeh background',
     expectedOutput: 'A template prompt for luxury product photography.',
     usage: 'Fill in the bracketed sections like [BRAND], [PRODUCT NAME], and [flower type] to generate product photos.',
-    previewImageUrl: '/previews/DM_20260110113438_001.webp'
+    previewImageUrl: '/previews/luxury-product-photography.webp'
   },
   {
     id: '27',
@@ -441,6 +441,6 @@ Current Codebase/Site Structure:
     content: 'Create a high-quality, realistic 3D render of exactly one instance of the object: [OBJECT NAME].\nThe object must float freely in mid-air and be gently tilted and rotated in 3D space (not front-facing).\nUse a soft, minimalist dark background in a clean 1080×1080 composition.\nLeft Half — Full Realism\nThe left half of the object should appear exactly as it looks in real life\n— accurate materials, colors, textures, reflections, and proportions.\nThis half must be completely opaque with no transparency and no wireframe overlay.\nNo soft transition, no fading, no blending.\nRight Half — Hard Cut Wireframe Interior\nThe right half must switch cleanly to a wireframe interior diagram.\nThe boundary between the two halves must be a perfectly vertical, perfectly sharp, crisp cut line, stretching straight from the top edge to the bottom edge of the object.\nNo diagonal edges, no curved slicing, no gradient.\nThe wireframe must use only two line colors:\nPrimary: white (≈80% of all lines)\nSecondary: a color sampled from the dominant color of the realistic half (<20% of lines)\nThe wireframe lines must be thin, precise, aligned, and engineering-style.\nEvery wireframe component must perfectly match the geometry of the object.\nStrict Single-Object Rule\nRender only ONE object in the entire frame.  Render only one physical object.\nDo NOT show a second object from any angle. Do NOT show a second object for comparison or display purposes.\nOnly one single object is allowed in the entire frame.\nThe object must appear alone, floating.\nPose & Lighting:\nApply a natural, subtle tilt + rotation in 3D.',
     expectedOutput: 'A complex prompt for split-view 3D rendering.',
     usage: 'Replace [OBJECT NAME] with a specific product (e.g., "Orange iPhone 17 Pro" or "Nike Air Jordan").',
-    previewImageUrl: '/previews/3d-split.webp'
+    previewImageUrl: '/previews/3d-split-view.webp'
   }
 ];

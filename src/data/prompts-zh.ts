@@ -267,7 +267,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     chineseContent: '创建一个超写实、超清晰的全彩大画幅图像，展示一大群来自不同时代的名人，他们都站在同一个宽阔的电影画面中。该图像必须看起来像一张拍摄完美的杂志封面，拥有无可挑剔的灯光、逼真的皮肤纹理，以及头发、毛孔、反射和织物纤维的微观细节。\n\n整体风格与基调：照片级写实，8k，浅景深，柔和的自然补光 + 强烈的金色轮廓光。高动态范围，经过校准的色彩分级。肤色完全准确。清晰的织物细节，单根线清晰可见。平衡的构图，稍广角镜头（35mm），中心加权。所有名人自然互动，微笑、摆姿势或交谈。背景噪音极小，但有足够的世界构建感。\n\n环境：日落时分，俯瞰现代城市天际线的豪华露天屋顶露台。元素包括：包裹剪影的温暖金光。抛光大理石。',
     expectedOutput: 'A detailed prompt for generating a hyper-realistic crowd image.',
     usage: '此提示词专为高端图像生成模型（如 Midjourney 或 Flux）设计。你可以将“来自不同时代的名人”修改为特定群体，如“漫威超级英雄”或“科技公司 CEO”。',
-    previewImageUrl: '/previews/crowd.png'
+    previewImageUrl: '/previews/hyper-realistic-crowd.png'
   },
   {
     id: '11',
@@ -279,7 +279,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     chineseContent: '创建一个使用 Gemini PromptMaster 的 2000 年代镜面自拍。\n\n（这是一个 JSON 格式的结构化提示词，包含主题描述、配件、摄影风格和背景设置。中文用户请直接复制英文 JSON 使用，以确保模型正确解析。）',
     expectedOutput: 'A structured JSON prompt for generating a 2000s style mirror selfie.',
     usage: '使用 JSON 结构进行精确控制。编辑 "subject"（主体）字段中的 hair（头发）和 clothing（服装）以匹配你想要的外观。',
-    previewImageUrl: '/previews/vibe-2000s.png'
+    previewImageUrl: '/previews/y2k-mirror-selfie.png'
   },
   {
     id: '12',
@@ -291,7 +291,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     chineseContent: '以维多利亚的秘密风格创作一张迷人的照片。上传参考图片中的年轻女子（保持人物面部与参考图片 100% 准确）几乎侧身站立，身体微前倾，正在进行走秀前的最后准备。化妆师正在为她涂口红（画面中只见手）。她穿着一件饰有珠绣和水晶的紧身胸衣，搭配一条蓬松短裙，还戴着巨大的羽毛翅膀。图像具有“后台”效果。\n\n背景是一个光线昏暗的房间，可能在舞台下方。主要重点是女孩的脸和服装细节。强调眼神的表现力和服装的奢华感。照片由相机闪光灯照亮，突出了紧身胸衣上珠子和水晶的光泽，以及女孩闪亮的皮肤。维多利亚的秘密风格：性感、奢华、魅力。非常详细。重要：不要改变面部。',
     expectedOutput: 'A detailed description for a high-fashion backstage photo.',
     usage: '最好配合“图生图”功能使用。如果仅通过文本生成，请删除关于“uploaded reference image”（上传参考图片）的引用。',
-    previewImageUrl: '/previews/backstage.png'
+    previewImageUrl: '/previews/backstage-fashion.png'
   },
   {
     id: '13',
@@ -303,11 +303,11 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     chineseContent: '在不改变她原有面貌的前提下，创作一幅皮肤白皙如瓷的美丽年轻女子的肖像，使用 90 年代风格的相机和正面直闪拍摄。她凌乱的深棕色头发扎了起来，带着平静而顽皮的微笑摆姿势。她穿着一件现代超大号米色毛衣。背景是一面贴满美学杂志海报和贴纸的暗白色墙壁，在昏暗的灯光下营造出舒适的卧室或个人房间的氛围。35mm 镜头闪光灯营造出怀旧的光辉。',
     expectedOutput: 'A prompt for a 90s style flash photography portrait.',
     usage: '专注于“直接闪光”美学。你可以将“young woman”（年轻女子）更改为任何主体描述。',
-    previewImageUrl: '/previews/film-90s.png'
+    previewImageUrl: '/previews/90s-film-portrait.png'
   },
   {
     id: '14',
-    title: '硅谷风格商务照',
+    title: '一键生成商务照（硅谷风格）',
     description: '使用特定的镜头和灯光指令将休闲照片转变为专业的工作室头像。',
     category: Category.COMMERCIAL,
     tags: ['Photography', 'Business', 'Headshot', 'Professional'],
@@ -315,7 +315,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     chineseContent: '保持上传图片中人物的面部特征完全一致。让他们穿上专业的深蓝色商务西装搭配白衬衫，类似于参考图片。背景：将主体置于干净、纯深灰色的摄影棚背景前。背景应有微妙的渐变，主体后方稍亮，边缘较暗（晕影效果）。不应有其他物体。摄影风格：使用 Sony A7III 搭配 85mm f/1.4 镜头拍摄，营造出讨喜的人像压缩感。灯光：使用经典的三点布光。主光应在脸上投下柔和、轮廓分明的阴影。微妙的轮廓光应将主体的肩膀和头发与黑暗背景分离开来。关键细节：渲染可见毛孔的自然皮肤纹理，而不是喷枪处理的外观。在眼睛中添加自然眼神光。西装面料应显示出微妙的羊毛质感。最终图像应为超写实、8k 专业头像。',
     expectedOutput: 'A professional headshot generation prompt.',
     usage: '专为“换脸”或“图生图”工作流设计。如果是文生图，请将“person in the uploaded image”（上传图片中的人）替换为具体的人物描述。',
-    // previewImageUrl: '/previews/silicon-valley.png'
+    previewImageUrl: '/previews/silicon-valley-style.webp'
   },
   {
     id: '15',
@@ -339,7 +339,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     chineseContent: '“一张专业、高分辨率的个人资料照片，保持输入图像中人物的确切面部结构、身份和关键特征。主体取景从胸部以上，头顶留有充足空间。人物直视镜头。造型为专业摄影棚拍摄，穿着高级商务休闲西装外套，颜色为微妙的炭灰色。背景是纯色 \'#562226\' 中性摄影棚色。从高角度拍摄，明亮通风的柔和漫射演播室灯光，轻柔地照亮脸部并在眼睛中营造出微妙的眼神光，传达清晰感。使用 85mm f/1.8 镜头拍摄，浅景深，焦点精准在眼睛上，拥有美丽的柔和散景。观察西装外套面料纹理、单根头发和自然逼真皮肤纹理的清晰细节。氛围散发出自信、专业和亲和力。干净明亮的电影级调色，带有微妙的温暖和平衡的色调，确保精致和现代的感觉。”',
     expectedOutput: 'A detailed prompt for professional profile photos.',
     usage: '使用此提示词将随意自拍升级为 LinkedIn 适用的照片。需要输入图像。',
-    previewImageUrl: '/previews/business-headshot.png'
+    previewImageUrl: '/previews/professional-headshot.png'
   },
   {
     id: '17',
@@ -429,7 +429,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     chineseContent: '使用附件照片的面部特征。一张紧凑型佳能数码相机屏幕上显示的年轻女子的特写镜头。相机机身围绕着图像，可见其按钮、拨盘和纹理表面，包括 FUNC/SET 轮、DISP 按钮和侧面的“IMAGE STABILIZER”标签。屏幕上的照片显示女子在夜间室内，被明亮的内置闪光灯照亮，在她的脸和头发上产生锐利的高光。她留着长长的黑发，几缕松散的发丝垂在脸上，表情柔和，嘴唇微张。闪光灯在昏暗、杂乱的厨房背景（电器、架子和金属表面柔和模糊）的衬托下突出了她的特征。这种情绪是坦率的、原始的、怀旧的，让人想起 2000 年代初的数码相机快照。颜色略微柔和，带有冷色调，强烈的闪光对比，以及显示屏自然的颗粒感。照片预览本身内部没有文字，没有徽标。',
     expectedOutput: 'A detailed prompt for simulating a camera screen view.',
     usage: '创建“画中画”效果。你可以将“young woman”（年轻女子）更改为其他主体。',
-    previewImageUrl: '/previews/DM_20260110111659_001.webp'
+    previewImageUrl: '/previews/camera-screen-playback.webp'
   },
   {
     id: '25',
@@ -453,7 +453,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     chineseContent: '产品：\n[BRAND] [PRODUCT NAME] - [瓶形], [标签描述], [液体颜色]\n\n场景：\n漂浮在深色水面上的奢华产品拍摄，周围布置着[颜色]的[花卉类型]。\n[灯光风格 - 例如，“黄金时刻的光辉” / “明亮清新的光线”]在水面上产生反射和涟漪。\n\n情绪与风格：\n[形容词 - 例如，“空灵奢华” / “清新干净”]，高端商业摄影，[拍摄角度]，浅景深配柔和散景背景',
     expectedOutput: 'A template prompt for luxury product photography.',
     usage: '填写括号内的部分，如 [BRAND], [PRODUCT NAME] 和 [flower type]，以生成产品照片。',
-    previewImageUrl: '/previews/DM_20260110113438_001.webp'
+    previewImageUrl: '/previews/luxury-product-photography.webp'
   },
   {
     id: '27',
@@ -555,6 +555,6 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     chineseContent: '创建对象：[OBJECT NAME] 的高质量、逼真 3D 渲染，且仅渲染一个实例。\n物体必须在半空中自由漂浮，并在 3D 空间中轻微倾斜和旋转（非正面朝向）。\n在干净的 1080×1080 构图中使用柔和、简约的深色背景。\n左半部分 — 全写实\n物体的左半部分应与现实生活中的样子完全一致\n——准确的材质、颜色、纹理、反射和比例。\n这一半必须完全不透明，没有透明度，也没有线框覆盖。\n没有柔和过渡，没有褪色，没有混合。\n右半部分 — 硬切线框内部\n右半部分必须干净利落地切换到线框内部图。\n两半之间的边界必须是一条完美垂直、完美锐利、清晰的切割线，从物体的顶部边缘一直延伸到底部边缘。\n没有对角边缘，没有弯曲切片，没有渐变。\n线框只能使用两种线条颜色：\n主色：白色（约占所有线条的 80%）\n次色：从写实半部分的主色中采样的颜色（<20% 的线条）\n线框线条必须细、精确、对齐，具有工程风格。\n每个线框组件必须与物体的几何形状完美匹配。\n严格的单对象规则\n在整个框架中仅渲染一个对象。仅渲染一个物理对象。\n不要从任何角度显示第二个对象。不要将第二个对象显示为反射、阴影、轮廓、轮廓、重影或透明度。不要显示第二个对象以进行比较或展示。\n在整个框架中仅允许一个对象。\n物体必须单独出现，漂浮。\n姿势与灯光：\n在 3D 中应用自然、微妙的倾斜 + 旋转。',
     expectedOutput: 'A complex prompt for split-view 3D rendering.',
     usage: '将 [OBJECT NAME] 替换为特定产品（例如，“橙色 iPhone 17 Pro”或“Nike Air Jordan”）。',
-    previewImageUrl: '/previews/3d-split.webp'
+    previewImageUrl: '/previews/3d-split-view.webp'
   }
 ];
