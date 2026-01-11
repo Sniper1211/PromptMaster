@@ -23,13 +23,15 @@ const SEOHead: React.FC<SEOHeadProps> = ({
     noindex = false,
     structuredData
 }) => {
-    const { i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
     const currentLang = i18n.language.startsWith('zh') ? 'zh' : 'en';
 
     const baseUrl = 'https://pentaprompt.com';
     const defaultImage = `${baseUrl}/og-image.png`;
-    const defaultTitle = 'PentaPrompt - Best AI Prompt Library | ChatGPT, Claude & Gemini Prompts';
-    const defaultDescription = 'Discover 100+ curated AI prompts for ChatGPT, Claude, and Gemini. Browse prompts for writing, coding, marketing, education, and more. Free prompt library.';
+    
+    // Use translations for default TDK to ensure they match the current language
+    const defaultTitle = t('seo.home.title', 'PentaPrompt - Best AI Prompt Library | ChatGPT, Claude & Gemini Prompts');
+    const defaultDescription = t('seo.home.description', 'Discover 100+ curated AI prompts for ChatGPT, Claude, and Gemini.');
 
     const finalTitle = title || defaultTitle;
     const finalDescription = description || defaultDescription;

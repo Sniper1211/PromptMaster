@@ -75,7 +75,7 @@ const PromptDetailPage: React.FC = () => {
             <SEOHead
                 title={`${prompt.title} - PentaPrompt`}
                 description={prompt.description}
-                keywords={prompt.tags.join(", ")}
+                keywords={prompt.tags.slice(0, 8).join(", ")}
                 image={prompt.previewImageUrl ? `https://pentaprompt.com${prompt.previewImageUrl}` : undefined}
                 url={`https://pentaprompt.com/prompt/${prompt.id}`}
                 type="article"
