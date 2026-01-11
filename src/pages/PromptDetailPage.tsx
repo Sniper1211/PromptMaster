@@ -2,8 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Copy, Check, X, Search, Cpu, ArrowLeft, Tag, Layers, Calendar, ChevronRight, Share2, Info } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
 import { usePrompts } from '../hooks/usePrompts';
+import SEOHead from '../components/seo/SEOHead';
 import AdUnit from '../components/ads/AdUnit';
 import PromptCard from '../components/PromptCard';
 
@@ -60,7 +60,7 @@ const PromptDetailPage: React.FC = () => {
         "@type": "TechArticle",
         "headline": prompt.title,
         "description": prompt.description,
-        "image": prompt.previewImageUrl || "",
+        "image": prompt.previewImageUrl ? `https://pentaprompt.com${prompt.previewImageUrl}` : "",
         "articleSection": prompt.category,
         "keywords": prompt.tags.join(", "),
         "datePublished": "2024-01-01",
@@ -72,13 +72,15 @@ const PromptDetailPage: React.FC = () => {
 
     return (
         <>
-            <Helmet>
-                <title>{`${prompt.title} - PentaPrompt`}</title>
-                <meta name="description" content={prompt.description} />
-                <script type="application/ld+json">
-                    {JSON.stringify(jsonLd)}
-                </script>
-            </Helmet>
+            <SEOHead
+                title={`${prompt.title} - PentaPrompt`}
+                description={prompt.description}
+                keywords={prompt.tags.join(", ")}
+                image={prompt.previewImageUrl ? `https://pentaprompt.com${prompt.previewImageUrl}` : undefined}
+                url={`https://pentaprompt.com/prompt/${prompt.id}`}
+                type="article"
+                structuredData={jsonLd}
+            />
 
             <div className="min-h-screen bg-[#F8FAFC] font-sans text-slate-900 pb-32">
 
