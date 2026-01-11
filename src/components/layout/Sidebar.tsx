@@ -39,7 +39,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         <aside className="w-64 border-r-[3px] border-black bg-white flex flex-col h-screen overflow-y-auto custom-scrollbar shrink-0">
             {/* Brand */}
             <div className="p-6 border-b-[3px] border-black hover:bg-[#FACC15] transition-colors group cursor-pointer">
-                <h1 className="text-2xl font-black uppercase tracking-tighter group-hover:translate-x-[2px] group-hover:translate-y-[2px] transition-transform">PromptMaster</h1>
+                <h1 className="text-2xl font-black uppercase tracking-tighter group-hover:translate-x-[2px] group-hover:translate-y-[2px] transition-transform">PentaPrompt</h1>
             </div>
 
             {/* Search */}

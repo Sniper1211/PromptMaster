@@ -36,7 +36,7 @@ const PromptDetailPage: React.FC = () => {
             <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">
                 <div className="flex flex-col items-center gap-4">
                     <div className="w-12 h-12 border-[5px] border-black border-t-transparent rounded-full animate-spin"></div>
-                    <p className="font-bold text-slate-400 uppercase tracking-widest text-sm">Loading...</p>
+                    <p className="font-bold text-slate-400 uppercase tracking-widest text-sm">{t('promptDetail.loading')}</p>
                 </div>
             </div>
         );
@@ -45,10 +45,10 @@ const PromptDetailPage: React.FC = () => {
     if (!prompt) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center bg-[#F8FAFC] gap-6 text-center px-4">
-                <h2 className="text-4xl font-black uppercase italic">404 - Prompt Not Found</h2>
-                <p className="text-slate-600 max-w-md">The prompt you are looking for might have been moved or deleted.</p>
+                <h2 className="text-4xl font-black uppercase italic">{t('promptDetail.notFound')}</h2>
+                <p className="text-slate-600 max-w-md">{t('promptDetail.movedOrDeleted')}</p>
                 <Link to="/" className="px-8 py-3 bg-black text-white font-bold uppercase tracking-wide hover:bg-[#FF4D4D] transition-colors border-[3px] border-transparent hover:border-black">
-                    Return to Library
+                    {t('promptDetail.returnToLibrary')}
                 </Link>
             </div>
         );
@@ -66,14 +66,14 @@ const PromptDetailPage: React.FC = () => {
         "datePublished": "2024-01-01",
         "author": {
             "@type": "Organization",
-            "name": "PromptMaster"
+            "name": "PentaPrompt"
         }
     };
 
     return (
         <>
             <Helmet>
-                <title>{`${prompt.title} - PromptMaster`}</title>
+                <title>{`${prompt.title} - PentaPrompt`}</title>
                 <meta name="description" content={prompt.description} />
                 <script type="application/ld+json">
                     {JSON.stringify(jsonLd)}
@@ -87,11 +87,11 @@ const PromptDetailPage: React.FC = () => {
                     <div className="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
                         <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-slate-500 overflow-hidden">
                             <Link to="/" className="hover:text-black flex items-center gap-1 shrink-0 transition-colors">
-                                <Layers size={16} strokeWidth={2.5} /> Library
+                                <Layers size={16} strokeWidth={2.5} /> {t('nav.library')}
                             </Link>
                             <ChevronRight size={14} className="shrink-0 text-slate-300" />
                             <Link to={`/?category=${prompt.category}`} className="hover:text-black shrink-0 transition-colors">
-                                {prompt.category}
+                                {t(`categories.${prompt.category}`)}
                             </Link>
                             <ChevronRight size={14} className="shrink-0 text-slate-300" />
                             <span className="text-black truncate">{prompt.title}</span>
@@ -121,7 +121,7 @@ const PromptDetailPage: React.FC = () => {
 
                                 <div className="flex flex-wrap gap-3">
                                     <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-black text-white text-xs font-bold uppercase tracking-wider">
-                                        <Calendar size={12} /> Updated Today
+                                        <Calendar size={12} /> {t('promptDetail.updatedToday')}
                                     </span>
                                     {prompt.model && (
                                         <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-white border-[2px] border-black text-xs font-bold uppercase tracking-wider">
@@ -145,7 +145,7 @@ const PromptDetailPage: React.FC = () => {
                                             className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity cursor-zoom-in"
                                         >
                                             <div className="bg-white text-black px-4 py-2 font-bold uppercase text-sm border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] hover:translate-x-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all">
-                                                View Full Size
+                                                {t('promptDetail.viewFullSize')}
                                             </div>
                                         </button>
                                     </div>
@@ -161,10 +161,10 @@ const PromptDetailPage: React.FC = () => {
                             <div className="space-y-3">
                                 <div className="flex items-center justify-between">
                                     <h3 className="text-xl font-black uppercase italic tracking-tight flex items-center gap-2">
-                                        <div className="w-3 h-6 bg-[#8B5CF6]"></div> Prompt Content
+                                        <div className="w-3 h-6 bg-[#8B5CF6]"></div> {t('promptDetail.promptContent')}
                                     </h3>
                                     <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                                        {prompt.content.length} Characters
+                                        {prompt.content.length} {t('promptDetail.characters')}
                                     </span>
                                 </div>
 
@@ -181,7 +181,7 @@ const PromptDetailPage: React.FC = () => {
                                             className="text-white/70 hover:text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors"
                                         >
                                             {copied ? <Check size={14} className="text-green-400" /> : <Copy size={14} />}
-                                            {copied ? 'Copied' : 'Copy Raw'}
+                                            {copied ? t('promptDetail.copied') : t('promptDetail.copyRaw')}
                                         </button>
                                     </div>
 
@@ -200,7 +200,7 @@ const PromptDetailPage: React.FC = () => {
                             {prompt.usage && (
                                 <div className="bg-[#FEF9C3] border-[3px] border-black p-6 relative">
                                     <div className="absolute -top-3 -left-3 bg-black text-[#FEF9C3] px-3 py-1 font-black uppercase text-xs tracking-widest border-[2px] border-[#FEF9C3]">
-                                        Tips & Tricks
+                                        {t('promptDetail.tipsAndTricks')}
                                     </div>
                                     <p className="font-medium text-slate-900 leading-relaxed">
                                         {prompt.usage}
@@ -215,9 +215,9 @@ const PromptDetailPage: React.FC = () => {
                             {/* Primary Action Card */}
                             <div className="bg-white border-[3px] border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
                                 <div className="mb-6">
-                                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Category</p>
+                                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">{t('promptDetail.category')}</p>
                                     <Link to={`/?category=${prompt.category}`} className="text-2xl font-black uppercase italic hover:underline decoration-4 underline-offset-4 decoration-[#FACC15]">
-                                        {prompt.category}
+                                        {t(`categories.${prompt.category}`)}
                                     </Link>
                                 </div>
 
@@ -227,18 +227,18 @@ const PromptDetailPage: React.FC = () => {
                                 >
                                     {copied ? (
                                         <>
-                                            <Check size={24} strokeWidth={3} /> Copied!
+                                            <Check size={24} strokeWidth={3} /> {t('promptDetail.copied')}!
                                         </>
                                     ) : (
                                         <>
-                                            <Copy size={24} strokeWidth={3} className="group-hover:scale-110 transition-transform" /> Copy Prompt
+                                            <Copy size={24} strokeWidth={3} className="group-hover:scale-110 transition-transform" /> {t('promptDetail.copyPrompt')}
                                         </>
                                     )}
                                 </button>
 
                                 <div className="mt-4 pt-4 border-t-2 border-dashed border-gray-200 flex justify-center">
                                     <button className="text-slate-500 hover:text-black font-bold uppercase text-xs tracking-widest flex items-center gap-2 transition-colors">
-                                        <Share2 size={14} /> Share this prompt
+                                        <Share2 size={14} /> {t('promptDetail.sharePrompt')}
                                     </button>
                                 </div>
                             </div>
@@ -246,7 +246,7 @@ const PromptDetailPage: React.FC = () => {
                             {/* Tags */}
                             <div className="bg-[#F1F5F9] border-[3px] border-black p-6">
                                 <h3 className="text-sm font-black uppercase tracking-widest mb-4 flex items-center gap-2">
-                                    <Tag size={16} /> Related Keywords
+                                    <Tag size={16} /> {t('promptDetail.relatedKeywords')}
                                 </h3>
                                 <div className="flex flex-wrap gap-2">
                                     {prompt.tags.map(tag => (
@@ -271,10 +271,10 @@ const PromptDetailPage: React.FC = () => {
                         <div className="mt-24 pt-12 border-t-[3px] border-black">
                             <div className="flex items-center justify-between mb-8">
                                 <h2 className="text-3xl font-black uppercase italic tracking-tighter">
-                                    More from {prompt.category}
+                                    {t('promptDetail.moreFrom')} {t(`categories.${prompt.category}`)}
                                 </h2>
                                 <Link to={`/?category=${prompt.category}`} className="hidden md:flex items-center gap-2 font-bold uppercase tracking-wide hover:translate-x-1 transition-transform">
-                                    View All <ChevronRight size={16} strokeWidth={3} />
+                                    {t('promptDetail.viewAll')} <ChevronRight size={16} strokeWidth={3} />
                                 </Link>
                             </div>
 
@@ -286,7 +286,7 @@ const PromptDetailPage: React.FC = () => {
                                 </div>
                             ) : (
                                 <div className="py-12 text-center text-slate-400 font-bold uppercase tracking-widest">
-                                    No other prompts in this category found.
+                                    {t('promptDetail.noRelated')}
                                 </div>
                             )}
                         </div>

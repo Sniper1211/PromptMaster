@@ -1,8 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, Copy, Check, Eye, Code } from 'lucide-react';
+import { X, Copy, Check, Code, Terminal, Send } from 'lucide-react';
 
 import { Category, Prompt } from '../../types';
+import { submitPrompt } from '../../services/submissionService';
 
 interface AddPromptModalProps {
     onClose: () => void;
@@ -11,11 +12,10 @@ interface AddPromptModalProps {
 
 const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId }) => {
     const { t } = useTranslation();
-    const [activeTab, setActiveTab] = useState<'edit' | 'preview'>('edit');
     const [copied, setCopied] = useState(false);
-    const [isSaving, setIsSaving] = useState(false);
-    const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
-
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+    const [contactEmail, setContactEmail] = useState('');
 
     const [formData, setFormData] = useState<Partial<Prompt>>({
         id: nextId,
@@ -48,8 +48,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId }) => {
     };
 
     const generatedCode = useMemo(() => {
-        const { ...promptData } = formData;
-        return JSON.stringify(promptData, null, 2);
+        return JSON.stringify(formData, null, 2);
     }, [formData]);
 
     const handleCopy = () => {
@@ -58,293 +57,245 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId }) => {
         setTimeout(() => setCopied(false), 2000);
     };
 
-    const handleSave = async () => {
-        setIsSaving(true);
-        setSaveStatus('idle');
-        try {
-            const response = await fetch('/api/save-prompt', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: generatedCode,
-            });
+    const handleSubmit = async () => {
+        setIsSubmitting(true);
+        setSubmitStatus('idle');
 
-            if (response.ok) {
-                setSaveStatus('success');
-                setTimeout(() => {
-                    onClose();
-                    window.location.reload(); // Reload to see the new prompt
-                }, 1500);
-            } else {
-                setSaveStatus('error');
-            }
-        } catch (error) {
-            console.error('Save failed:', error);
-            setSaveStatus('error');
-        } finally {
-            setIsSaving(false);
+        const result = await submitPrompt({
+            title: formData.title || '',
+            category: formData.category || Category.CODING,
+            tags: formData.tags || [],
+            description: formData.description || '',
+            content: formData.content || '',
+            chineseContent: formData.chineseContent,
+            expectedOutput: formData.expectedOutput || '',
+            usage: formData.usage || '',
+            contact: contactEmail
+        });
+
+        setIsSubmitting(false);
+        if (result.success) {
+            setSubmitStatus('success');
+            setTimeout(() => {
+                onClose();
+            }, 2000);
+        } else {
+            setSubmitStatus('error');
         }
     };
 
-
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-black/40 backdrop-blur-sm">
-            <div className="bg-white border-[3px] border-black rounded-3xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden animate-in fade-in zoom-in duration-200">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-black/40 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="bg-white border-[3px] border-black max-w-6xl w-full h-[90vh] flex flex-col shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
 
                 {/* Header */}
-                <div className="p-6 border-b-[3px] border-black flex items-center justify-between bg-[#A5D8FF]">
+                <div className="p-4 md:p-6 border-b-[3px] border-black flex items-center justify-between bg-[#FACC15]">
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-black rounded-xl text-white">
-                            <Code size={24} />
+                        <div className="p-2 bg-black text-white shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">
+                            <Terminal size={24} strokeWidth={2.5} />
                         </div>
-                        <h2 className="text-2xl font-black italic uppercase tracking-tight">{t('addPrompt.title')}</h2>
+                        <div>
+                            <h2 className="text-xl md:text-2xl font-black uppercase italic tracking-tighter">JSON Generator</h2>
+                            <p className="text-xs font-bold uppercase tracking-widest opacity-70">Create & Export Prompt Data</p>
+                        </div>
                     </div>
                     <button
                         onClick={onClose}
-                        className="p-2 hover:bg-black/10 rounded-xl transition-colors border-[2.5px] border-transparent hover:border-black"
+                        className="p-2 hover:bg-black hover:text-white transition-colors border-[2.5px] border-black bg-white"
                     >
-                        <X size={24} strokeWidth={3} />
+                        <X size={20} strokeWidth={3} />
                     </button>
                 </div>
 
-                {/* Tabs */}
-                <div className="flex border-b-[3px] border-black bg-gray-50">
-                    <button
-                        onClick={() => setActiveTab('edit')}
-                        className={`flex-1 py-4 font-black uppercase italic tracking-wider flex items-center justify-center gap-2 transition-all ${activeTab === 'edit' ? 'bg-white' : 'hover:bg-black/5 border-r-[3px] border-black'}`}
-                    >
-                        <EditIcon size={18} /> {t('addPrompt.tabs.editor')}
-                    </button>
-                    <button
-                        onClick={() => setActiveTab('preview')}
-                        className={`flex-1 py-4 font-black uppercase italic tracking-wider flex items-center justify-center gap-2 transition-all ${activeTab === 'preview' ? 'bg-white' : 'hover:bg-black/5 border-l-[3px] border-black'}`}
-                    >
-                        <Eye size={18} /> {t('addPrompt.tabs.preview')}
-                    </button>
-                </div>
+                {/* Main Content - Split View */}
+                <div className="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
 
-                {/* Content */}
-                <div className="flex-1 overflow-y-auto p-6 custom-scrollbar bg-white">
-                    {activeTab === 'edit' ? (
-                        <div className="space-y-6">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {/* Basic Info */}
-                                <div className="space-y-4">
-                                    <div>
-                                        <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2">{t('addPrompt.form.title')}</label>
+                    {/* LEFT: Editor Form */}
+                    <div className="flex-1 overflow-y-auto p-6 bg-gray-50 custom-scrollbar border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-black">
+                        <div className="space-y-8 max-w-2xl mx-auto">
+
+                            {/* Section: Metadata */}
+                            <div className="space-y-4">
+                                <h3 className="text-sm font-black uppercase tracking-widest border-b-[2px] border-black pb-2">1. Metadata</h3>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="space-y-1">
+                                        <label className="text-xs font-bold uppercase">{t('addPrompt.form.title')}</label>
                                         <input
-                                            type="text"
                                             value={formData.title}
                                             onChange={e => setFormData({ ...formData, title: e.target.value })}
-                                            placeholder={t('addPrompt.form.titlePlaceholder')}
-                                            className="w-full bg-white border-[3px] border-black rounded-xl px-4 py-3 font-bold focus:outline-none focus:ring-0 focus:translate-x-[2px] focus:translate-y-[2px] transition-transform placeholder:text-slate-300"
+                                            className="w-full p-2 border-[2px] border-black font-bold focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:translate-x-[-2px] focus:translate-y-[-2px] transition-all outline-none"
+                                            placeholder="Prompt Title"
                                         />
                                     </div>
-
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2">{t('addPrompt.form.category')}</label>
-                                            <select
-                                                value={formData.category}
-                                                onChange={e => setFormData({ ...formData, category: e.target.value as Category })}
-                                                className="w-full bg-white border-[3px] border-black rounded-xl px-4 py-3 font-bold focus:outline-none focus:ring-0"
-                                            >
-                                                {Object.values(Category).filter(c => c !== Category.ALL).map(cat => (
-                                                    <option key={cat} value={cat}>{t(`categories.${cat}`)}</option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2">{t('addPrompt.form.model')}</label>
-                                            <input
-                                                type="text"
-                                                value={formData.model}
-                                                onChange={e => setFormData({ ...formData, model: e.target.value })}
-                                                placeholder="GPT-4o"
-                                                className="w-full bg-white border-[3px] border-black rounded-xl px-4 py-3 font-bold focus:outline-none focus:ring-0"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2">{t('addPrompt.form.tags')}</label>
-                                        <div className="min-h-[50px] bg-white border-[3px] border-black rounded-xl p-2 flex flex-wrap gap-2">
-                                            {formData.tags?.map(tag => (
-                                                <span key={tag} className="bg-[#FFEB3B] text-black px-2 py-1 rounded-lg border-[2px] border-black text-xs font-black flex items-center gap-1">
-                                                    {tag}
-                                                    <button onClick={() => removeTag(tag)}><X size={12} strokeWidth={4} /></button>
-                                                </span>
+                                    <div className="space-y-1">
+                                        <label className="text-xs font-bold uppercase">{t('addPrompt.form.category')}</label>
+                                        <select
+                                            value={formData.category}
+                                            onChange={e => setFormData({ ...formData, category: e.target.value as Category })}
+                                            className="w-full p-2 border-[2px] border-black font-bold outline-none bg-white"
+                                        >
+                                            {Object.values(Category).filter(c => c !== Category.ALL).map(cat => (
+                                                <option key={cat} value={cat}>{t(`categories.${cat}`)}</option>
                                             ))}
-                                            <input
-                                                type="text"
-                                                value={tagInput}
-                                                onChange={e => setTagInput(e.target.value)}
-                                                onKeyDown={handleAddTag}
-                                                placeholder={t('addPrompt.form.tagPlaceholder')}
-                                                className="flex-1 min-w-[100px] border-none focus:ring-0 outline-none font-bold text-sm h-8"
-                                            />
-                                        </div>
+                                        </select>
                                     </div>
                                 </div>
 
-                                {/* Description */}
-                                <div className="space-y-4">
-                                    <div>
-                                        <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2">{t('addPrompt.form.description')}</label>
-                                        <textarea
-                                            rows={2}
-                                            value={formData.description}
-                                            onChange={e => setFormData({ ...formData, description: e.target.value })}
-                                            placeholder={t('addPrompt.form.descPlaceholder')}
-                                            className="w-full bg-white border-[3px] border-black rounded-xl px-4 py-3 font-bold focus:outline-none focus:ring-0 resize-none h-full h-[185px]"
+                                <div className="space-y-1">
+                                    <label className="text-xs font-bold uppercase">{t('addPrompt.form.description')}</label>
+                                    <textarea
+                                        value={formData.description}
+                                        onChange={e => setFormData({ ...formData, description: e.target.value })}
+                                        className="w-full p-2 border-[2px] border-black font-medium text-sm outline-none resize-none h-20"
+                                        placeholder="Short description for the card..."
+                                    />
+                                </div>
+
+                                <div className="space-y-1">
+                                    <label className="text-xs font-bold uppercase">{t('addPrompt.form.tags')}</label>
+                                    <div className="flex flex-wrap gap-2 p-2 border-[2px] border-black bg-white min-h-[42px]">
+                                        {formData.tags?.map(tag => (
+                                            <span key={tag} className="bg-black text-white px-2 py-0.5 text-xs font-bold flex items-center gap-1">
+                                                {tag}
+                                                <button onClick={() => removeTag(tag)} className="hover:text-red-400"><X size={10} /></button>
+                                            </span>
+                                        ))}
+                                        <input
+                                            value={tagInput}
+                                            onChange={e => setTagInput(e.target.value)}
+                                            onKeyDown={handleAddTag}
+                                            className="flex-1 outline-none text-sm font-bold min-w-[60px]"
+                                            placeholder="Press Enter..."
                                         />
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t-[3px] border-black pt-6">
-                                {/* Content EN */}
-                                <div className="space-y-2">
-                                    <div className="flex items-center justify-between">
-                                        <label className="block text-xs font-black uppercase tracking-widest text-slate-500">{t('addPrompt.form.contentEn')}</label>
-                                        <span className="text-[10px] font-black bg-blue-100 px-2 py-0.5 border-black border-[1.5px] rounded-full uppercase italic">{t('addPrompt.form.mandatory')}</span>
-                                    </div>
+                            {/* Section: Content */}
+                            <div className="space-y-4">
+                                <h3 className="text-sm font-black uppercase tracking-widest border-b-[2px] border-black pb-2 flex justify-between">
+                                    2. Content
+                                    <span className="text-[10px] bg-red-500 text-white px-2 py-0.5">IMPORTANT</span>
+                                </h3>
+
+                                <div className="space-y-1">
+                                    <label className="text-xs font-bold uppercase">English Content (JSON Compatible)</label>
                                     <textarea
-                                        rows={6}
                                         value={formData.content}
                                         onChange={e => setFormData({ ...formData, content: e.target.value })}
-                                        placeholder={t('addPrompt.form.contentEnPlaceholder')}
-                                        className="w-full bg-slate-50 border-[3px] border-black rounded-xl px-4 py-3 font-mono text-sm focus:outline-none focus:ring-0"
+                                        className="w-full p-3 border-[2px] border-black font-mono text-xs leading-relaxed outline-none h-40 bg-[#1a1a1a] text-green-400"
+                                        placeholder="Paste your English prompt here..."
                                     />
                                 </div>
-                                {/* Content ZH */}
-                                <div className="space-y-2">
-                                    <div className="flex items-center justify-between">
-                                        <label className="block text-xs font-black uppercase tracking-widest text-slate-500">{t('addPrompt.form.contentZh')}</label>
-                                        <span className="text-[10px] font-black bg-gray-100 px-2 py-0.5 border-black border-[1.5px] rounded-full uppercase italic">{t('addPrompt.form.optional')}</span>
-                                    </div>
+                                <div className="space-y-1">
+                                    <label className="text-xs font-bold uppercase">Chinese Content (Optional)</label>
                                     <textarea
-                                        rows={6}
                                         value={formData.chineseContent}
                                         onChange={e => setFormData({ ...formData, chineseContent: e.target.value })}
-                                        placeholder={t('addPrompt.form.contentZhPlaceholder')}
-                                        className="w-full bg-slate-50 border-[3px] border-black rounded-xl px-4 py-3 font-mono text-sm focus:outline-none focus:ring-0"
+                                        className="w-full p-3 border-[2px] border-black font-mono text-xs leading-relaxed outline-none h-32"
+                                        placeholder="中文翻译..."
                                     />
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2">{t('addPrompt.form.expectedOutput')}</label>
+                            {/* Section: Contact (Optional) */}
+                            <div className="space-y-4">
+                                <h3 className="text-sm font-black uppercase tracking-widest border-b-[2px] border-black pb-2">3. Contact (Optional)</h3>
+                                <div className="space-y-1">
+                                    <label className="text-xs font-bold uppercase">Email for Updates</label>
                                     <input
-                                        type="text"
-                                        value={formData.expectedOutput}
-                                        onChange={e => setFormData({ ...formData, expectedOutput: e.target.value })}
-                                        placeholder={t('addPrompt.form.outputPlaceholder')}
-                                        className="w-full bg-white border-[3px] border-black rounded-xl px-4 py-3 font-bold focus:outline-none focus:ring-0"
+                                        value={contactEmail}
+                                        onChange={e => setContactEmail(e.target.value)}
+                                        className="w-full p-2 border-[2px] border-black font-bold focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:translate-x-[-2px] focus:translate-y-[-2px] transition-all outline-none"
+                                        placeholder="your@email.com (optional)"
+                                        type="email"
                                     />
+                                    <p className="text-[10px] text-gray-500 font-medium">We'll notify you when your prompt is reviewed.</p>
                                 </div>
-                                <div>
-                                    <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2">{t('addPrompt.form.usage')}</label>
-                                    <input
-                                        type="text"
-                                        value={formData.usage}
-                                        onChange={e => setFormData({ ...formData, usage: e.target.value })}
-                                        placeholder={t('addPrompt.form.usagePlaceholder')}
-                                        className="w-full bg-white border-[3px] border-black rounded-xl px-4 py-3 font-bold focus:outline-none focus:ring-0"
-                                    />
-                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {/* RIGHT: Preview & Action */}
+                    <div className="lg:w-[450px] bg-[#2d2d2d] flex flex-col border-l-[3px] border-black relative">
+                        <div className="p-4 border-b border-gray-700 flex justify-between items-center">
+                            <h3 className="text-white font-bold uppercase tracking-widest text-xs flex items-center gap-2">
+                                <Code size={16} /> JSON Preview
+                            </h3>
+                            <button
+                                onClick={handleCopy}
+                                className="bg-[#2DD4BF] hover:bg-[#20AFA0] text-black px-3 py-1.5 text-xs font-black uppercase flex items-center gap-1 transition-colors"
+                            >
+                                {copied ? <Check size={14} /> : <Copy size={14} />}
+                                {copied ? 'Copied' : 'Copy JSON'}
+                            </button>
+                        </div>
+
+                        <div className="flex-1 overflow-auto p-4 custom-scrollbar">
+                            <pre className="text-[11px] font-mono text-[#d4d4d4] leading-relaxed whitespace-pre-wrap break-all">
+                                {generatedCode}
+                            </pre>
+                        </div>
+
+                        <div className="p-6 bg-[#1a1a1a] border-t border-gray-700 space-y-4 relative overflow-hidden">
+                            {/* Submit Button */}
+                            <button
+                                onClick={handleSubmit}
+                                disabled={isSubmitting || !formData.title || !formData.content}
+                                className={`w-full py-3 px-4 font-black uppercase text-sm flex items-center justify-center gap-2 transition-all ${submitStatus === 'success' ? 'bg-green-500 text-white' :
+                                    submitStatus === 'error' ? 'bg-red-500 text-white' :
+                                        isSubmitting ? 'bg-gray-600 text-gray-300 cursor-not-allowed' :
+                                            'bg-[#FF4D4D] hover:bg-[#FF3333] text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none'
+                                    }`}
+                            >
+                                {isSubmitting ? (
+                                    <><span className="animate-spin">⏳</span> Submitting...</>
+                                ) : submitStatus === 'success' ? (
+                                    <><Check size={16} /> Submitted Successfully!</>
+                                ) : submitStatus === 'error' ? (
+                                    <>❌ Submission Failed</>
+                                ) : (
+                                    <><Send size={16} /> Submit for AI Review</>
+                                )}
+                            </button>
+
+                            {submitStatus === 'success' && (
+                                <p className="text-green-400 text-xs text-center font-medium">Your prompt will be reviewed soon!</p>
+                            )}
+                            {submitStatus === 'error' && (
+                                <p className="text-red-400 text-xs text-center font-medium">Please try again or copy JSON manually.</p>
+                            )}
+
+                            {/* Manual Instructions */}
+                            <div className="bg-[#333] p-4 rounded border border-gray-600">
+                                <p className="text-gray-400 text-[10px] font-bold uppercase mb-2">Or publish manually:</p>
+                                <ol className="text-gray-300 text-xs space-y-2 list-decimal list-inside font-medium">
+                                    <li>Click <span className="text-[#2DD4BF]">Copy JSON</span> above.</li>
+                                    <li>Open <code className="bg-black px-1 py-0.5 rounded">src/data/prompts-en.ts</code>.</li>
+                                    <li>Paste into the prompts array.</li>
+                                </ol>
                             </div>
                         </div>
-                    ) : (
-                        <div className="space-y-8 animate-in slide-in-from-right-4 duration-300">
-                            <div className="bg-[#FFF066] border-[3px] border-black p-4 rounded-2xl">
-                                <p className="text-xs font-black uppercase tracking-tighter">
-                                    <span className="bg-black text-white px-2 py-0.5 rounded mr-2">{t('addPrompt.preview.notice')}</span>
-                                    {t('addPrompt.preview.noticeText')}
-                                </p>
-                            </div>
+                    </div>
 
-                            <div className="relative group">
-                                <div className="absolute top-4 right-4 z-10">
-                                    <button
-                                        onClick={handleCopy}
-                                        className="flex items-center gap-2 bg-white border-[2.5px] border-black px-4 py-2 font-black uppercase italic text-xs shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all"
-                                    >
-                                        {copied ? <Check size={14} className="text-green-600" /> : <Copy size={14} />}
-                                        {copied ? t('addPrompt.preview.copied') : t('addPrompt.preview.copyCode')}
-                                    </button>
-                                </div>
-                                <div className="bg-black text-green-400 p-6 rounded-2xl font-mono text-sm overflow-x-auto max-h-[300px] custom-scrollbar border-[3px] border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,0.1)]">
-                                    <pre>{generatedCode}</pre>
-                                </div>
-                            </div>
-
-                            <div className="border-t-[3px] border-black pt-6">
-                                <h3 className="text-xl font-black italic uppercase tracking-tight mb-4 flex items-center gap-2">
-                                    <span className="w-6 h-6 bg-black rounded-full text-white text-[10px] flex items-center justify-center not-italic">?</span>
-                                    {t('addPrompt.preview.howTo')}
-                                </h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div className="border-[3px] border-black p-4 rounded-xl hover:bg-black/5 cursor-pointer transition-colors flex items-start gap-3 group">
-                                        <div className="w-8 h-8 rounded-lg bg-[#FF89BB] border-[2px] border-black flex items-center justify-center shrink-0">
-                                            <span className="font-black text-xs">1</span>
-                                        </div>
-                                        <div>
-                                            <p className="font-black text-sm uppercase">{t('addPrompt.preview.step1Title')}</p>
-                                            <p className="text-xs text-slate-500 font-bold mt-1">{t('addPrompt.preview.step1Desc')}</p>
-                                        </div>
-                                    </div>
-                                    <div
-                                        onClick={handleSave}
-                                        className={`border-[3px] border-black p-4 rounded-xl hover:bg-black/5 cursor-pointer transition-colors flex items-start gap-3 group ${isSaving ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                    >
-                                        <div className="w-8 h-8 rounded-lg bg-[#66D9E8] border-[2px] border-black flex items-center justify-center shrink-0">
-                                            {isSaving ? <span className="animate-spin text-xs">🌀</span> : <span className="font-black text-xs">2</span>}
-                                        </div>
-                                        <div>
-                                            <p className="font-black text-sm uppercase">{t('addPrompt.preview.step2Title')}</p>
-                                            <p className="text-xs text-slate-500 font-bold mt-1">
-                                                {saveStatus === 'success' ? t('addPrompt.preview.success') :
-                                                    saveStatus === 'error' ? t('addPrompt.preview.error') :
-                                                        t('addPrompt.preview.step2Desc')}
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
+                    {/* Coming Soon Overlay - Global for Content */}
+                    <div className="absolute inset-0 backdrop-blur-sm bg-black/50 z-50 flex items-center justify-center">
+                        <div className="bg-[#FACC15] border-[3px] border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-w-md text-center transform rotate-[-2deg]">
+                            <div className="text-6xl mb-4 animate-bounce">🚧</div>
+                            <h3 className="text-2xl font-black uppercase italic tracking-tighter mb-2 text-black">
+                                {t('addPrompt.comingSoon.title', 'Coming Soon')}
+                            </h3>
+                            <p className="font-bold text-black border-t-[2px] border-black pt-2 mt-2 text-lg">
+                                {t('addPrompt.comingSoon.subtitle', '功能开发中，敬请期待')}
+                            </p>
                         </div>
-                    )}
-                </div>
-
-                {/* Footer */}
-                <div className="p-6 border-t-[3px] border-black flex items-center justify-between bg-white">
-                    <p className="text-xs text-slate-400 font-bold italic">PROMPT_ID: {formData.id}</p>
-                    <div className="flex gap-4">
-                        <button
-                            onClick={onClose}
-                            className="px-6 py-2 font-black uppercase italic border-[3px] border-black rounded-xl hover:bg-black/5 transition-all text-sm"
-                        >
-                            {t('addPrompt.buttons.cancel')}
-                        </button>
-                        <button
-                            onClick={() => {
-                                if (activeTab === 'edit') setActiveTab('preview');
-                                else handleCopy();
-                            }}
-                            className={`px-8 py-3 font-black uppercase italic border-[3px] border-black rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center gap-2 text-sm ${activeTab === 'edit' ? 'bg-[#FF89BB]' : 'bg-[#6EE7B7]'}`}
-                        >
-                            {activeTab === 'edit' ? t('addPrompt.buttons.next') : t('addPrompt.buttons.copyFinal')}
-                        </button>
                     </div>
                 </div>
             </div>
         </div>
     );
 };
-
-const EditIcon = ({ size }: { size: number }) => (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
-);
 
 export default AddPromptModal;
