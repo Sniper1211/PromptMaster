@@ -7,7 +7,7 @@ const PrivacyPolicy: React.FC = () => {
     return (
         <>
             <Helmet>
-                <title>Privacy Policy - PromptMaster</title>
+                <title>Privacy Policy - PentaPrompt</title>
             </Helmet>
             <div className="min-h-screen bg-gray-50 p-6 md:p-12 font-sans">
                 <div className="max-w-3xl mx-auto bg-white brutal-border brutal-shadow p-8">
@@ -22,7 +22,7 @@ const PrivacyPolicy: React.FC = () => {
                         <p>Last updated: January 11, 2024</p>
 
                         <h3>1. Introduction</h3>
-                        <p>Welcome to PromptMaster. We respect your privacy and are committed to protecting your personal data.</p>
+                        <p>Welcome to PentaPrompt. We respect your privacy and are committed to protecting your personal data.</p>
 
                         <h3>2. Data We Collect</h3>
                         <p>We do not collect personal data directly. However, we use third-party services like Google AdSense that may use cookies to serve ads based on prior visits to our website.</p>

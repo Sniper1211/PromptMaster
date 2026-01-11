@@ -9,7 +9,7 @@
     "tutorials": "提示词教程"
   },
   "nav": {
-    "title": "PromptMaster",
+    "title": "PentaPrompt",
     "explorer": "探索",
     "guide": "指南",
     "library": "库",
@@ -104,5 +104,26 @@
       "next": "下一步：预览",
       "copyFinal": "复制最终结果"
     }
+  },
+  "promptDetail": {
+    "loading": "加载中...",
+    "notFound": "未找到提示词",
+    "movedOrDeleted": "您查找的提示词可能已被移动或删除。",
+    "returnToLibrary": "返回库",
+    "updatedToday": "今日更新",
+    "viewFullSize": "查看大图",
+    "promptContent": "提示词内容",
+    "characters": "个字符",
+    "copyRaw": "复制原始内容",
+    "copied": "已复制",
+    "tipsAndTricks": "技巧与提示",
+    "category": "分类",
+    "copyPrompt": "复制提示词",
+    "readyToCopy": "准备复制",
+    "sharePrompt": "分享此提示词",
+    "relatedKeywords": "相关关键词",
+    "moreFrom": "更多来自",
+    "viewAll": "查看全部",
+    "noRelated": "该分类下未找到其他提示词。"
   }
 }

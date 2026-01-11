@@ -7,7 +7,7 @@ const TermsOfService: React.FC = () => {
     return (
         <>
             <Helmet>
-                <title>Terms of Service - PromptMaster</title>
+                <title>Terms of Service - PentaPrompt</title>
             </Helmet>
             <div className="min-h-screen bg-gray-50 p-6 md:p-12 font-sans">
                 <div className="max-w-3xl mx-auto bg-white brutal-border brutal-shadow p-8">
@@ -26,10 +26,10 @@ const TermsOfService: React.FC = () => {
                         <p>The content, organization, graphics, design, and other matters related to the Site are protected under applicable copyrights and other proprietary laws.</p>
 
                         <h3>3. Use License</h3>
-                        <p>Permission is granted to temporarily download one copy of the materials (information or software) on PromptMaster's website for personal, non-commercial transitory viewing only.</p>
+                        <p>Permission is granted to temporarily download one copy of the materials (information or software) on PentaPrompt's website for personal, non-commercial transitory viewing only.</p>
 
                         <h3>4. Disclaimer</h3>
-                        <p>The materials on PromptMaster's website are provided on an 'as is' basis. PromptMaster makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
+                        <p>The materials on PentaPrompt's website are provided on an 'as is' basis. PentaPrompt makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
                     </div>
                 </div>
             </div>
