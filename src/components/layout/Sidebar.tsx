@@ -12,6 +12,7 @@ import {
     Plus
 } from 'lucide-react';
 import { Category } from '../../types';
+import AdUnit from '../ads/AdUnit';
 
 interface SidebarProps {
     activeCategory: Category;
@@ -127,6 +128,10 @@ const Sidebar: React.FC<SidebarProps> = ({
                     </button>
 
                 </section>
+
+                <div className="mt-auto px-4">
+                    <AdUnit label="Sponsor" format="rectangle" />
+                </div>
             </div>
 
             {/* Footer / Language */}

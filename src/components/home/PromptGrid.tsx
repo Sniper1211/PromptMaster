@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Compass } from 'lucide-react';
 import { Prompt, Category } from '../../types';
 import PromptCard from '../PromptCard';
+import AdUnit from '../ads/AdUnit';
 
 interface PromptGridProps {
     prompts: Prompt[];
@@ -16,13 +17,20 @@ const PromptGrid: React.FC<PromptGridProps> = ({ prompts, onSelectPrompt, onClea
     return (
         <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-6">
             {prompts.length > 0 ? (
-                prompts.map(prompt => (
-                    <div key={prompt.id} className="break-inside-avoid mb-6">
-                        <PromptCard
-                            prompt={prompt}
-                            onTry={onSelectPrompt}
-                        />
-                    </div>
+                prompts.map((prompt, index) => (
+                    <React.Fragment key={prompt.id}>
+                        <div className="break-inside-avoid mb-6">
+                            <PromptCard
+                                prompt={prompt}
+                                onTry={onSelectPrompt}
+                            />
+                        </div>
+                        {(index + 1) % 6 === 0 && (
+                            <div className="break-inside-avoid mb-6">
+                                <AdUnit label="Sponsored" />
+                            </div>
+                        )}
+                    </React.Fragment>
                 ))
             ) : (
                 <div className="col-span-full py-20 text-center">

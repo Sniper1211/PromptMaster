@@ -1,12 +1,13 @@
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Prompt } from '../types';
 import { Copy, Check, Eye, Image as ImageIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface PromptCardProps {
   prompt: Prompt;
-  onTry: (prompt: Prompt) => void;
+  onTry?: (prompt: Prompt) => void;
 }
 
 const TAG_COLORS = [
@@ -48,33 +49,33 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onTry }) => {
           />
         ) : (
           <div className={`aspect-video ${getCardColor(prompt.id)} p-6 flex flex-wrap content-center justify-center gap-4 relative overflow-hidden`}>
-             {/* Decorative pattern */}
-             <div className="absolute inset-0 opacity-10" 
-                  style={{ 
-                    backgroundImage: 'radial-gradient(circle at 2px 2px, black 1px, transparent 0)',
-                    backgroundSize: '16px 16px' 
-                  }} 
-             />
-             
-             {prompt.tags.slice(0, 3).map((tag, i) => (
-                <span 
-                  key={i}
-                  className="relative inline-block px-5 py-2 bg-white border-[3px] border-black text-lg font-black uppercase tracking-tighter shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] transform rotate-[-3deg] odd:rotate-[2deg] group-hover:opacity-10 transition-opacity duration-300"
-                >
-                  {tag}
-                </span>
-             ))}
+            {/* Decorative pattern */}
+            <div className="absolute inset-0 opacity-10"
+              style={{
+                backgroundImage: 'radial-gradient(circle at 2px 2px, black 1px, transparent 0)',
+                backgroundSize: '16px 16px'
+              }}
+            />
+
+            {prompt.tags.slice(0, 3).map((tag, i) => (
+              <span
+                key={i}
+                className="relative inline-block px-5 py-2 bg-white border-[3px] border-black text-lg font-black uppercase tracking-tighter shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] transform rotate-[-3deg] odd:rotate-[2deg] group-hover:opacity-10 transition-opacity duration-300"
+              >
+                {tag}
+              </span>
+            ))}
           </div>
         )}
 
         {/* Overlay Actions */}
         <div className="absolute inset-0 z-20 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-6">
-          <button
-            onClick={() => onTry(prompt)}
+          <Link
+            to={`/prompt/${prompt.id}`}
             className="p-4 bg-white border-[2.5px] border-black rounded-xl brutal-shadow-sm hover:-translate-x-[2px] hover:-translate-y-[2px] hover:brutal-shadow transition-all"
           >
             <Eye size={32} className="text-black" strokeWidth={2.5} />
-          </button>
+          </Link>
           <button
             onClick={handleCopy}
             className="p-4 bg-white border-[2.5px] border-black rounded-xl brutal-shadow-sm hover:-translate-x-[2px] hover:-translate-y-[2px] hover:brutal-shadow transition-all"
@@ -86,9 +87,11 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onTry }) => {
 
       {/* Content */}
       <div className="p-5 flex flex-col flex-1">
-        <h3 className="text-lg font-black mb-2 line-clamp-2 leading-tight uppercase tracking-tight group-hover:text-[#FF4D4D] transition-colors">
-          {prompt.title}
-        </h3>
+        <Link to={`/prompt/${prompt.id}`} className="group-hover:text-[#FF4D4D] transition-colors">
+          <h3 className="text-lg font-black mb-2 line-clamp-2 leading-tight uppercase tracking-tight">
+            {prompt.title}
+          </h3>
+        </Link>
         <p className="text-slate-500 text-xs font-medium line-clamp-3 leading-relaxed flex-1">
           {prompt.description}
         </p>

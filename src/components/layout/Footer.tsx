@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Layers } from 'lucide-react';
 
@@ -33,10 +34,15 @@ const Footer: React.FC = () => {
                     </div>
                 </div>
             </div>
-            
+
             {/* Copyright / Brand */}
-            <div className="border-t-[3px] border-black p-4 bg-black text-white text-center">
+            {/* Copyright / Brand */}
+            <div className="border-t-[3px] border-black p-4 bg-black text-white flex flex-col md:flex-row items-center justify-between gap-4">
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em]">PromptMaster © 2026 • DESIGNED FOR BUILDERS</p>
+                <div className="flex gap-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                    <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+                    <Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+                </div>
             </div>
         </footer>
     );
