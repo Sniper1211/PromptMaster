@@ -30,7 +30,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
     const defaultImage = `${baseUrl}/og-image.png`;
     
     // Use translations for default TDK to ensure they match the current language
-    const defaultTitle = t('seo.home.title', 'PentaPrompt - Best AI Prompt Library | ChatGPT, Claude & Gemini Prompts');
+    const defaultTitle = t('seo.home.title', 'PentaPrompt - Best AI Prompts for ChatGPT & Claude');
     const defaultDescription = t('seo.home.description', 'Discover 100+ curated AI prompts for ChatGPT, Claude, and Gemini.');
 
     const finalTitle = title || defaultTitle;
