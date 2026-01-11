@@ -35,7 +35,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     const categories = Object.values(Category);
 
     return (
-        <aside className="w-64 border-r-[3px] border-black bg-white flex flex-col h-screen overflow-y-auto custom-scrollbar shrink-0">
+        <aside className="w-64 border-r-[3px] border-black bg-white flex flex-col h-screen shrink-0 relative">
             {/* Brand */}
             <div className="p-6 border-b-[3px] border-black hover:bg-[#FACC15] transition-colors group cursor-pointer">
                 <h1 className="text-2xl font-black uppercase tracking-tighter group-hover:translate-x-[2px] group-hover:translate-y-[2px] transition-transform">PentaPrompt</h1>
@@ -56,22 +56,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             </div>
 
             {/* Navigation */}
-            <div className="flex-1 py-6 px-4 space-y-8">
-                {/* All Section */}
-                <div>
-                    <button
-                        onClick={() => setActiveCategory(Category.ALL)}
-                        className={`w-full flex items-center gap-3 px-4 py-3 border-[2.5px] border-black rounded-none transition-all ${activeCategory === Category.ALL
-                            ? 'bg-[#FF4D4D] text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] translate-x-[-2px] translate-y-[-2px]'
-                            : 'bg-white hover:bg-gray-100 text-black hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]'
-                            }`}
-                    >
-                        <LayoutGrid size={20} strokeWidth={2.5} />
-                        <span className="font-black italic uppercase">{t('sidebar.all')}</span>
-                    </button>
-
-                </div>
-
+            <div className="flex-1 py-6 px-4 space-y-8 overflow-y-auto custom-scrollbar pb-20">
                 {/* Sort Section */}
                 <section className="space-y-3">
                     <div className="flex items-center gap-2 px-1 text-black font-black uppercase tracking-widest text-[10px] border-b-[2px] border-black pb-1 w-fit">
@@ -79,17 +64,16 @@ const Sidebar: React.FC<SidebarProps> = ({
                         <span>{t('sidebar.sort')}</span>
                     </div>
 
-                    <div className="space-y-2">
-                        <button className="w-full flex items-center gap-3 px-3 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm">
-                            <Clock size={18} strokeWidth={2.5} />
+                    <div className="grid grid-cols-2 gap-2">
+                        <button className="flex items-center justify-center gap-2 px-2 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm">
+                            <Clock size={16} strokeWidth={2.5} />
                             <span>{t('sidebar.recent')}</span>
                         </button>
 
-                        <button className="w-full flex items-center gap-3 px-3 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm">
-                            <Shuffle size={18} strokeWidth={2.5} />
+                        <button className="flex items-center justify-center gap-2 px-2 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm">
+                            <Shuffle size={16} strokeWidth={2.5} />
                             <span>{t('sidebar.random')}</span>
                         </button>
-
                     </div>
                 </section>
 
@@ -100,6 +84,17 @@ const Sidebar: React.FC<SidebarProps> = ({
                     </div>
 
                     <div className="space-y-2">
+                        <button
+                            onClick={() => setActiveCategory(Category.ALL)}
+                            className={`w-full flex items-center gap-3 px-3 py-2 border-[2px] transition-all text-sm font-bold ${activeCategory === Category.ALL
+                                ? 'border-black bg-[#FF4D4D] text-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+                                : 'border-transparent text-black hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+                                }`}
+                        >
+                            <LayoutGrid size={18} strokeWidth={2.5} />
+                            <span className="font-black italic uppercase">{t('sidebar.all')}</span>
+                        </button>
+
                         {categories.filter(c => c !== Category.ALL).map((category) => (
                             <button
                                 key={category}
@@ -118,24 +113,19 @@ const Sidebar: React.FC<SidebarProps> = ({
                 {/* Other Sections */}
                 <section className="space-y-2 border-t-[3px] border-black pt-6">
                     <button className="w-full flex items-center gap-3 px-3 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm">
-                        <Users size={18} strokeWidth={2.5} />
-                        <span>{t('sidebar.creators')}</span>
-                    </button>
-                    <button className="w-full flex items-center gap-3 px-3 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm">
                         <BookOpen size={18} strokeWidth={2.5} />
                         <span>{t('sidebar.tutorials')}</span>
                     </button>
-
                 </section>
             </div>
 
             {/* Footer / Language */}
-            <div className="p-6 border-t-[3px] border-black bg-[#F2F2F2] mt-auto">
+            <div className="p-4 border-t-[3px] border-black bg-[#F2F2F2] mt-auto sticky bottom-0 z-10">
                 <button
                     onClick={toggleLanguage}
-                    className="w-full flex items-center justify-between px-4 py-3 border-[2.5px] border-black bg-white hover:bg-[#2DD4BF] transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+                    className="w-full flex items-center justify-between px-3 py-2 border-[2.5px] border-black bg-white hover:bg-[#2DD4BF] transition-all shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                 >
-                    <Globe size={18} strokeWidth={2.5} />
+                    <Globe size={16} strokeWidth={2.5} />
                     <span className="font-black text-xs uppercase">
                         {currentLanguage.startsWith('zh') ? 'English' : '简体中文'}
                     </span>
