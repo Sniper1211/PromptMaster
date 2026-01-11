@@ -8,6 +8,13 @@
     "creators": "Creators",
     "tutorials": "Prompt Tutorials"
   },
+  "seo": {
+    "home": {
+      "title": "PentaPrompt - Best AI Prompt Library | ChatGPT, Claude & Midjourney Prompts",
+      "description": "Discover 100+ curated AI prompts for ChatGPT, Claude, Midjourney and Gemini. Browse high-quality prompts for coding, writing, art, marketing, and business.",
+      "keywords": "AI prompts, ChatGPT prompts, Claude prompts, Midjourney prompts, prompt engineering, AI art prompts, coding prompts"
+    }
+  },
   "nav": {
     "title": "PentaPrompt",
     "explorer": "Explorer",
@@ -125,5 +132,23 @@
     "moreFrom": "More from",
     "viewAll": "View All",
     "noRelated": "No other prompts in this category found."
+  },
+  "seo": {
+    "home": {
+      "title": "PentaPrompt - Best AI Prompt Library | ChatGPT, Claude & Gemini Prompts",
+      "description": "Discover 100+ curated AI prompts for ChatGPT, Claude, and Gemini. Browse prompts for writing, coding, marketing, education, and more. Free prompt library.",
+      "keywords": "AI prompts, ChatGPT prompts, Claude prompts, Gemini prompts, prompt library, AI tools, prompt engineering"
+    },
+    "promptDetail": {
+      "titleSuffix": "- AI Prompt | PentaPrompt"
+    },
+    "termsOfService": {
+      "title": "Terms of Service | PentaPrompt",
+      "description": "Read PentaPrompt's Terms of Service. Learn about usage rights, intellectual property, and legal terms for using our AI prompt library."
+    },
+    "privacyPolicy": {
+      "title": "Privacy Policy | PentaPrompt",
+      "description": "PentaPrompt's Privacy Policy. Learn how we protect your data, use cookies, and work with third-party services like Google AdSense."
+    }
   }
 }

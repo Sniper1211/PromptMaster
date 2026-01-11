@@ -8,6 +8,13 @@
     "creators": "创作者",
     "tutorials": "提示词教程"
   },
+  "seo": {
+    "home": {
+      "title": "PentaPrompt - 最佳 AI 提示词库 | ChatGPT, Claude & Midjourney 提示词大全",
+      "description": "发现 100+ 精选 AI 提示词，适用于 ChatGPT, Claude, Midjourney 和 Gemini。浏览编程、写作、绘画、营销和商业等领域的高质量提示词。",
+      "keywords": "AI 提示词, ChatGPT 提示词, Claude 提示词, Midjourney 提示词, 提示词工程, AI 绘画提示词, 编程提示词"
+    }
+  },
   "nav": {
     "title": "PentaPrompt",
     "explorer": "探索",
@@ -125,5 +132,23 @@
     "moreFrom": "更多来自",
     "viewAll": "查看全部",
     "noRelated": "该分类下未找到其他提示词。"
+  },
+  "seo": {
+    "home": {
+      "title": "PentaPrompt - 最佳AI提示词库 | ChatGPT、Claude和Gemini提示词",
+      "description": "发现100+精选AI提示词，适用于ChatGPT、Claude和Gemini。浏览写作、编程、营销、教育等领域的提示词。免费提示词库。",
+      "keywords": "AI提示词, ChatGPT提示词, Claude提示词, Gemini提示词, 提示词库, AI工具, 提示词工程"
+    },
+    "promptDetail": {
+      "titleSuffix": "- AI提示词 | PentaPrompt"
+    },
+    "termsOfService": {
+      "title": "服务条款 | PentaPrompt",
+      "description": "阅读PentaPrompt的服务条款。了解使用我们AI提示词库的使用权限、知识产权和法律条款。"
+    },
+    "privacyPolicy": {
+      "title": "隐私政策 | PentaPrompt",
+      "description": "PentaPrompt的隐私政策。了解我们如何保护您的数据、使用Cookie以及与Google AdSense等第三方服务合作。"
+    }
   }
 }
