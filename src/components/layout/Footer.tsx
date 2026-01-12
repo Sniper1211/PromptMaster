@@ -40,8 +40,8 @@ const Footer: React.FC = () => {
             <div className="border-t-[3px] border-black p-4 bg-black text-white flex flex-col md:flex-row items-center justify-between gap-4">
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em]">PentaPrompt © 2026 • DESIGNED FOR BUILDERS</p>
                 <div className="flex gap-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">
-                    <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-                    <Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+                    <Link to="/privacy" className="hover:text-white transition-colors">{t('footer.privacyPolicy')}</Link>
+                    <Link to="/terms" className="hover:text-white transition-colors">{t('footer.termsOfService')}</Link>
                 </div>
             </div>
         </footer>

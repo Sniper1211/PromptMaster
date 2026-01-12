@@ -8,13 +8,6 @@
     "creators": "创作者",
     "tutorials": "提示词教程"
   },
-  "seo": {
-    "home": {
-      "title": "优秀AI提示词库 | 收录高质量Prompt资源，助力效率与创意",
-      "description": "收录和分享各类优秀提示词，为用户提供便捷的AI指令资源库。涵盖写作、编程、设计等多领域，帮助快速获取高质量指令，提升工作效率和创造力。内容持续更新，欢迎探索与贡献。",
-      "keywords": "提示词, Prompt, AI提示, 人工智能, 资源库, 优秀Prompt, 指令集, 创意工具, AI指令, 效率提升"
-    }
-  },
   "nav": {
     "title": "PentaPrompt",
     "explorer": "探索",
@@ -65,7 +58,9 @@
     "curatedPrompts": "精选提示词",
     "communityUses": "社区使用",
     "openLibrary": "开放库",
-    "contribute": "贡献您的提示词"
+    "contribute": "贡献您的提示词",
+    "privacyPolicy": "隐私政策",
+    "termsOfService": "服务条款"
   },
   "addPrompt": {
     "title": "添加新提示词",
@@ -135,9 +130,9 @@
   },
   "seo": {
     "home": {
-      "title": "PentaPrompt - 最佳AI提示词库 | ChatGPT、Claude和Gemini提示词",
-      "description": "发现100+精选AI提示词，适用于ChatGPT、Claude和Gemini。浏览写作、编程、营销、教育等领域的提示词。免费提示词库。",
-      "keywords": "AI提示词, ChatGPT提示词, Claude提示词, Gemini提示词, 提示词库, AI工具, 提示词工程"
+      "title": "优秀AI提示词库 | 收录高质量Prompt资源，助力效率与创意",
+      "description": "收录和分享各类优秀提示词，为用户提供便捷的AI指令资源库。涵盖写作、编程、设计等多领域，帮助快速获取高质量指令，提升工作效率和创造力。内容持续更新，欢迎探索与贡献。",
+      "keywords": "提示词, Prompt, AI提示, 人工智能, 资源库, 优秀Prompt, 指令集, 创意工具, AI指令, 效率提升"
     },
     "promptDetail": {
       "titleSuffix": "- AI提示词 | PentaPrompt"
