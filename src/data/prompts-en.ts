@@ -373,14 +373,14 @@ Current Codebase/Site Structure:
   },
   {
     id: '29',
-    title: 'Recursive Visuals',
+    title: 'Recursive Visual Effect',
     description: 'Demonstrates the model\'s ability to handle infinite loop logic (Droste effect).',
     category: Category.ART,
-    tags: ['Creative', 'Recursive', 'Abstract', 'Surreal'],
+    tags: ['Recursive', 'Droste', 'Infinite Loop', 'Surreal', 'Abstract', 'Visual Effect'],
     content: 'recursive image of an orange cat sitting in an office chair holding up an iPad. On the iPad is the same cat in the same scene holding up the same iPad. Repeated on each iPad.',
     expectedOutput: 'A prompt for a recursive visual effect.',
     usage: 'The "Droste effect". Change "orange cat" to any other subject you\'d like to see recursive.',
-    previewImageUrl: '/previews/recursive-cat.png'
+    previewImageUrl: '/previews/recursive-visual-effect.webp'
   },
   {
     id: '30',
