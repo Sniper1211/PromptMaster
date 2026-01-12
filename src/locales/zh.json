@@ -8,6 +8,12 @@
     "creators": "创作者",
     "tutorials": "提示词教程"
   },
+  "common": {
+    "comingSoon": {
+      "title": "功能开发中",
+      "description": "我们正在努力开发此功能，敬请期待！"
+    }
+  },
   "nav": {
     "title": "PentaPrompt",
     "explorer": "探索",

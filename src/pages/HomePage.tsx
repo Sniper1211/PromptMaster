@@ -6,6 +6,7 @@ import PromptGrid from '../components/home/PromptGrid';
 import Sidebar from '../components/layout/Sidebar';
 import Footer from '../components/layout/Footer';
 import AddPromptModal from '../components/admin/AddPromptModal';
+import ComingSoonModal from '../components/common/ComingSoonModal';
 import { usePrompts } from '../hooks/usePrompts';
 import SEOHead from '../components/seo/SEOHead';
 
@@ -15,6 +16,7 @@ const HomePage: React.FC = () => {
     const [activeCategory, setActiveCategory] = useState<Category>(Category.ALL);
     const [searchQuery, setSearchQuery] = useState('');
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
 
     const toggleLanguage = () => {
         const currentLang = i18n.language;
@@ -85,6 +87,8 @@ const HomePage: React.FC = () => {
                     setSearchQuery={setSearchQuery}
                     toggleLanguage={toggleLanguage}
                     currentLanguage={i18n.language}
+                    onTutorialClick={() => setIsComingSoonOpen(true)}
+                    onLogoClick={clearFilters}
                 />
 
                 <main className="flex-1 flex flex-col min-w-0 h-full overflow-hidden border-l-[2.5px] border-black">
@@ -103,10 +107,13 @@ const HomePage: React.FC = () => {
                                     <Plus size={20} strokeWidth={3} />
                                     <span>{t('nav.addPrompt')}</span>
                                 </button>
-                                <button className="flex items-center gap-2 bg-[#FF4D4D] text-white px-6 py-3 border-[2.5px] border-black rounded-2xl font-black uppercase italic shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all">
+                                {/* <button 
+                                    onClick={() => setIsComingSoonOpen(true)}
+                                    className="flex items-center gap-2 bg-[#FF4D4D] text-white px-6 py-3 border-[2.5px] border-black rounded-2xl font-black uppercase italic shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                                >
                                     <Plus size={20} strokeWidth={3} />
                                     <span>{t('nav.proUpgrade')}</span>
-                                </button>
+                                </button> */}
                             </div>
 
                         </header>
@@ -125,7 +132,7 @@ const HomePage: React.FC = () => {
                             />
                         )}
 
-                        <Footer />
+                        <Footer onContribute={() => setIsAddModalOpen(true)} />
                     </div>
                 </main>
 
@@ -133,6 +140,12 @@ const HomePage: React.FC = () => {
                     <AddPromptModal
                         onClose={() => setIsAddModalOpen(false)}
                         nextId={nextId}
+                    />
+                )}
+
+                {isComingSoonOpen && (
+                    <ComingSoonModal
+                        onClose={() => setIsComingSoonOpen(false)}
                     />
                 )}
             </div>

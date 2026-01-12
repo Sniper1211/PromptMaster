@@ -20,6 +20,8 @@ interface SidebarProps {
     setSearchQuery: (query: string) => void;
     toggleLanguage: () => void;
     currentLanguage: string;
+    onTutorialClick: () => void;
+    onLogoClick: () => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -28,7 +30,9 @@ const Sidebar: React.FC<SidebarProps> = ({
     searchQuery,
     setSearchQuery,
     toggleLanguage,
-    currentLanguage
+    currentLanguage,
+    onTutorialClick,
+    onLogoClick
 }) => {
     const { t } = useTranslation();
 
@@ -37,7 +41,10 @@ const Sidebar: React.FC<SidebarProps> = ({
     return (
         <aside className="w-64 border-r-[3px] border-black bg-white flex flex-col h-screen shrink-0 relative">
             {/* Brand */}
-            <div className="p-6 border-b-[3px] border-black hover:bg-[#FACC15] transition-colors group cursor-pointer">
+            <div 
+                onClick={onLogoClick}
+                className="p-6 border-b-[3px] border-black hover:bg-[#FACC15] transition-colors group cursor-pointer"
+            >
                 <h1 className="text-2xl font-black uppercase tracking-tighter group-hover:translate-x-[2px] group-hover:translate-y-[2px] transition-transform">PentaPrompt</h1>
             </div>
 
@@ -112,7 +119,15 @@ const Sidebar: React.FC<SidebarProps> = ({
 
                 {/* Other Sections */}
                 <section className="space-y-2 border-t-[3px] border-black pt-6">
-                    <button className="w-full flex items-center gap-3 px-3 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm">
+                    <button 
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('Tutorial clicked');
+                            if (onTutorialClick) onTutorialClick();
+                        }}
+                        className="w-full flex items-center gap-3 px-3 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm cursor-pointer"
+                    >
                         <BookOpen size={18} strokeWidth={2.5} />
                         <span>{t('sidebar.tutorials')}</span>
                     </button>
