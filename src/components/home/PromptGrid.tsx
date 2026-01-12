@@ -25,7 +25,7 @@ const PromptGrid: React.FC<PromptGridProps> = ({ prompts, onSelectPrompt, onClea
                                 onTry={onSelectPrompt}
                             />
                         </div>
-                        {(index + 1) % 6 === 0 && (
+                        {(index + 1) % 8 === 0 && (
                             <div className="break-inside-avoid mb-6">
                                 <AdUnit label="Sponsored" />
                             </div>

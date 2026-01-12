@@ -3,6 +3,7 @@ import { Category, Prompt } from '../types';
 export const PROMPTS_EN: Prompt[] = [
   {
     id: '1',
+    createdAt: '2025-01-02T00:00:05.790Z',
     title: 'Modern React Component Architect',
     description: 'Expert guidance for creating scalable, type-safe React components.',
     category: Category.CODING,
@@ -13,6 +14,7 @@ export const PROMPTS_EN: Prompt[] = [
   },
   {
     id: '2',
+    createdAt: '2025-01-03T00:00:01.698Z',
     title: 'Cognitive Storyteller',
     description: 'Generate emotionally resonant narratives with psychological depth.',
     category: Category.WRITING,
@@ -23,6 +25,7 @@ export const PROMPTS_EN: Prompt[] = [
   },
   {
     id: '3',
+    createdAt: '2025-01-04T00:00:06.989Z',
     title: 'Scientific Paper Summarizer',
     description: 'Condense complex research into digestible insights.',
     category: Category.WRITING,
@@ -33,6 +36,7 @@ export const PROMPTS_EN: Prompt[] = [
   },
   {
     id: '4',
+    createdAt: '2025-01-05T00:00:00.039Z',
     title: 'SaaS Business Strategist',
     description: 'Develop marketing strategies and go-to-market plans.',
     category: Category.BUSINESS,
@@ -43,6 +47,7 @@ export const PROMPTS_EN: Prompt[] = [
   },
   {
     id: '5',
+    createdAt: '2025-01-06T00:00:00.069Z',
     title: 'Python Data Cleaner',
     description: 'Quickly generate robust data preprocessing scripts.',
     category: Category.CODING,
@@ -53,6 +58,7 @@ export const PROMPTS_EN: Prompt[] = [
   },
   {
     id: '6',
+    createdAt: '2025-01-07T00:00:04.748Z',
     title: 'Master Prompt Engineer Coach',
     description: 'Refine and optimize your own prompts.',
     category: Category.WRITING,
@@ -63,6 +69,7 @@ export const PROMPTS_EN: Prompt[] = [
   },
   {
     id: '7',
+    createdAt: '2025-01-08T00:00:06.733Z',
     title: 'Full Stack Engineer (i18n & Layout)',
     description: 'Advanced instructions to ensure UI layout stability during multi-language switching.',
     category: Category.CODING,
@@ -82,6 +89,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '8',
+    createdAt: '2025-01-09T00:00:00.268Z',
     title: 'WeChat Official Account Cover Generator',
     description: 'Create eye-catching WeChat Official Account cover images based on content, following hand-drawn illustration style.',
     category: Category.COMMERCIAL,
@@ -120,6 +128,7 @@ Input Content: "[INSERT ARTICLE TITLE OR TOPIC HERE]"`,
   },
   {
     id: '9',
+    createdAt: '2025-01-10T00:00:00.140Z',
     title: 'AdSense Compliance and Technical Audit Expert',
     description: 'Strict AdSense-focused compliance, navigation, and technical SEO audit of the site with executable fixes.',
     category: Category.BUSINESS,
@@ -170,6 +179,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '10',
+    createdAt: '2025-01-11T00:00:08.330Z',
     title: 'Hyper-Realistic Crowd Composition',
     description: 'Handling complex compositions with multiple famous faces and specific lighting.',
     category: Category.PHOTOGRAPHY,
@@ -181,6 +191,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '11',
+    createdAt: '2025-01-12T00:00:00.982Z',
     title: '2000s Mirror Selfie',
     description: 'Generate authentic early-2000s aesthetic with flash photography and nostalgic elements.',
     category: Category.PHOTOGRAPHY,
@@ -193,6 +204,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '12',
+    createdAt: '2025-01-13T00:00:07.727Z',
     title: 'Victoria\'s Secret Style Photoshoot',
     description: 'Create high-glamour, backstage-style fashion photography with intricate details.',
     category: Category.PHOTOGRAPHY,
@@ -204,6 +216,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '13',
+    createdAt: '2025-01-14T00:00:02.361Z',
     title: '1990s Camera Style Portrait',
     description: 'Replicate specific film textures, flash photography, and era-specific atmosphere.',
     category: Category.PHOTOGRAPHY,
@@ -215,6 +228,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '14',
+    createdAt: '2025-01-15T00:00:04.037Z',
     title: 'One-Click Business Photo (Silicon Valley Style)',
     description: 'Transforms casual photos into professional studio headshots using specific lens and lighting instructions.',
     category: Category.COMMERCIAL,
@@ -226,6 +240,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '15',
+    createdAt: '2025-01-16T00:00:00.548Z',
     title: 'Emotional Film Photography',
     description: 'Creates a cinematic, nostalgic "Kodak Portra" look while maintaining facial consistency.',
     category: Category.PHOTOGRAPHY,
@@ -237,6 +252,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '16',
+    createdAt: '2025-01-17T00:00:00.730Z',
     title: 'Professional Headshot Creator',
     description: 'Create a professional profile photo from a selfie.',
     category: Category.COMMERCIAL,
@@ -248,6 +264,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '17',
+    createdAt: '2025-01-18T00:00:04.191Z',
     title: 'Hyperrealistic Anime Portrait in Spotlight',
     description: 'A hyperrealistic anime-style portrait with dramatic lighting.',
     category: Category.ART,
@@ -259,6 +276,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '18',
+    createdAt: '2025-01-19T00:00:09.558Z',
     title: 'Bathroom Mirror Selfie',
     description: 'Create a candid mirror selfie with specific styling and composition.',
     category: Category.PHOTOGRAPHY,
@@ -269,6 +287,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '19',
+    createdAt: '2025-01-20T00:00:06.476Z',
     title: 'Chalkboard Anime Art Documentation',
     description: 'Photorealistic documentation of a chalkboard anime drawing.',
     category: Category.ART,
@@ -279,6 +298,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '20',
+    createdAt: '2025-01-21T00:00:06.825Z',
     title: 'Portrait with Puppy in Snow',
     description: 'Create a winter portrait with a puppy while maintaining facial consistency.',
     category: Category.PHOTOGRAPHY,
@@ -289,6 +309,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '21',
+    createdAt: '2025-01-22T00:00:08.767Z',
     title: 'Fisheye Movie Character Selfie',
     description: 'A 360-degree selfie with movie characters using a fisheye lens.',
     category: Category.PHOTOGRAPHY,
@@ -299,6 +320,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '22',
+    createdAt: '2025-01-23T00:00:00.926Z',
     title: 'Character Consistency Selfie',
     description: 'Take a selfie with a movie character while preserving your features.',
     category: Category.PHOTOGRAPHY,
@@ -309,6 +331,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '23',
+    createdAt: '2025-01-24T00:00:08.918Z',
     title: 'Museum Art Exhibition Selfie',
     description: 'A commercial-grade photo with a classical oil painting.',
     category: Category.PHOTOGRAPHY,
@@ -319,6 +342,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '24',
+    createdAt: '2025-01-25T00:00:03.208Z',
     title: 'Compact Camera Screen Display',
     description: 'A photo displayed on a compact digital camera screen.',
     category: Category.PHOTOGRAPHY,
@@ -330,6 +354,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '25',
+    createdAt: '2025-01-26T00:00:06.769Z',
     title: 'Magazine Cover Portrait',
     description: 'Create a glossy magazine cover with dynamic portrait.',
     category: Category.COMMERCIAL,
@@ -341,6 +366,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '26',
+    createdAt: '2025-01-27T00:00:09.503Z',
     title: 'Luxury Product Photography',
     description: 'High-end product shot floating on water with florals and lighting.',
     category: Category.COMMERCIAL,
@@ -352,6 +378,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '27',
+    createdAt: '2025-01-28T00:00:03.286Z',
     title: 'Star Wars "Where\'s Waldo"',
     description: 'Dense crowd seeking game image featuring all Star Wars characters.',
     category: Category.ART,
@@ -363,6 +390,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '28',
+    createdAt: '2025-01-29T00:00:01.099Z',
     title: 'Aging Through the Years',
     description: 'Demonstrates temporal consistency and aging effects on a single subject.',
     category: Category.PHOTOGRAPHY,
@@ -373,6 +401,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '29',
+    createdAt: '2025-01-30T00:00:08.047Z',
     title: 'Recursive Visual Effect',
     description: 'Demonstrates the model\'s ability to handle infinite loop logic (Droste effect).',
     category: Category.ART,
@@ -384,6 +413,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '30',
+    createdAt: '2025-01-31T00:00:08.846Z',
     title: 'Coordinate Visualization',
     description: 'Generates a specific location and time based purely on latitude/longitude coordinates.',
     category: Category.ART,
@@ -394,6 +424,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '31',
+    createdAt: '2025-02-01T00:00:06.645Z',
     title: 'Conceptual Visualization',
     description: 'Interpretative rendering of how a specific group visualizes a landmark.',
     category: Category.ART,
@@ -404,6 +435,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '32',
+    createdAt: '2025-02-02T00:00:07.884Z',
     title: 'Literal Interpretation',
     description: 'Interprets a filename as a visual subject.',
     category: Category.ART,
@@ -414,6 +446,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '33',
+    createdAt: '2025-02-03T00:00:07.364Z',
     title: 'Multi-Subject Compositing',
     description: 'Combines multiple input portraits into a single cohesive group photo.',
     category: Category.PHOTOGRAPHY,
@@ -424,6 +457,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '34',
+    createdAt: '2025-02-04T00:00:08.393Z',
     title: 'Whiteboard Marker Art',
     description: 'Simulating specific drawing media (faded marker) on glass textures.',
     category: Category.ART,
@@ -434,6 +468,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '35',
+    createdAt: '2025-02-05T00:00:02.707Z',
     title: 'Split View 3D Render',
     description: 'Create a 3D render with realistic left half and wireframe right half.',
     category: Category.ART,
@@ -445,6 +480,7 @@ Current Codebase/Site Structure:
   },
   {
     id: '36',
+    createdAt: '2025-02-06T00:00:03.936Z',
     title: 'Anthropomorphic Bunny Selfie',
     description: 'A snapshot selfie of a weary anthropomorphic bunny in an office setting.',
     category: Category.PHOTOGRAPHY,

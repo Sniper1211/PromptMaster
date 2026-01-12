@@ -17,6 +17,8 @@ const HomePage: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
+    const [sortOrder, setSortOrder] = useState<'recent' | 'random'>('random');
+    const [shuffleSeed, setShuffleSeed] = useState(0);
 
     const toggleLanguage = () => {
         const currentLang = i18n.language;
@@ -25,15 +27,42 @@ const HomePage: React.FC = () => {
         i18n.changeLanguage(newLang);
     };
 
+    const handleSetSortOrder = (order: 'recent' | 'random') => {
+        if (order === 'random' && sortOrder === 'random') {
+            setShuffleSeed(prev => prev + 1);
+        }
+        setSortOrder(order);
+    };
+
+    const randomWeights = useMemo(() => {
+        const weights: Record<string, number> = {};
+        prompts.forEach(p => {
+            weights[p.id] = Math.random();
+        });
+        return weights;
+    }, [prompts, shuffleSeed]);
+
     const filteredPrompts = useMemo(() => {
-        return prompts.filter(prompt => {
+        let result = prompts.filter(prompt => {
             const matchesCategory = activeCategory === Category.ALL || prompt.category === activeCategory;
             const matchesSearch = prompt.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 prompt.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 prompt.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
             return matchesCategory && matchesSearch;
         });
-    }, [activeCategory, searchQuery, prompts]);
+
+        if (sortOrder === 'recent') {
+            result.sort((a, b) => {
+                const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                return dateB - dateA;
+            });
+        } else {
+            result.sort((a, b) => (randomWeights[a.id] || 0) - (randomWeights[b.id] || 0));
+        }
+
+        return result;
+    }, [activeCategory, searchQuery, prompts, sortOrder, randomWeights]);
 
     const nextId = useMemo(() => {
         if (prompts.length === 0) return '1';
@@ -85,6 +114,8 @@ const HomePage: React.FC = () => {
                     setActiveCategory={setActiveCategory}
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
+                    sortOrder={sortOrder}
+                    setSortOrder={handleSetSortOrder}
                     toggleLanguage={toggleLanguage}
                     currentLanguage={i18n.language}
                     onTutorialClick={() => setIsComingSoonOpen(true)}

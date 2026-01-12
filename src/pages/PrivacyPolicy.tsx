@@ -35,7 +35,7 @@ const PrivacyPolicy: React.FC = () => {
                         <h1 className="text-4xl md:text-5xl font-black uppercase italic mb-8 tracking-tighter">Privacy Policy</h1>
                         
                         <div className="prose prose-lg prose-slate max-w-none prose-headings:font-black prose-headings:uppercase prose-headings:tracking-wide prose-p:font-medium prose-p:leading-relaxed prose-a:font-bold prose-a:text-black prose-a:decoration-[3px] prose-a:decoration-[#FACC15] hover:prose-a:bg-[#FACC15] prose-a:transition-colors">
-                            <p className="text-xl font-bold mb-8">Last updated: January 11, 2024</p>
+                            <p className="text-xl font-bold mb-8">Last updated: January 12, 2026</p>
 
                             <h3>1. Introduction</h3>
                             <p>Welcome to PentaPrompt. We respect your privacy and are committed to protecting your personal data.</p>

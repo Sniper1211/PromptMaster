@@ -3,6 +3,7 @@ import { Category, Prompt } from '../types';
 export const PROMPTS_ZH: Prompt[] = [
   {
     id: '1',
+    createdAt: '2025-01-02T00:00:07.453Z',
     title: '现代 React 组件架构师',
     description: '创建可扩展、类型安全的 React 组件的专家指南。',
     category: Category.CODING,
@@ -17,6 +18,7 @@ export const PROMPTS_ZH: Prompt[] = [
   },
   {
     id: '2',
+    createdAt: '2025-01-03T00:00:01.909Z',
     title: '认知心理学故事家',
     description: '生成具有心理深度的情感共鸣叙事。',
     category: Category.WRITING,
@@ -28,6 +30,7 @@ export const PROMPTS_ZH: Prompt[] = [
   },
   {
     id: '3',
+    createdAt: '2025-01-04T00:00:07.407Z',
     title: '科研论文摘要助手',
     description: '将复杂的研究浓缩为易于消化的见解。',
     category: Category.WRITING,
@@ -39,6 +42,7 @@ export const PROMPTS_ZH: Prompt[] = [
   },
   {
     id: '4',
+    createdAt: '2025-01-05T00:00:08.937Z',
     title: 'SaaS 商业策略师',
     description: '制定营销策略和市场进入计划。',
     category: Category.BUSINESS,
@@ -50,6 +54,7 @@ export const PROMPTS_ZH: Prompt[] = [
   },
   {
     id: '5',
+    createdAt: '2025-01-06T00:00:04.399Z',
     title: 'Python 数据清洗专家',
     description: '快速生成健壮的数据预处理脚本。',
     category: Category.CODING,
@@ -61,6 +66,7 @@ export const PROMPTS_ZH: Prompt[] = [
   },
   {
     id: '6',
+    createdAt: '2025-01-07T00:00:09.275Z',
     title: 'Prompt 工程师教练',
     description: '完善和优化你自己的 Prompt。',
     category: Category.WRITING,
@@ -72,6 +78,7 @@ export const PROMPTS_ZH: Prompt[] = [
   },
   {
     id: '7',
+    createdAt: '2025-01-08T00:00:09.082Z',
     title: '全栈工程师 (i18n & 布局)',
     description: '确保 UI 在多语言切换时保持布局稳定的高级开发指令。',
     category: Category.CODING,
@@ -97,10 +104,11 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
 
 目标是：无论将来文案变成多长的英文或多短的中文，页面的骨架结构（Skeleton）都保持不动。"`,
     expectedOutput: '一份清晰、可执行的开发规范，指导 AI 生成高质量、布局稳定的前端代码。',
-    usage: '在要求 AI 编写前端代码之前粘贴整段内容，以确保输出的代码在国际化方面具有鲁棒性。'
+    usage: '在要求 AI 编写前端代码之前粘贴整段内容，以确保输出的代码在多语言环境下布局稳定，避免文字变长导致界面错位。'
   },
   {
     id: '8',
+    createdAt: '2025-01-09T00:00:07.427Z',
     title: '公众号封面图生成提示词',
     description: '根据内容创建吸引眼球的公众号封面图，遵循手绘插画风格和吸引力法则。',
     category: Category.COMMERCIAL,
@@ -168,6 +176,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '9',
+    createdAt: '2025-01-10T00:00:01.399Z',
     title: 'AdSense 审核合规与技术审计专家',
     description: '从 AdSense 通过率角度对站点进行严格合规、导航与技术 SEO 审计，并输出可执行修复方案。',
     category: Category.BUSINESS,
@@ -259,6 +268,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '10',
+    createdAt: '2025-01-11T00:00:05.794Z',
     title: '超写实人群构图',
     description: '处理包含多张著名面孔和特定灯光的复杂构图。',
     category: Category.PHOTOGRAPHY,
@@ -271,6 +281,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '11',
+    createdAt: '2025-01-12T00:00:08.539Z',
     title: '2000年代复古镜面自拍',
     description: '生成具有闪光灯摄影和怀旧元素的正宗2000年代早期美学。',
     category: Category.PHOTOGRAPHY,
@@ -283,6 +294,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '12',
+    createdAt: '2025-01-13T00:00:04.897Z',
     title: '维密风格后台摄影',
     description: '创建具有丰富细节的高魅力后台风格时尚摄影。',
     category: Category.PHOTOGRAPHY,
@@ -295,6 +307,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '13',
+    createdAt: '2025-01-14T00:00:01.950Z',
     title: '90年代胶片风格肖像',
     description: '复制特定胶片质感、闪光灯摄影和时代特定氛围的能力。',
     category: Category.PHOTOGRAPHY,
@@ -307,6 +320,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '14',
+    createdAt: '2025-01-15T00:00:03.403Z',
     title: '一键生成商务照（硅谷风格）',
     description: '使用特定的镜头和灯光指令将休闲照片转变为专业的工作室头像。',
     category: Category.COMMERCIAL,
@@ -319,6 +333,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '15',
+    createdAt: '2025-01-16T00:00:08.693Z',
     title: '情感胶片摄影',
     description: '在保持面部一致性的同时，创造出电影般怀旧的“Kodak Portra”外观。',
     category: Category.PHOTOGRAPHY,
@@ -331,6 +346,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '16',
+    createdAt: '2025-01-17T00:00:08.817Z',
     title: '专业头像生成器',
     description: '从自拍创建专业形象照，保持面部特征一致。',
     category: Category.COMMERCIAL,
@@ -343,6 +359,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '17',
+    createdAt: '2025-01-18T00:00:04.070Z',
     title: '聚光灯下的超写实动漫肖像',
     description: '具有戏剧性灯光效果的超写实动漫风格肖像。',
     category: Category.ART,
@@ -355,6 +372,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '18',
+    createdAt: '2025-01-19T00:00:01.436Z',
     title: '浴室镜面自拍',
     description: '具有特定造型和构图的抓拍风格镜面自拍。',
     category: Category.PHOTOGRAPHY,
@@ -366,6 +384,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '19',
+    createdAt: '2025-01-20T00:00:03.182Z',
     title: '黑板动漫艺术记录',
     description: '黑板动漫绘画的写实记录风格。',
     category: Category.ART,
@@ -377,6 +396,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '20',
+    createdAt: '2025-01-21T00:00:07.170Z',
     title: '雪中萌犬肖像',
     description: '保持人物面部特征一致的冬季户外人宠合影。',
     category: Category.PHOTOGRAPHY,
@@ -388,6 +408,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '21',
+    createdAt: '2025-01-22T00:00:09.212Z',
     title: '鱼眼镜头电影角色自拍',
     description: '与电影角色的夸张360度鱼眼自拍。',
     category: Category.PHOTOGRAPHY,
@@ -399,6 +420,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '22',
+    createdAt: '2025-01-23T00:00:00.269Z',
     title: '电影片场角色合影',
     description: '与电影角色合影，保持面部特征完全一致。',
     category: Category.PHOTOGRAPHY,
@@ -410,6 +432,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '23',
+    createdAt: '2025-01-24T00:00:03.574Z',
     title: '博物馆艺术展自拍',
     description: '在高端博物馆与经典油画的商业级合影。',
     category: Category.PHOTOGRAPHY,
@@ -421,6 +444,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '24',
+    createdAt: '2025-01-25T00:00:07.079Z',
     title: '相机屏幕回放效果',
     description: '模拟紧凑型数码相机屏幕上显示的复古照片效果。',
     category: Category.PHOTOGRAPHY,
@@ -433,6 +457,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '25',
+    createdAt: '2025-01-26T00:00:02.346Z',
     title: '时尚杂志封面',
     description: '创建具有大标题和动态人像的精美杂志封面。',
     category: Category.COMMERCIAL,
@@ -445,6 +470,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '26',
+    createdAt: '2025-01-27T00:00:04.500Z',
     title: '奢华产品摄影',
     description: '漂浮在水面上的高端产品摄影，配以花卉和光影。',
     category: Category.COMMERCIAL,
@@ -457,6 +483,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '27',
+    createdAt: '2025-01-28T00:00:04.187Z',
     title: '星球大战版“威利在哪里”',
     description: '包含所有星球大战角色的密集人群寻找游戏图。',
     category: Category.ART,
@@ -469,6 +496,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '28',
+    createdAt: '2025-01-29T00:00:07.110Z',
     title: '年龄演变摄影',
     description: '展示同一人物从年轻到80岁的年龄变化。',
     category: Category.PHOTOGRAPHY,
@@ -480,6 +508,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '29',
+    createdAt: '2025-01-30T00:00:05.928Z',
     title: '递归视觉效果',
     description: '包含无限循环逻辑的递归图像（德罗斯特效应）。',
     category: Category.ART,
@@ -492,6 +521,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '30',
+    createdAt: '2025-01-31T00:00:00.472Z',
     title: '坐标可视化',
     description: '仅根据经纬度坐标生成特定地点和时间的图像。',
     category: Category.ART,
@@ -503,6 +533,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '31',
+    createdAt: '2025-02-01T00:00:01.140Z',
     title: '概念可视化',
     description: '特定群体（如工程师）对地标的解释性渲染。',
     category: Category.ART,
@@ -514,6 +545,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '32',
+    createdAt: '2025-02-02T00:00:08.199Z',
     title: '文件名直译',
     description: '将文件名直接解释为视觉主体。',
     category: Category.ART,
@@ -525,6 +557,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '33',
+    createdAt: '2025-02-03T00:00:07.015Z',
     title: '多主体合成',
     description: '将多个人物肖像合成为一张表情统一的集体照。',
     category: Category.PHOTOGRAPHY,
@@ -536,6 +569,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '34',
+    createdAt: '2025-02-04T00:00:01.911Z',
     title: '白板马克笔艺术',
     description: '模拟玻璃白板上的马克笔手绘效果。',
     category: Category.ART,
@@ -547,6 +581,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '35',
+    createdAt: '2025-02-05T00:00:07.135Z',
     title: '3D渲染分割视图',
     description: '左半部分真实渲染，右半部分线框图的对比视图。',
     category: Category.ART,
@@ -559,6 +594,7 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
   },
   {
     id: '36',
+    createdAt: '2025-02-06T00:00:02.519Z',
     title: '拟人化兔子自拍',
     description: '厌世脸的拟人化小兔在办公室的快照自拍，带有工牌和设计背景。',
     category: Category.PHOTOGRAPHY,
