@@ -23,6 +23,7 @@ export interface Prompt {
   authorId?: string;
   model?: string;
   format?: string;
+  createdAt?: string;
 }
 
 export interface GenerationResult {

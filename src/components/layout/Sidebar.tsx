@@ -18,6 +18,8 @@ interface SidebarProps {
     setActiveCategory: (category: Category) => void;
     searchQuery: string;
     setSearchQuery: (query: string) => void;
+    sortOrder: 'recent' | 'random';
+    setSortOrder: (order: 'recent' | 'random') => void;
     toggleLanguage: () => void;
     currentLanguage: string;
     onTutorialClick: () => void;
@@ -29,6 +31,8 @@ const Sidebar: React.FC<SidebarProps> = ({
     setActiveCategory,
     searchQuery,
     setSearchQuery,
+    sortOrder,
+    setSortOrder,
     toggleLanguage,
     currentLanguage,
     onTutorialClick,
@@ -72,12 +76,26 @@ const Sidebar: React.FC<SidebarProps> = ({
                     </div>
 
                     <div className="grid grid-cols-2 gap-2">
-                        <button className="flex items-center justify-center gap-2 px-2 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm">
+                        <button 
+                            onClick={() => setSortOrder('recent')}
+                            className={`flex items-center justify-center gap-2 px-2 py-2 border-[2px] transition-all text-black font-bold text-sm ${
+                                sortOrder === 'recent' 
+                                ? 'border-black bg-[#FACC15] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]' 
+                                : 'border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+                            }`}
+                        >
                             <Clock size={16} strokeWidth={2.5} />
                             <span>{t('sidebar.recent')}</span>
                         </button>
 
-                        <button className="flex items-center justify-center gap-2 px-2 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm">
+                        <button 
+                            onClick={() => setSortOrder('random')}
+                            className={`flex items-center justify-center gap-2 px-2 py-2 border-[2px] transition-all text-black font-bold text-sm ${
+                                sortOrder === 'random' 
+                                ? 'border-black bg-[#FACC15] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]' 
+                                : 'border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+                            }`}
+                        >
                             <Shuffle size={16} strokeWidth={2.5} />
                             <span>{t('sidebar.random')}</span>
                         </button>
