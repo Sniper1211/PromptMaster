@@ -483,12 +483,12 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     title: '递归视觉效果',
     description: '包含无限循环逻辑的递归图像（德罗斯特效应）。',
     category: Category.ART,
-    tags: ['Creative', 'Recursive', 'Abstract', 'Surreal'],
+    tags: ['递归', '德罗斯特效应', '无限循环', '超现实', '抽象', '视觉错觉'],
     content: 'recursive image of an orange cat sitting in an office chair holding up an iPad. On the iPad is the same cat in the same scene holding up the same iPad. Repeated on each iPad.',
     chineseContent: '一只橘猫坐在办公椅上举着 iPad 的递归图像。在 iPad 上是同一只猫在同一场景中举着同一个 iPad。在每个 iPad 上重复。',
     expectedOutput: 'A prompt for a recursive visual effect.',
-    usage: '“德罗特效应”。将“orange cat”（橘猫）更改为任何其他主体。',
-    // previewImageUrl: '/previews/recursive-cat.png'
+    usage: '“德罗斯特效应”。将“orange cat”（橘猫）更改为任何其他主体。',
+    previewImageUrl: '/previews/recursive-visual-effect.webp'
   },
   {
     id: '30',
