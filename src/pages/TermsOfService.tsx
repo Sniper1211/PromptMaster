@@ -1,14 +1,20 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import SEOHead from '../components/seo/SEOHead';
 
 const TermsOfService: React.FC = () => {
+    const { t } = useTranslation();
+
     return (
         <>
-            <Helmet>
-                <title>Terms of Service - PentaPrompt</title>
-            </Helmet>
+            <SEOHead
+                title={t('seo.termsOfService.title')}
+                description={t('seo.termsOfService.description')}
+                url="https://pentaprompt.com/terms"
+                type="website"
+            />
             <div className="min-h-screen bg-gray-50 p-6 md:p-12 font-sans">
                 <div className="max-w-3xl mx-auto bg-white brutal-border brutal-shadow p-8">
                     <Link to="/" className="flex items-center gap-2 font-black uppercase tracking-tight hover:-translate-x-1 transition-transform mb-8 w-fit">

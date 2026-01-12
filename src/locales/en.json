@@ -8,13 +8,6 @@
     "creators": "Creators",
     "tutorials": "Prompt Tutorials"
   },
-  "seo": {
-    "home": {
-      "title": "Curated AI Prompt Library | High-Quality Prompt Resources for Efficiency & Creativity",
-      "description": "Discover and share excellent prompts in our curated AI command library. Covering writing, programming, design, and more, it helps you quickly access quality instructions to boost productivity and creativity. Regularly updated—explore and contribute!",
-      "keywords": "Prompts, Prompt Library, AI Prompts, Artificial Intelligence, Resource Hub, Best Prompts, Command Set, Creative Tools, AI Commands, Productivity"
-    }
-  },
   "nav": {
     "title": "PentaPrompt",
     "explorer": "Explorer",
@@ -65,7 +58,9 @@
     "curatedPrompts": "Curated Prompts",
     "communityUses": "Community Uses",
     "openLibrary": "Open Library",
-    "contribute": "Contribute your own prompts"
+    "contribute": "Contribute your own prompts",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
   },
   "addPrompt": {
     "title": "Add New Prompt",
@@ -135,9 +130,9 @@
   },
   "seo": {
     "home": {
-      "title": "PentaPrompt - Best AI Prompt Library | ChatGPT, Claude & Gemini Prompts",
-      "description": "Discover 100+ curated AI prompts for ChatGPT, Claude, and Gemini. Browse prompts for writing, coding, marketing, education, and more. Free prompt library.",
-      "keywords": "AI prompts, ChatGPT prompts, Claude prompts, Gemini prompts, prompt library, AI tools, prompt engineering"
+      "title": "Curated AI Prompt Library | High-Quality Prompt Resources for Efficiency & Creativity",
+      "description": "Discover and share excellent prompts in our curated AI command library. Covering writing, programming, design, and more, it helps you quickly access quality instructions to boost productivity and creativity. Regularly updated—explore and contribute!",
+      "keywords": "Prompts, Prompt Library, AI Prompts, Artificial Intelligence, Resource Hub, Best Prompts, Command Set, Creative Tools, AI Commands, Productivity"
     },
     "promptDetail": {
       "titleSuffix": "- AI Prompt | PentaPrompt"
