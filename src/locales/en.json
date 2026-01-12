@@ -8,6 +8,12 @@
     "creators": "Creators",
     "tutorials": "Prompt Tutorials"
   },
+  "common": {
+    "comingSoon": {
+      "title": "Coming Soon",
+      "description": "We are working hard on this feature. Stay tuned!"
+    }
+  },
   "nav": {
     "title": "PentaPrompt",
     "explorer": "Explorer",

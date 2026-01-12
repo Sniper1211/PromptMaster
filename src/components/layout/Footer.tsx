@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Layers } from 'lucide-react';
 
-const Footer: React.FC = () => {
+interface FooterProps {
+    onContribute?: () => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ onContribute }) => {
     const { t } = useTranslation();
 
     return (
@@ -22,7 +26,10 @@ const Footer: React.FC = () => {
                 </div>
 
                 {/* Call to Action Section */}
-                <div className="flex-1 p-8 flex items-center justify-center bg-gray-50 hover:bg-[#FF4D4D] transition-colors group cursor-pointer">
+                <div 
+                    onClick={onContribute}
+                    className="flex-1 p-8 flex items-center justify-center bg-gray-50 hover:bg-[#FF4D4D] transition-colors group cursor-pointer"
+                >
                     <div className="flex items-center gap-4">
                         <div className="p-3 bg-white border-[2.5px] border-black rounded-none brutal-shadow group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-none transition-all">
                             <Layers className="text-black" size={24} strokeWidth={2.5} />
