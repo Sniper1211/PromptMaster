@@ -119,7 +119,7 @@ const AdminPage: React.FC = () => {
     <div className="min-h-screen bg-[#f0f0f0] p-8 font-sans bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
       <div className="max-w-3xl mx-auto">
         <header className="flex items-center justify-between mb-8 bg-white border-2 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-          <Link to="/" className="flex items-center gap-2 font-black uppercase tracking-tight text-black bg-white border-2 border-black px-4 py-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-yellow-300 hover:translate-y-[-2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none transition-all">
+          <Link to="/" className="min-w-[160px] flex items-center justify-center gap-2 font-black uppercase tracking-tight text-black bg-white border-2 border-black px-4 py-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-yellow-300 hover:translate-y-[-2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none transition-all">
             <ArrowLeft size={20} strokeWidth={3} />
             {t('admin.backToHome')}
           </Link>
@@ -127,12 +127,12 @@ const AdminPage: React.FC = () => {
           <div className="flex items-center gap-4">
             <button 
               onClick={toggleLanguage}
-              className="bg-white border-2 border-black p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-gray-100 active:translate-y-[2px] active:shadow-none transition-all"
+              className="w-12 h-12 flex items-center justify-center bg-white border-2 border-black text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-gray-100 active:translate-y-[2px] active:shadow-none transition-all"
               title="Switch Language"
             >
-              <Globe size={24} />
+              <Globe size={24} strokeWidth={2.5} />
             </button>
-            <h1 className="text-xl font-black uppercase italic bg-yellow-400 px-2 border-2 border-black transform rotate-1">
+            <h1 className="min-w-[140px] text-center text-xl font-black uppercase italic bg-yellow-400 px-2 border-2 border-black transform rotate-1">
               {t('admin.title')}
             </h1>
           </div>
@@ -161,7 +161,7 @@ const AdminPage: React.FC = () => {
                   placeholder={t('admin.smartPaste.apiKeyPlaceholder')} 
                   value={apiKey}
                   onChange={e => setApiKey(e.target.value)}
-                  className="px-3 py-2 text-xs font-bold border-2 border-indigo-200 rounded focus:border-indigo-600 outline-none bg-white w-32 focus:w-48 transition-all placeholder:text-indigo-300 text-indigo-900"
+                  className="px-3 py-2 text-xs font-bold border-2 border-indigo-200 rounded focus:border-indigo-600 outline-none bg-white w-48 transition-all placeholder:text-indigo-300 text-indigo-900"
                 />
               </div>
             </div>
@@ -219,24 +219,24 @@ const AdminPage: React.FC = () => {
               <div className="space-y-6 animate-in fade-in slide-in-from-top-4 pt-4">
                 {/* Title & Category */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-black uppercase tracking-widest text-black">{t('admin.form.title')}</label>
+                  <div className="space-y-2 flex flex-col">
+                    <label className="text-sm font-black uppercase tracking-widest text-black min-h-[20px] flex items-center">{t('admin.form.title')}</label>
                     <input
                       name="title"
                       value={formData.title}
                       onChange={handleChange}
                       required
-                      className="w-full p-4 border-[4px] border-black font-black text-xl text-black bg-white focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-gray-400"
+                      className="w-full h-[60px] px-4 border-[4px] border-black font-black text-xl text-black bg-white focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-gray-400"
                       placeholder="ENTER TITLE HERE..."
                     />
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-black uppercase tracking-widest text-black">{t('admin.form.category')}</label>
+                  <div className="space-y-2 flex flex-col">
+                    <label className="text-sm font-black uppercase tracking-widest text-black min-h-[20px] flex items-center">{t('admin.form.category')}</label>
                     <select
                       name="category"
                       value={formData.category}
                       onChange={handleChange}
-                      className="w-full p-4 border-[4px] border-black font-black text-xl text-black bg-white focus:outline-none focus:ring-4 focus:ring-yellow-200 cursor-pointer"
+                      className="w-full h-[60px] px-4 border-[4px] border-black font-black text-xl text-black bg-white focus:outline-none focus:ring-4 focus:ring-yellow-200 cursor-pointer"
                     >
                       {Object.keys(Category).filter(k => k !== 'ALL').map(cat => (
                         <option key={cat} value={cat}>{t(`categories.${cat}`, cat)}</option>
@@ -246,19 +246,19 @@ const AdminPage: React.FC = () => {
                 </div>
 
                 {/* Description */}
-                <div className="space-y-2">
-                  <label className="text-xs font-black uppercase tracking-widest text-zinc-800">{t('admin.form.description')}</label>
+                <div className="space-y-2 flex flex-col">
+                  <label className="text-xs font-black uppercase tracking-widest text-zinc-800 min-h-[16px] flex items-center">{t('admin.form.description')}</label>
                   <input
                     name="description"
                     value={formData.description}
                     onChange={handleChange}
-                    className="w-full p-3 border-[3px] border-black font-medium text-gray-800 focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-gray-300"
+                    className="w-full h-[52px] px-3 border-[3px] border-black font-medium text-gray-800 focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-gray-300"
                   />
                 </div>
 
                 {/* Content (English) */}
-                <div className="space-y-2">
-                  <label className="text-xs font-black uppercase tracking-widest text-zinc-800 flex justify-between">
+                <div className="space-y-2 flex flex-col">
+                  <label className="text-xs font-black uppercase tracking-widest text-zinc-800 flex justify-between min-h-[16px] items-center">
                     {t('admin.form.content')}
                     <span className="text-red-500">* {t('admin.form.required')}</span>
                   </label>
@@ -268,52 +268,52 @@ const AdminPage: React.FC = () => {
                     onChange={handleChange}
                     required
                     rows={8}
-                    className="w-full p-3 border-[3px] border-black font-mono text-sm font-medium text-gray-800 focus:outline-none focus:ring-4 focus:ring-yellow-200 bg-slate-50 placeholder:text-gray-300"
+                    className="w-full p-3 border-[3px] border-black font-mono text-sm font-medium text-gray-800 focus:outline-none focus:ring-4 focus:ring-yellow-200 bg-slate-50 placeholder:text-gray-300 min-h-[200px]"
                   />
                 </div>
 
                 {/* Content (Chinese) */}
-                <div className="space-y-2">
-                  <label className="text-xs font-black uppercase tracking-widest text-zinc-800">{t('admin.form.chineseContent')}</label>
+                <div className="space-y-2 flex flex-col">
+                  <label className="text-xs font-black uppercase tracking-widest text-zinc-800 min-h-[16px] flex items-center">{t('admin.form.chineseContent')}</label>
                   <textarea
                     name="chineseContent"
                     value={formData.chineseContent}
                     onChange={handleChange}
                     rows={4}
-                    className="w-full p-3 border-[3px] border-black font-mono text-sm font-medium text-gray-800 focus:outline-none focus:ring-4 focus:ring-yellow-200 bg-slate-50 placeholder:text-gray-300"
+                    className="w-full p-3 border-[3px] border-black font-mono text-sm font-medium text-gray-800 focus:outline-none focus:ring-4 focus:ring-yellow-200 bg-slate-50 placeholder:text-gray-300 min-h-[120px]"
                   />
                 </div>
 
                 {/* Tags */}
-                <div className="space-y-2">
-                  <label className="text-xs font-black uppercase tracking-widest text-zinc-800">{t('admin.form.tags')}</label>
+                <div className="space-y-2 flex flex-col">
+                  <label className="text-xs font-black uppercase tracking-widest text-zinc-800 min-h-[16px] flex items-center">{t('admin.form.tags')}</label>
                   <input
                     name="tags"
                     value={formData.tags}
                     onChange={handleChange}
                     placeholder={t('admin.form.tagsPlaceholder')}
-                    className="w-full p-3 border-[3px] border-black font-bold text-blue-600 focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-gray-300"
+                    className="w-full h-[52px] px-3 border-[3px] border-black font-bold text-blue-600 focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-gray-300"
                   />
                 </div>
 
                 {/* Metadata */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-xs font-black uppercase tracking-widest text-zinc-800">{t('admin.form.expectedOutput')}</label>
+                  <div className="space-y-2 flex flex-col">
+                    <label className="text-xs font-black uppercase tracking-widest text-zinc-800 min-h-[16px] flex items-center">{t('admin.form.expectedOutput')}</label>
                     <input
                       name="expectedOutput"
                       value={formData.expectedOutput}
                       onChange={handleChange}
-                      className="w-full p-3 border-[3px] border-black font-medium text-gray-800 focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-gray-300"
+                      className="w-full h-[52px] px-3 border-[3px] border-black font-medium text-gray-800 focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-gray-300"
                     />
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-xs font-black uppercase tracking-widest text-zinc-800">{t('admin.form.usage')}</label>
+                  <div className="space-y-2 flex flex-col">
+                    <label className="text-xs font-black uppercase tracking-widest text-zinc-800 min-h-[16px] flex items-center">{t('admin.form.usage')}</label>
                     <input
                       name="usage"
                       value={formData.usage}
                       onChange={handleChange}
-                      className="w-full p-3 border-[3px] border-black font-medium text-gray-800 focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-gray-300"
+                      className="w-full h-[52px] px-3 border-[3px] border-black font-medium text-gray-800 focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-gray-300"
                     />
                   </div>
                 </div>
@@ -323,7 +323,7 @@ const AdminPage: React.FC = () => {
             <button
               type="submit"
               disabled={status === 'loading'}
-              className="w-full py-5 bg-black text-white font-black uppercase tracking-widest text-xl hover:bg-[#FACC15] hover:text-black hover:translate-y-[-4px] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-y-[0px] active:shadow-none transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full min-h-[72px] bg-black text-white font-black uppercase tracking-widest text-xl hover:bg-[#FACC15] hover:text-black hover:translate-y-[-4px] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-y-[0px] active:shadow-none transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {status === 'loading' ? t('admin.form.saving') : (
                 <>
