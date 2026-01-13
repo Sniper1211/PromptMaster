@@ -489,5 +489,39 @@ Current Codebase/Site Structure:
     expectedOutput: 'A unique anthropomorphic character snapshot.',
     usage: 'Great for generating character-driven snapshots with specific mood and storytelling elements.',
     previewImageUrl: '/previews/weary-bunny-office-selfie.webp'
+  },
+  {
+    id: '37',
+    createdAt: '2026-01-13T08:32:00.740Z',
+    title: "Social Media Selfie Prompt",
+    description: "A detailed prompt for generating a casual, candid social media-style selfie photo with specific character and environmental details.",
+    category: Category.PHOTOGRAPHY,
+    tags: ["photography","character design","social media","visual generation","selfie"],
+    content: "Generate a social media-style selfie photo with the following specifications:\n\nSubject:\n- Person: Young woman with blonde hair, athletic build\n- Expression: Playful, tongue poking out, casual and relaxed\n- Pose: Low-angle perspective, reclining back against a light-colored couch, looking directly at camera\n- Tattoos: Small chili pepper on the inner wrist, minimalist airplane on the forearm\n- Jewelry: Delicate silver clover-style bracelet, small stud earrings\n\nApparel:\n- Top: Black form-fitting ribbed tank top or bodysuit\n- Bottom: Matching black high-waisted leggings or yoga pants\n- Texture: Visible fabric lint and soft matte finish\n\nComposition:\n- Camera angle: Extreme low angle, POV style, looking up from the lap area\n- Framing: Close-up, wide-angle lens distortion typical of a smartphone selfie\n- Depth of field: Shallow, with the foreground garment in sharp focus and the background slightly softened\n\nEnvironment:\n- Setting: Modern bright living room interior\n- Furniture: Cream-colored fabric sofa\n- Background elements: Large windows with bright natural light, light blue insulated water bottle (tumbler) tucked beside the person, circular wall mirror in the background, minimalist white walls\n\nLighting and Color:\n- Lighting: High-key, bright natural daylight, slightly overexposed background\n- Color palette: Neutral tones, whites, blacks, and a pop of light blue\n- Vibe: Candid, casual, social media aesthetic",
+    expectedOutput: "A realistic, candid social media-style selfie photo matching all the detailed specifications including character appearance, clothing, environment, lighting, and composition.",
+    usage: "Copy this prompt into an AI image generation tool. Adjust details like clothing colors or expressions to create variants."
+  },
+  {
+    id: '38',
+    createdAt: '2026-01-13T08:52:32.996Z',
+    title: "Ultra-Photorealistic Celebrity Portrait",
+    description: "A detailed prompt for generating a hyper-realistic portrait featuring two contrasting subjects in an industrial setting.",
+    category: Category.PHOTOGRAPHY,
+    tags: ["photorealistic","portrait","celebrity","contrast","industrial"],
+    content: "Generate an ultra-photorealistic portrait with 3:4 aspect ratio and 8K UHD quality. The scene features two subjects in an industrial locker room or shooting range preparation area. Subject 1 (left) is Venezuela President wearing a grey heathered technical fleece tracksuit with hoodie and joggers, large black ear defenders with red accents, dark tinted tactical safety glasses, grey harness around neck, and black wrist watch. He stands relaxed holding a clear plastic water bottle with both hands at chest height, looking slightly off-camera with neutral expression, conveying a nonchalant, tactical yet casual vibe. Subject 2 (right) has Elon Musk's handsome features wearing a fitted dark navy blue suit, crisp white dress shirt, and solid navy blue tie. He leans in friendly toward subject 1 with right arm draped over subject 1's shoulders, left hand raised in a V-sign gesture, smiling warmly at the camera with enthusiastic, fan-like energy. The environment includes grey metal storage lockers on the left, dark pegboard or acoustic mesh wall paneling, utilitarian aesthetic with slightly cluttered background. Lighting is indoor artificial with fill flash creating soft direct lighting on faces, slight shadows behind subjects, cool-toned ambient light mixed with warmer skin tones, and reflections on the water bottle and safety glasses. Camera details: medium shot (waist up), 50mm prime lens, f/2.8 aperture for slight depth of field blurring background lockers, Kodak Portra 400 film stock emulation, high-resolution skin texture and visible fabric weave. Mood: candid, backstage, contrast between formal and tactical, humorous, memorable meeting, authentic.",
+    expectedOutput: "A hyper-realistic photographic portrait showing two contrasting celebrities in an industrial setting with detailed clothing textures, realistic lighting, and authentic expressions that capture the humorous contrast between their styles and personalities.",
+    usage: "Copy this prompt into an AI image generation tool. Adjust aspect ratio and quality settings. Replace subject identities or clothing to create variants."
+  },
+  {
+    id: '39',
+    createdAt: '2026-01-13T12:05:54.766Z',
+    title: "Surreal Forced-Perspective Street Photography",
+    description: "A detailed prompt for creating surreal forced-perspective street photography with giant hand illusion.",
+    category: Category.PHOTOGRAPHY,
+    tags: ["photography","surreal","optical illusion","street photography","3D rendering"],
+    content: "Create a surreal forced-perspective street photography image with the following specifications: Style: surreal forced-perspective street photography. Resolution: 64K. Aspect ratio: 3:4. Camera: DSLR with ultra wide-angle 16mm lens, extreme forced perspective, sharp foreground subject with slightly softened background, shallow depth of field, street-level upward angle. Scene: European-style urban street with brick buildings, classic storefronts, narrow road, natural daylight with realistic shadows, textured stone pavement, including olive-green storefront with large windows, black street pole on the right, subtle signage and building numbers. Foreground: Giant human hand with dark brown skin tone, visible skin texture, realistic knuckles and pores, natural shadow falloff, black smartwatch on wrist, silver ring on finger, pinching downward as if gripping something tiny, extremely close to camera dominating frame. Midground: Young man (use exact face from uploaded image) miniature relative to the hand, suspended mid-air holding the hand with one arm, legs dangling, playful surprise expression looking upward, short dark hair, well-groomed beard, wearing red short-sleeve polo with white horizontal stripes, white long-sleeve shirt underneath, loose-fit blue denim jeans, belt with chain accessory, bright green and yellow sneakers, light-colored cap, subtle necklace. Mood: playful, creative, surreal realism. Aesthetic: viral social-media illusion photography. Rendering: ultra-photorealistic using Octane Render or Unreal Engine 5, cinematic realism, high texture fidelity, realistic lighting. Keywords: forced perspective photography, giant hand illusion, optical illusion, surreal street art, creative urban photography, playful scale distortion, viral photo aesthetic.",
+    expectedOutput: "A highly detailed, photorealistic image showing a surreal forced-perspective scene where a giant human hand dominates the foreground while a miniature man hangs from it in a European street setting, creating a viral optical illusion effect.",
+    usage: "Copy this prompt into an AI image generation tool like Midjourney or DALL-E 3. Upload a reference face image for the subject.",
+    previewImageUrl: '/previews/DM_20260113200829_001.webp'
   }
 ];
