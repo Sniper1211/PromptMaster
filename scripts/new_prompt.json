@@ -1,0 +1,10 @@
+{
+  "title": "示例：Python 自动化办公助手",
+  "description": "自动处理 Excel 和 PDF 文件的脚本生成器。",
+  "category": "Coding",
+  "tags": ["Python", "Automation", "Office"],
+  "content": "Act as a Python expert...",
+  "chineseContent": "扮演一位 Python 专家...",
+  "expectedOutput": "Python code block",
+  "usage": "直接运行即可"
+}

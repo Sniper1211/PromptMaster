@@ -47,14 +47,44 @@
     "details": "Details",
     "chineseTranslation": "Chinese Translation"
   },
-  "modal": {
+ "modal": {
     "title": "Prompt Details",
     "promptConfig": "Prompt Content",
     "expertTip": "Expert Tip",
     "usageGuide": "Usage Guide",
-    "copyResult": "Copy Prompt",
+    "copyResult": "Copy Result",
     "copied": "Copied!",
     "close": "Close"
+  },
+  "admin": {
+    "backToHome": "Back to Home",
+    "title": "Add New Prompt",
+    "smartPaste": {
+      "title": "Smart Paste (AI Auto-Fill)",
+      "apiKeyPlaceholder": "API Key (Optional)",
+      "instruction": "Paste a link, a rough draft, or any text below. The AI will format it for you.",
+      "placeholder": "Example: 'Write a python script to scrape data...' or paste a URL.",
+      "button": "Analyze & Fill",
+      "analyzing": "Analyzing..."
+    },
+    "form": {
+      "editDetails": "Edit / Review Details",
+      "hideDetails": "Hide Form Details",
+      "title": "Title",
+      "category": "Category",
+      "description": "Description",
+      "content": "Prompt Content (English)",
+      "required": "Required",
+      "chineseContent": "Chinese Content",
+      "tags": "Tags",
+      "tagsPlaceholder": "comma, separated, tags",
+      "expectedOutput": "Expected Output",
+      "usage": "Usage Guide",
+      "save": "Save to Database",
+      "saving": "Saving...",
+      "success": "Success! Added ID:",
+      "failed": "Failed to save"
+    }
   },
   "noResults": {
     "message": "No prompts found matching your current filters.",

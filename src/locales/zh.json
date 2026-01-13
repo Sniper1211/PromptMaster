@@ -56,6 +56,36 @@
     "copied": "已复制!",
     "close": "关闭"
   },
+  "admin": {
+    "backToHome": "返回首页",
+    "title": "添加新提示词",
+    "smartPaste": {
+      "title": "智能粘贴 (AI 自动填充)",
+      "apiKeyPlaceholder": "API Key (可选)",
+      "instruction": "粘贴链接、草稿或任何文本，AI 将为您自动格式化。",
+      "placeholder": "例如：'写一个 Python 爬虫脚本...' 或粘贴 URL。",
+      "button": "分析并填充",
+      "analyzing": "分析中..."
+    },
+    "form": {
+      "editDetails": "编辑 / 预览详情",
+      "hideDetails": "隐藏详情",
+      "title": "标题",
+      "category": "分类",
+      "description": "描述",
+      "content": "提示词内容 (英文)",
+      "required": "必填",
+      "chineseContent": "中文内容",
+      "tags": "标签",
+      "tagsPlaceholder": "逗号, 分隔, 标签",
+      "expectedOutput": "预期输出",
+      "usage": "使用指南",
+      "save": "保存到数据库",
+      "saving": "保存中...",
+      "success": "成功！已添加 ID：",
+      "failed": "保存失败"
+    }
+  },
   "noResults": {
     "message": "未找到匹配当前筛选条件的提示词。",
     "clear": "清除所有筛选"
