@@ -641,5 +641,17 @@ Goal: Regardless of how long the English text or how short the Chinese text beco
     expectedOutput: "A highly detailed, photorealistic image showing a surreal forced-perspective scene where a giant human hand dominates the foreground while a miniature man hangs from it in a European street setting, creating a viral optical illusion effect.",
     usage: "用于创作“巨型手抓人”的强迫透视错觉摄影。为了获得最佳效果，建议在支持“换脸”的工具中使用，并上传一张人物面部参考图。你也可以调整“Background”（背景）为其他城市地标。",
     previewImageUrl: '/previews/DM_20260113200829_001.webp'
+  },
+  {
+    id: '40',
+    createdAt: '2026-01-13T16:55:36.109Z',
+    title: "Document Summary Extractor",
+    description: "Extracts concise summary points from a provided document, limited to 10 key points.",
+    category: Category.WRITING,
+    tags: ["summarization","document analysis","information extraction","productivity"],
+    content: "Your task is to extract summary points from the provided document. First, carefully read the following document:\n<document>\n{{DOCUMENT}}\n</document>\nWhen extracting points, please follow these requirements:\n1. Each point should be concise and clear, summarizing the core information of the document in one sentence.\n2. The points must accurately reflect the main content of the document, avoiding omission of key information.\n3. The points should be independent of each other, without repetition or redundancy.\n4. The number of points must be strictly controlled within 10 (including 10).\nPlease arrange the extracted points in order of importance or logical sequence, and output them within the <points> tags. Each point should be preceded by a number, for example:\n<points>\n1. [Point content 1]\n2. [Point content 2]\n...\n</points>\nNo additional explanation is needed; just output the points directly.",
+    chineseContent: "你的任务是从提供的文档中提取总结要点，要点数量不超过10个。\n首先，请仔细阅读以下文档：\n<document>\n{{DOCUMENT}}\n</document>\n在提取要点时，请遵循以下要求：\n1. 每个要点应简洁明了，用一句话概括文档中的核心信息\n2. 要点需准确反映文档的主要内容，避免遗漏关键信息\n3. 要点之间应相互独立，不重复冗余\n4. 要点数量严格控制在10个以内（包括10个）\n请将提取的要点按重要性或逻辑顺序排列，在<要点>标签内输出。每个要点前用数字序号标注，例如：\n<要点>\n1. [要点内容1]\n2. [要点内容2]\n...\n</要点>\n无需添加额外解释，直接输出要点即可。",
+    expectedOutput: "A list of up to 10 concise summary points in <points> tags, each point numbered and reflecting the document's core information.",
+    usage: "将文档内容粘贴到 {{DOCUMENT}} 占位符处，运行提示以生成不超过10个要点的总结列表。输出格式为带数字序号的要点，位于 <要点> 标签内。"
   }
 ];
