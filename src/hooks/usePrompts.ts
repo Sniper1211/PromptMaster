@@ -14,6 +14,25 @@ export const usePrompts = () => {
         const loadPrompts = async () => {
             setLoading(true);
             try {
+                // Try to fetch from API first (Database)
+                try {
+                    // Use relative path '/api/prompts' which works for both:
+                    // 1. Local dev via Vite proxy (-> localhost:3001)
+                    // 2. Production Vercel (-> Vercel Serverless Functions)
+                    const res = await fetch('/api/prompts');
+                    if (res.ok) {
+                        const dbPrompts: Prompt[] = await res.json();
+                        if (mounted) {
+                            setPrompts(dbPrompts);
+                            setLoading(false);
+                            return; // Success! Exit early.
+                        }
+                    }
+                } catch (apiErr) {
+                    console.warn('API fetch failed, falling back to local files:', apiErr);
+                }
+
+                // Fallback: Load from local files if API fails or returns error
                 const lang = i18n.language.startsWith('zh') ? 'zh' : 'en';
                 let data: { PROMPTS_ZH?: Prompt[]; PROMPTS_EN?: Prompt[] };
 

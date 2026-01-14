@@ -50,7 +50,7 @@ const AdminPage: React.FC = () => {
     setShowDetails(true); // Auto expand form
 
     try {
-      const res = await fetch('http://localhost:3001/api/analyze', {
+      const res = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -94,7 +94,7 @@ const AdminPage: React.FC = () => {
         tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean)
       };
 
-      const res = await fetch('http://localhost:3001/api/prompts', {
+      const res = await fetch('/api/prompts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
