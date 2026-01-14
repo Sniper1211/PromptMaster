@@ -1,6 +1,19 @@
 import axios from 'axios';
 
 export default async function handler(req, res) {
+  // --- Auth Check ---
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  const authHeader = req.headers.authorization;
+
+  if (adminPassword) {
+    if (!authHeader || authHeader !== `Bearer ${adminPassword}`) {
+      return res.status(401).json({ error: 'Unauthorized: Invalid Admin Password' });
+    }
+  } else {
+    console.warn('Warning: ADMIN_PASSWORD is not set, skipping auth check.');
+  }
+  // ------------------
+
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);

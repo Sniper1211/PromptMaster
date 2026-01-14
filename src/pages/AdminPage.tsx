@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Save, Check, AlertCircle, Wand2, Loader2, ChevronDown, ChevronUp, Globe } from 'lucide-react';
+import { ArrowLeft, Save, Check, AlertCircle, Wand2, Loader2, ChevronDown, ChevronUp, Globe, Lock } from 'lucide-react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Category, Prompt } from '../types';
@@ -10,6 +10,86 @@ const AdminPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const isEditMode = !!id;
+
+  // --- Auth State ---
+  const [adminPassword, setAdminPassword] = useState(() => {
+    // Try to restore from sessionStorage
+    return typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('admin_password') || '' : '';
+  });
+  const [isAuthenticated, setIsAuthenticated] = useState(!!adminPassword);
+  const [authError, setAuthError] = useState('');
+  const [isVerifying, setIsVerifying] = useState(false);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAuthError('');
+    setIsVerifying(true);
+
+    try {
+      const res = await fetch('/api/verify-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: adminPassword })
+      });
+
+      if (res.ok) {
+        sessionStorage.setItem('admin_password', adminPassword);
+        // Force reload to ensure clean state and avoid rendering glitches
+        window.location.reload();
+      } else {
+        setAuthError('Access Denied');
+        sessionStorage.removeItem('admin_password');
+      }
+    } catch (err) {
+      setAuthError('Verification failed');
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#f0f0f0] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
+        <form onSubmit={handleLogin} className="bg-white border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col gap-6 max-w-md w-full mx-4">
+          <div className="text-center space-y-2">
+            <div className="w-16 h-16 bg-black flex items-center justify-center mx-auto mb-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+              <Lock size={32} strokeWidth={2.5} className="text-yellow-400" />
+            </div>
+            <div className="mb-4">
+              <h2 className="text-3xl font-black uppercase italic tracking-tighter bg-yellow-400 px-6 py-2 border-[3px] border-black inline-block transform -rotate-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                Admin Access
+              </h2>
+            </div>
+            <p className="text-sm font-bold text-black uppercase tracking-widest mt-4">Please enter the secret key</p>
+          </div>
+          
+          <div className="space-y-2">
+            <input 
+              type="password" 
+              value={adminPassword}
+              onChange={e => {
+                setAdminPassword(e.target.value);
+                setAuthError('');
+              }}
+              placeholder="ENTER PASSWORD..."
+              className={`w-full h-14 px-4 border-[3px] border-black font-bold text-2xl text-black tracking-[0.2em] text-center focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-slate-300 placeholder:tracking-normal placeholder:font-black placeholder:text-lg ${authError ? 'border-red-500 bg-red-50' : 'bg-white'}`}
+              autoFocus
+            />
+            {authError && <p className="text-red-600 font-bold text-xs uppercase tracking-wide flex items-center justify-center gap-1"><AlertCircle size={14} /> {authError}</p>}
+          </div>
+          
+          <button 
+            type="submit" 
+            disabled={isVerifying}
+            className="w-full h-14 bg-black text-white font-black uppercase tracking-widest text-lg hover:bg-yellow-400 hover:text-black hover:translate-y-[-2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            {isVerifying ? <Loader2 size={24} className="animate-spin" /> : 'UNLOCK SYSTEM'}
+          </button>
+        </form>
+      </div>
+    );
+  }
+  // ------------------
 
   const [activeTab, setActiveTab] = useState<'smart' | 'manual'>('smart');
 
@@ -105,7 +185,10 @@ const AdminPage: React.FC = () => {
     try {
       const res = await fetch('/api/analyze', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminPassword}`
+        },
         body: JSON.stringify({ 
           rawText,
           apiKey: apiKey // Optional: user provided key
@@ -150,16 +233,21 @@ const AdminPage: React.FC = () => {
       };
 
       let res;
+      const headers = { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${adminPassword}`
+      };
+
       if (isEditMode && id) {
         res = await fetch(`/api/prompts/${id}`, {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: headers,
           body: JSON.stringify(payload)
         });
       } else {
         res = await fetch('/api/prompts', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: headers,
           body: JSON.stringify(payload)
         });
       }
@@ -213,10 +301,10 @@ const AdminPage: React.FC = () => {
           
           {/* Smart Paste Section - Only show in Add Mode */}
           {!isEditMode && (
-            <section className="space-y-4 bg-indigo-50/50 p-6 border-[3px] border-indigo-900 -mx-2">
+            <section className="space-y-4 bg-slate-50 p-6 border-[3px] border-black -mx-2">
               <div className="flex items-center justify-between">
-                <label className="text-base font-black uppercase tracking-widest flex items-center gap-2 text-indigo-900">
-                  <Wand2 size={24} className="text-indigo-600" strokeWidth={2.5} /> 
+                <label className="text-base font-black uppercase tracking-widest flex items-center gap-2 text-black">
+                  <Wand2 size={24} className="text-black" strokeWidth={2.5} /> 
                   {t('admin.smartPaste.title')}
                 </label>
                 
@@ -226,12 +314,12 @@ const AdminPage: React.FC = () => {
                     placeholder={t('admin.smartPaste.apiKeyPlaceholder')} 
                     value={apiKey}
                     onChange={e => setApiKey(e.target.value)}
-                    className="px-3 py-2 text-xs font-bold border-2 border-indigo-200 rounded focus:border-indigo-600 outline-none bg-white w-48 transition-all placeholder:text-indigo-300 text-indigo-900"
+                    className="px-3 py-2 text-xs font-bold border-2 border-black rounded focus:border-black outline-none bg-white w-48 transition-all placeholder:text-slate-400 text-black"
                   />
                 </div>
               </div>
 
-              <p className="text-sm font-bold text-indigo-800/70">
+              <p className="text-sm font-bold text-slate-700">
                 {t('admin.smartPaste.instruction')}
               </p>
 
@@ -239,11 +327,11 @@ const AdminPage: React.FC = () => {
                 value={rawText}
                 onChange={e => setRawText(e.target.value)}
                 placeholder={t('admin.smartPaste.placeholder')}
-                className="w-full p-4 border-[3px] border-indigo-200 focus:border-indigo-600 bg-white font-medium text-lg text-indigo-950 placeholder:text-indigo-300 focus:outline-none focus:ring-4 focus:ring-indigo-100 transition-all min-h-[160px]"
+                className="w-full p-4 border-[3px] border-black focus:border-black bg-white font-medium text-lg text-black placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-yellow-200 transition-all min-h-[160px]"
               />
               
               {analyzeError && (
-                 <div className="bg-red-100 border-2 border-red-500 text-red-700 p-3 font-bold flex items-center gap-2">
+                 <div className="bg-red-100 border-2 border-red-500 text-red-900 p-3 font-bold flex items-center gap-2">
                    <AlertCircle size={20} /> {analyzeError}
                  </div>
               )}
@@ -251,7 +339,7 @@ const AdminPage: React.FC = () => {
               <button
                 onClick={handleSmartAnalyze}
                 disabled={isAnalyzing || !rawText.trim()}
-                className="w-full min-h-[64px] bg-indigo-600 text-white font-black uppercase tracking-widest text-lg hover:bg-indigo-700 hover:translate-y-[-2px] hover:shadow-[4px_4px_0px_0px_rgba(49,46,129,1)] active:translate-y-[0px] active:shadow-none transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none"
+                className="w-full min-h-[64px] bg-black text-white font-black uppercase tracking-widest text-lg hover:bg-yellow-400 hover:text-black hover:translate-y-[-2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-[0px] active:shadow-none transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none"
               >
                 {isAnalyzing ? (
                   <>

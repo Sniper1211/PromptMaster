@@ -51,6 +51,17 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: error.message });
     }
   } else if (req.method === 'POST') {
+    // --- Auth Check ---
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    const authHeader = req.headers.authorization;
+
+    if (adminPassword) {
+      if (!authHeader || authHeader !== `Bearer ${adminPassword}`) {
+        return res.status(401).json({ error: 'Unauthorized: Invalid Admin Password' });
+      }
+    }
+    // ------------------
+
     try {
       const newPromptData = req.body;
       
