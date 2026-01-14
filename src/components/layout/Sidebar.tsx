@@ -24,6 +24,7 @@ interface SidebarProps {
     currentLanguage: string;
     onTutorialClick: () => void;
     onLogoClick: () => void;
+    prompts?: any[]; // Added prompts prop
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -36,11 +37,43 @@ const Sidebar: React.FC<SidebarProps> = ({
     toggleLanguage,
     currentLanguage,
     onTutorialClick,
-    onLogoClick
+    onLogoClick,
+    prompts = [] // Default to empty array
 }) => {
     const { t } = useTranslation();
 
-    const categories = Object.values(Category);
+    // Calculate category counts
+    const categoryCounts = React.useMemo(() => {
+        const counts: Record<string, number> = {};
+        prompts.forEach(p => {
+            // p.category is usually Value (e.g. "Art & Design" or "ART" if normalized)
+            // We need to map it to Key (e.g. "ART") to count correctly against `categories` array (which are Keys)
+            
+            let catKey = 'UNKNOWN';
+            
+            // Try to find Key by Value match
+            const entry = Object.entries(Category).find(([k, v]) => v.toUpperCase() === p.category?.toUpperCase());
+            if (entry) {
+                catKey = entry[0]; // The Key (e.g. "ART")
+            } else {
+                // Maybe p.category is already a Key?
+                if (Category[p.category as keyof typeof Category]) {
+                    catKey = p.category;
+                } else {
+                     // Try uppercase
+                     const upper = p.category?.toUpperCase();
+                     if (Category[upper as keyof typeof Category]) {
+                         catKey = upper;
+                     }
+                }
+            }
+            
+            counts[catKey] = (counts[catKey] || 0) + 1;
+        });
+        return counts;
+    }, [prompts]);
+
+    const categories = Object.keys(Category).filter(k => k !== 'ALL');
 
     return (
         <aside className="w-64 border-r-[3px] border-black bg-white flex flex-col h-screen shrink-0 relative">
@@ -120,18 +153,32 @@ const Sidebar: React.FC<SidebarProps> = ({
                             <span className="font-black italic uppercase">{t('sidebar.all')}</span>
                         </button>
 
-                        {categories.filter(c => c !== Category.ALL).map((category) => (
-                            <button
-                                key={category}
-                                onClick={() => setActiveCategory(category)}
-                                className={`w-full flex items-center gap-3 px-3 py-2 border-[2px] transition-all text-sm font-bold ${activeCategory === category
-                                    ? 'border-black bg-[#FACC15] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
-                                    : 'border-transparent text-black hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
-                                    }`}
-                            >
-                                <span>{t(`categories.${category}`)}</span>
-                            </button>
-                        ))}
+                        {categories.map((key) => {
+                            // key is 'CODING', 'WRITING', etc. (enum Key)
+                            // value is 'Coding', 'Writing' (enum Value)
+                            const value = Category[key as keyof typeof Category];
+                            const count = categoryCounts[key] || 0;
+                            
+                            // Only show if count > 0 (hide empty categories)
+                            if (count === 0) return null;
+
+                            return (
+                                <button
+                                    key={key}
+                                    onClick={() => setActiveCategory(value)}
+                                    className={`w-full flex items-center justify-between px-3 py-2 border-[2px] transition-all text-sm font-bold ${activeCategory === value
+                                        ? 'border-black bg-[#FACC15] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+                                        : 'border-transparent text-black hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+                                        }`}
+                                >
+                                    <span className="flex items-center gap-3">
+                                        <span>{t(`categories.${key}`)}</span>
+                                    </span>
+                                    {/* Optional: Show count badge */}
+                                    {/* <span className="text-xs bg-black/10 px-2 py-0.5 rounded-full">{count}</span> */}
+                                </button>
+                            );
+                        })}
                     </div>
                 </section>
 

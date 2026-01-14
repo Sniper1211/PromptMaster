@@ -19,7 +19,11 @@ export const usePrompts = () => {
                     // Use relative path '/api/prompts' which works for both:
                     // 1. Local dev via Vite proxy (-> localhost:3001)
                     // 2. Production Vercel (-> Vercel Serverless Functions)
-                    const res = await fetch('/api/prompts');
+                    
+                    // Pass current language preference to API
+                    const lang = i18n.language.startsWith('zh') ? 'zh' : 'en';
+                    const res = await fetch(`/api/prompts?lang=${lang}`);
+                    
                     if (res.ok) {
                         const dbPrompts: Prompt[] = await res.json();
                         if (mounted) {

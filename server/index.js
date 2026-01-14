@@ -162,6 +162,34 @@ app.post('/api/prompts', async (req, res) => {
     const descEn = newPromptData.description || newPromptData.descriptionZh || '';
     const descZh = newPromptData.descriptionZh || newPromptData.description || '';
 
+    // Define the Category Enum mapping (Value -> Key) for normalization
+    const CategoryMap = {
+      'All': 'ALL',
+      'Coding': 'CODING',
+      'Writing': 'WRITING',
+      'Business': 'BUSINESS',
+      'Photography': 'PHOTOGRAPHY',
+      'Art & Design': 'ART',
+      'Commercial Visuals': 'COMMERCIAL',
+      'Productivity': 'PRODUCTIVITY',
+      'Marketing': 'MARKETING',
+      'Fun & Creative': 'FUN',
+      'SEO': 'SEO',
+      'Learning': 'LEARNING'
+    };
+
+    let finalCategory = (newPromptData.category || 'CODING');
+    
+    // Normalize logic:
+    // If input matches a known Value (e.g. "Art & Design"), convert to Key ("ART")
+    const matchedValueKey = Object.keys(CategoryMap).find(k => k.toLowerCase() === finalCategory.toLowerCase());
+    
+    if (matchedValueKey) {
+      finalCategory = CategoryMap[matchedValueKey];
+    } else {
+      finalCategory = finalCategory.toUpperCase();
+    }
+
     const values = [
       nextId,
       now,
@@ -169,7 +197,7 @@ app.post('/api/prompts', async (req, res) => {
       titleEn, 
       descZh, 
       descEn, 
-      (newPromptData.category || 'CODING').toUpperCase(),
+      finalCategory,
       JSON.stringify(newPromptData.tags || []),
       newPromptData.content, // This is the English Prompt content usually
       newPromptData.chineseContent || '', // Chinese translation of the prompt
@@ -237,9 +265,68 @@ app.put('/api/prompts/:id', async (req, res) => {
     if (updateData.descriptionZh !== undefined) addField('descriptionZh', updateData.descriptionZh);
     if (updateData.descriptionEn !== undefined) addField('descriptionEn', updateData.descriptionEn);
     
+    // Define the Category Enum mapping (Value -> Key) for normalization
+    const CategoryMap = {
+      'All': 'ALL',
+      'Coding': 'CODING',
+      'Writing': 'WRITING',
+      'Business': 'BUSINESS',
+      'Photography': 'PHOTOGRAPHY',
+      'Art & Design': 'ART',
+      'Commercial Visuals': 'COMMERCIAL',
+      'Productivity': 'PRODUCTIVITY',
+      'Marketing': 'MARKETING',
+      'Fun & Creative': 'FUN',
+      'SEO': 'SEO',
+      'Learning': 'LEARNING'
+    };
+
+    // Helper to normalize category
+    const normalizeCategory = (inputCat) => {
+      if (!inputCat) return 'CODING';
+      
+      // 1. Check if it's a known Value (e.g. "Art & Design") -> Return Key ("ART")
+      const mapKey = Object.keys(CategoryMap).find(key => key.toLowerCase() === inputCat.toLowerCase());
+      if (mapKey) return CategoryMap[mapKey];
+
+      // 2. Check if it's already a known Key (e.g. "ART") -> Return it
+      const validKeys = Object.values(CategoryMap);
+      if (validKeys.includes(inputCat.toUpperCase())) return inputCat.toUpperCase();
+
+      // 3. Check if input is a valid Key but lowercase (e.g. "art") -> Return "ART"
+      // (This is covered by checking if upper version is in values, but for clarity:)
+      // Actually, Object.values(CategoryMap) contains KEYS like 'CODING', 'ART'.
+      // Wait, in my script CategoryMap keys were Values and values were Keys.
+      // Let's stick to the script's logic which was correct.
+      
+      // Re-defining map to be consistent with script: Value -> Key
+      // But here I defined it above as Value -> Key too? 
+      // 'Art & Design': 'ART' -> Key is Value, Value is Key. Correct.
+      
+      // 4. Fallback: just uppercase it
+      return inputCat.toUpperCase();
+    };
+
     if (updateData.category !== undefined) {
       setClauses.push(`category = $${paramIndex}`);
-      values.push(updateData.category.toUpperCase());
+      // Normalize category before saving
+      // If frontend sends "Art & Design" (Value), we want to save "ART" (Key).
+      // If frontend sends "ART" (Key), we want to save "ART" (Key).
+      
+      let finalCategory = updateData.category;
+      
+      // Try to find if the input matches any Value in our map (case-insensitive)
+      // e.g. input "Art & Design" matches key "Art & Design" -> val "ART"
+      const matchedValueKey = Object.keys(CategoryMap).find(k => k.toLowerCase() === finalCategory.toLowerCase());
+      
+      if (matchedValueKey) {
+        finalCategory = CategoryMap[matchedValueKey];
+      } else {
+        // If not a Value, assume it's a Key or needs upper casing
+        finalCategory = finalCategory.toUpperCase();
+      }
+
+      values.push(finalCategory);
       paramIndex++;
     }
     
@@ -283,23 +370,77 @@ app.get('/api/prompts', async (req, res) => {
     const result = await pool.query('SELECT * FROM prompts ORDER BY created_at DESC');
     
     // Transform DB snake_case to frontend camelCase
-    const prompts = result.rows.map(row => ({
-      id: row.id,
-      createdAt: row.created_at,
-      title: row.title_zh || row.title_en, // Default to ZH title for now
-      titleZh: row.title_zh,
-      titleEn: row.title_en,
-      description: row.description_zh || row.description_en,
-      descriptionZh: row.description_zh,
-      descriptionEn: row.description_en,
-      category: row.category,
-      tags: typeof row.tags === 'string' ? JSON.parse(row.tags) : row.tags,
-      content: row.content,
-      chineseContent: row.chinese_content,
-      expectedOutput: row.expected_output,
-      usage: row.usage,
-      previewImageUrl: row.preview_image_url
-    }));
+    // Note: title and description are language-dependent. 
+    // The frontend should handle language selection if we pass both.
+    // However, existing frontend components (PromptCard, PromptDetailPage) use .title and .description directly.
+    // To support dynamic switching without refactoring all components, we can pass language preference via query param?
+    // OR better: Return explicit titleZh/titleEn fields and let Frontend hooks/components decide.
+    // Current frontend uses: title, description, titleZh, titleEn...
+    
+    // Check request query for language? But this is a generic GET.
+    // Let's pass ALL data and let frontend logic (usePrompts hook or components) choose.
+    // But currently components use .title.
+    // We should populate .title with English if that's the default, or keep the existing logic?
+    // User complaint: "In English mode, I see Chinese text".
+    // This is because we did: title: row.title_zh || row.title_en
+    
+    // FIX: We should rely on the frontend to pick the right one.
+    // BUT to keep backward compatibility with components that just read .title,
+    // we should probably set .title to English by default if available, or just send raw fields.
+    
+    // Let's change the default fallback for 'title' property to be English-first if we want to support English users better,
+    // OR we stop using the derived 'title' property in frontend and use titleEn/titleZh based on i18n.
+    
+    // Since we can't easily refactor the whole frontend in one go, let's modify the API to accept a ?lang= param
+    // OR (simpler) just return English as default for 'title' if it exists?
+    // No, that breaks Chinese users.
+    
+    // Best approach: Return both. And let the frontend mapper (usePrompts or component) decide.
+    // If we change 'title' here to be title_en, Chinese users will see English.
+    
+    // Let's check req.query.lang
+    const lang = req.query.lang || 'en'; // Default to en if not specified? Or keep existing behavior?
+    // Actually, let's look at how usePrompts calls this. It calls fetch('/api/prompts').
+    // We can update usePrompts to pass the language.
+    
+    // For now, let's NOT bias 'title' to ZH.
+    // Let's return explicit fields and maybe a 'title' that respects the requested language if provided.
+    
+    const preferredLang = req.query.lang; // 'zh' or 'en'
+    
+    const prompts = result.rows.map(row => {
+      let displayTitle = row.title_en || row.title_zh;
+      let displayDesc = row.description_en || row.description_zh;
+      
+      if (preferredLang === 'zh') {
+         displayTitle = row.title_zh || row.title_en;
+         displayDesc = row.description_zh || row.description_en;
+      } else if (preferredLang === 'en') {
+         displayTitle = row.title_en || row.title_zh;
+         displayDesc = row.description_en || row.description_zh;
+      }
+      // If no preferredLang, maybe default to EN? Or keep previous ZH bias?
+      // Previous code: title: row.title_zh || row.title_en (Bias to ZH)
+      // User complaint implies they want EN.
+      
+      return {
+        id: row.id,
+        createdAt: row.created_at,
+        title: displayTitle,
+        titleZh: row.title_zh,
+        titleEn: row.title_en,
+        description: displayDesc,
+        descriptionZh: row.description_zh,
+        descriptionEn: row.description_en,
+        category: row.category,
+        tags: typeof row.tags === 'string' ? JSON.parse(row.tags) : row.tags,
+        content: row.content,
+        chineseContent: row.chinese_content,
+        expectedOutput: row.expected_output,
+        usage: row.usage,
+        previewImageUrl: row.preview_image_url
+      };
+    });
 
     res.json(prompts);
   } catch (error) {

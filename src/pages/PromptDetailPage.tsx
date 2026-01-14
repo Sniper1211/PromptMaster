@@ -93,7 +93,7 @@ const PromptDetailPage: React.FC = () => {
                             </Link>
                             <ChevronRight size={14} className="shrink-0 text-slate-300" />
                             <Link to={`/?category=${prompt.category}`} className="hover:text-black shrink-0 transition-colors">
-                                {t(`categories.${prompt.category}`)}
+                                {t(`categories.${prompt.category.toUpperCase()}`)}
                             </Link>
                             <ChevronRight size={14} className="shrink-0 text-slate-300" />
                             <span className="text-black truncate">{prompt.title}</span>
@@ -219,7 +219,7 @@ const PromptDetailPage: React.FC = () => {
                                 <div className="mb-6">
                                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">{t('promptDetail.category')}</p>
                                     <Link to={`/?category=${prompt.category}`} className="text-2xl font-black uppercase italic hover:underline decoration-4 underline-offset-4 decoration-[#FACC15]">
-                                        {t(`categories.${prompt.category}`)}
+                                        {t(`categories.${prompt.category.toUpperCase()}`)}
                                     </Link>
                                 </div>
 
@@ -273,7 +273,7 @@ const PromptDetailPage: React.FC = () => {
                         <div className="mt-24 pt-12 border-t-[3px] border-black">
                             <div className="flex items-center justify-between mb-8">
                                 <h2 className="text-3xl font-black uppercase italic tracking-tighter">
-                                    {t('promptDetail.moreFrom')} {t(`categories.${prompt.category}`)}
+                                    {t('promptDetail.moreFrom')} {t(`categories.${prompt.category.toUpperCase()}`)}
                                 </h2>
                                 <Link to={`/?category=${prompt.category}`} className="hidden md:flex items-center gap-2 font-bold uppercase tracking-wide hover:translate-x-1 transition-transform">
                                     {t('promptDetail.viewAll')} <ChevronRight size={16} strokeWidth={3} />
