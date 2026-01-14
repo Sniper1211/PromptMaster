@@ -46,8 +46,35 @@ const getNextId = (content) => {
   return ids.length === 0 ? 1 : Math.max(...ids) + 1;
 };
 
+// --- API: Verify Password ---
+app.post('/api/verify-password', (req, res) => {
+  const { password } = req.body;
+  const adminPassword = process.env.ADMIN_PASSWORD;
+
+  if (!adminPassword) {
+    console.warn('[API] ADMIN_PASSWORD not set in env');
+    // Default to allow if not set, or block? Let's match cloud logic (usually block or warn)
+    // Cloud logic: if not set, pass. But here let's be strict if desired.
+    // For now, allow if not set to avoid blocking dev without config.
+    return res.json({ success: true });
+  }
+
+  if (password === adminPassword) {
+    res.json({ success: true });
+  } else {
+    res.status(401).json({ error: 'Invalid password' });
+  }
+});
+
 // --- API: Analyze Text via LLM ---
 app.post('/api/analyze', async (req, res) => {
+  // Auth Check
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  const authHeader = req.headers.authorization;
+  if (adminPassword && (!authHeader || authHeader !== `Bearer ${adminPassword}`)) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
   try {
     const { rawText, apiKey, baseUrl, model } = req.body;
     
@@ -123,6 +150,13 @@ app.post('/api/analyze', async (req, res) => {
 
 // --- API: Save Prompt (Database Version) ---
 app.post('/api/prompts', async (req, res) => {
+  // Auth Check
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  const authHeader = req.headers.authorization;
+  if (adminPassword && (!authHeader || authHeader !== `Bearer ${adminPassword}`)) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
   try {
     const newPromptData = req.body;
     
@@ -219,6 +253,13 @@ app.post('/api/prompts', async (req, res) => {
 
 // --- API: Update Prompt (Edit) ---
 app.put('/api/prompts/:id', async (req, res) => {
+  // Auth Check
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  const authHeader = req.headers.authorization;
+  if (adminPassword && (!authHeader || authHeader !== `Bearer ${adminPassword}`)) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
   try {
     const { id } = req.params;
     const updateData = req.body;

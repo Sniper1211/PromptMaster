@@ -8,6 +8,17 @@ const pool = new Pool({
 });
 
 export default async function handler(req, res) {
+  // --- Auth Check ---
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  const authHeader = req.headers.authorization;
+
+  if (adminPassword) {
+    if (!authHeader || authHeader !== `Bearer ${adminPassword}`) {
+      return res.status(401).json({ error: 'Unauthorized: Invalid Admin Password' });
+    }
+  }
+  // ------------------
+
   const { id } = req.query;
 
   if (req.method === 'PUT') {
