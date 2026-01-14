@@ -73,8 +73,10 @@ app.post('/api/analyze', async (req, res) => {
     Return ONLY a valid JSON object with no markdown formatting.
     Structure:
     {
-      "title": "A short, catchy title (English)",
-      "description": "A 1-sentence summary (English)",
+      "title": "A short, catchy title in English",
+      "titleZh": "A short, catchy title in Chinese (Simp. Chinese)",
+      "description": "A 1-sentence summary in English",
+      "descriptionZh": "A 1-sentence summary in Chinese (Simp. Chinese)",
       "category": "One of: CODING, WRITING, DESIGN, PRODUCTIVITY, MARKETING, FUN, SEO, LEARNING",
       "tags": ["tag1", "tag2", "tag3"],
       "content": "The actual prompt content in English. If the input is Chinese, translate it to high-quality English prompt.",
@@ -144,17 +146,33 @@ app.post('/api/prompts', async (req, res) => {
       RETURNING id
     `;
 
+    // For simplicity, we assume the input from AdminPage (which is mainly for Chinese users) is Chinese content
+    // But since AdminPage form has fields 'title', 'description', 'content', 'chineseContent'
+    // We should map them correctly.
+    // However, the database schema has title_zh/title_en.
+    // The legacy local file format only had 'title' (which was mixed) and 'content' + 'chineseContent'.
+    
+    // Strategy: 
+    // 1. Prefer explicit fields from frontend (titleZh, title, descriptionZh, description)
+    // 2. Fallback: If titleZh is missing, use title (and vice versa)
+    // 3. Fallback: If descriptionZh is missing, use description (and vice versa)
+    
+    const titleEn = newPromptData.title || newPromptData.titleZh || '';
+    const titleZh = newPromptData.titleZh || newPromptData.title || ''; 
+    const descEn = newPromptData.description || newPromptData.descriptionZh || '';
+    const descZh = newPromptData.descriptionZh || newPromptData.description || '';
+
     const values = [
       nextId,
       now,
-      newPromptData.title, // title_zh (assuming input is Chinese from AdminPage)
-      '', // title_en (placeholder)
-      newPromptData.description || '', // description_zh
-      '', // description_en
+      titleZh, 
+      titleEn, 
+      descZh, 
+      descEn, 
       (newPromptData.category || 'CODING').toUpperCase(),
       JSON.stringify(newPromptData.tags || []),
-      newPromptData.content,
-      newPromptData.chineseContent || '',
+      newPromptData.content, // This is the English Prompt content usually
+      newPromptData.chineseContent || '', // Chinese translation of the prompt
       newPromptData.expectedOutput || '',
       newPromptData.usage || '',
       newPromptData.previewImageUrl || ''
@@ -164,6 +182,94 @@ app.post('/api/prompts', async (req, res) => {
 
     console.log(`[DB API] Added prompt ${nextId}: ${newPromptData.title}`);
     res.json({ success: true, id: nextId, message: 'Prompt added to database successfully' });
+
+  } catch (error) {
+    console.error('[DB API Error]', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// --- API: Update Prompt (Edit) ---
+app.put('/api/prompts/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+    
+    // We only update fields that are provided
+    // Construct dynamic query
+    
+    // Mapping frontend fields to DB columns
+    const fieldMap = {
+      titleZh: 'title_zh',
+      titleEn: 'title_en',
+      // 'title' from frontend is ambiguous, let's prioritize explicit lang fields. 
+      // If 'title' is sent but no 'titleEn', maybe treat as title_en? 
+      // For safety, let's stick to explicit fields or 'title' -> 'title_zh' (if no titleZh provided) to match create logic?
+      // Actually, for edit, we expect precise fields.
+      
+      descriptionZh: 'description_zh',
+      descriptionEn: 'description_en',
+      category: 'category',
+      tags: 'tags',
+      content: 'content',
+      chineseContent: 'chinese_content',
+      expectedOutput: 'expected_output',
+      usage: 'usage',
+      previewImageUrl: 'preview_image_url'
+    };
+
+    // Special handling for tags (JSON stringify) and category (uppercase)
+    const values = [];
+    const setClauses = [];
+    let paramIndex = 1;
+
+    // Helper to add field
+    const addField = (key, val) => {
+      if (val !== undefined) {
+        setClauses.push(`${fieldMap[key]} = $${paramIndex}`);
+        values.push(val);
+        paramIndex++;
+      }
+    };
+
+    if (updateData.titleZh !== undefined) addField('titleZh', updateData.titleZh);
+    if (updateData.titleEn !== undefined) addField('titleEn', updateData.titleEn);
+    if (updateData.descriptionZh !== undefined) addField('descriptionZh', updateData.descriptionZh);
+    if (updateData.descriptionEn !== undefined) addField('descriptionEn', updateData.descriptionEn);
+    
+    if (updateData.category !== undefined) {
+      setClauses.push(`category = $${paramIndex}`);
+      values.push(updateData.category.toUpperCase());
+      paramIndex++;
+    }
+    
+    if (updateData.tags !== undefined) {
+      setClauses.push(`tags = $${paramIndex}`);
+      values.push(JSON.stringify(updateData.tags));
+      paramIndex++;
+    }
+
+    if (updateData.content !== undefined) addField('content', updateData.content);
+    if (updateData.chineseContent !== undefined) addField('chineseContent', updateData.chineseContent);
+    if (updateData.expectedOutput !== undefined) addField('expectedOutput', updateData.expectedOutput);
+    if (updateData.usage !== undefined) addField('usage', updateData.usage);
+    if (updateData.previewImageUrl !== undefined) addField('previewImageUrl', updateData.previewImageUrl);
+
+    if (setClauses.length === 0) {
+      return res.status(400).json({ error: 'No fields to update' });
+    }
+
+    values.push(id);
+    const query = `UPDATE prompts SET ${setClauses.join(', ')} WHERE id = $${paramIndex} RETURNING *`;
+
+    const result = await pool.query(query, values);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Prompt not found' });
+    }
+
+    console.log(`[DB API] Updated prompt ${id}`);
+    res.json({ success: true, message: 'Prompt updated successfully', prompt: result.rows[0] });
 
   } catch (error) {
     console.error('[DB API Error]', error);
@@ -181,7 +287,11 @@ app.get('/api/prompts', async (req, res) => {
       id: row.id,
       createdAt: row.created_at,
       title: row.title_zh || row.title_en, // Default to ZH title for now
+      titleZh: row.title_zh,
+      titleEn: row.title_en,
       description: row.description_zh || row.description_en,
+      descriptionZh: row.description_zh,
+      descriptionEn: row.description_en,
       category: row.category,
       tags: typeof row.tags === 'string' ? JSON.parse(row.tags) : row.tags,
       content: row.content,

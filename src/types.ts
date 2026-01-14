@@ -6,7 +6,12 @@ export enum Category {
   BUSINESS = 'Business',
   PHOTOGRAPHY = 'Photography',
   ART = 'Art & Design',
-  COMMERCIAL = 'Commercial Visuals'
+  COMMERCIAL = 'Commercial Visuals',
+  PRODUCTIVITY = 'Productivity',
+  MARKETING = 'Marketing',
+  FUN = 'Fun & Creative',
+  SEO = 'SEO',
+  LEARNING = 'Learning'
 }
 
 export interface Prompt {

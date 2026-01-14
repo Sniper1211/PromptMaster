@@ -33,13 +33,18 @@
     "exploreSubtitle": "精选的最佳 AI 提示词合集。"
   },
   "categories": {
-    "All": "全部",
-    "Coding": "编程开发",
-    "Writing": "写作与内容",
-    "Business": "商业策略",
-    "Photography": "摄影与写实",
-    "Art & Design": "艺术与设计",
-    "Commercial Visuals": "商业视觉"
+    "ALL": "全部",
+    "CODING": "编程开发",
+    "WRITING": "写作与内容",
+    "BUSINESS": "商业策略",
+    "PHOTOGRAPHY": "摄影与写实",
+    "ART": "艺术与设计",
+    "COMMERCIAL": "商业视觉",
+    "PRODUCTIVITY": "生产力",
+    "MARKETING": "市场营销",
+    "FUN": "娱乐创意",
+    "SEO": "搜索引擎优化",
+    "LEARNING": "学习教育"
   },
   "card": {
     "copy": "复制提示词",
