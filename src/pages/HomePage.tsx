@@ -9,11 +9,32 @@ import AddPromptModal from '../components/admin/AddPromptModal';
 import ComingSoonModal from '../components/common/ComingSoonModal';
 import { usePrompts } from '../hooks/usePrompts';
 import SEOHead from '../components/seo/SEOHead';
+import { useSearchParams } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
     const { t, i18n } = useTranslation();
     const { prompts, loading } = usePrompts();
-    const [activeCategory, setActiveCategory] = useState<Category>(Category.ALL);
+    const [searchParams, setSearchParams] = useSearchParams();
+    
+    // Initialize activeCategory from URL param if present, otherwise ALL
+    const [activeCategory, setActiveCategory] = useState<Category>(() => {
+        const catParam = searchParams.get('category');
+        if (catParam) {
+            // Try to match the param to a Category Value
+            // e.g. param "Art & Design" -> Category.ART
+            // Or param "ART" -> Category.ART (if passed as key)
+            
+            // Try exact value match
+            const valueMatch = Object.values(Category).find(v => v === catParam);
+            if (valueMatch) return valueMatch;
+
+            // Try key match (case-insensitive)
+            const keyMatch = Object.keys(Category).find(k => k.toUpperCase() === catParam.toUpperCase());
+            if (keyMatch) return Category[keyMatch as keyof typeof Category];
+        }
+        return Category.ALL;
+    });
+
     const [searchQuery, setSearchQuery] = useState('');
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
@@ -44,7 +65,34 @@ const HomePage: React.FC = () => {
 
     const filteredPrompts = useMemo(() => {
         let result = prompts.filter(prompt => {
-            const matchesCategory = activeCategory === Category.ALL || prompt.category === activeCategory;
+            // Case-insensitive comparison for category
+            // Handle Category.ALL (value 'All') and prompt.category (value 'Art & Design')
+            let activeCategoryValue = activeCategory;
+            let promptCategoryValue = prompt.category;
+
+            // Normalize activeCategory: if it's a value "Art & Design", we might want to compare it properly
+            // Actually, prompts now have "ART" (Key) in DB.
+            // But activeCategory is set from Sidebar using Value ("Art & Design").
+            // So we need to normalize prompt.category (Key) to Value OR activeCategory (Value) to Key.
+            
+            // Let's normalize BOTH to Keys for comparison if possible, or try to match Values.
+            // Simpler approach: Check if one matches the other's Key or Value mapping.
+            
+            if (activeCategory === Category.ALL) return true;
+
+            // Try to find the Key for the activeCategory Value
+            const activeKeyEntry = Object.entries(Category).find(([k, v]) => v === activeCategory);
+            const activeKey = activeKeyEntry ? activeKeyEntry[0] : activeCategory.toUpperCase(); // "ART"
+
+            // Prompt category from DB is now "ART" (Key)
+            const promptKey = prompt.category.toUpperCase(); // "ART"
+
+            // Also handle if prompt category is still old Value "Art & Design" -> map to "ART"
+            const promptValueEntry = Object.entries(Category).find(([k, v]) => v.toUpperCase() === prompt.category.toUpperCase());
+            const normalizedPromptKey = promptValueEntry ? promptValueEntry[0] : promptKey;
+
+            const matchesCategory = normalizedPromptKey === activeKey;
+            
             const matchesSearch = prompt.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 prompt.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 prompt.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -70,8 +118,23 @@ const HomePage: React.FC = () => {
         return ids.length > 0 ? (Math.max(...ids) + 1).toString() : (prompts.length + 1).toString();
     }, [prompts]);
 
+    // Sync activeCategory changes to URL
+    const handleSetActiveCategory = (category: Category) => {
+        setActiveCategory(category);
+        if (category === Category.ALL) {
+            searchParams.delete('category');
+        } else {
+            // We store the VALUE in the URL (e.g. "Art & Design") to be user-friendly
+            // But we could also store the KEY if we prefer. 
+            // Current existing links (e.g. from breadcrumbs) seem to use the Value (prompt.category which was Value before normalization, or we constructed it).
+            // Let's stick to using the Value as the param for consistency with how state is initialized.
+            searchParams.set('category', category);
+        }
+        setSearchParams(searchParams);
+    };
+
     const clearFilters = () => {
-        setActiveCategory(Category.ALL);
+        handleSetActiveCategory(Category.ALL);
         setSearchQuery('');
     };
 
@@ -111,7 +174,7 @@ const HomePage: React.FC = () => {
             <div className="flex h-screen bg-gray-50 text-slate-900 overflow-hidden font-sans">
                 <Sidebar
                     activeCategory={activeCategory}
-                    setActiveCategory={setActiveCategory}
+                    setActiveCategory={handleSetActiveCategory}
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
                     sortOrder={sortOrder}
@@ -120,6 +183,7 @@ const HomePage: React.FC = () => {
                     currentLanguage={i18n.language}
                     onTutorialClick={() => setIsComingSoonOpen(true)}
                     onLogoClick={clearFilters}
+                    prompts={prompts}
                 />
 
                 <main className="flex-1 flex flex-col min-w-0 h-full overflow-hidden border-l-[2.5px] border-black">

@@ -135,8 +135,10 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId }) => {
                                             onChange={e => setFormData({ ...formData, category: e.target.value as Category })}
                                             className="w-full p-2 border-[2px] border-black font-bold outline-none bg-white"
                                         >
-                                            {Object.values(Category).filter(c => c !== Category.ALL).map(cat => (
-                                                <option key={cat} value={cat}>{t(`categories.${cat}`)}</option>
+                                            {Object.keys(Category).filter(k => k !== 'ALL').map(key => (
+                                                <option key={key} value={Category[key as keyof typeof Category]}>
+                                                    {t(`categories.${key}`)}
+                                                </option>
                                             ))}
                                         </select>
                                     </div>

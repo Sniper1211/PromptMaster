@@ -28,8 +28,10 @@ export default async function handler(req, res) {
     Return ONLY a valid JSON object with no markdown formatting.
     Structure:
     {
-      "title": "A short, catchy title (English)",
-      "description": "A 1-sentence summary (English)",
+      "title": "A short, catchy title in English",
+      "titleZh": "A short, catchy title in Chinese (Simp. Chinese)",
+      "description": "A 1-sentence summary in English",
+      "descriptionZh": "A 1-sentence summary in Chinese (Simp. Chinese)",
       "category": "One of: CODING, WRITING, DESIGN, PRODUCTIVITY, MARKETING, FUN, SEO, LEARNING",
       "tags": ["tag1", "tag2", "tag3"],
       "content": "The actual prompt content in English. If the input is Chinese, translate it to high-quality English prompt.",

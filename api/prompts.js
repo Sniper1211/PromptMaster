@@ -12,19 +12,38 @@ export default async function handler(req, res) {
     try {
       const result = await pool.query('SELECT * FROM prompts ORDER BY created_at DESC');
       
-      const prompts = result.rows.map(row => ({
-        id: row.id,
-        createdAt: row.created_at,
-        title: row.title_zh || row.title_en,
-        description: row.description_zh || row.description_en,
-        category: row.category,
-        tags: typeof row.tags === 'string' ? JSON.parse(row.tags) : row.tags,
-        content: row.content,
-        chineseContent: row.chinese_content,
-        expectedOutput: row.expected_output,
-        usage: row.usage,
-        previewImageUrl: row.preview_image_url
-      }));
+      const preferredLang = req.query.lang; // 'zh' or 'en'
+      
+      const prompts = result.rows.map(row => {
+        let displayTitle = row.title_en || row.title_zh;
+        let displayDesc = row.description_en || row.description_zh;
+        
+        if (preferredLang === 'zh') {
+           displayTitle = row.title_zh || row.title_en;
+           displayDesc = row.description_zh || row.description_en;
+        } else if (preferredLang === 'en') {
+           displayTitle = row.title_en || row.title_zh;
+           displayDesc = row.description_en || row.description_zh;
+        }
+
+        return {
+          id: row.id,
+          createdAt: row.created_at,
+          title: displayTitle,
+          titleZh: row.title_zh,
+          titleEn: row.title_en,
+          description: displayDesc,
+          descriptionZh: row.description_zh,
+          descriptionEn: row.description_en,
+          category: row.category,
+          tags: typeof row.tags === 'string' ? JSON.parse(row.tags) : row.tags,
+          content: row.content,
+          chineseContent: row.chinese_content,
+          expectedOutput: row.expected_output,
+          usage: row.usage,
+          previewImageUrl: row.preview_image_url
+        };
+      });
 
       return res.status(200).json(prompts);
     } catch (error) {
@@ -53,17 +72,50 @@ export default async function handler(req, res) {
         RETURNING id
       `;
 
+      const titleEn = newPromptData.title || newPromptData.titleZh || '';
+      const titleZh = newPromptData.titleZh || newPromptData.title || ''; 
+      const descEn = newPromptData.description || newPromptData.descriptionZh || '';
+      const descZh = newPromptData.descriptionZh || newPromptData.description || '';
+
+      // Define the Category Enum mapping (Value -> Key) for normalization
+      const CategoryMap = {
+        'All': 'ALL',
+        'Coding': 'CODING',
+        'Writing': 'WRITING',
+        'Business': 'BUSINESS',
+        'Photography': 'PHOTOGRAPHY',
+        'Art & Design': 'ART',
+        'Commercial Visuals': 'COMMERCIAL',
+        'Productivity': 'PRODUCTIVITY',
+        'Marketing': 'MARKETING',
+        'Fun & Creative': 'FUN',
+        'SEO': 'SEO',
+        'Learning': 'LEARNING'
+      };
+
+      let finalCategory = (newPromptData.category || 'CODING');
+      
+      // Normalize logic:
+      // If input matches a known Value (e.g. "Art & Design"), convert to Key ("ART")
+      const matchedValueKey = Object.keys(CategoryMap).find(k => k.toLowerCase() === finalCategory.toLowerCase());
+      
+      if (matchedValueKey) {
+        finalCategory = CategoryMap[matchedValueKey];
+      } else {
+        finalCategory = finalCategory.toUpperCase();
+      }
+
       const values = [
         nextId,
         now,
-        newPromptData.title,
-        '',
-        newPromptData.description || '',
-        '',
-        (newPromptData.category || 'CODING').toUpperCase(),
+        titleZh, 
+        titleEn, 
+        descZh, 
+        descEn, 
+        finalCategory,
         JSON.stringify(newPromptData.tags || []),
-        newPromptData.content,
-        newPromptData.chineseContent || '',
+        newPromptData.content, // This is the English Prompt content usually
+        newPromptData.chineseContent || '', // Chinese translation of the prompt
         newPromptData.expectedOutput || '',
         newPromptData.usage || '',
         newPromptData.previewImageUrl || ''
