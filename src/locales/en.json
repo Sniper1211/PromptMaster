@@ -33,13 +33,18 @@
     "exploreSubtitle": "Curated collection of the best AI prompts."
   },
   "categories": {
-    "All": "All",
-    "Coding": "Coding",
-    "Writing": "Writing",
-    "Business": "Business",
-    "Photography": "Photography",
-    "Art & Design": "Art & Design",
-    "Commercial Visuals": "Commercial Visuals"
+    "ALL": "All",
+    "CODING": "Coding",
+    "WRITING": "Writing",
+    "BUSINESS": "Business",
+    "PHOTOGRAPHY": "Photography",
+    "ART": "Art & Design",
+    "COMMERCIAL": "Commercial Visuals",
+    "PRODUCTIVITY": "Productivity",
+    "MARKETING": "Marketing",
+    "FUN": "Fun & Creative",
+    "SEO": "SEO",
+    "LEARNING": "Learning"
   },
   "card": {
     "copy": "Copy Prompt",

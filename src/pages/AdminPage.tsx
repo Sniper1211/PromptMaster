@@ -1,12 +1,16 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Save, Check, AlertCircle, Wand2, Loader2, ChevronDown, ChevronUp, Globe } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Category } from '../types';
+import { Category, Prompt } from '../types';
 
 const AdminPage: React.FC = () => {
   const { t, i18n } = useTranslation();
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const isEditMode = !!id;
+
   const [activeTab, setActiveTab] = useState<'smart' | 'manual'>('smart');
 
   const toggleLanguage = () => {
@@ -25,7 +29,9 @@ const AdminPage: React.FC = () => {
   // Form State
   const [formData, setFormData] = useState({
     title: '',
+    titleZh: '', // Added titleZh
     description: '',
+    descriptionZh: '', // Added descriptionZh
     category: 'CODING',
     tags: '',
     content: '',
@@ -37,6 +43,53 @@ const AdminPage: React.FC = () => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
   const [showDetails, setShowDetails] = useState(false);
+
+  // Load data if in edit mode
+  useEffect(() => {
+    if (isEditMode && id) {
+      setShowDetails(true);
+      setStatus('loading');
+      
+      fetch('/api/prompts')
+        .then(async res => {
+          if (!res.ok) {
+            const errorData = await res.json().catch(() => ({}));
+            throw new Error(errorData.error || errorData.message || `Request failed with status ${res.status}`);
+          }
+          return res.json();
+        })
+        .then((data: any[]) => { // data is array of prompts
+          if (!Array.isArray(data)) {
+            throw new Error('Invalid API response: Expected an array');
+          }
+          // Fix: Ensure loose comparison for ID (string vs number)
+          const prompt = data.find(p => String(p.id) === String(id));
+          if (prompt) {
+            setFormData({
+              title: prompt.titleEn || prompt.title || '',
+              titleZh: prompt.titleZh || prompt.title || '',
+              description: prompt.descriptionEn || prompt.description || '',
+              descriptionZh: prompt.descriptionZh || prompt.description || '',
+              category: prompt.category || 'CODING',
+              tags: Array.isArray(prompt.tags) ? prompt.tags.join(', ') : (prompt.tags || ''),
+              content: prompt.content || '',
+              chineseContent: prompt.chineseContent || '',
+              expectedOutput: prompt.expectedOutput || '',
+              usage: prompt.usage || ''
+            });
+            setStatus('idle');
+          } else {
+            setStatus('error');
+            setMessage(`Prompt not found (ID: ${id})`);
+          }
+        })
+        .catch(err => {
+          console.error('Error loading prompt:', err);
+          setStatus('error');
+          setMessage(err.message);
+        });
+    }
+  }, [isEditMode, id]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -68,7 +121,9 @@ const AdminPage: React.FC = () => {
       // Populate form
       setFormData({
         title: data.title || '',
+        titleZh: data.titleZh || '', // Populate titleZh
         description: data.description || '',
+        descriptionZh: data.descriptionZh || '', // Populate descriptionZh
         category: data.category || 'CODING',
         tags: Array.isArray(data.tags) ? data.tags.join(', ') : (data.tags || ''),
         content: data.content || '',
@@ -94,18 +149,27 @@ const AdminPage: React.FC = () => {
         tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean)
       };
 
-      const res = await fetch('/api/prompts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+      let res;
+      if (isEditMode && id) {
+        res = await fetch(`/api/prompts/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } else {
+        res = await fetch('/api/prompts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      }
 
       const data = await res.json();
 
       if (res.ok) {
         setStatus('success');
-        setMessage(`${t('admin.form.success')} ${data.id}`);
-        // Clear inputs after success? Maybe not, in case user wants to add similar one.
+        setMessage(isEditMode ? t('admin.form.success') : `${t('admin.form.success')} ${data.id}`);
+        // Redirect after short delay? Or just show success.
       } else {
         throw new Error(data.error || t('admin.form.failed'));
       }
@@ -133,7 +197,7 @@ const AdminPage: React.FC = () => {
               <Globe size={24} strokeWidth={2.5} />
             </button>
             <h1 className="min-w-[140px] text-center text-xl font-black uppercase italic bg-yellow-400 px-2 border-2 border-black transform rotate-1">
-              {t('admin.title')}
+              {isEditMode ? 'EDIT PROMPT' : t('admin.title')}
             </h1>
           </div>
         </header>
@@ -147,60 +211,62 @@ const AdminPage: React.FC = () => {
 
         <div className="bg-white border-[3px] border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] space-y-8">
           
-          {/* Smart Paste Section */}
-          <section className="space-y-4 bg-indigo-50/50 p-6 border-[3px] border-indigo-900 -mx-2">
-            <div className="flex items-center justify-between">
-              <label className="text-base font-black uppercase tracking-widest flex items-center gap-2 text-indigo-900">
-                <Wand2 size={24} className="text-indigo-600" strokeWidth={2.5} /> 
-                {t('admin.smartPaste.title')}
-              </label>
-              
-              <div className="flex items-center gap-2">
-                <input 
-                  type="password" 
-                  placeholder={t('admin.smartPaste.apiKeyPlaceholder')} 
-                  value={apiKey}
-                  onChange={e => setApiKey(e.target.value)}
-                  className="px-3 py-2 text-xs font-bold border-2 border-indigo-200 rounded focus:border-indigo-600 outline-none bg-white w-48 transition-all placeholder:text-indigo-300 text-indigo-900"
-                />
+          {/* Smart Paste Section - Only show in Add Mode */}
+          {!isEditMode && (
+            <section className="space-y-4 bg-indigo-50/50 p-6 border-[3px] border-indigo-900 -mx-2">
+              <div className="flex items-center justify-between">
+                <label className="text-base font-black uppercase tracking-widest flex items-center gap-2 text-indigo-900">
+                  <Wand2 size={24} className="text-indigo-600" strokeWidth={2.5} /> 
+                  {t('admin.smartPaste.title')}
+                </label>
+                
+                <div className="flex items-center gap-2">
+                  <input 
+                    type="password" 
+                    placeholder={t('admin.smartPaste.apiKeyPlaceholder')} 
+                    value={apiKey}
+                    onChange={e => setApiKey(e.target.value)}
+                    className="px-3 py-2 text-xs font-bold border-2 border-indigo-200 rounded focus:border-indigo-600 outline-none bg-white w-48 transition-all placeholder:text-indigo-300 text-indigo-900"
+                  />
+                </div>
               </div>
-            </div>
 
-            <p className="text-sm font-bold text-indigo-800/70">
-              {t('admin.smartPaste.instruction')}
-            </p>
+              <p className="text-sm font-bold text-indigo-800/70">
+                {t('admin.smartPaste.instruction')}
+              </p>
 
-            <textarea
-              value={rawText}
-              onChange={e => setRawText(e.target.value)}
-              placeholder={t('admin.smartPaste.placeholder')}
-              className="w-full p-4 border-[3px] border-indigo-200 focus:border-indigo-600 bg-white font-medium text-lg text-indigo-950 placeholder:text-indigo-300 focus:outline-none focus:ring-4 focus:ring-indigo-100 transition-all min-h-[160px]"
-            />
-            
-            {analyzeError && (
-               <div className="bg-red-100 border-2 border-red-500 text-red-700 p-3 font-bold flex items-center gap-2">
-                 <AlertCircle size={20} /> {analyzeError}
-               </div>
-            )}
-
-            <button
-              onClick={handleSmartAnalyze}
-              disabled={isAnalyzing || !rawText.trim()}
-              className="w-full py-4 bg-indigo-600 text-white font-black uppercase tracking-widest text-lg hover:bg-indigo-700 hover:translate-y-[-2px] hover:shadow-[4px_4px_0px_0px_rgba(49,46,129,1)] active:translate-y-[0px] active:shadow-none transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none"
-            >
-              {isAnalyzing ? (
-                <>
-                  <Loader2 size={24} className="animate-spin" /> {t('admin.smartPaste.analyzing')}
-                </>
-              ) : (
-                <>
-                  <Wand2 size={24} /> {t('admin.smartPaste.button')}
-                </>
+              <textarea
+                value={rawText}
+                onChange={e => setRawText(e.target.value)}
+                placeholder={t('admin.smartPaste.placeholder')}
+                className="w-full p-4 border-[3px] border-indigo-200 focus:border-indigo-600 bg-white font-medium text-lg text-indigo-950 placeholder:text-indigo-300 focus:outline-none focus:ring-4 focus:ring-indigo-100 transition-all min-h-[160px]"
+              />
+              
+              {analyzeError && (
+                 <div className="bg-red-100 border-2 border-red-500 text-red-700 p-3 font-bold flex items-center gap-2">
+                   <AlertCircle size={20} /> {analyzeError}
+                 </div>
               )}
-            </button>
-          </section>
 
-          <hr className="border-t-4 border-dashed border-gray-300 my-8" />
+              <button
+                onClick={handleSmartAnalyze}
+                disabled={isAnalyzing || !rawText.trim()}
+                className="w-full min-h-[64px] bg-indigo-600 text-white font-black uppercase tracking-widest text-lg hover:bg-indigo-700 hover:translate-y-[-2px] hover:shadow-[4px_4px_0px_0px_rgba(49,46,129,1)] active:translate-y-[0px] active:shadow-none transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none"
+              >
+                {isAnalyzing ? (
+                  <>
+                    <Loader2 size={24} className="animate-spin" /> {t('admin.smartPaste.analyzing')}
+                  </>
+                ) : (
+                  <>
+                    <Wand2 size={24} /> {t('admin.smartPaste.button')}
+                  </>
+                )}
+              </button>
+            </section>
+          )}
+
+          {!isEditMode && <hr className="border-t-4 border-dashed border-gray-300 my-8" />}
 
           {/* Manual Form (Collapsible) */}
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -220,14 +286,25 @@ const AdminPage: React.FC = () => {
                 {/* Title & Category */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2 flex flex-col">
-                    <label className="text-sm font-black uppercase tracking-widest text-black min-h-[20px] flex items-center">{t('admin.form.title')}</label>
+                    <label className="text-sm font-black uppercase tracking-widest text-black min-h-[20px] flex items-center">{t('admin.form.title')} (EN)</label>
                     <input
                       name="title"
                       value={formData.title}
                       onChange={handleChange}
                       required
                       className="w-full h-[60px] px-4 border-[4px] border-black font-black text-xl text-black bg-white focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-gray-400"
-                      placeholder="ENTER TITLE HERE..."
+                      placeholder="ENTER TITLE (EN)..."
+                    />
+                  </div>
+                  <div className="space-y-2 flex flex-col">
+                    <label className="text-sm font-black uppercase tracking-widest text-black min-h-[20px] flex items-center">{t('admin.form.title')} (ZH)</label>
+                    <input
+                      name="titleZh"
+                      value={formData.titleZh}
+                      onChange={handleChange}
+                      required
+                      className="w-full h-[60px] px-4 border-[4px] border-black font-black text-xl text-black bg-white focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-gray-400"
+                      placeholder="输入中文标题..."
                     />
                   </div>
                   <div className="space-y-2 flex flex-col">
@@ -247,10 +324,19 @@ const AdminPage: React.FC = () => {
 
                 {/* Description */}
                 <div className="space-y-2 flex flex-col">
-                  <label className="text-xs font-black uppercase tracking-widest text-zinc-800 min-h-[16px] flex items-center">{t('admin.form.description')}</label>
+                  <label className="text-xs font-black uppercase tracking-widest text-zinc-800 min-h-[16px] flex items-center">{t('admin.form.description')} (EN)</label>
                   <input
                     name="description"
                     value={formData.description}
+                    onChange={handleChange}
+                    className="w-full h-[52px] px-3 border-[3px] border-black font-medium text-gray-800 focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-gray-300"
+                  />
+                </div>
+                <div className="space-y-2 flex flex-col">
+                  <label className="text-xs font-black uppercase tracking-widest text-zinc-800 min-h-[16px] flex items-center">{t('admin.form.description')} (ZH)</label>
+                  <input
+                    name="descriptionZh"
+                    value={formData.descriptionZh}
                     onChange={handleChange}
                     className="w-full h-[52px] px-3 border-[3px] border-black font-medium text-gray-800 focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-gray-300"
                   />
