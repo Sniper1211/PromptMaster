@@ -66,6 +66,83 @@ app.post('/api/verify-password', (req, res) => {
   }
 });
 
+// --- API: Upload File (S3/R2 Compatible) ---
+// Note: This is for local dev simulation or forwarding.
+app.post('/api/upload', async (req, res) => {
+  // Auth Check
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  const authHeader = req.headers.authorization;
+  if (adminPassword && (!authHeader || authHeader !== `Bearer ${adminPassword}`)) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  // Check if R2 config exists
+  if (!process.env.R2_ACCESS_KEY_ID || !process.env.R2_SECRET_ACCESS_KEY) {
+    console.warn('[API] R2 credentials not set. Returning mock URL.');
+    // Return a mock URL for local testing without real upload
+    return res.json({ 
+      url: 'https://via.placeholder.com/800x450.png?text=Uploaded+Image+(Local+Mock)',
+      pathname: req.query.filename || 'mock-image.png',
+      contentType: 'image/png'
+    });
+  }
+
+  // If credentials exist, try real upload using S3 Client
+  try {
+    const { S3Client, PutObjectCommand } = await import('@aws-sdk/client-s3');
+    
+    const S3 = new S3Client({
+      region: 'auto',
+      endpoint: process.env.R2_ENDPOINT,
+      credentials: {
+        accessKeyId: process.env.R2_ACCESS_KEY_ID,
+        secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
+      },
+    });
+
+    const filename = req.query.filename;
+    if (!filename) {
+      return res.status(400).json({ error: 'Filename is required' });
+    }
+
+    const uniqueKey = `pentaprompt/${Date.now()}-${filename}`;
+    
+    // Read request stream into buffer
+    const chunks = [];
+    for await (const chunk of req) {
+      chunks.push(chunk);
+    }
+    const buffer = Buffer.concat(chunks);
+
+    const uploadParams = {
+      Bucket: process.env.R2_BUCKET_NAME,
+      Key: uniqueKey,
+      Body: buffer,
+      ContentType: req.headers['content-type'] || 'application/octet-stream',
+    };
+
+    await S3.send(new PutObjectCommand(uploadParams));
+
+    // Construct Public URL
+    const publicUrlBase = process.env.R2_PUBLIC_URL;
+    if (!publicUrlBase) {
+      throw new Error('R2_PUBLIC_URL env var is not set');
+    }
+
+    const finalUrl = `${publicUrlBase.replace(/\/$/, '')}/${uniqueKey}`;
+
+    res.json({ 
+      url: finalUrl,
+      pathname: uniqueKey,
+      contentType: uploadParams.ContentType
+    });
+
+  } catch (error) {
+    console.error('[Upload Error]', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // --- API: Analyze Text via LLM ---
 app.post('/api/analyze', async (req, res) => {
   // Auth Check
