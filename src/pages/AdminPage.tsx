@@ -117,8 +117,12 @@ const AdminPage: React.FC = () => {
     content: '',
     chineseContent: '',
     expectedOutput: '',
-    usage: ''
+    usage: '',
+    previewImageUrl: ''
   });
+  
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
   
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
@@ -155,7 +159,8 @@ const AdminPage: React.FC = () => {
               content: prompt.content || '',
               chineseContent: prompt.chineseContent || '',
               expectedOutput: prompt.expectedOutput || '',
-              usage: prompt.usage || ''
+              usage: prompt.usage || '',
+              previewImageUrl: prompt.previewImageUrl || ''
             });
             setStatus('idle');
           } else {
@@ -264,6 +269,40 @@ const AdminPage: React.FC = () => {
     } catch (err: any) {
       setStatus('error');
       setMessage(err.message);
+    }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+    
+    const file = e.target.files[0];
+    setIsUploading(true);
+    setUploadError('');
+    
+    try {
+      // Use filename query param for simple upload (compatible with our API)
+      const filename = encodeURIComponent(file.name);
+      const res = await fetch(`/api/upload?filename=${filename}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${adminPassword}`,
+          // No Content-Type header, let browser set it with boundary for binary
+        },
+        body: file
+      });
+      
+      const data = await res.json();
+      
+      if (!res.ok) throw new Error(data.error || 'Upload failed');
+      
+      // Update form data with the new image URL
+      setFormData(prev => ({ ...prev, previewImageUrl: data.url }));
+      
+    } catch (err: any) {
+      console.error('Upload error:', err);
+      setUploadError(err.message || 'Failed to upload image');
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -428,6 +467,67 @@ const AdminPage: React.FC = () => {
                     onChange={handleChange}
                     className="w-full h-[52px] px-3 border-[3px] border-black font-medium text-gray-800 focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-gray-300"
                   />
+                </div>
+
+                {/* Preview Image Upload */}
+                <div className="space-y-2 flex flex-col">
+                  <label className="text-xs font-black uppercase tracking-widest text-zinc-800 min-h-[16px] flex items-center">Preview Image</label>
+                  <div className="border-[3px] border-black p-4 bg-slate-50 flex flex-col gap-4">
+                    {formData.previewImageUrl && (
+                      <div className="relative w-full aspect-video bg-gray-100 border-2 border-black overflow-hidden group">
+                        <img 
+                          src={formData.previewImageUrl} 
+                          alt="Preview" 
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = 'https://via.placeholder.com/800x450?text=Image+Load+Error';
+                          }}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setFormData(prev => ({ ...prev, previewImageUrl: '' }))}
+                          className="absolute top-2 right-2 bg-red-500 text-white p-1 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[1px] hover:shadow-none transition-all"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                        </button>
+                      </div>
+                    )}
+                    
+                    <div className="flex gap-2">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                        id="image-upload"
+                        disabled={isUploading}
+                      />
+                      <label 
+                        htmlFor="image-upload"
+                        className={`flex-1 h-[52px] flex items-center justify-center gap-2 bg-white border-[3px] border-black font-bold uppercase tracking-wider cursor-pointer hover:bg-yellow-200 transition-all ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      >
+                        {isUploading ? (
+                          <>
+                            <Loader2 size={20} className="animate-spin" /> Uploading...
+                          </>
+                        ) : (
+                          <>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                            {formData.previewImageUrl ? 'Change Image' : 'Upload Image'}
+                          </>
+                        )}
+                      </label>
+                      <input
+                        name="previewImageUrl"
+                        value={formData.previewImageUrl}
+                        onChange={handleChange}
+                        placeholder="Or paste URL..."
+                        className="flex-1 h-[52px] px-3 border-[3px] border-black font-medium text-gray-800 focus:outline-none focus:ring-4 focus:ring-yellow-200 placeholder:text-gray-300"
+                      />
+                    </div>
+                    {uploadError && <p className="text-red-600 font-bold text-xs">{uploadError}</p>}
+                    <p className="text-xs font-bold text-gray-400">Supported: JPG, PNG, WEBP, GIF (Max 4.5MB)</p>
+                  </div>
                 </div>
 
                 {/* Content (English) */}
