@@ -12,46 +12,49 @@ export const usePrompts = () => {
         let mounted = true;
 
         const loadPrompts = async () => {
-            setLoading(true);
+            // STRATEGY: Hybrid Loading
+            // 1. Load local static data IMMEDIATELY for instant render (SEO & UX friendly)
+            // 2. Fetch fresh data from API in background and update silently
+
+            const lang = i18n.language.startsWith('zh') ? 'zh' : 'en';
+            
+            // Step 1: Load local data first
             try {
-                // Try to fetch from API first (Database)
-                try {
-                    // Use relative path '/api/prompts' which works for both:
-                    // 1. Local dev via Vite proxy (-> localhost:3001)
-                    // 2. Production Vercel (-> Vercel Serverless Functions)
-                    
-                    // Pass current language preference to API
-                    const lang = i18n.language.startsWith('zh') ? 'zh' : 'en';
-                    const res = await fetch(`/api/prompts?lang=${lang}`);
-                    
-                    if (res.ok) {
-                        const dbPrompts: Prompt[] = await res.json();
-                        if (mounted) {
-                            setPrompts(dbPrompts);
-                            setLoading(false);
-                            return; // Success! Exit early.
-                        }
-                    }
-                } catch (apiErr) {
-                    console.warn('API fetch failed, falling back to local files:', apiErr);
-                }
-
-                // Fallback: Load from local files if API fails or returns error
-                const lang = i18n.language.startsWith('zh') ? 'zh' : 'en';
-                let data: { PROMPTS_ZH?: Prompt[]; PROMPTS_EN?: Prompt[] };
-
+                let localData: { PROMPTS_ZH?: Prompt[]; PROMPTS_EN?: Prompt[] };
                 if (lang === 'zh') {
-                    data = await import('../data/prompts-zh');
-                    if (mounted) setPrompts(data.PROMPTS_ZH || []);
+                    localData = await import('../data/prompts-zh');
+                    if (mounted) {
+                        setPrompts(localData.PROMPTS_ZH || []);
+                        setLoading(false); // Show content immediately!
+                    }
                 } else {
-                    data = await import('../data/prompts-en');
-                    if (mounted) setPrompts(data.PROMPTS_EN || []);
+                    localData = await import('../data/prompts-en');
+                    if (mounted) {
+                        setPrompts(localData.PROMPTS_EN || []);
+                        setLoading(false); // Show content immediately!
+                    }
                 }
             } catch (err) {
-                if (mounted) {
-                    console.error('Failed to load prompts:', err);
-                    setError(err instanceof Error ? err : new Error('Failed to load prompts'));
+                console.error('Failed to load local prompts:', err);
+                // If local load fails, keep loading true and wait for API
+            }
+
+            // Step 2: Fetch from API (Background Update)
+            try {
+                // Pass current language preference to API
+                const res = await fetch(`/api/prompts?lang=${lang}`);
+                
+                if (res.ok) {
+                    const dbPrompts: Prompt[] = await res.json();
+                    if (mounted) {
+                        // Update with fresh data from DB
+                        // Note: This might cause a UI shift if data differs significantly.
+                        // Ideally, we should merge or check for differences, but for now, replacing is fine.
+                        setPrompts(dbPrompts);
+                    }
                 }
+            } catch (apiErr) {
+                console.warn('API fetch failed, staying with local data:', apiErr);
             } finally {
                 if (mounted) setLoading(false);
             }
