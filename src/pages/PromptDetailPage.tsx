@@ -54,19 +54,33 @@ const PromptDetailPage: React.FC = () => {
         );
     }
 
+    // Helper to get absolute image URL
+    const getImageUrl = (url?: string) => {
+        if (!url) return "";
+        if (url.startsWith('http')) return url;
+        return `https://pentaprompt.com${url}`;
+    };
+
     // JSON-LD for SEO
     const jsonLd = {
         "@context": "https://schema.org",
-        "@type": "TechArticle",
+        "@type": "CreativeWork",
+        "name": prompt.title,
         "headline": prompt.title,
         "description": prompt.description,
-        "image": prompt.previewImageUrl ? `https://pentaprompt.com${prompt.previewImageUrl}` : "",
-        "articleSection": prompt.category,
+        "image": getImageUrl(prompt.previewImageUrl),
+        "genre": prompt.category,
         "keywords": prompt.tags.join(", "),
-        "datePublished": "2024-01-01",
+        "datePublished": "2024-01-01", // TODO: Use real createdAt
         "author": {
             "@type": "Organization",
-            "name": "PentaPrompt"
+            "name": "PentaPrompt",
+            "url": "https://pentaprompt.com"
+        },
+        "interactionStatistic": {
+            "@type": "InteractionCounter",
+            "interactionType": "https://schema.org/ShareAction",
+            "userInteractionCount": 100 // Placeholder, will connect to real data later
         }
     };
 
@@ -76,7 +90,7 @@ const PromptDetailPage: React.FC = () => {
                 title={`${prompt.title} - PentaPrompt`}
                 description={prompt.description}
                 keywords={prompt.tags.slice(0, 8).join(", ")}
-                image={prompt.previewImageUrl ? `https://pentaprompt.com${prompt.previewImageUrl}` : undefined}
+                image={getImageUrl(prompt.previewImageUrl)}
                 url={`https://pentaprompt.com/prompt/${prompt.id}`}
                 type="article"
                 structuredData={jsonLd}
