@@ -6,6 +6,7 @@ export const usePrompts = () => {
     const { i18n } = useTranslation();
     const [prompts, setPrompts] = useState<Prompt[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isRevalidating, setIsRevalidating] = useState(false);
     const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
@@ -40,6 +41,7 @@ export const usePrompts = () => {
             }
 
             // Step 2: Fetch from API (Background Update)
+            if (mounted) setIsRevalidating(true);
             try {
                 // Pass current language preference to API
                 const res = await fetch(`/api/prompts?lang=${lang}`);
@@ -48,15 +50,16 @@ export const usePrompts = () => {
                     const dbPrompts: Prompt[] = await res.json();
                     if (mounted) {
                         // Update with fresh data from DB
-                        // Note: This might cause a UI shift if data differs significantly.
-                        // Ideally, we should merge or check for differences, but for now, replacing is fine.
                         setPrompts(dbPrompts);
                     }
                 }
             } catch (apiErr) {
                 console.warn('API fetch failed, staying with local data:', apiErr);
             } finally {
-                if (mounted) setLoading(false);
+                if (mounted) {
+                    setLoading(false);
+                    setIsRevalidating(false);
+                }
             }
         };
 
@@ -67,5 +70,5 @@ export const usePrompts = () => {
         };
     }, [i18n.language]);
 
-    return { prompts, loading, error };
+    return { prompts, loading, isRevalidating, error };
 };
