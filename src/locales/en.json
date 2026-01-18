@@ -167,7 +167,9 @@
     "relatedKeywords": "Related Keywords",
     "moreFrom": "More from",
     "viewAll": "View All",
-    "noRelated": "No other prompts in this category found."
+    "noRelated": "No other prompts in this category found.",
+    "totalCopies": "Total Copies",
+    "copies": "Copies"
   },
   "seo": {
     "home": {

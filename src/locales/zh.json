@@ -167,7 +167,9 @@
     "relatedKeywords": "相关关键词",
     "moreFrom": "更多来自",
     "viewAll": "查看全部",
-    "noRelated": "该分类下未找到其他提示词。"
+    "noRelated": "该分类下未找到其他提示词。",
+    "totalCopies": "总复制数",
+    "copies": "热度"
   },
   "seo": {
     "home": {
