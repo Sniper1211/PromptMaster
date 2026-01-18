@@ -13,8 +13,18 @@ const PromptDetailPage: React.FC = () => {
     const { t } = useTranslation();
     const [copied, setCopied] = useState(false);
     const [showFullImage, setShowFullImage] = useState(false);
-
+    
     const prompt = prompts.find(p => p.id === id);
+
+    // Local state for copy count to show instant update
+    const [localCopyCount, setLocalCopyCount] = useState<number>(0);
+    
+    // Sync local count when prompt loads
+    useMemo(() => {
+        if (prompt && prompt.copyCount) {
+            setLocalCopyCount(prompt.copyCount);
+        }
+    }, [prompt]);
 
     const relatedPrompts = useMemo(() => {
         if (!prompt || !prompts.length) return [];
@@ -28,6 +38,13 @@ const PromptDetailPage: React.FC = () => {
             navigator.clipboard.writeText(prompt.content);
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
+            
+            // Optimistic update
+            setLocalCopyCount(prev => prev + 1);
+            
+            // Send increment request silently
+            fetch(`/api/increment-copy?id=${prompt.id}`, { method: 'POST' })
+                .catch(err => console.error('Failed to increment copy count', err));
         }
     };
 
@@ -179,9 +196,14 @@ const PromptDetailPage: React.FC = () => {
                                     <h3 className="text-xl font-black uppercase italic tracking-tight flex items-center gap-2">
                                         <div className="w-3 h-6 bg-[#8B5CF6]"></div> {t('promptDetail.promptContent')}
                                     </h3>
-                                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                                        {prompt.content.length} {t('promptDetail.characters')}
-                                    </span>
+                                    <div className="flex items-center gap-4">
+                                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
+                                            <Copy size={12} /> {localCopyCount.toLocaleString()} {t('promptDetail.copied') || 'COPIED'}
+                                        </span>
+                                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                                            {prompt.content.length} {t('promptDetail.characters')}
+                                        </span>
+                                    </div>
                                 </div>
 
                                 <div className="relative group rounded-xl overflow-hidden border-[3px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-[#1e1e1e]">

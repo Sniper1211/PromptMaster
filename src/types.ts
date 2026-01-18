@@ -25,6 +25,7 @@ export interface Prompt {
   expectedOutput: string;
   usage?: string; // Instructions on how to use this prompt (e.g. "Replace [placeholder] with...")
   previewImageUrl?: string; // Optional path to a preview image
+  copyCount?: number;
   authorId?: string;
   model?: string;
   format?: string;
