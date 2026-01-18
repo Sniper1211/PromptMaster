@@ -6,10 +6,11 @@ import { usePrompts } from '../hooks/usePrompts';
 import SEOHead from '../components/seo/SEOHead';
 import AdUnit from '../components/ads/AdUnit';
 import PromptCard from '../components/PromptCard';
+import ImageWithSkeleton from '../components/common/ImageWithSkeleton';
 
 const PromptDetailPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const { prompts, loading } = usePrompts();
+    const { prompts, loading, isRevalidating } = usePrompts();
     const { t } = useTranslation();
     const [copied, setCopied] = useState(false);
     const [showFullImage, setShowFullImage] = useState(false);
@@ -48,7 +49,10 @@ const PromptDetailPage: React.FC = () => {
         }
     };
 
-    if (loading) {
+    // Show loading if:
+    // 1. Initial loading is true
+    // 2. Prompt not found locally BUT we are still fetching fresh data (Hybrid loading edge case for new prompts)
+    if (loading || (!prompt && isRevalidating)) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">
                 <div className="flex flex-col items-center gap-4">
@@ -167,15 +171,15 @@ const PromptDetailPage: React.FC = () => {
                             {/* Hero Image */}
                             {prompt.previewImageUrl && (
                                 <div className="w-full bg-white border-[3px] border-black p-1 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-                                    <div className="relative group w-full aspect-video md:aspect-[2/1] overflow-hidden bg-slate-100">
-                                        <img
+                                    <div className="relative group w-full">
+                                        <ImageWithSkeleton
                                             src={prompt.previewImageUrl}
                                             alt={prompt.title}
-                                            className="w-full h-full object-cover"
+                                            aspectRatio="aspect-video md:aspect-[2/1]"
                                         />
                                         <button
                                             onClick={() => setShowFullImage(true)}
-                                            className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity cursor-zoom-in"
+                                            className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity cursor-zoom-in z-20"
                                         >
                                             <div className="bg-white text-black px-4 py-2 font-bold uppercase text-sm border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] hover:translate-x-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all">
                                                 {t('promptDetail.viewFullSize')}
