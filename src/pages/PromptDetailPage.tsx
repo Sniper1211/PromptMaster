@@ -201,7 +201,7 @@ const PromptDetailPage: React.FC = () => {
                                         <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#FACC15] border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-xs font-black uppercase tracking-wider text-black transform hover:-translate-y-[1px] transition-transform cursor-help" title={t('promptDetail.totalCopies')}>
                                             <Flame size={12} fill="black" /> 
                                             {localCopyCount === undefined ? (
-                                                <span className="inline-block w-6 h-3 bg-black/10 animate-pulse rounded-sm"></span>
+                                                <span className="inline-block w-10 h-3 bg-black opacity-20 animate-pulse"></span>
                                             ) : (
                                                 <>
                                                     {localCopyCount.toLocaleString()} <span className="ml-0.5 opacity-80 text-[10px]">{t('promptDetail.copies')}</span>
