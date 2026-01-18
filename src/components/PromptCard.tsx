@@ -102,7 +102,12 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onTry }) => {
 
         <div className="flex items-center justify-between pt-3 border-t-2 border-slate-100">
            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1">
-             <Copy size={10} strokeWidth={3} /> {((prompt.copyCount || 0) + (copied ? 1 : 0)).toLocaleString()}
+             <Copy size={10} strokeWidth={3} /> 
+             {prompt.copyCount === undefined ? (
+               <span className="inline-block w-8 h-3 bg-slate-200 animate-pulse rounded"></span>
+             ) : (
+               ((prompt.copyCount || 0) + (copied ? 1 : 0)).toLocaleString()
+             )}
            </span>
         </div>
       </div>

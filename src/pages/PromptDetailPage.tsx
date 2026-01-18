@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Copy, Check, X, Search, Cpu, ArrowLeft, Tag, Layers, Calendar, ChevronRight, Share2, Info } from 'lucide-react';
+import { Copy, Check, X, Search, Cpu, ArrowLeft, Tag, Layers, Calendar, ChevronRight, Share2, Info, Flame } from 'lucide-react';
 import { usePrompts } from '../hooks/usePrompts';
 import SEOHead from '../components/seo/SEOHead';
 import AdUnit from '../components/ads/AdUnit';
@@ -17,11 +17,11 @@ const PromptDetailPage: React.FC = () => {
     const prompt = prompts.find(p => p.id === id);
 
     // Local state for copy count to show instant update
-    const [localCopyCount, setLocalCopyCount] = useState<number>(0);
+    const [localCopyCount, setLocalCopyCount] = useState<number | undefined>(undefined);
     
     // Sync local count when prompt loads
     useMemo(() => {
-        if (prompt && prompt.copyCount) {
+        if (prompt && prompt.copyCount !== undefined) {
             setLocalCopyCount(prompt.copyCount);
         }
     }, [prompt]);
@@ -40,7 +40,7 @@ const PromptDetailPage: React.FC = () => {
             setTimeout(() => setCopied(false), 2000);
             
             // Optimistic update
-            setLocalCopyCount(prev => prev + 1);
+            setLocalCopyCount(prev => (prev || 0) + 1);
             
             // Send increment request silently
             fetch(`/api/increment-copy?id=${prompt.id}`, { method: 'POST' })
@@ -196,10 +196,17 @@ const PromptDetailPage: React.FC = () => {
                                     <h3 className="text-xl font-black uppercase italic tracking-tight flex items-center gap-2">
                                         <div className="w-3 h-6 bg-[#8B5CF6]"></div> {t('promptDetail.promptContent')}
                                     </h3>
-                                    <div className="flex items-center gap-4">
-                                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
-                                            <Copy size={12} /> {localCopyCount.toLocaleString()} {t('promptDetail.copied') || 'COPIED'}
-                                        </span>
+                                    <div className="flex items-center gap-3">
+                                        {/* Copy Count Badge */}
+                                        <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#FACC15] border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-xs font-black uppercase tracking-wider text-black transform hover:-translate-y-[1px] transition-transform cursor-help" title="Total Copies">
+                                            <Flame size={12} fill="black" /> 
+                                            {localCopyCount === undefined ? (
+                                                <span className="inline-block w-6 h-3 bg-black/10 animate-pulse rounded-sm"></span>
+                                            ) : (
+                                                localCopyCount.toLocaleString()
+                                            )}
+                                        </div>
+                                        
                                         <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
                                             {prompt.content.length} {t('promptDetail.characters')}
                                         </span>
