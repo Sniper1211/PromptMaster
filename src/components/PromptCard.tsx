@@ -29,6 +29,10 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onTry }) => {
     navigator.clipboard.writeText(prompt.content);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+
+    // Send increment request silently
+    fetch(`/api/increment-copy?id=${prompt.id}`, { method: 'POST' })
+        .catch(err => console.error('Failed to increment copy count', err));
   };
 
   // Get a deterministic color based on prompt ID
@@ -92,9 +96,15 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onTry }) => {
             {prompt.title}
           </h3>
         </Link>
-        <p className="text-slate-500 text-xs font-medium line-clamp-3 leading-relaxed flex-1">
+        <p className="text-slate-500 text-xs font-medium line-clamp-3 leading-relaxed flex-1 mb-3">
           {prompt.description}
         </p>
+
+        <div className="flex items-center justify-between pt-3 border-t-2 border-slate-100">
+           <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1">
+             <Copy size={10} strokeWidth={3} /> {((prompt.copyCount || 0) + (copied ? 1 : 0)).toLocaleString()}
+           </span>
+        </div>
       </div>
     </div>
   );

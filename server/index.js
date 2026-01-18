@@ -66,6 +66,28 @@ app.post('/api/verify-password', (req, res) => {
   }
 });
 
+// --- API: Increment Copy Count ---
+app.post('/api/increment-copy', async (req, res) => {
+  const { id } = req.query;
+  if (!id) return res.status(400).json({ error: 'Missing ID' });
+
+  // In local mock server (without DB), we can't persist this easily unless we use a file.
+  // But for dev UI testing, just returning success is enough.
+  // If we had a local DB, we would run the UPDATE query.
+  
+  // Check if we are connected to real DB (if DATABASE_URL is set locally)
+  if (process.env.DATABASE_URL) {
+     // ... Real DB logic would go here if we extracted the pool ...
+     // For now, let's assume local dev might not have full DB write access or logic duplication.
+     // Just mock success to let UI proceed.
+     console.log(`[Mock] Increment copy count for Prompt ${id}`);
+  } else {
+     console.log(`[Mock] Increment copy count for Prompt ${id}`);
+  }
+  
+  res.json({ success: true });
+});
+
 // --- API: Upload File (S3/R2 Compatible) ---
 // Note: This is for local dev simulation or forwarding.
 app.post('/api/upload', async (req, res) => {

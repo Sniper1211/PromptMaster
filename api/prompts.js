@@ -41,7 +41,9 @@ export default async function handler(req, res) {
           chineseContent: row.chinese_content,
           expectedOutput: row.expected_output,
           usage: row.usage,
-          previewImageUrl: row.preview_image_url
+          previewImageUrl: row.preview_image_url,
+          // Calculate total copy count
+          copyCount: (row.base_count || 0) + (row.real_copy_count || 0)
         };
       });
 
@@ -75,11 +77,16 @@ export default async function handler(req, res) {
       
       const now = new Date().toISOString();
 
+      // Init base_count with a small random number for new prompts (e.g., 10-30) to avoid "zero" look
+      const baseCount = Math.floor(Math.random() * (30 - 10 + 1)) + 10;
+      const realCopyCount = 0;
+
       const query = `
         INSERT INTO prompts (
           id, created_at, title_zh, title_en, description_zh, description_en, 
-          category, tags, content, chinese_content, expected_output, usage, preview_image_url
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+          category, tags, content, chinese_content, expected_output, usage, preview_image_url,
+          base_count, real_copy_count
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
         RETURNING id
       `;
 
@@ -129,7 +136,9 @@ export default async function handler(req, res) {
         newPromptData.chineseContent || '', // Chinese translation of the prompt
         newPromptData.expectedOutput || '',
         newPromptData.usage || '',
-        newPromptData.previewImageUrl || ''
+        newPromptData.previewImageUrl || '',
+        baseCount,
+        realCopyCount
       ];
 
       await pool.query(query, values);
