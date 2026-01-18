@@ -578,7 +578,9 @@ app.get('/api/prompts', async (req, res) => {
         chineseContent: row.chinese_content,
         expectedOutput: row.expected_output,
         usage: row.usage,
-        previewImageUrl: row.preview_image_url
+        previewImageUrl: row.preview_image_url,
+        // Calculate total copy count (Local Server Sync)
+        copyCount: (row.base_count || 0) + (row.real_copy_count || 0)
       };
     });
 
