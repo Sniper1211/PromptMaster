@@ -27,7 +27,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
     const currentLang = i18n.language.startsWith('zh') ? 'zh' : 'en';
 
     const baseUrl = 'https://pentaprompt.com';
-    const defaultImage = `${baseUrl}/og-image.png`;
+    const defaultImage = `${baseUrl}/og-image.jpg`;
     
     // Use translations for default TDK to ensure they match the current language
     const defaultTitle = t('seo.home.title', 'PentaPrompt - Best AI Prompts for ChatGPT & Claude');
