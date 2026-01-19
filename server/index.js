@@ -66,8 +66,7 @@ app.post('/api/verify-password', (req, res) => {
   }
 });
 
-const OpenAI = require('openai'); // Require OpenAI}
-});
+const OpenAI = require('openai'); // Require OpenAI
 
 app.put('/api/prompts', async (req, res) => {
   const { id } = req.query;
@@ -81,7 +80,8 @@ app.put('/api/prompts', async (req, res) => {
   res.json({ success: true });
 });
 
-// --- API: Generate Tips with AI ---app.post('/api/generate-tips', async (req, res) => {
+// --- API: Generate Tips with AI ---
+app.post('/api/generate-tips', async (req, res) => {
   const { content } = req.body;
   if (!content) return res.status(400).json({ error: 'Missing content' });
 
