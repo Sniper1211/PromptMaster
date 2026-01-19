@@ -149,8 +149,73 @@ export default async function handler(req, res) {
       console.error('[DB API Error]', error);
       return res.status(500).json({ error: error.message });
     }
+  } else if (req.method === 'PUT') {
+    // --- Auth Check ---
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    const authHeader = req.headers.authorization;
+
+    if (adminPassword) {
+      if (!authHeader || authHeader !== `Bearer ${adminPassword}`) {
+        return res.status(401).json({ error: 'Unauthorized: Invalid Admin Password' });
+      }
+    }
+    // ------------------
+
+    const { id } = req.query;
+    if (!id) {
+      return res.status(400).json({ error: 'Missing Prompt ID' });
+    }
+
+    try {
+      const updates = req.body;
+      
+      // Build dynamic update query
+      const fields = [];
+      const values = [];
+      let idx = 1;
+
+      // Allow updating specific fields
+      const allowedFields = [
+        'title_zh', 'title_en', 'description_zh', 'description_en', 
+        'category', 'tags', 'content', 'chinese_content', 
+        'expected_output', 'usage', 'preview_image_url'
+      ];
+
+      for (const [key, value] of Object.entries(updates)) {
+        // Map frontend camelCase to snake_case if needed
+        let dbKey = key;
+        if (key === 'titleZh') dbKey = 'title_zh';
+        if (key === 'titleEn') dbKey = 'title_en';
+        if (key === 'descriptionZh') dbKey = 'description_zh';
+        if (key === 'descriptionEn') dbKey = 'description_en';
+        if (key === 'chineseContent') dbKey = 'chinese_content';
+        if (key === 'expectedOutput') dbKey = 'expected_output';
+        if (key === 'previewImageUrl') dbKey = 'preview_image_url';
+
+        if (allowedFields.includes(dbKey)) {
+          fields.push(`${dbKey} = $${idx}`);
+          values.push(dbKey === 'tags' ? JSON.stringify(value) : value);
+          idx++;
+        }
+      }
+
+      if (fields.length === 0) {
+        return res.status(400).json({ error: 'No valid fields to update' });
+      }
+
+      values.push(id); // Add ID as the last parameter
+      const query = `UPDATE prompts SET ${fields.join(', ')} WHERE id = $${idx}`;
+
+      await pool.query(query, values);
+
+      return res.status(200).json({ success: true, message: 'Prompt updated successfully' });
+
+    } catch (error) {
+      console.error('[DB Update Error]', error);
+      return res.status(500).json({ error: error.message });
+    }
   } else {
-    res.setHeader('Allow', ['GET', 'POST']);
+    res.setHeader('Allow', ['GET', 'POST', 'PUT']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }

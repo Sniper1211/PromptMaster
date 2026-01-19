@@ -66,6 +66,58 @@ app.post('/api/verify-password', (req, res) => {
   }
 });
 
+const OpenAI = require('openai'); // Require OpenAI}
+});
+
+app.put('/api/prompts', async (req, res) => {
+  const { id } = req.query;
+  if (!id) return res.status(400).json({ error: 'Missing ID' });
+
+  // In local dev, we just mock success if no DB connected
+  // If DB connected, we should execute update (logic similar to api/prompts.js)
+  // For simplicity, I'll just return success here.
+  console.log(`[Mock] Updated prompt ${id} with data:`, req.body);
+  
+  res.json({ success: true });
+});
+
+// --- API: Generate Tips with AI ---app.post('/api/generate-tips', async (req, res) => {
+  const { content } = req.body;
+  if (!content) return res.status(400).json({ error: 'Missing content' });
+
+  const apiKey = process.env.DEEPSEEK_API_KEY;
+  if (!apiKey) {
+    console.warn('[Mock] No Deepseek API Key found. Returning mock tips.');
+    // Return mock data if no key (for dev without key)
+    return res.json({
+      usage_en: "Recommended: --v 6.0 --ar 16:9 (Mock Generated)",
+      usage_zh: "建议参数：--v 6.0 --ar 16:9 （模拟生成数据）"
+    });
+  }
+
+  try {
+    const openai = new OpenAI({
+      baseURL: 'https://api.deepseek.com',
+      apiKey: apiKey
+    });
+
+    const completion = await openai.chat.completions.create({
+      messages: [
+        { role: "system", content: 'You are an AI Prompt expert. Output JSON with "usage_en" and "usage_zh".' },
+        { role: "user", content: `Generate tips for: ${content}` }
+      ],
+      model: "deepseek-chat",
+      response_format: { type: "json_object" }
+    });
+
+    const result = JSON.parse(completion.choices[0].message.content);
+    res.json(result);
+  } catch (err) {
+    console.error('AI Error:', err);
+    res.status(500).json({ error: 'AI Generation Failed' });
+  }
+});
+
 // --- API: Increment Copy Count ---
 app.post('/api/increment-copy', async (req, res) => {
   const { id } = req.query;
