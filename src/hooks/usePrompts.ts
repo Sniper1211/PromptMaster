@@ -2,73 +2,62 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Prompt } from '../types';
 
-export const usePrompts = () => {
+export const usePrompts = (category?: string, sortOrder: 'recent' | 'random' = 'random') => {
     const { i18n } = useTranslation();
     const [prompts, setPrompts] = useState<Prompt[]>([]);
     const [loading, setLoading] = useState(true);
-    const [isRevalidating, setIsRevalidating] = useState(false);
+    const [loadingMore, setLoadingMore] = useState(false);
     const [error, setError] = useState<Error | null>(null);
-
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+    
+    // Reset state when category, language, or sortOrder changes
     useEffect(() => {
-        let mounted = true;
+        setPage(1);
+        setPrompts([]);
+        setHasMore(true);
+        setLoading(true);
+        fetchPrompts(1, true);
+    }, [category, sortOrder, i18n.language]);
 
-        const loadPrompts = async () => {
-            // STRATEGY: Hybrid Loading
-            // 1. Load local static data IMMEDIATELY for instant render (SEO & UX friendly)
-            // 2. Fetch fresh data from API in background and update silently
-
+    const fetchPrompts = async (pageNum: number, isReset: boolean) => {
+        try {
             const lang = i18n.language.startsWith('zh') ? 'zh' : 'en';
+            let url = `/api/prompts?page=${pageNum}&limit=24&lang=${lang}&sort=${sortOrder}`;
+            if (category && category !== 'ALL') {
+                url += `&category=${encodeURIComponent(category)}`;
+            }
+
+            const res = await fetch(url);
+            if (!res.ok) throw new Error('Failed to fetch');
             
-            // Step 1: Load local data first
-            try {
-                let localData: { PROMPTS_ZH?: Prompt[]; PROMPTS_EN?: Prompt[] };
-                if (lang === 'zh') {
-                    localData = await import('../data/prompts-zh');
-                    if (mounted) {
-                        setPrompts(localData.PROMPTS_ZH || []);
-                        setLoading(false); // Show content immediately!
-                    }
-                } else {
-                    localData = await import('../data/prompts-en');
-                    if (mounted) {
-                        setPrompts(localData.PROMPTS_EN || []);
-                        setLoading(false); // Show content immediately!
-                    }
-                }
-            } catch (err) {
-                console.error('Failed to load local prompts:', err);
-                // If local load fails, keep loading true and wait for API
+            const data = await res.json();
+            
+            const newPrompts = data.prompts || [];
+            
+            if (isReset) {
+                setPrompts(newPrompts);
+            } else {
+                setPrompts(prev => [...prev, ...newPrompts]);
             }
+            
+            setHasMore(data.hasMore);
+        } catch (err) {
+            console.error('Fetch error:', err);
+            setError(err instanceof Error ? err : new Error('Fetch failed'));
+        } finally {
+            setLoading(false);
+            setLoadingMore(false);
+        }
+    };
 
-            // Step 2: Fetch from API (Background Update)
-            if (mounted) setIsRevalidating(true);
-            try {
-                // Pass current language preference to API
-                const res = await fetch(`/api/prompts?lang=${lang}`);
-                
-                if (res.ok) {
-                    const dbPrompts: Prompt[] = await res.json();
-                    if (mounted) {
-                        // Update with fresh data from DB
-                        setPrompts(dbPrompts);
-                    }
-                }
-            } catch (apiErr) {
-                console.warn('API fetch failed, staying with local data:', apiErr);
-            } finally {
-                if (mounted) {
-                    setLoading(false);
-                    setIsRevalidating(false);
-                }
-            }
-        };
+    const loadMore = () => {
+        if (!hasMore || loading || loadingMore) return;
+        setLoadingMore(true);
+        const nextPage = page + 1;
+        setPage(nextPage);
+        fetchPrompts(nextPage, false);
+    };
 
-        loadPrompts();
-
-        return () => {
-            mounted = false;
-        };
-    }, [i18n.language]);
-
-    return { prompts, loading, isRevalidating, error };
+    return { prompts, loading, loadingMore, hasMore, loadMore, error };
 };

@@ -10,9 +10,96 @@ const pool = new Pool({
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
-      const result = await pool.query('SELECT * FROM prompts ORDER BY created_at DESC');
-      
       const preferredLang = req.query.lang; // 'zh' or 'en'
+
+      // --- Single Item Fetch ---
+      if (req.query.id) {
+        const { id } = req.query;
+        const result = await pool.query('SELECT * FROM prompts WHERE id = $1', [id]);
+        
+        if (result.rowCount === 0) {
+          return res.status(404).json({ error: 'Prompt not found' });
+        }
+
+        const row = result.rows[0];
+        let displayTitle = row.title_en || row.title_zh;
+        let displayDesc = row.description_en || row.description_zh;
+        
+        if (preferredLang === 'zh') {
+           displayTitle = row.title_zh || row.title_en;
+           displayDesc = row.description_zh || row.description_en;
+        } else if (preferredLang === 'en') {
+           displayTitle = row.title_en || row.title_zh;
+           displayDesc = row.description_en || row.description_zh;
+        }
+
+        const prompt = {
+          id: row.id,
+          createdAt: row.created_at,
+          title: displayTitle,
+          titleZh: row.title_zh,
+          titleEn: row.title_en,
+          description: displayDesc,
+          descriptionZh: row.description_zh,
+          descriptionEn: row.description_en,
+          category: row.category,
+          tags: typeof row.tags === 'string' ? JSON.parse(row.tags) : row.tags,
+          content: row.content,
+          chineseContent: row.chinese_content,
+          expectedOutput: row.expected_output,
+          usage: row.usage,
+          previewImageUrl: row.preview_image_url,
+          copyCount: (row.base_count || 0) + (row.real_copy_count || 0)
+        };
+
+        return res.status(200).json(prompt);
+      }
+
+      // --- Pagination & Random Sort Logic ---
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 24;
+      const offset = (page - 1) * limit;
+      const category = req.query.category; // Optional category filter
+      const sort = req.query.sort || 'random'; // 'random' (default) or 'recent'
+
+      // Generate a stable seed for the current hour (e.g., "2023-10-27T14")
+      const hourKey = new Date().toISOString().slice(0, 13); 
+
+      let queryCount = 'SELECT COUNT(*) FROM prompts';
+      let queryData = 'SELECT * FROM prompts';
+      let paramsCount = [];
+      let paramsData = [limit, offset]; // $1=limit, $2=offset (will adjust index dynamically)
+      
+      // Dynamic Param Index Helper
+      let paramIdx = 3; // Start from $3
+
+      // Add Category Filter
+      if (category && category !== 'ALL') {
+        const catUpper = category.toUpperCase();
+        queryCount += ' WHERE category = $1';
+        queryData += ` WHERE category = $${paramIdx}`;
+        paramsCount.push(catUpper);
+        paramsData.push(catUpper);
+        paramIdx++;
+      }
+
+      // 1. Get Total Count
+      const countResult = await pool.query(queryCount, paramsCount);
+      const total = parseInt(countResult.rows[0].count);
+
+      // 2. Get Paginated Data
+      if (sort === 'recent') {
+        queryData += ` ORDER BY created_at DESC LIMIT $1 OFFSET $2`;
+      } else {
+        // Random (Hourly Stable)
+        // We need to inject the hourKey into the query string safely or use a param
+        // To use a param for the seed, we need to push it to paramsData
+        // BUT md5(id || $x) might be tricky with variable params order.
+        // Let's just interpolate the hourKey since it's server-generated (safe)
+        queryData += ` ORDER BY md5(id::text || '${hourKey}') ASC LIMIT $1 OFFSET $2`;
+      }
+      
+      const result = await pool.query(queryData, paramsData);
       
       const prompts = result.rows.map(row => {
         let displayTitle = row.title_en || row.title_zh;
@@ -47,7 +134,12 @@ export default async function handler(req, res) {
         };
       });
 
-      return res.status(200).json(prompts);
+      return res.status(200).json({
+        prompts,
+        total,
+        page,
+        hasMore: offset + prompts.length < total
+      });
     } catch (error) {
       console.error('[DB API Error]', error);
       return res.status(500).json({ error: error.message });
