@@ -7,6 +7,7 @@ import SEOHead from '../components/seo/SEOHead';
 import AdUnit from '../components/ads/AdUnit';
 import PromptCard from '../components/PromptCard';
 import ImageWithSkeleton from '../components/common/ImageWithSkeleton';
+import PromptDetailSkeleton from '../components/detail/PromptDetailSkeleton';
 import { Prompt } from '../types';
 
 const PromptDetailPage: React.FC = () => {
@@ -71,14 +72,7 @@ const PromptDetailPage: React.FC = () => {
 
     // Show loading if fetching detail
     if (detailLoading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">
-                <div className="flex flex-col items-center gap-4">
-                    <div className="w-12 h-12 border-[5px] border-black border-t-transparent rounded-full animate-spin"></div>
-                    <p className="font-bold text-slate-400 uppercase tracking-widest text-sm">{t('promptDetail.loading')}</p>
-                </div>
-            </div>
-        );
+        return <PromptDetailSkeleton />;
     }
 
     if (!prompt || detailError) {
