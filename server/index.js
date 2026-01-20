@@ -560,6 +560,51 @@ app.put('/api/prompts/:id', async (req, res) => {
 // --- API: Get Prompts (Database Version) ---
 app.get('/api/prompts', async (req, res) => {
   try {
+    const preferredLang = req.query.lang; // 'zh' or 'en'
+
+    // --- Single Item Fetch ---
+    if (req.query.id) {
+      const { id } = req.query;
+      const result = await pool.query('SELECT * FROM prompts WHERE id = $1', [id]);
+      
+      if (result.rowCount === 0) {
+        return res.status(404).json({ error: 'Prompt not found' });
+      }
+
+      const row = result.rows[0];
+      let displayTitle = row.title_en || row.title_zh;
+      let displayDesc = row.description_en || row.description_zh;
+      
+      if (preferredLang === 'zh') {
+         displayTitle = row.title_zh || row.title_en;
+         displayDesc = row.description_zh || row.description_en;
+      } else if (preferredLang === 'en') {
+         displayTitle = row.title_en || row.title_zh;
+         displayDesc = row.description_en || row.description_zh;
+      }
+
+      const prompt = {
+        id: row.id,
+        createdAt: row.created_at,
+        title: displayTitle,
+        titleZh: row.title_zh,
+        titleEn: row.title_en,
+        description: displayDesc,
+        descriptionZh: row.description_zh,
+        descriptionEn: row.description_en,
+        category: row.category,
+        tags: typeof row.tags === 'string' ? JSON.parse(row.tags) : row.tags,
+        content: row.content,
+        chineseContent: row.chinese_content,
+        expectedOutput: row.expected_output,
+        usage: row.usage,
+        previewImageUrl: row.preview_image_url,
+        copyCount: (row.base_count || 0) + (row.real_copy_count || 0)
+      };
+
+      return res.status(200).json(prompt);
+    }
+
     // --- Pagination & Random Sort Logic ---
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 24;
@@ -600,8 +645,6 @@ app.get('/api/prompts', async (req, res) => {
     }
 
     const result = await pool.query(queryData, paramsData);
-    
-    const preferredLang = req.query.lang; // 'zh' or 'en'
     
     const prompts = result.rows.map(row => {
       let displayTitle = row.title_en || row.title_zh;
