@@ -24,7 +24,7 @@ interface SidebarProps {
     currentLanguage: string;
     onTutorialClick: () => void;
     onLogoClick: () => void;
-    prompts?: any[]; // Added prompts prop
+    // prompts prop removed as we don't calculate dynamic counts anymore
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -37,41 +37,9 @@ const Sidebar: React.FC<SidebarProps> = ({
     toggleLanguage,
     currentLanguage,
     onTutorialClick,
-    onLogoClick,
-    prompts = [] // Default to empty array
+    onLogoClick
 }) => {
     const { t } = useTranslation();
-
-    // Calculate category counts
-    const categoryCounts = React.useMemo(() => {
-        const counts: Record<string, number> = {};
-        prompts.forEach(p => {
-            // p.category is usually Value (e.g. "Art & Design" or "ART" if normalized)
-            // We need to map it to Key (e.g. "ART") to count correctly against `categories` array (which are Keys)
-            
-            let catKey = 'UNKNOWN';
-            
-            // Try to find Key by Value match
-            const entry = Object.entries(Category).find(([k, v]) => v.toUpperCase() === p.category?.toUpperCase());
-            if (entry) {
-                catKey = entry[0]; // The Key (e.g. "ART")
-            } else {
-                // Maybe p.category is already a Key?
-                if (Category[p.category as keyof typeof Category]) {
-                    catKey = p.category;
-                } else {
-                     // Try uppercase
-                     const upper = p.category?.toUpperCase();
-                     if (Category[upper as keyof typeof Category]) {
-                         catKey = upper;
-                     }
-                }
-            }
-            
-            counts[catKey] = (counts[catKey] || 0) + 1;
-        });
-        return counts;
-    }, [prompts]);
 
     const categories = Object.keys(Category).filter(k => k !== 'ALL');
 
@@ -157,11 +125,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                             // key is 'CODING', 'WRITING', etc. (enum Key)
                             // value is 'Coding', 'Writing' (enum Value)
                             const value = Category[key as keyof typeof Category];
-                            const count = categoryCounts[key] || 0;
                             
-                            // Only show if count > 0 (hide empty categories)
-                            if (count === 0) return null;
-
                             return (
                                 <button
                                     key={key}

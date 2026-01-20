@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Copy, Check, X, Search, Cpu, ArrowLeft, Tag, Layers, Calendar, ChevronRight, Share2, Info, Flame } from 'lucide-react';
 import { usePrompts } from '../hooks/usePrompts';
+import { usePromptDetail } from '../hooks/usePromptDetail';
 import SEOHead from '../components/seo/SEOHead';
 import AdUnit from '../components/ads/AdUnit';
 import PromptCard from '../components/PromptCard';
@@ -10,13 +11,17 @@ import ImageWithSkeleton from '../components/common/ImageWithSkeleton';
 
 const PromptDetailPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const { prompts, loading, isRevalidating } = usePrompts();
+    
+    // Fetch specific prompt detail
+    const { prompt, loading: detailLoading, error: detailError } = usePromptDetail(id);
+    
+    // Fetch list for related items (optional, just gets first page)
+    const { prompts: listPrompts } = usePrompts();
+    
     const { t } = useTranslation();
     const [copied, setCopied] = useState(false);
     const [showFullImage, setShowFullImage] = useState(false);
     
-    const prompt = prompts.find(p => p.id === id);
-
     // Local state for copy count to show instant update
     const [localCopyCount, setLocalCopyCount] = useState<number | undefined>(undefined);
     
@@ -28,11 +33,11 @@ const PromptDetailPage: React.FC = () => {
     }, [prompt]);
 
     const relatedPrompts = useMemo(() => {
-        if (!prompt || !prompts.length) return [];
-        return prompts
+        if (!prompt || !listPrompts.length) return [];
+        return listPrompts
             .filter(p => p.category === prompt.category && p.id !== prompt.id)
             .slice(0, 4);
-    }, [prompt, prompts]);
+    }, [prompt, listPrompts]);
 
     const copyPrompt = () => {
         if (prompt) {
@@ -49,10 +54,8 @@ const PromptDetailPage: React.FC = () => {
         }
     };
 
-    // Show loading if:
-    // 1. Initial loading is true
-    // 2. Prompt not found locally BUT we are still fetching fresh data (Hybrid loading edge case for new prompts)
-    if (loading || (!prompt && isRevalidating)) {
+    // Show loading if fetching detail
+    if (detailLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">
                 <div className="flex flex-col items-center gap-4">
@@ -63,7 +66,7 @@ const PromptDetailPage: React.FC = () => {
         );
     }
 
-    if (!prompt) {
+    if (!prompt || detailError) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center bg-[#F8FAFC] gap-6 text-center px-4">
                 <h2 className="text-4xl font-black uppercase italic">{t('promptDetail.notFound')}</h2>

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Plus, ArrowDown } from 'lucide-react';
 import { Category, Prompt } from '../types';
 import PromptGrid from '../components/home/PromptGrid';
+import SkeletonGrid from '../components/home/SkeletonGrid';
 import Sidebar from '../components/layout/Sidebar';
 import Footer from '../components/layout/Footer';
 import AddPromptModal from '../components/admin/AddPromptModal';
@@ -180,10 +181,7 @@ const HomePage: React.FC = () => {
                         </header>
 
                         {loading && prompts.length === 0 ? (
-                            <div className="flex flex-col items-center justify-center py-20">
-                                <div className="w-10 h-10 border-4 border-black/10 border-t-black rounded-full animate-spin mb-4"></div>
-                                <p className="text-slate-500 font-bold animate-pulse uppercase tracking-widest text-xs">Loading prompts...</p>
-                            </div>
+                            <SkeletonGrid />
                         ) : (
                             <>
                                 <PromptGrid
