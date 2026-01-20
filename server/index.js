@@ -7,6 +7,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import axios from 'axios';
 import pg from 'pg';
+import OpenAI from 'openai';
 
 dotenv.config();
 
@@ -66,7 +67,7 @@ app.post('/api/verify-password', (req, res) => {
   }
 });
 
-const OpenAI = require('openai'); // Require OpenAI
+
 
 app.put('/api/prompts', async (req, res) => {
   const { id } = req.query;
@@ -559,44 +560,46 @@ app.put('/api/prompts/:id', async (req, res) => {
 // --- API: Get Prompts (Database Version) ---
 app.get('/api/prompts', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM prompts ORDER BY created_at DESC');
+    // --- Pagination & Random Sort Logic ---
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 24;
+    const offset = (page - 1) * limit;
+    const category = req.query.category; // Optional category filter
+    const sort = req.query.sort || 'random'; // 'random' (default) or 'recent'
+
+    // Generate a stable seed for the current hour (e.g., "2023-10-27T14")
+    const hourKey = new Date().toISOString().slice(0, 13); 
+
+    let queryCount = 'SELECT COUNT(*) FROM prompts';
+    let queryData = 'SELECT * FROM prompts';
+    let paramsCount = [];
+    let paramsData = [limit, offset]; // $1=limit, $2=offset (will adjust index dynamically)
     
-    // Transform DB snake_case to frontend camelCase
-    // Note: title and description are language-dependent. 
-    // The frontend should handle language selection if we pass both.
-    // However, existing frontend components (PromptCard, PromptDetailPage) use .title and .description directly.
-    // To support dynamic switching without refactoring all components, we can pass language preference via query param?
-    // OR better: Return explicit titleZh/titleEn fields and let Frontend hooks/components decide.
-    // Current frontend uses: title, description, titleZh, titleEn...
-    
-    // Check request query for language? But this is a generic GET.
-    // Let's pass ALL data and let frontend logic (usePrompts hook or components) choose.
-    // But currently components use .title.
-    // We should populate .title with English if that's the default, or keep the existing logic?
-    // User complaint: "In English mode, I see Chinese text".
-    // This is because we did: title: row.title_zh || row.title_en
-    
-    // FIX: We should rely on the frontend to pick the right one.
-    // BUT to keep backward compatibility with components that just read .title,
-    // we should probably set .title to English by default if available, or just send raw fields.
-    
-    // Let's change the default fallback for 'title' property to be English-first if we want to support English users better,
-    // OR we stop using the derived 'title' property in frontend and use titleEn/titleZh based on i18n.
-    
-    // Since we can't easily refactor the whole frontend in one go, let's modify the API to accept a ?lang= param
-    // OR (simpler) just return English as default for 'title' if it exists?
-    // No, that breaks Chinese users.
-    
-    // Best approach: Return both. And let the frontend mapper (usePrompts or component) decide.
-    // If we change 'title' here to be title_en, Chinese users will see English.
-    
-    // Let's check req.query.lang
-    const lang = req.query.lang || 'en'; // Default to en if not specified? Or keep existing behavior?
-    // Actually, let's look at how usePrompts calls this. It calls fetch('/api/prompts').
-    // We can update usePrompts to pass the language.
-    
-    // For now, let's NOT bias 'title' to ZH.
-    // Let's return explicit fields and maybe a 'title' that respects the requested language if provided.
+    // Dynamic Param Index Helper
+    let paramIdx = 3; // Start from $3
+
+    // Add Category Filter
+    if (category && category !== 'ALL') {
+      const catUpper = category.toUpperCase();
+      queryCount += ' WHERE category = $1';
+      queryData += ` WHERE category = $${paramIdx}`;
+      paramsCount.push(catUpper);
+      paramsData.push(catUpper);
+      paramIdx++;
+    }
+
+    // 1. Get Total Count (for hasMore check)
+    const countResult = await pool.query(queryCount, paramsCount);
+    const total = parseInt(countResult.rows[0].count);
+
+    // 2. Get Paginated Data with Random Sort
+    if (sort === 'recent') {
+      queryData += ` ORDER BY created_at DESC LIMIT $1 OFFSET $2`;
+    } else {
+      queryData += ` ORDER BY md5(id::text || '${hourKey}') ASC LIMIT $1 OFFSET $2`;
+    }
+
+    const result = await pool.query(queryData, paramsData);
     
     const preferredLang = req.query.lang; // 'zh' or 'en'
     
@@ -611,9 +614,6 @@ app.get('/api/prompts', async (req, res) => {
          displayTitle = row.title_en || row.title_zh;
          displayDesc = row.description_en || row.description_zh;
       }
-      // If no preferredLang, maybe default to EN? Or keep previous ZH bias?
-      // Previous code: title: row.title_zh || row.title_en (Bias to ZH)
-      // User complaint implies they want EN.
       
       return {
         id: row.id,
@@ -636,7 +636,12 @@ app.get('/api/prompts', async (req, res) => {
       };
     });
 
-    res.json(prompts);
+    res.json({
+      prompts,
+      total,
+      page,
+      hasMore: offset + prompts.length < total
+    });
   } catch (error) {
     console.error('[DB API Error]', error);
     res.status(500).json({ error: error.message });
