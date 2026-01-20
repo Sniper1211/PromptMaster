@@ -188,5 +188,13 @@
       "title": "Privacy Policy | PentaPrompt",
       "description": "PentaPrompt's Privacy Policy. Learn how we protect your data, use cookies, and work with third-party services like Google AdSense."
     }
+  },
+  "notFound": {
+    "error": "Error",
+    "title": "Page Not Found",
+    "message": "Oops! The prompt you are looking for has been lost in the void or never existed.",
+    "returnHome": "Return Home",
+    "goBack": "Go Back",
+    "footer": "System Failure // PentaPrompt"
   }
 }

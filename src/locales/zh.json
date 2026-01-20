@@ -188,5 +188,13 @@
       "title": "隐私政策 | PentaPrompt",
       "description": "PentaPrompt的隐私政策。了解我们如何保护您的数据、使用Cookie以及与Google AdSense等第三方服务合作。"
     }
+  },
+  "notFound": {
+    "error": "错误",
+    "title": "页面未找到",
+    "message": "哎呀！您寻找的提示词可能迷失在虚空中，或者从未存在过。",
+    "returnHome": "返回首页",
+    "goBack": "返回上一页",
+    "footer": "系统故障 // PentaPrompt"
   }
 }

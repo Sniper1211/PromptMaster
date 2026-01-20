@@ -1,13 +1,13 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Copy, Check, X, Search, Cpu, ArrowLeft, Tag, Layers, Calendar, ChevronRight, Share2, Info, Flame } from 'lucide-react';
-import { usePrompts } from '../hooks/usePrompts';
 import { usePromptDetail } from '../hooks/usePromptDetail';
 import SEOHead from '../components/seo/SEOHead';
 import AdUnit from '../components/ads/AdUnit';
 import PromptCard from '../components/PromptCard';
 import ImageWithSkeleton from '../components/common/ImageWithSkeleton';
+import { Prompt } from '../types';
 
 const PromptDetailPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -15,12 +15,10 @@ const PromptDetailPage: React.FC = () => {
     // Fetch specific prompt detail
     const { prompt, loading: detailLoading, error: detailError } = usePromptDetail(id);
     
-    // Fetch list for related items (optional, just gets first page)
-    const { prompts: listPrompts } = usePrompts();
-    
     const { t } = useTranslation();
     const [copied, setCopied] = useState(false);
     const [showFullImage, setShowFullImage] = useState(false);
+    const [relatedPrompts, setRelatedPrompts] = useState<Prompt[]>([]);
     
     // Local state for copy count to show instant update
     const [localCopyCount, setLocalCopyCount] = useState<number | undefined>(undefined);
@@ -32,12 +30,29 @@ const PromptDetailPage: React.FC = () => {
         }
     }, [prompt]);
 
-    const relatedPrompts = useMemo(() => {
-        if (!prompt || !listPrompts.length) return [];
-        return listPrompts
-            .filter(p => p.category === prompt.category && p.id !== prompt.id)
-            .slice(0, 4);
-    }, [prompt, listPrompts]);
+    // Fetch related prompts when prompt is loaded
+    useEffect(() => {
+        if (!prompt) return;
+        
+        const fetchRelated = async () => {
+            try {
+                // Fetch 5 items, so we can filter out current one and still have 4
+                // We use the prompt's category
+                const res = await fetch(`/api/prompts?category=${encodeURIComponent(prompt.category)}&limit=5&sort=random`);
+                if (res.ok) {
+                    const data = await res.json();
+                    const filtered = (data.prompts || [])
+                        .filter((p: Prompt) => p.id !== prompt.id)
+                        .slice(0, 4);
+                    setRelatedPrompts(filtered);
+                }
+            } catch (err) {
+                console.error('Failed to fetch related prompts', err);
+            }
+        };
+        
+        fetchRelated();
+    }, [prompt]);
 
     const copyPrompt = () => {
         if (prompt) {
@@ -246,6 +261,22 @@ const PromptDetailPage: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
+
+                            {/* Chinese Translation Block */}
+                            {prompt.chineseContent && (
+                                <div className="mt-6">
+                                    <h3 className="text-lg font-black uppercase italic tracking-tight flex items-center gap-2 mb-3">
+                                        <div className="w-3 h-6 bg-[#FF4D4D]"></div> {t('card.chineseTranslation')}
+                                    </h3>
+                                    <div className="rounded-xl overflow-hidden border-[3px] border-black bg-[#F8FAFC]">
+                                        <div className="p-6 md:p-8 overflow-x-auto">
+                                            <pre className="font-mono text-sm md:text-base leading-loose text-slate-700 whitespace-pre-wrap font-medium">
+                                                {prompt.chineseContent}
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Ad Unit In-Content */}
                             <AdUnit className="my-10" label="Sponsored Partner" />
