@@ -164,7 +164,16 @@ const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
           <tbody>
             {filteredPrompts.map(prompt => (
               <tr key={prompt.id} className="border-b-2 border-slate-200 hover:bg-yellow-50 transition-colors group">
-                <td className="p-5 font-mono text-sm font-bold text-slate-700 border-r-2 border-slate-100">{prompt.id.substring(0, 6)}...</td>
+                <td className="p-5 font-mono text-sm font-bold text-slate-700 border-r-2 border-slate-100">
+                  <a 
+                    href={`/prompt/${prompt.id}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="hover:text-[#8B5CF6] hover:underline decoration-2 underline-offset-2 transition-colors"
+                  >
+                    {prompt.id.substring(0, 6)}...
+                  </a>
+                </td>
                 <td className="p-5 font-bold text-lg text-black">{prompt.title}</td>
                 <td className="p-5 text-center border-l-2 border-slate-100">
                   {prompt.usage ? (
