@@ -11,13 +11,13 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Missing prompt content' });
   }
 
-  const apiKey = process.env.DEEPSEEK_API_KEY;
+  const apiKey = process.env.AI_API_KEY;
   if (!apiKey) {
     return res.status(500).json({ error: 'Deepseek API Key not configured' });
   }
 
   const openai = new OpenAI({
-    baseURL: 'https://api.deepseek.com',
+    baseURL: process.env.AI_BASE_URL || 'https://api.deepseek.com',
     apiKey: apiKey
   });
 
