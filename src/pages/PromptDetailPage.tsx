@@ -16,7 +16,7 @@ const PromptDetailPage: React.FC = () => {
     // Fetch specific prompt detail
     const { prompt, loading: detailLoading, error: detailError } = usePromptDetail(id);
     
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [copied, setCopied] = useState(false);
     const [showFullImage, setShowFullImage] = useState(false);
     const [relatedPrompts, setRelatedPrompts] = useState<Prompt[]>([]);
@@ -288,28 +288,37 @@ const PromptDetailPage: React.FC = () => {
                                     const parts = prompt.usage.split(enHeader);
                                     const zhContent = parts[0].replace(zhHeader, "").trim();
                                     const enContent = parts[1].trim();
+
+                                    // Determine which to show based on language
+                                    const currentLang = i18n.language;
+                                    const showZh = currentLang.startsWith('zh');
+                                    const showEn = !showZh; // Default to English for others
                                     
                                     return (
                                         <div className="space-y-8 mt-10">
                                             {/* Chinese Tips Box */}
-                                            <div className="bg-[#FEF9C3] border-[3px] border-black p-6 relative shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                                                <div className="absolute -top-3 -left-3 bg-black text-[#FEF9C3] px-3 py-1 font-black uppercase text-xs tracking-widest border-[2px] border-[#FEF9C3]">
-                                                    {t('card.chineseTranslation') || 'Chinese Tips'}
+                                            {showZh && (
+                                                <div className="bg-[#FEF9C3] border-[3px] border-black p-6 relative shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                                                    <div className="absolute -top-3 -left-3 bg-black text-[#FEF9C3] px-3 py-1 font-black uppercase text-xs tracking-widest border-[2px] border-[#FEF9C3]">
+                                                        {t('card.chineseTranslation') || 'Chinese Tips'}
+                                                    </div>
+                                                    <p className="font-medium text-slate-900 leading-relaxed whitespace-pre-wrap">
+                                                        {zhContent}
+                                                    </p>
                                                 </div>
-                                                <p className="font-medium text-slate-900 leading-relaxed whitespace-pre-wrap">
-                                                    {zhContent}
-                                                </p>
-                                            </div>
+                                            )}
 
                                             {/* English Tips Box */}
-                                            <div className="bg-[#E0F2FE] border-[3px] border-black p-6 relative shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                                                <div className="absolute -top-3 -left-3 bg-black text-[#E0F2FE] px-3 py-1 font-black uppercase text-xs tracking-widest border-[2px] border-[#E0F2FE]">
-                                                    English Tips
+                                            {showEn && (
+                                                <div className="bg-[#E0F2FE] border-[3px] border-black p-6 relative shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                                                    <div className="absolute -top-3 -left-3 bg-black text-[#E0F2FE] px-3 py-1 font-black uppercase text-xs tracking-widest border-[2px] border-[#E0F2FE]">
+                                                        English Tips
+                                                    </div>
+                                                    <p className="font-medium text-slate-900 leading-relaxed whitespace-pre-wrap">
+                                                        {enContent}
+                                                    </p>
                                                 </div>
-                                                <p className="font-medium text-slate-900 leading-relaxed whitespace-pre-wrap">
-                                                    {enContent}
-                                                </p>
-                                            </div>
+                                            )}
                                         </div>
                                     );
                                 }
