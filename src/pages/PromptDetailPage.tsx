@@ -276,16 +276,56 @@ const PromptDetailPage: React.FC = () => {
                             <AdUnit className="my-10" label="Sponsored Partner" />
 
                             {/* Usage Instructions */}
-                            {prompt.usage && (
-                                <div className="bg-[#FEF9C3] border-[3px] border-black p-6 relative">
-                                    <div className="absolute -top-3 -left-3 bg-black text-[#FEF9C3] px-3 py-1 font-black uppercase text-xs tracking-widest border-[2px] border-[#FEF9C3]">
-                                        {t('promptDetail.tipsAndTricks')}
+                            {prompt.usage && (() => {
+                                // Try to split by known headers
+                                const zhHeader = "### Chinese Tips (中文建议)";
+                                const enHeader = "### English Tips";
+                                
+                                const hasStructuredTips = prompt.usage.includes(zhHeader) && prompt.usage.includes(enHeader);
+                                
+                                if (hasStructuredTips) {
+                                    // Parse content
+                                    const parts = prompt.usage.split(enHeader);
+                                    const zhContent = parts[0].replace(zhHeader, "").trim();
+                                    const enContent = parts[1].trim();
+                                    
+                                    return (
+                                        <div className="space-y-8 mt-10">
+                                            {/* Chinese Tips Box */}
+                                            <div className="bg-[#FEF9C3] border-[3px] border-black p-6 relative shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                                                <div className="absolute -top-3 -left-3 bg-black text-[#FEF9C3] px-3 py-1 font-black uppercase text-xs tracking-widest border-[2px] border-[#FEF9C3]">
+                                                    {t('card.chineseTranslation') || 'Chinese Tips'}
+                                                </div>
+                                                <p className="font-medium text-slate-900 leading-relaxed whitespace-pre-wrap">
+                                                    {zhContent}
+                                                </p>
+                                            </div>
+
+                                            {/* English Tips Box */}
+                                            <div className="bg-[#E0F2FE] border-[3px] border-black p-6 relative shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                                                <div className="absolute -top-3 -left-3 bg-black text-[#E0F2FE] px-3 py-1 font-black uppercase text-xs tracking-widest border-[2px] border-[#E0F2FE]">
+                                                    English Tips
+                                                </div>
+                                                <p className="font-medium text-slate-900 leading-relaxed whitespace-pre-wrap">
+                                                    {enContent}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    );
+                                }
+
+                                // Fallback for plain text usage
+                                return (
+                                    <div className="bg-[#FEF9C3] border-[3px] border-black p-6 relative mt-10 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                                        <div className="absolute -top-3 -left-3 bg-black text-[#FEF9C3] px-3 py-1 font-black uppercase text-xs tracking-widest border-[2px] border-[#FEF9C3]">
+                                            {t('promptDetail.tipsAndTricks')}
+                                        </div>
+                                        <p className="font-medium text-slate-900 leading-relaxed whitespace-pre-wrap">
+                                            {prompt.usage}
+                                        </p>
                                     </div>
-                                    <p className="font-medium text-slate-900 leading-relaxed">
-                                        {prompt.usage}
-                                    </p>
-                                </div>
-                            )}
+                                );
+                            })()}
                         </div>
 
                         {/* 3. Sticky Sidebar (Right) */}
