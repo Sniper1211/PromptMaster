@@ -238,10 +238,18 @@ const EditorModal: React.FC<{ prompt: any, onClose: () => void, onSave: () => vo
       });
       const data = await res.json();
       
+      if (!res.ok) {
+        throw new Error(data.error || 'Generation failed');
+      }
+
+      if (!data.usage_zh || !data.usage_en) {
+        throw new Error('Invalid response format from AI');
+      }
+      
       const formattedUsage = `### Chinese Tips (中文建议)\n${data.usage_zh}\n\n### English Tips\n${data.usage_en}`;
       setUsage(formattedUsage);
-    } catch (err) {
-      alert('AI Generation Failed');
+    } catch (err: any) {
+      alert(`AI Generation Failed: ${err.message}`);
     } finally {
       setIsGenerating(false);
     }
