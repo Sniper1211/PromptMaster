@@ -10,6 +10,7 @@ export const usePrompts = (category?: string, sortOrder: 'recent' | 'random' = '
     const [error, setError] = useState<Error | null>(null);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
+    const [nextId, setNextId] = useState<string>('');
     
     // Reset state when category, language, or sortOrder changes
     useEffect(() => {
@@ -37,6 +38,7 @@ export const usePrompts = (category?: string, sortOrder: 'recent' | 'random' = '
             
             if (isReset) {
                 setPrompts(newPrompts);
+                if (data.nextId) setNextId(String(data.nextId));
             } else {
                 setPrompts(prev => [...prev, ...newPrompts]);
             }
@@ -59,5 +61,5 @@ export const usePrompts = (category?: string, sortOrder: 'recent' | 'random' = '
         fetchPrompts(nextPage, false);
     };
 
-    return { prompts, loading, loadingMore, hasMore, loadMore, error };
+    return { prompts, loading, loadingMore, hasMore, loadMore, error, nextId };
 };

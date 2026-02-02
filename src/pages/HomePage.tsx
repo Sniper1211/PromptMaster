@@ -35,7 +35,7 @@ const HomePage: React.FC = () => {
     // Note: We map activeCategory (Value) to Key if needed, but Hook expects Value (or handles normalization).
     // Actually, backend expects "ART" (Key) or "Art & Design" (Value) if we normalize there.
     // Our updated backend normalizes. So passing Value is fine.
-    const { prompts, loading, loadingMore, hasMore, loadMore } = usePrompts(
+    const { prompts, loading, loadingMore, hasMore, loadMore, nextId } = usePrompts(
         activeCategory === Category.ALL ? undefined : activeCategory, 
         sortOrder
     );
@@ -97,12 +97,6 @@ const HomePage: React.FC = () => {
             prompt.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()))
         );
     }, [prompts, searchQuery]);
-
-    const nextId = useMemo(() => {
-        if (prompts.length === 0) return '1';
-        const ids = prompts.map(p => parseInt(p.id)).filter(id => !isNaN(id));
-        return ids.length > 0 ? (Math.max(...ids) + 1).toString() : (prompts.length + 1).toString();
-    }, [prompts]);
 
     const handleSetActiveCategory = (category: Category) => {
         setActiveCategory(category);

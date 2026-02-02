@@ -256,7 +256,7 @@ app.post('/api/analyze', async (req, res) => {
       "titleZh": "A short, catchy title in Chinese (Simp. Chinese)",
       "description": "A 1-sentence summary in English",
       "descriptionZh": "A 1-sentence summary in Chinese (Simp. Chinese)",
-      "category": "One of: CODING, WRITING, DESIGN, PRODUCTIVITY, MARKETING, FUN, SEO, LEARNING",
+      "category": "One of: CODING, WRITING, BUSINESS, PHOTOGRAPHY, ART, COMMERCIAL, PRODUCTIVITY, MARKETING, FUN, SEO, LEARNING",
       "tags": ["tag1", "tag2", "tag3"],
       "content": "The actual prompt content in English. If the input is Chinese, translate it to high-quality English prompt.",
       "chineseContent": "The prompt content translated to Chinese. If the input is Chinese, keep it or refine it.",
