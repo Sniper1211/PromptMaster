@@ -169,8 +169,8 @@ export default async function handler(req, res) {
       
       const now = new Date().toISOString();
 
-      // Init base_count with a small random number for new prompts (e.g., 10-30) to avoid "zero" look
-      const baseCount = Math.floor(Math.random() * (30 - 10 + 1)) + 10;
+      // Init base_count with a random number for new prompts (e.g., 100-300) to make the site look active
+      const baseCount = Math.floor(Math.random() * (300 - 100 + 1)) + 100;
       const realCopyCount = 0;
 
       const query = `
