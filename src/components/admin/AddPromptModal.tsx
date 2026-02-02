@@ -57,8 +57,13 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
     };
 
     const generatedCode = useMemo(() => {
-        return JSON.stringify(formData, null, 2);
-    }, [formData]);
+        // Create a copy for preview and remove internal/auto-generated fields to avoid confusion
+        const previewData = { ...formData };
+        if (isAdmin) {
+            delete previewData.id; // Backend handles ID generation for new prompts
+        }
+        return JSON.stringify(previewData, null, 2);
+    }, [formData, isAdmin]);
 
     const handleCopy = () => {
         navigator.clipboard.writeText(generatedCode);
@@ -167,14 +172,14 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                         {isAdmin && !isWizardMode && (
                             <button 
                                 onClick={() => setIsWizardMode(true)}
-                                className="px-3 py-1.5 bg-white border-2 border-black font-black uppercase text-xs flex items-center gap-2 hover:bg-black hover:text-white transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]"
+                                className="px-3 py-1.5 bg-white border-2 border-black font-black uppercase text-xs flex items-center gap-2 text-black hover:bg-black hover:text-white transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]"
                             >
-                                <Edit3 size={14} /> Back to Input
+                                <Edit3 size={14} strokeWidth={3} /> Back to Input
                             </button>
                         )}
                         <button
                             onClick={onClose}
-                            className="p-2 hover:bg-red-500 hover:text-white transition-all border-[2.5px] border-black bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]"
+                            className="p-2 text-black hover:bg-red-500 hover:text-white transition-all border-[2.5px] border-black bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]"
                         >
                             <X size={20} strokeWidth={3} />
                         </button>
@@ -205,7 +210,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                         <textarea
                                             value={rawInput}
                                             onChange={e => setRawInput(e.target.value)}
-                                            className="w-full h-64 p-6 border-4 border-black font-bold text-lg focus:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] focus:-translate-x-1 focus:-translate-y-1 transition-all outline-none resize-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white placeholder:text-slate-400"
+                                            className="w-full h-64 p-6 border-4 border-black font-bold text-lg focus:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] focus:-translate-x-1 focus:-translate-y-1 transition-all outline-none resize-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white text-black placeholder:text-slate-400"
                                             placeholder="Paste the raw prompt, a description, or even a link to a prompt here..."
                                         />
                                     </div>
@@ -222,7 +227,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                             <input
                                                 value={imageUrlInput}
                                                 onChange={e => setImageUrlInput(e.target.value)}
-                                                className="w-full pl-12 pr-4 py-4 border-4 border-black font-black text-lg focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all outline-none bg-white placeholder:text-slate-400"
+                                                className="w-full pl-12 pr-4 py-4 border-4 border-black font-black text-lg focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all outline-none bg-white text-black placeholder:text-slate-400"
                                                 placeholder="https://your-bucket.com/preview.png"
                                             />
                                         </div>
@@ -289,7 +294,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                                 <input
                                                     value={formData.title}
                                                     onChange={e => setFormData({ ...formData, title: e.target.value })}
-                                                    className="w-full p-2 border-[2.5px] border-black font-bold focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:translate-x-[-2px] focus:translate-y-[-2px] transition-all outline-none bg-white"
+                                                    className="w-full p-2 border-[2.5px] border-black font-bold focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:translate-x-[-2px] focus:translate-y-[-2px] transition-all outline-none bg-white text-black"
                                                     placeholder="Prompt Title"
                                                 />
                                             </div>
@@ -299,7 +304,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                                     <input
                                                         value={formData.titleZh}
                                                         onChange={e => setFormData({ ...formData, titleZh: e.target.value })}
-                                                        className="w-full p-2 border-[2.5px] border-black font-bold focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:translate-x-[-2px] focus:translate-y-[-2px] transition-all outline-none bg-white"
+                                                        className="w-full p-2 border-[2.5px] border-black font-bold focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:translate-x-[-2px] focus:translate-y-[-2px] transition-all outline-none bg-white text-black"
                                                         placeholder="中文标题"
                                                     />
                                                 </div>
@@ -309,7 +314,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                                 <select
                                                     value={formData.category}
                                                     onChange={e => setFormData({ ...formData, category: e.target.value as Category })}
-                                                    className="w-full p-2 border-[2.5px] border-black font-black outline-none bg-white cursor-pointer"
+                                                    className="w-full p-2 border-[2.5px] border-black font-black outline-none bg-white cursor-pointer text-black"
                                                 >
                                                     {Object.keys(Category).filter(k => k !== 'ALL').map(key => (
                                                         <option key={key} value={Category[key as keyof typeof Category]}>
@@ -326,7 +331,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                                 <textarea
                                                     value={formData.description}
                                                     onChange={e => setFormData({ ...formData, description: e.target.value })}
-                                                    className="w-full p-2 border-[2.5px] border-black font-bold text-sm outline-none resize-none h-24 bg-white"
+                                                    className="w-full p-2 border-[2.5px] border-black font-bold text-sm outline-none resize-none h-24 bg-white text-black"
                                                     placeholder="Short description for the card..."
                                                 />
                                             </div>
@@ -336,7 +341,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                                     <textarea
                                                         value={formData.descriptionZh}
                                                         onChange={e => setFormData({ ...formData, descriptionZh: e.target.value })}
-                                                        className="w-full p-2 border-[2.5px] border-black font-bold text-sm outline-none resize-none h-24 bg-white"
+                                                        className="w-full p-2 border-[2.5px] border-black font-bold text-sm outline-none resize-none h-24 bg-white text-black"
                                                         placeholder="中文描述..."
                                                     />
                                                 </div>
@@ -356,7 +361,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                                     value={tagInput}
                                                     onChange={e => setTagInput(e.target.value)}
                                                     onKeyDown={handleAddTag}
-                                                    className="flex-1 outline-none text-sm font-black min-w-[80px] bg-transparent"
+                                                    className="flex-1 outline-none text-sm font-black min-w-[80px] bg-transparent text-black"
                                                     placeholder="Add tag + Enter"
                                                 />
                                             </div>
@@ -386,7 +391,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                             <textarea
                                                 value={formData.chineseContent}
                                                 onChange={e => setFormData({ ...formData, chineseContent: e.target.value })}
-                                                className="w-full p-4 border-[2.5px] border-black font-mono text-sm leading-relaxed outline-none h-40 bg-slate-50 text-slate-900 focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
+                                                className="w-full p-4 border-[2.5px] border-black font-mono text-sm leading-relaxed outline-none h-40 bg-slate-50 text-black focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
                                                 placeholder="中文翻译..."
                                             />
                                         </div>
@@ -403,7 +408,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                                 <input
                                                     value={contactEmail}
                                                     onChange={e => setContactEmail(e.target.value)}
-                                                    className="w-full p-3 border-[2.5px] border-black font-black focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:translate-x-[-2px] focus:translate-y-[-2px] transition-all outline-none bg-white"
+                                                    className="w-full p-3 border-[2.5px] border-black font-black focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:translate-x-[-2px] focus:translate-y-[-2px] transition-all outline-none bg-white text-black"
                                                     placeholder="your@email.com (optional)"
                                                     type="email"
                                                 />
