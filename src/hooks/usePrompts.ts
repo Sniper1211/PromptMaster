@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Prompt } from '../types';
 
-export const usePrompts = (category?: string, sortOrder: 'recent' | 'random' = 'random') => {
+export const usePrompts = (category?: string, sortOrder: 'recent' | 'random' = 'random', customLimit: number = 24) => {
     const { i18n } = useTranslation();
     const [prompts, setPrompts] = useState<Prompt[]>([]);
     const [loading, setLoading] = useState(true);
@@ -19,12 +19,12 @@ export const usePrompts = (category?: string, sortOrder: 'recent' | 'random' = '
         setHasMore(true);
         setLoading(true);
         fetchPrompts(1, true);
-    }, [category, sortOrder, i18n.language]);
+    }, [category, sortOrder, i18n.language, customLimit]);
 
     const fetchPrompts = async (pageNum: number, isReset: boolean) => {
         try {
             const lang = i18n.language.startsWith('zh') ? 'zh' : 'en';
-            let url = `/api/prompts?page=${pageNum}&limit=24&lang=${lang}&sort=${sortOrder}`;
+            let url = `/api/prompts?page=${pageNum}&limit=${customLimit}&lang=${lang}&sort=${sortOrder}`;
             if (category && category !== 'ALL') {
                 url += `&category=${encodeURIComponent(category)}`;
             }
