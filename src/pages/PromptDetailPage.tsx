@@ -94,6 +94,26 @@ const PromptDetailPage: React.FC = () => {
         return `https://pentaprompt.com${url}`;
     };
 
+    // Helper to format date
+    const formatDisplayDate = (dateStr?: string) => {
+        const isZh = i18n.language.startsWith('zh');
+        const fallback = isZh ? "今日更新" : "Updated Today";
+        
+        if (!dateStr) return fallback;
+        try {
+            const date = new Date(dateStr);
+            if (isNaN(date.getTime())) return fallback;
+            
+            const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formatted = date.toLocaleDateString(isZh ? 'zh-CN' : 'en-US', options);
+            
+            // Return "Added on [Date]"
+            return t('promptDetail.addedOn', { date: formatted });
+        } catch (e) {
+            return fallback;
+        }
+    };
+
     // JSON-LD for SEO
     const jsonLd = {
         "@context": "https://schema.org",
@@ -104,7 +124,7 @@ const PromptDetailPage: React.FC = () => {
         "image": getImageUrl(prompt.previewImageUrl),
         "genre": prompt.category,
         "keywords": prompt.tags.join(", "),
-        "datePublished": "2024-01-01", // TODO: Use real createdAt
+        "datePublished": prompt.createdAt || "2024-01-01",
         "author": {
             "@type": "Organization",
             "name": "PentaPrompt",
@@ -113,7 +133,7 @@ const PromptDetailPage: React.FC = () => {
         "interactionStatistic": {
             "@type": "InteractionCounter",
             "interactionType": "https://schema.org/ShareAction",
-            "userInteractionCount": 100 // Placeholder, will connect to real data later
+            "userInteractionCount": localCopyCount || 100
         }
     };
 
@@ -170,7 +190,7 @@ const PromptDetailPage: React.FC = () => {
 
                                 <div className="flex flex-wrap gap-3">
                                     <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-black text-white text-xs font-bold uppercase tracking-wider">
-                                        <Calendar size={12} /> {t('promptDetail.updatedToday')}
+                                        <Calendar size={12} /> {formatDisplayDate(prompt.createdAt)}
                                     </span>
                                     {prompt.model && (
                                         <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-white border-[2px] border-black text-xs font-bold uppercase tracking-wider">
