@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { usePrompts } from '../hooks/usePrompts';
-import { Search, Edit, Image as ImageIcon, CheckCircle, XCircle, Wand2, Save, LogOut } from 'lucide-react';
-import ImageWithSkeleton from '../components/common/ImageWithSkeleton';
+import { Search, Edit, Image as ImageIcon, CheckCircle, XCircle, Wand2, Save, LogOut, Plus } from 'lucide-react';
+import AddPromptModal from '../components/admin/AddPromptModal';
 
 const AdminPage: React.FC = () => {
   const [password, setPassword] = useState('');
@@ -87,10 +86,11 @@ const AdminPage: React.FC = () => {
 // --- Sub-components for Dashboard ---
 
 const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
-  const { prompts, loading: promptsLoading } = usePrompts();
+  const { prompts, loading: promptsLoading, nextId } = usePrompts() as any;
   const [filter, setFilter] = useState<'all' | 'incomplete'>('incomplete');
   const [searchTerm, setSearchTerm] = useState('');
   const [editingPrompt, setEditingPrompt] = useState<any | null>(null);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const filteredPrompts = prompts.filter(p => {
     const matchesSearch = p.title.toLowerCase().includes(searchTerm.toLowerCase()) || p.id.includes(searchTerm);
@@ -115,9 +115,17 @@ const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
           </h1>
           <p className="text-slate-700 font-bold text-lg ml-1">Manage {prompts.length} prompts | {filteredPrompts.length} shown</p>
         </div>
-        <button onClick={onLogout} className="flex items-center gap-2 font-black text-black border-2 border-black px-4 py-2 hover:bg-red-500 hover:text-white transition-colors uppercase text-sm">
-          <LogOut size={18} /> Logout
-        </button>
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={() => setShowAddModal(true)}
+            className="flex items-center gap-2 bg-[#2DD4BF] text-black border-2 border-black px-6 py-2 font-black uppercase text-sm hover:translate-y-[-2px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
+          >
+            <Plus size={18} strokeWidth={3} /> Add New Prompt
+          </button>
+          <button onClick={onLogout} className="flex items-center gap-2 font-black text-black border-2 border-black px-4 py-2 hover:bg-red-500 hover:text-white transition-colors uppercase text-sm">
+            <LogOut size={18} /> Logout
+          </button>
+        </div>
       </div>
 
       {/* Filters */}
@@ -225,6 +233,15 @@ const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
             // Force a reload to refresh data
             window.location.reload(); 
           }}
+        />
+      )}
+
+      {/* Add Prompt Modal */}
+      {showAddModal && (
+        <AddPromptModal 
+          onClose={() => setShowAddModal(false)}
+          nextId={nextId || String(prompts.length + 1)}
+          isAdmin={true}
         />
       )}
     </div>

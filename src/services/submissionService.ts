@@ -52,3 +52,49 @@ export const submitPrompt = async (data: SubmissionData): Promise<SubmissionResp
         return { success: false, message: 'Network error. Please try again.' };
     }
 };
+
+export const createPrompt = async (data: any, token: string): Promise<SubmissionResponse> => {
+    try {
+        const response = await fetch('/api/prompts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+            return { success: true };
+        } else {
+            const errorData = await response.json();
+            return { success: false, message: errorData.error || `Server error: ${response.statusText}` };
+        }
+    } catch (error) {
+        console.error('Creation failed:', error);
+        return { success: false, message: 'Network error. Please try again.' };
+    }
+};
+
+export const analyzePrompt = async (rawText: string, token: string): Promise<any> => {
+    try {
+        const response = await fetch('/api/analyze', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ rawText }),
+        });
+
+        if (response.ok) {
+            return await response.json();
+        } else {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'AI Analysis failed');
+        }
+    } catch (error) {
+        console.error('Analysis failed:', error);
+        throw error;
+    }
+};
