@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Prompt } from '../types';
-import { Copy, Check, Eye, Image as ImageIcon } from 'lucide-react';
+import { Copy, Check, Eye, Image as ImageIcon, Video } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface PromptCardProps {
@@ -86,29 +86,65 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onTry }) => {
           >
             {copied ? <Check size={32} className="text-green-600" strokeWidth={3} /> : <Copy size={32} strokeWidth={2.5} />}
           </button>
+          {prompt.promptType === 'video' && prompt.sourceLink && (
+            <a
+              href={prompt.sourceLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-4 bg-red-500 border-[2.5px] border-black rounded-xl brutal-shadow-sm hover:-translate-x-[2px] hover:-translate-y-[2px] hover:brutal-shadow transition-all"
+              title="Watch video"
+            >
+              <Video size={32} className="text-white" strokeWidth={2.5} />
+            </a>
+          )}
         </div>
       </div>
 
       {/* Content */}
       <div className="p-5 flex flex-col flex-1">
-        <Link to={`/prompt/${prompt.id}`} className="group-hover:text-[#FF4D4D] transition-colors">
-          <h3 className="text-lg font-black mb-2 line-clamp-2 leading-tight uppercase tracking-tight">
-            {prompt.title}
-          </h3>
-        </Link>
+        <div className="flex items-start justify-between mb-2">
+          <Link to={`/prompt/${prompt.id}`} className="group-hover:text-[#FF4D4D] transition-colors flex-1">
+            <h3 className="text-lg font-black line-clamp-2 leading-tight uppercase tracking-tight">
+              {prompt.title}
+            </h3>
+          </Link>
+          {prompt.promptType === 'video' && (
+            <div className="flex items-center gap-1 ml-2">
+              <Video size={16} className="text-red-500" strokeWidth={2.5} />
+              {prompt.sourceLink && (
+                <a 
+                  href={prompt.sourceLink} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-red-500 transition-colors"
+                  title="View source video"
+                >
+                  ↗
+                </a>
+              )}
+            </div>
+          )}
+        </div>
         <p className="text-slate-500 text-xs font-medium line-clamp-3 leading-relaxed flex-1 mb-3">
           {prompt.description}
         </p>
 
         <div className="flex items-center justify-between pt-3 border-t-2 border-slate-100">
-           <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1">
-             <Copy size={10} strokeWidth={3} /> 
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1">
+              <Copy size={10} strokeWidth={3} /> 
               {prompt.copyCount === undefined ? (
                 <span className="inline-block w-10 h-3 bg-black/20 animate-pulse"></span>
               ) : (
                 ((prompt.copyCount || 0) + (copied ? 1 : 0)).toLocaleString()
               )}
-           </span>
+            </span>
+            {prompt.authorName && (
+              <span className="text-[10px] font-medium text-slate-400">
+                by {prompt.authorName}
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </div>

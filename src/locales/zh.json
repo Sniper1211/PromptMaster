@@ -44,7 +44,8 @@
     "MARKETING": "市场营销",
     "FUN": "娱乐创意",
     "SEO": "搜索引擎优化",
-    "LEARNING": "学习教育"
+    "LEARNING": "学习教育",
+    "VIDEO": "视频生成"
   },
   "card": {
     "copy": "复制提示词",

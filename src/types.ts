@@ -11,7 +11,8 @@ export enum Category {
   MARKETING = 'Marketing',
   FUN = 'Fun & Creative',
   SEO = 'SEO',
-  LEARNING = 'Learning'
+  LEARNING = 'Learning',
+  VIDEO = 'Video Generation'
 }
 
 export interface Prompt {
@@ -30,6 +31,11 @@ export interface Prompt {
   model?: string;
   format?: string;
   createdAt?: string;
+  // Video prompt specific fields
+  promptType?: 'text' | 'video';
+  sourceLink?: string;
+  authorName?: string;
+  videoThumbnailUrl?: string;
 }
 
 export interface GenerationResult {

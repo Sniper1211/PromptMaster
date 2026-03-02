@@ -599,7 +599,12 @@ app.get('/api/prompts', async (req, res) => {
         expectedOutput: row.expected_output,
         usage: row.usage,
         previewImageUrl: row.preview_image_url,
-        copyCount: (row.base_count || 0) + (row.real_copy_count || 0)
+        copyCount: (row.base_count || 0) + (row.real_copy_count || 0),
+        // Video prompt specific fields
+        promptType: row.prompt_type || 'text',
+        sourceLink: row.source_link,
+        authorName: row.author_name,
+        videoThumbnailUrl: row.video_thumbnail_url
       };
 
       return res.status(200).json(prompt);
@@ -675,7 +680,12 @@ app.get('/api/prompts', async (req, res) => {
         usage: row.usage,
         previewImageUrl: row.preview_image_url,
         // Calculate total copy count (Local Server Sync)
-        copyCount: (row.base_count || 0) + (row.real_copy_count || 0)
+        copyCount: (row.base_count || 0) + (row.real_copy_count || 0),
+        // Video prompt specific fields
+        promptType: row.prompt_type || 'text',
+        sourceLink: row.source_link,
+        authorName: row.author_name,
+        videoThumbnailUrl: row.video_thumbnail_url
       };
     });
 

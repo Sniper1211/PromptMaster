@@ -71,10 +71,10 @@ const Sidebar: React.FC<SidebarProps> = ({
             <div className="flex-1 py-6 px-4 space-y-8 overflow-y-auto custom-scrollbar pb-20">
                 {/* Sort Section */}
                 <section className="space-y-3">
-                    <div className="flex items-center gap-2 px-1 text-black font-black uppercase tracking-widest text-[10px] border-b-[2px] border-black pb-1 w-fit">
+                    <h2 className="flex items-center gap-2 px-1 text-black font-black uppercase tracking-widest text-[10px] border-b-[2px] border-black pb-1 w-fit">
                         <ArrowUpDown size={12} strokeWidth={3} />
                         <span>{t('sidebar.sort')}</span>
-                    </div>
+                    </h2>
 
                     <div className="grid grid-cols-2 gap-2">
                         <button 
@@ -105,9 +105,9 @@ const Sidebar: React.FC<SidebarProps> = ({
 
                 {/* Categories Section */}
                 <section className="space-y-3">
-                    <div className="flex items-center gap-2 px-1 text-black font-black uppercase tracking-widest text-[10px] border-b-[2px] border-black pb-1 w-fit">
+                    <h2 className="flex items-center gap-2 px-1 text-black font-black uppercase tracking-widest text-[10px] border-b-[2px] border-black pb-1 w-fit">
                         <span>{t('sidebar.categories')}</span>
-                    </div>
+                    </h2>
 
                     <div className="space-y-2">
                         <button

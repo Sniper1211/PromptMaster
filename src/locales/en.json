@@ -44,7 +44,8 @@
     "MARKETING": "Marketing",
     "FUN": "Fun & Creative",
     "SEO": "SEO",
-    "LEARNING": "Learning"
+    "LEARNING": "Learning",
+    "VIDEO": "Video Generation"
   },
   "card": {
     "copy": "Copy Prompt",
