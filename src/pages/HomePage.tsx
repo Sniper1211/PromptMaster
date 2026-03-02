@@ -20,10 +20,13 @@ const HomePage: React.FC = () => {
     const [activeCategory, setActiveCategory] = useState<Category>(() => {
         const catParam = searchParams.get('category');
         if (catParam) {
-            const valueMatch = Object.values(Category).find(v => v === catParam);
-            if (valueMatch) return valueMatch;
+            // First try to match enum key (e.g., 'VIDEO')
             const keyMatch = Object.keys(Category).find(k => k.toUpperCase() === catParam.toUpperCase());
             if (keyMatch) return Category[keyMatch as keyof typeof Category];
+            
+            // Then try to match enum value (e.g., 'Video Generation')
+            const valueMatch = Object.values(Category).find(v => v === catParam);
+            if (valueMatch) return valueMatch;
         }
         return Category.ALL;
     });
@@ -103,7 +106,12 @@ const HomePage: React.FC = () => {
         if (category === Category.ALL) {
             searchParams.delete('category');
         } else {
-            searchParams.set('category', category);
+            // Convert enum value to enum key for URL parameter
+            // e.g., 'Video Generation' -> 'VIDEO'
+            const categoryKey = Object.keys(Category).find(
+                key => Category[key as keyof typeof Category] === category
+            );
+            searchParams.set('category', categoryKey || category);
         }
         setSearchParams(searchParams);
     };
