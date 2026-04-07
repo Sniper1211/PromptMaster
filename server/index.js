@@ -562,6 +562,15 @@ app.get('/api/prompts', async (req, res) => {
   try {
     const preferredLang = req.query.lang; // 'zh' or 'en'
 
+    if (req.query.summary === 'categories') {
+      const result = await pool.query('SELECT category, COUNT(*)::int AS count FROM prompts GROUP BY category');
+      const counts = result.rows.reduce((acc, row) => {
+        acc[row.category] = row.count;
+        return acc;
+      }, {});
+      return res.status(200).json({ counts });
+    }
+
     // --- Single Item Fetch ---
     if (req.query.id) {
       const { id } = req.query;
