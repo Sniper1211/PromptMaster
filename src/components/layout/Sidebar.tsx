@@ -9,13 +9,16 @@ import {
     Users,
     BookOpen,
     Globe,
-    Plus
+    Plus,
+    Video
 } from 'lucide-react';
 import { Category } from '../../types';
 
 interface SidebarProps {
     activeCategory: Category;
     setActiveCategory: (category: Category) => void;
+    videoOnly: boolean;
+    onVideoOnlyClick: () => void;
     searchQuery: string;
     setSearchQuery: (query: string) => void;
     sortOrder: 'recent' | 'random';
@@ -24,12 +27,14 @@ interface SidebarProps {
     currentLanguage: string;
     onTutorialClick: () => void;
     onLogoClick: () => void;
-    // prompts prop removed as we don't calculate dynamic counts anymore
+    categoryCounts?: Record<string, number> | null;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
     activeCategory,
     setActiveCategory,
+    videoOnly,
+    onVideoOnlyClick,
     searchQuery,
     setSearchQuery,
     sortOrder,
@@ -37,11 +42,16 @@ const Sidebar: React.FC<SidebarProps> = ({
     toggleLanguage,
     currentLanguage,
     onTutorialClick,
-    onLogoClick
+    onLogoClick,
+    categoryCounts
 }) => {
     const { t } = useTranslation();
 
-    const categories = Object.keys(Category).filter(k => k !== 'ALL');
+    const videoPromptCount = categoryCounts?.VIDEO_PROMPTS ?? 0;
+
+    const categories = Object.keys(Category)
+        .filter(k => k !== 'ALL')
+        .filter(k => !categoryCounts || (categoryCounts[k] ?? 0) > 0);
 
     return (
         <aside className="w-64 border-r-[3px] border-black bg-white flex flex-col h-screen shrink-0 relative">
@@ -112,7 +122,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     <div className="space-y-2">
                         <button
                             onClick={() => setActiveCategory(Category.ALL)}
-                            className={`w-full flex items-center gap-3 px-3 py-2 border-[2px] transition-all text-sm font-bold ${activeCategory === Category.ALL
+                            className={`w-full flex items-center gap-3 px-3 py-2 border-[2px] transition-all text-sm font-bold ${!videoOnly && activeCategory === Category.ALL
                                 ? 'border-black bg-[#FF4D4D] text-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
                                 : 'border-transparent text-black hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
                                 }`}
@@ -120,6 +130,22 @@ const Sidebar: React.FC<SidebarProps> = ({
                             <LayoutGrid size={18} strokeWidth={2.5} />
                             <span className="font-black italic uppercase">{t('sidebar.all')}</span>
                         </button>
+
+                        {videoPromptCount > 0 && (
+                            <button
+                                onClick={onVideoOnlyClick}
+                                className={`w-full flex items-center justify-between px-3 py-2 border-[2px] transition-all text-sm font-bold ${
+                                    videoOnly
+                                        ? 'border-black bg-[#FACC15] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+                                        : 'border-transparent text-black hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+                                }`}
+                            >
+                                <span className="flex items-center gap-3">
+                                    <Video size={18} strokeWidth={2.5} />
+                                    <span>{t('sidebar.videoPrompts')}</span>
+                                </span>
+                            </button>
+                        )}
 
                         {categories.map((key) => {
                             // key is 'CODING', 'WRITING', etc. (enum Key)

@@ -15,9 +15,11 @@ import { useSearchParams } from 'react-router-dom';
 const HomePage: React.FC = () => {
     const { t, i18n } = useTranslation();
     const [searchParams, setSearchParams] = useSearchParams();
+    const initialVideoOnly = searchParams.get('type') === 'video';
     
     // State: Category
     const [activeCategory, setActiveCategory] = useState<Category>(() => {
+        if (initialVideoOnly) return Category.ALL;
         const catParam = searchParams.get('category');
         if (catParam) {
             // First try to match enum key (e.g., 'VIDEO')
@@ -30,6 +32,7 @@ const HomePage: React.FC = () => {
         }
         return Category.ALL;
     });
+    const [videoOnly, setVideoOnly] = useState<boolean>(initialVideoOnly);
 
     // State: Sort
     const [sortOrder, setSortOrder] = useState<'recent' | 'random'>('random');
@@ -39,16 +42,61 @@ const HomePage: React.FC = () => {
     // Actually, backend expects "ART" (Key) or "Art & Design" (Value) if we normalize there.
     // Our updated backend normalizes. So passing Value is fine.
     const { prompts, loading, loadingMore, hasMore, loadMore, nextId } = usePrompts(
-        activeCategory === Category.ALL ? undefined : activeCategory, 
-        sortOrder
+        videoOnly ? undefined : (activeCategory === Category.ALL ? undefined : activeCategory),
+        sortOrder,
+        24,
+        videoOnly ? 'video' : undefined
     );
 
     const [searchQuery, setSearchQuery] = useState('');
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
+    const [categoryCounts, setCategoryCounts] = useState<Record<string, number> | null>(null);
     
     // Intersection Observer for Infinite Scroll
     const loaderRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const fetchCategoryCounts = async () => {
+            try {
+                const res = await fetch(`/api/prompts?summary=categories&lang=${i18n.language.startsWith('zh') ? 'zh' : 'en'}`);
+                if (!res.ok) return;
+                const data = await res.json();
+                const counts = data?.counts && typeof data.counts === 'object' ? data.counts : data;
+                if (counts && typeof counts === 'object') {
+                    const enriched: Record<string, number> = { ...counts };
+                    const rawVideoPromptCount = data?.videoPromptCount;
+                    const videoPromptCount = typeof rawVideoPromptCount === 'number'
+                        ? rawVideoPromptCount
+                        : (typeof rawVideoPromptCount === 'string' ? parseInt(rawVideoPromptCount, 10) : 0);
+                    enriched.VIDEO_PROMPTS = Number.isFinite(videoPromptCount) ? videoPromptCount : 0;
+                    setCategoryCounts(enriched);
+                }
+            } catch {
+                return;
+            }
+        };
+
+        fetchCategoryCounts();
+    }, [i18n.language]);
+
+    useEffect(() => {
+        if (!categoryCounts) return;
+        if (videoOnly) return;
+        if (activeCategory === Category.ALL) return;
+
+        const activeKey = Object.keys(Category).find(
+            key => Category[key as keyof typeof Category] === activeCategory
+        );
+
+        if (!activeKey) return;
+        if ((categoryCounts[activeKey] ?? 0) > 0) return;
+
+        setActiveCategory(Category.ALL);
+        const nextParams = new URLSearchParams(searchParams);
+        nextParams.delete('category');
+        setSearchParams(nextParams);
+    }, [activeCategory, categoryCounts, searchParams, setSearchParams]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -102,21 +150,34 @@ const HomePage: React.FC = () => {
     }, [prompts, searchQuery]);
 
     const handleSetActiveCategory = (category: Category) => {
+        setVideoOnly(false);
         setActiveCategory(category);
+        const nextParams = new URLSearchParams(searchParams);
+        nextParams.delete('type');
         if (category === Category.ALL) {
-            searchParams.delete('category');
+            nextParams.delete('category');
         } else {
             // Convert enum value to enum key for URL parameter
             // e.g., 'Video Generation' -> 'VIDEO'
             const categoryKey = Object.keys(Category).find(
                 key => Category[key as keyof typeof Category] === category
             );
-            searchParams.set('category', categoryKey || category);
+            nextParams.set('category', categoryKey || category);
         }
-        setSearchParams(searchParams);
+        setSearchParams(nextParams);
+    };
+
+    const handleSetVideoOnly = () => {
+        setVideoOnly(true);
+        setActiveCategory(Category.ALL);
+        const nextParams = new URLSearchParams(searchParams);
+        nextParams.delete('category');
+        nextParams.set('type', 'video');
+        setSearchParams(nextParams);
     };
 
     const clearFilters = () => {
+        setVideoOnly(false);
         handleSetActiveCategory(Category.ALL);
         setSearchQuery('');
     };
@@ -151,6 +212,8 @@ const HomePage: React.FC = () => {
                 <Sidebar
                     activeCategory={activeCategory}
                     setActiveCategory={handleSetActiveCategory}
+                    videoOnly={videoOnly}
+                    onVideoOnlyClick={handleSetVideoOnly}
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
                     sortOrder={sortOrder}
@@ -159,8 +222,7 @@ const HomePage: React.FC = () => {
                     currentLanguage={i18n.language}
                     onTutorialClick={() => setIsComingSoonOpen(true)}
                     onLogoClick={clearFilters}
-                    prompts={prompts} // For count badges? Sidebar might calculate counts based on loaded prompts which is inaccurate now.
-                    // Ideally Sidebar should get counts from API, but for now it might show smaller numbers.
+                    categoryCounts={categoryCounts}
                 />
 
                 <main className="flex-1 flex flex-col min-w-0 h-full overflow-hidden border-l-[2.5px] border-black">
