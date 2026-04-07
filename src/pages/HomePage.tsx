@@ -15,9 +15,11 @@ import { useSearchParams } from 'react-router-dom';
 const HomePage: React.FC = () => {
     const { t, i18n } = useTranslation();
     const [searchParams, setSearchParams] = useSearchParams();
+    const initialVideoOnly = searchParams.get('type') === 'video';
     
     // State: Category
     const [activeCategory, setActiveCategory] = useState<Category>(() => {
+        if (initialVideoOnly) return Category.ALL;
         const catParam = searchParams.get('category');
         if (catParam) {
             // First try to match enum key (e.g., 'VIDEO')
@@ -30,6 +32,7 @@ const HomePage: React.FC = () => {
         }
         return Category.ALL;
     });
+    const [videoOnly, setVideoOnly] = useState<boolean>(initialVideoOnly);
 
     // State: Sort
     const [sortOrder, setSortOrder] = useState<'recent' | 'random'>('random');
@@ -39,8 +42,10 @@ const HomePage: React.FC = () => {
     // Actually, backend expects "ART" (Key) or "Art & Design" (Value) if we normalize there.
     // Our updated backend normalizes. So passing Value is fine.
     const { prompts, loading, loadingMore, hasMore, loadMore, nextId } = usePrompts(
-        activeCategory === Category.ALL ? undefined : activeCategory, 
-        sortOrder
+        videoOnly ? undefined : (activeCategory === Category.ALL ? undefined : activeCategory),
+        sortOrder,
+        24,
+        videoOnly ? 'video' : undefined
     );
 
     const [searchQuery, setSearchQuery] = useState('');
@@ -54,32 +59,17 @@ const HomePage: React.FC = () => {
     useEffect(() => {
         const fetchCategoryCounts = async () => {
             try {
-                const res = await fetch('/api/prompts?summary=categories');
+                const res = await fetch(`/api/prompts?summary=categories&lang=${i18n.language.startsWith('zh') ? 'zh' : 'en'}`);
                 if (!res.ok) return;
                 const data = await res.json();
                 const counts = data?.counts && typeof data.counts === 'object' ? data.counts : data;
                 if (counts && typeof counts === 'object') {
                     const enriched: Record<string, number> = { ...counts };
-                    const keys = Object.keys(Category).filter(k => k !== 'ALL');
-                    await Promise.all(keys.map(async (key) => {
-                        const value = Category[key as keyof typeof Category];
-                        try {
-                            const r = await fetch(`/api/prompts?page=1&limit=1&sort=recent&category=${encodeURIComponent(value)}`);
-                            if (!r.ok) {
-                                enriched[key] = 0;
-                                return;
-                            }
-                            const j = await r.json();
-                            const list = j?.prompts || [];
-                            if (!Array.isArray(list) || list.length === 0) {
-                                enriched[key] = 0;
-                            } else {
-                                if ((enriched[key] ?? 0) < 1) enriched[key] = 1;
-                            }
-                        } catch {
-                            enriched[key] = 0;
-                        }
-                    }));
+                    const rawVideoPromptCount = data?.videoPromptCount;
+                    const videoPromptCount = typeof rawVideoPromptCount === 'number'
+                        ? rawVideoPromptCount
+                        : (typeof rawVideoPromptCount === 'string' ? parseInt(rawVideoPromptCount, 10) : 0);
+                    enriched.VIDEO_PROMPTS = Number.isFinite(videoPromptCount) ? videoPromptCount : 0;
                     setCategoryCounts(enriched);
                 }
             } catch {
@@ -88,10 +78,11 @@ const HomePage: React.FC = () => {
         };
 
         fetchCategoryCounts();
-    }, []);
+    }, [i18n.language]);
 
     useEffect(() => {
         if (!categoryCounts) return;
+        if (videoOnly) return;
         if (activeCategory === Category.ALL) return;
 
         const activeKey = Object.keys(Category).find(
@@ -159,21 +150,34 @@ const HomePage: React.FC = () => {
     }, [prompts, searchQuery]);
 
     const handleSetActiveCategory = (category: Category) => {
+        setVideoOnly(false);
         setActiveCategory(category);
+        const nextParams = new URLSearchParams(searchParams);
+        nextParams.delete('type');
         if (category === Category.ALL) {
-            searchParams.delete('category');
+            nextParams.delete('category');
         } else {
             // Convert enum value to enum key for URL parameter
             // e.g., 'Video Generation' -> 'VIDEO'
             const categoryKey = Object.keys(Category).find(
                 key => Category[key as keyof typeof Category] === category
             );
-            searchParams.set('category', categoryKey || category);
+            nextParams.set('category', categoryKey || category);
         }
-        setSearchParams(searchParams);
+        setSearchParams(nextParams);
+    };
+
+    const handleSetVideoOnly = () => {
+        setVideoOnly(true);
+        setActiveCategory(Category.ALL);
+        const nextParams = new URLSearchParams(searchParams);
+        nextParams.delete('category');
+        nextParams.set('type', 'video');
+        setSearchParams(nextParams);
     };
 
     const clearFilters = () => {
+        setVideoOnly(false);
         handleSetActiveCategory(Category.ALL);
         setSearchQuery('');
     };
@@ -208,6 +212,8 @@ const HomePage: React.FC = () => {
                 <Sidebar
                     activeCategory={activeCategory}
                     setActiveCategory={handleSetActiveCategory}
+                    videoOnly={videoOnly}
+                    onVideoOnlyClick={handleSetVideoOnly}
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
                     sortOrder={sortOrder}

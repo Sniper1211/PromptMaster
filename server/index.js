@@ -568,7 +568,9 @@ app.get('/api/prompts', async (req, res) => {
         acc[row.category] = row.count;
         return acc;
       }, {});
-      return res.status(200).json({ counts });
+      const videoResult = await pool.query(`SELECT COUNT(*)::int AS count FROM prompts WHERE prompt_type = 'video'`);
+      const videoPromptCount = videoResult.rows?.[0]?.count ?? 0;
+      return res.status(200).json({ counts, videoPromptCount });
     }
 
     // --- Single Item Fetch ---
@@ -624,6 +626,7 @@ app.get('/api/prompts', async (req, res) => {
     const limit = parseInt(req.query.limit) || 24;
     const offset = (page - 1) * limit;
     const category = req.query.category; // Optional category filter
+    const promptType = req.query.promptType; // Optional type filter: 'video' | 'text'
     const sort = req.query.sort || 'random'; // 'random' (default) or 'recent'
 
     // Generate a stable seed for the current hour (e.g., "2023-10-27T14")
@@ -639,11 +642,40 @@ app.get('/api/prompts', async (req, res) => {
 
     // Add Category Filter
     if (category && category !== 'ALL') {
-      const catUpper = category.toUpperCase();
-      queryCount += ' WHERE category = $1';
+      const CategoryMap = {
+        'All': 'ALL',
+        'Coding': 'CODING',
+        'Writing': 'WRITING',
+        'Business': 'BUSINESS',
+        'Photography': 'PHOTOGRAPHY',
+        'Art & Design': 'ART',
+        'Commercial Visuals': 'COMMERCIAL',
+        'Productivity': 'PRODUCTIVITY',
+        'Marketing': 'MARKETING',
+        'Fun & Creative': 'FUN',
+        'SEO': 'SEO',
+        'Learning': 'LEARNING',
+        'Video Generation': 'VIDEO'
+      };
+
+      const categoryStr = String(category);
+      const matchedValueKey = Object.keys(CategoryMap).find(k => k.toLowerCase() === categoryStr.toLowerCase());
+      const normalizedCategory = matchedValueKey ? CategoryMap[matchedValueKey] : categoryStr.toUpperCase();
+
+      queryCount += paramsCount.length === 0 ? ' WHERE' : ' AND';
+      queryCount += ` category = $${paramsCount.length + 1}`;
       queryData += ` WHERE category = $${paramIdx}`;
-      paramsCount.push(catUpper);
-      paramsData.push(catUpper);
+      paramsCount.push(normalizedCategory);
+      paramsData.push(normalizedCategory);
+      paramIdx++;
+    }
+
+    if (promptType && (promptType === 'video' || promptType === 'text')) {
+      queryCount += paramsCount.length === 0 ? ' WHERE' : ' AND';
+      queryCount += ` prompt_type = $${paramsCount.length + 1}`;
+      queryData += category && category !== 'ALL' ? ` AND prompt_type = $${paramIdx}` : ` WHERE prompt_type = $${paramIdx}`;
+      paramsCount.push(promptType);
+      paramsData.push(promptType);
       paramIdx++;
     }
 
