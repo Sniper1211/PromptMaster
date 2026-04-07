@@ -24,7 +24,7 @@ interface SidebarProps {
     currentLanguage: string;
     onTutorialClick: () => void;
     onLogoClick: () => void;
-    // prompts prop removed as we don't calculate dynamic counts anymore
+    categoryCounts?: Record<string, number> | null;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -37,11 +37,14 @@ const Sidebar: React.FC<SidebarProps> = ({
     toggleLanguage,
     currentLanguage,
     onTutorialClick,
-    onLogoClick
+    onLogoClick,
+    categoryCounts
 }) => {
     const { t } = useTranslation();
 
-    const categories = Object.keys(Category).filter(k => k !== 'ALL');
+    const categories = Object.keys(Category)
+        .filter(k => k !== 'ALL')
+        .filter(k => !categoryCounts || (categoryCounts[k] ?? 0) > 0);
 
     return (
         <aside className="w-64 border-r-[3px] border-black bg-white flex flex-col h-screen shrink-0 relative">

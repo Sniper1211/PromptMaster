@@ -46,9 +46,66 @@ const HomePage: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
+    const [categoryCounts, setCategoryCounts] = useState<Record<string, number> | null>(null);
     
     // Intersection Observer for Infinite Scroll
     const loaderRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const fetchCategoryCounts = async () => {
+            try {
+                const res = await fetch('/api/prompts?summary=categories');
+                if (!res.ok) return;
+                const data = await res.json();
+                const counts = data?.counts && typeof data.counts === 'object' ? data.counts : data;
+                if (counts && typeof counts === 'object') {
+                    const enriched: Record<string, number> = { ...counts };
+                    const keys = Object.keys(Category).filter(k => k !== 'ALL');
+                    await Promise.all(keys.map(async (key) => {
+                        const value = Category[key as keyof typeof Category];
+                        try {
+                            const r = await fetch(`/api/prompts?page=1&limit=1&sort=recent&category=${encodeURIComponent(value)}`);
+                            if (!r.ok) {
+                                enriched[key] = 0;
+                                return;
+                            }
+                            const j = await r.json();
+                            const list = j?.prompts || [];
+                            if (!Array.isArray(list) || list.length === 0) {
+                                enriched[key] = 0;
+                            } else {
+                                if ((enriched[key] ?? 0) < 1) enriched[key] = 1;
+                            }
+                        } catch {
+                            enriched[key] = 0;
+                        }
+                    }));
+                    setCategoryCounts(enriched);
+                }
+            } catch {
+                return;
+            }
+        };
+
+        fetchCategoryCounts();
+    }, []);
+
+    useEffect(() => {
+        if (!categoryCounts) return;
+        if (activeCategory === Category.ALL) return;
+
+        const activeKey = Object.keys(Category).find(
+            key => Category[key as keyof typeof Category] === activeCategory
+        );
+
+        if (!activeKey) return;
+        if ((categoryCounts[activeKey] ?? 0) > 0) return;
+
+        setActiveCategory(Category.ALL);
+        const nextParams = new URLSearchParams(searchParams);
+        nextParams.delete('category');
+        setSearchParams(nextParams);
+    }, [activeCategory, categoryCounts, searchParams, setSearchParams]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -159,8 +216,7 @@ const HomePage: React.FC = () => {
                     currentLanguage={i18n.language}
                     onTutorialClick={() => setIsComingSoonOpen(true)}
                     onLogoClick={clearFilters}
-                    prompts={prompts} // For count badges? Sidebar might calculate counts based on loaded prompts which is inaccurate now.
-                    // Ideally Sidebar should get counts from API, but for now it might show smaller numbers.
+                    categoryCounts={categoryCounts}
                 />
 
                 <main className="flex-1 flex flex-col min-w-0 h-full overflow-hidden border-l-[2.5px] border-black">
