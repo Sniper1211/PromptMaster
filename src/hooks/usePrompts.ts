@@ -2,7 +2,12 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Prompt } from '../types';
 
-export const usePrompts = (category?: string, sortOrder: 'recent' | 'random' = 'random', customLimit: number = 24) => {
+export const usePrompts = (
+    category?: string,
+    sortOrder: 'recent' | 'random' = 'random',
+    customLimit: number = 24,
+    promptType?: 'text' | 'video'
+) => {
     const { i18n } = useTranslation();
     const [prompts, setPrompts] = useState<Prompt[]>([]);
     const [loading, setLoading] = useState(true);
@@ -19,7 +24,7 @@ export const usePrompts = (category?: string, sortOrder: 'recent' | 'random' = '
         setHasMore(true);
         setLoading(true);
         fetchPrompts(1, true);
-    }, [category, sortOrder, i18n.language, customLimit]);
+    }, [category, sortOrder, i18n.language, customLimit, promptType]);
 
     const fetchPrompts = async (pageNum: number, isReset: boolean) => {
         try {
@@ -27,6 +32,9 @@ export const usePrompts = (category?: string, sortOrder: 'recent' | 'random' = '
             let url = `/api/prompts?page=${pageNum}&limit=${customLimit}&lang=${lang}&sort=${sortOrder}`;
             if (category && category !== 'ALL') {
                 url += `&category=${encodeURIComponent(category)}`;
+            }
+            if (promptType) {
+                url += `&promptType=${encodeURIComponent(promptType)}`;
             }
 
             const res = await fetch(url);
