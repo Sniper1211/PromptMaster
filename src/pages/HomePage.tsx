@@ -16,6 +16,7 @@ const HomePage: React.FC = () => {
     const { t, i18n } = useTranslation();
     const [searchParams, setSearchParams] = useSearchParams();
     const initialVideoOnly = searchParams.get('type') === 'video';
+    const initialSearch = searchParams.get('search') || '';
     
     // State: Category
     const [activeCategory, setActiveCategory] = useState<Category>(() => {
@@ -48,7 +49,7 @@ const HomePage: React.FC = () => {
         videoOnly ? 'video' : undefined
     );
 
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState(initialSearch);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
     const [categoryCounts, setCategoryCounts] = useState<Record<string, number> | null>(null);
@@ -64,13 +65,36 @@ const HomePage: React.FC = () => {
                 const data = await res.json();
                 const counts = data?.counts && typeof data.counts === 'object' ? data.counts : data;
                 if (counts && typeof counts === 'object') {
-                    const enriched: Record<string, number> = { ...counts };
+                    const normalizeCategoryKey = (rawKey: string) => {
+                        const raw = String(rawKey);
+                        const keyMatch = Object.keys(Category).find(k => k.toLowerCase() === raw.toLowerCase());
+                        if (keyMatch) return keyMatch;
+                        const valueMatch = Object.keys(Category).find(
+                            k => String(Category[k as keyof typeof Category]).toLowerCase() === raw.toLowerCase()
+                        );
+                        if (valueMatch) return valueMatch;
+                        return raw
+                            .toUpperCase()
+                            .replace(/[^A-Z0-9]+/g, '_')
+                            .replace(/^_+|_+$/g, '');
+                    };
+
+                    const normalizedCounts: Record<string, number> = {};
+                    for (const [rawKey, rawVal] of Object.entries(counts)) {
+                        const key = normalizeCategoryKey(rawKey);
+                        const parsed =
+                            typeof rawVal === 'number'
+                                ? rawVal
+                                : (typeof rawVal === 'string' ? parseInt(rawVal, 10) : 0);
+                        const safe = Number.isFinite(parsed) ? parsed : 0;
+                        normalizedCounts[key] = (normalizedCounts[key] ?? 0) + safe;
+                    }
                     const rawVideoPromptCount = data?.videoPromptCount;
                     const videoPromptCount = typeof rawVideoPromptCount === 'number'
                         ? rawVideoPromptCount
                         : (typeof rawVideoPromptCount === 'string' ? parseInt(rawVideoPromptCount, 10) : 0);
-                    enriched.VIDEO_PROMPTS = Number.isFinite(videoPromptCount) ? videoPromptCount : 0;
-                    setCategoryCounts(enriched);
+                    normalizedCounts.VIDEO_PROMPTS = Number.isFinite(videoPromptCount) ? videoPromptCount : 0;
+                    setCategoryCounts(normalizedCounts);
                 }
             } catch {
                 return;
@@ -145,7 +169,7 @@ const HomePage: React.FC = () => {
         return prompts.filter(prompt => 
             prompt.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             prompt.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            prompt.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()))
+            (Array.isArray(prompt.tags) ? prompt.tags : []).some(t => t.toLowerCase().includes(searchQuery.toLowerCase()))
         );
     }, [prompts, searchQuery]);
 
@@ -178,8 +202,13 @@ const HomePage: React.FC = () => {
 
     const clearFilters = () => {
         setVideoOnly(false);
-        handleSetActiveCategory(Category.ALL);
+        setActiveCategory(Category.ALL);
         setSearchQuery('');
+        const nextParams = new URLSearchParams(searchParams);
+        nextParams.delete('type');
+        nextParams.delete('category');
+        nextParams.delete('search');
+        setSearchParams(nextParams);
     };
 
     const handleSelectPrompt = (prompt: Prompt) => {
@@ -193,7 +222,7 @@ const HomePage: React.FC = () => {
         "url": "https://pentaprompt.com",
         "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://pentaprompt.com/?search={search_term_string}",
+            "target": "https://pentaprompt.com/prompts?search={search_term_string}",
             "query-input": "required name=search_term_string"
         }
     };
@@ -201,10 +230,10 @@ const HomePage: React.FC = () => {
     return (
         <>
             <SEOHead
-                title={t('seo.home.title')}
-                description={t('seo.home.description')}
-                keywords={t('seo.home.keywords')}
-                url="https://pentaprompt.com"
+                title={t('seo.library.title')}
+                description={t('seo.library.description')}
+                keywords={t('seo.library.keywords')}
+                url="https://pentaprompt.com/prompts"
                 type="website"
                 structuredData={websiteSchema}
             />

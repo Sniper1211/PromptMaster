@@ -24,6 +24,7 @@ const TAG_COLORS = [
 const PromptCard: React.FC<PromptCardProps> = ({ prompt, onTry }) => {
   const [copied, setCopied] = useState(false);
   const { t } = useTranslation();
+  const tags = Array.isArray(prompt.tags) ? prompt.tags : [];
 
   const handleCopy = () => {
     navigator.clipboard.writeText(prompt.content);
@@ -61,7 +62,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onTry }) => {
               }}
             />
 
-            {prompt.tags.slice(0, 3).map((tag, i) => (
+            {tags.slice(0, 3).map((tag, i) => (
               <span
                 key={i}
                 className="relative inline-block px-5 py-2 bg-white border-[3px] border-black text-lg font-black uppercase tracking-tighter shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] transform rotate-[-3deg] odd:rotate-[2deg] group-hover:opacity-10 transition-opacity duration-300"

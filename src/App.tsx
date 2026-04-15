@@ -1,7 +1,9 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import HomePage from './pages/HomePage';
+import LandingPage from './pages/LandingPage';
+import CollectionPage from './pages/CollectionPage';
 import PromptDetailPage from './pages/PromptDetailPage';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
@@ -13,7 +15,9 @@ const App: React.FC = () => {
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/prompts" element={<HomePage />} />
+          <Route path="/collections/:slug" element={<CollectionPage />} />
           <Route path="/prompt/:id" element={<PromptDetailPage />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<TermsOfService />} />

@@ -8,7 +8,7 @@ import AdUnit from '../components/ads/AdUnit';
 import PromptCard from '../components/PromptCard';
 import ImageWithSkeleton from '../components/common/ImageWithSkeleton';
 import PromptDetailSkeleton from '../components/detail/PromptDetailSkeleton';
-import { Prompt } from '../types';
+import { Category, Prompt } from '../types';
 
 const PromptDetailPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -23,6 +23,18 @@ const PromptDetailPage: React.FC = () => {
     
     // Local state for copy count to show instant update
     const [localCopyCount, setLocalCopyCount] = useState<number | undefined>(undefined);
+
+    const getCategoryKey = (category: string) => {
+        const trimmed = String(category || '').trim();
+        const matchKey = Object.keys(Category).find(
+            key => Category[key as keyof typeof Category] === trimmed
+        );
+        if (matchKey) return matchKey;
+        return trimmed
+            .toUpperCase()
+            .replace(/[^A-Z0-9]+/g, '_')
+            .replace(/^_+|_+$/g, '');
+    };
     
     // Sync local count when prompt loads
     useMemo(() => {
@@ -80,7 +92,7 @@ const PromptDetailPage: React.FC = () => {
             <div className="min-h-screen flex flex-col items-center justify-center bg-[#F8FAFC] gap-6 text-center px-4">
                 <h2 className="text-4xl font-black uppercase italic">{t('promptDetail.notFound')}</h2>
                 <p className="text-slate-600 max-w-md">{t('promptDetail.movedOrDeleted')}</p>
-                <Link to="/" className="px-8 py-3 bg-black text-white font-bold uppercase tracking-wide hover:bg-[#FF4D4D] transition-colors border-[3px] border-transparent hover:border-black">
+                <Link to="/prompts" className="px-8 py-3 bg-black text-white font-bold uppercase tracking-wide hover:bg-[#FF4D4D] transition-colors border-[3px] border-transparent hover:border-black">
                     {t('promptDetail.returnToLibrary')}
                 </Link>
             </div>
@@ -115,6 +127,7 @@ const PromptDetailPage: React.FC = () => {
     };
 
     // JSON-LD for SEO
+    const safeTags = Array.isArray(prompt.tags) ? prompt.tags : [];
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "CreativeWork",
@@ -123,7 +136,7 @@ const PromptDetailPage: React.FC = () => {
         "description": prompt.description,
         "image": getImageUrl(prompt.previewImageUrl),
         "genre": prompt.category,
-        "keywords": prompt.tags.join(", "),
+        "keywords": safeTags.join(", "),
         "datePublished": prompt.createdAt || "2024-01-01",
         "author": {
             "@type": "Organization",
@@ -142,7 +155,7 @@ const PromptDetailPage: React.FC = () => {
             <SEOHead
                 title={`${prompt.title} - PentaPrompt`}
                 description={prompt.description}
-                keywords={prompt.tags.slice(0, 8).join(", ")}
+                keywords={safeTags.slice(0, 8).join(", ")}
                 image={getImageUrl(prompt.previewImageUrl)}
                 url={`https://pentaprompt.com/prompt/${prompt.id}`}
                 type="article"
@@ -155,19 +168,22 @@ const PromptDetailPage: React.FC = () => {
                 <header className="bg-white border-b-[3px] border-black sticky top-0 z-40">
                     <div className="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
                         <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-slate-500 overflow-hidden">
-                            <Link to="/" className="hover:text-black flex items-center gap-1 shrink-0 transition-colors">
+                            <Link to="/prompts" className="hover:text-black flex items-center gap-1 shrink-0 transition-colors">
                                 <Layers size={16} strokeWidth={2.5} /> {t('nav.library')}
                             </Link>
                             <ChevronRight size={14} className="shrink-0 text-slate-300" />
-                            <Link to={`/?category=${prompt.category}`} className="hover:text-black shrink-0 transition-colors">
-                                {t(`categories.${prompt.category.toUpperCase()}`)}
+                            <Link
+                                to={`/prompts?category=${getCategoryKey(String(prompt.category))}`}
+                                className="hover:text-black shrink-0 transition-colors"
+                            >
+                                {t(`categories.${getCategoryKey(String(prompt.category))}`)}
                             </Link>
                             <ChevronRight size={14} className="shrink-0 text-slate-300" />
                             <span className="text-black truncate">{prompt.title}</span>
                         </div>
 
                         <Link
-                            to="/"
+                            to="/prompts"
                             className="flex items-center justify-center w-9 h-9 bg-white border-[2.5px] border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all flex-shrink-0"
                             aria-label="Close"
                         >
@@ -364,8 +380,11 @@ const PromptDetailPage: React.FC = () => {
                             <div className="bg-white border-[3px] border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
                                 <div className="mb-6">
                                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">{t('promptDetail.category')}</p>
-                                    <Link to={`/?category=${prompt.category}`} className="text-2xl font-black uppercase italic hover:underline decoration-4 underline-offset-4 decoration-[#FACC15]">
-                                        {t(`categories.${prompt.category.toUpperCase()}`)}
+                                    <Link
+                                        to={`/prompts?category=${getCategoryKey(String(prompt.category))}`}
+                                        className="text-2xl font-black uppercase italic hover:underline decoration-4 underline-offset-4 decoration-[#FACC15]"
+                                    >
+                                        {t(`categories.${getCategoryKey(String(prompt.category))}`)}
                                     </Link>
                                 </div>
 
@@ -397,10 +416,10 @@ const PromptDetailPage: React.FC = () => {
                                     <Tag size={16} /> {t('promptDetail.relatedKeywords')}
                                 </h3>
                                 <div className="flex flex-wrap gap-2">
-                                    {prompt.tags.map(tag => (
+                                    {safeTags.map(tag => (
                                         <Link
                                             key={tag}
-                                            to={`/?search=${tag}`}
+                                            to={`/prompts?search=${encodeURIComponent(tag)}`}
                                             className="px-3 py-1 bg-white border-[2px] border-transparent hover:border-black text-xs font-bold uppercase transition-all"
                                         >
                                             #{tag}
@@ -419,9 +438,12 @@ const PromptDetailPage: React.FC = () => {
                         <div className="mt-24 pt-12 border-t-[3px] border-black">
                             <div className="flex items-center justify-between mb-8">
                                 <h2 className="text-3xl font-black uppercase italic tracking-tighter">
-                                    {t('promptDetail.moreFrom')} {t(`categories.${prompt.category.toUpperCase()}`)}
+                                    {t('promptDetail.moreFrom')} {t(`categories.${getCategoryKey(String(prompt.category))}`)}
                                 </h2>
-                                <Link to={`/?category=${prompt.category}`} className="hidden md:flex items-center gap-2 font-bold uppercase tracking-wide hover:translate-x-1 transition-transform">
+                                <Link
+                                    to={`/prompts?category=${getCategoryKey(String(prompt.category))}`}
+                                    className="hidden md:flex items-center gap-2 font-bold uppercase tracking-wide hover:translate-x-1 transition-transform"
+                                >
                                     {t('promptDetail.viewAll')} <ChevronRight size={16} strokeWidth={3} />
                                 </Link>
                             </div>

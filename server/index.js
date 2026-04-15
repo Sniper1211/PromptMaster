@@ -560,6 +560,22 @@ app.put('/api/prompts/:id', async (req, res) => {
 // --- API: Get Prompts (Database Version) ---
 app.get('/api/prompts', async (req, res) => {
   try {
+    const safeParseTags = (raw) => {
+      if (Array.isArray(raw)) return raw.filter(t => typeof t === 'string');
+      if (typeof raw === 'string') {
+        try {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) return parsed.filter(t => typeof t === 'string');
+        } catch {
+          const parts = raw
+            .split(',')
+            .map(s => s.trim())
+            .filter(Boolean);
+          if (parts.length > 0) return parts;
+        }
+      }
+      return [];
+    };
     const preferredLang = req.query.lang; // 'zh' or 'en'
 
     if (req.query.summary === 'categories') {
@@ -604,7 +620,7 @@ app.get('/api/prompts', async (req, res) => {
         descriptionZh: row.description_zh,
         descriptionEn: row.description_en,
         category: row.category,
-        tags: typeof row.tags === 'string' ? JSON.parse(row.tags) : row.tags,
+        tags: safeParseTags(row.tags),
         content: row.content,
         chineseContent: row.chinese_content,
         expectedOutput: row.expected_output,
@@ -714,7 +730,7 @@ app.get('/api/prompts', async (req, res) => {
         descriptionZh: row.description_zh,
         descriptionEn: row.description_en,
         category: row.category,
-        tags: typeof row.tags === 'string' ? JSON.parse(row.tags) : row.tags,
+        tags: safeParseTags(row.tags),
         content: row.content,
         chineseContent: row.chinese_content,
         expectedOutput: row.expected_output,
