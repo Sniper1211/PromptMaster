@@ -73,7 +73,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
 
     const handleAIAnalyze = async () => {
         if (!rawInput.trim()) {
-            setErrorMessage('Please paste some prompt content first.');
+            setErrorMessage(t('addPrompt.admin.errorPasteContent'));
             return;
         }
 
@@ -108,7 +108,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
             
             setIsWizardMode(false); // Switch to review mode
         } catch (err: any) {
-            setErrorMessage(err.message || 'AI Analysis failed');
+            setErrorMessage(err.message || t('addPrompt.admin.errorAiAnalysisFailed'));
         } finally {
             setIsAnalyzing(false);
         }
@@ -145,7 +145,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
             }, 2000);
         } else {
             setSubmitStatus('error');
-            setErrorMessage(result.message || 'Submission failed');
+            setErrorMessage(result.message || t('addPrompt.admin.errorSubmissionFailed'));
         }
     };
 
@@ -161,10 +161,12 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                         </div>
                         <div>
                             <h2 className="text-xl md:text-2xl font-black uppercase italic tracking-tighter text-black">
-                                {isAdmin ? 'Admin: Add Prompt' : 'JSON Generator'}
+                                {isAdmin ? t('addPrompt.admin.headerTitle') : t('addPrompt.admin.jsonGenerator')}
                             </h2>
                             <p className="text-xs font-bold uppercase tracking-widest text-black/70">
-                                {isAdmin ? (isWizardMode ? 'Step 1: AI Magic Box' : 'Step 2: Review & Publish') : 'Create & Export Prompt Data'}
+                                {isAdmin
+                                    ? (isWizardMode ? t('addPrompt.admin.step1') : t('addPrompt.admin.step2'))
+                                    : t('addPrompt.admin.createExport')}
                             </p>
                         </div>
                     </div>
@@ -174,7 +176,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                 onClick={() => setIsWizardMode(true)}
                                 className="px-3 py-1.5 bg-white border-2 border-black font-black uppercase text-xs flex items-center gap-2 text-black hover:bg-black hover:text-white transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]"
                             >
-                                <Edit3 size={14} strokeWidth={3} /> Back to Input
+                                <Edit3 size={14} strokeWidth={3} /> {t('addPrompt.admin.backToInput')}
                             </button>
                         )}
                         <button
@@ -198,27 +200,27 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                         <Sparkles size={40} className="text-black" />
                                     </div>
                                     <h3 className="text-3xl font-black uppercase tracking-tight italic text-black">AI Magic Submission</h3>
-                                    <p className="font-bold text-slate-600 uppercase text-sm tracking-widest">Just paste, we'll do the rest.</p>
+                                    <p className="font-bold text-slate-600 uppercase text-sm tracking-widest">{t('addPrompt.admin.magicSubtitle')}</p>
                                 </div>
 
                                 <div className="space-y-6">
                                     {/* Raw Text Input */}
                                     <div className="space-y-2">
                                         <label className="text-sm font-black uppercase flex items-center gap-2 text-black">
-                                            <span className="w-3 h-3 bg-black"></span> Paste Prompt Content (Any Language)
+                                            <span className="w-3 h-3 bg-black"></span> {t('addPrompt.admin.pastePromptLabel')}
                                         </label>
                                         <textarea
                                             value={rawInput}
                                             onChange={e => setRawInput(e.target.value)}
                                             className="w-full h-64 p-6 border-4 border-black font-bold text-lg focus:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] focus:-translate-x-1 focus:-translate-y-1 transition-all outline-none resize-none shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white text-black placeholder:text-slate-400"
-                                            placeholder="Paste the raw prompt, a description, or even a link to a prompt here..."
+                                            placeholder={t('addPrompt.admin.pastePromptPlaceholder')}
                                         />
                                     </div>
 
                                     {/* Optional Image URL */}
                                     <div className="space-y-2">
                                         <label className="text-sm font-black uppercase flex items-center gap-2 text-black">
-                                            <span className="w-3 h-3 bg-[#8B5CF6]"></span> Image URL (Optional)
+                                            <span className="w-3 h-3 bg-[#8B5CF6]"></span> {t('addPrompt.admin.imageUrlOptional')}
                                         </label>
                                         <div className="relative">
                                             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-black">
@@ -228,7 +230,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                                 value={imageUrlInput}
                                                 onChange={e => setImageUrlInput(e.target.value)}
                                                 className="w-full pl-12 pr-4 py-4 border-4 border-black font-black text-lg focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all outline-none bg-white text-black placeholder:text-slate-400"
-                                                placeholder="https://your-bucket.com/preview.png"
+                                                placeholder={t('addPrompt.admin.imageUrlPlaceholder')}
                                             />
                                         </div>
                                     </div>
@@ -236,7 +238,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                     {/* Error Message */}
                                     {errorMessage && (
                                         <div className="p-4 bg-red-100 border-4 border-red-500 text-red-700 font-black text-sm shadow-[4px_4px_0px_0px_rgba(239,68,68,0.2)]">
-                                            ⚠️ ERROR: {errorMessage}
+                                            {t('addPrompt.admin.errorPrefix')}: {errorMessage}
                                         </div>
                                     )}
 
@@ -249,12 +251,12 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                         {isAnalyzing ? (
                                             <span className="flex items-center justify-center gap-3">
                                                 <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
-                                                AI IS ANALYZING...
+                                                {t('addPrompt.admin.aiAnalyzing')}
                                             </span>
                                         ) : (
                                             <span className="flex items-center justify-center gap-3">
                                                 <Sparkles size={24} />
-                                                GENERATE EVERYTHING
+                                                {t('addPrompt.admin.generateEverything')}
                                             </span>
                                         )}
                                     </button>
@@ -271,13 +273,13 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                     {isAdmin && (
                                         <div className="bg-blue-50 border-4 border-blue-600 p-4 mb-4 flex items-center justify-between shadow-[4px_4px_0px_0px_rgba(37,99,235,0.1)]">
                                             <div className="flex items-center gap-2 text-blue-900 font-black uppercase text-xs">
-                                                <Eye size={16} strokeWidth={3} /> AI Review Mode: Check and refine the generated data.
+                                                <Eye size={16} strokeWidth={3} /> {t('addPrompt.admin.reviewMode')}
                                             </div>
                                             <button 
                                                 onClick={() => setIsWizardMode(true)}
                                                 className="text-[10px] font-black uppercase underline hover:text-blue-700 transition-colors"
                                             >
-                                                Redo AI Generation
+                                                {t('addPrompt.admin.redoAi')}
                                             </button>
                                         </div>
                                     )}
@@ -285,7 +287,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                     {/* Section: Metadata */}
                                     <div className="space-y-4">
                                         <h3 className="text-sm font-black uppercase tracking-widest border-b-[3px] border-black pb-2 text-black flex items-center gap-2">
-                                            <span className="w-2 h-2 bg-black"></span> 1. Metadata
+                                            <span className="w-2 h-2 bg-black"></span> {t('addPrompt.admin.metadata')}
                                         </h3>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -295,17 +297,17 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                                     value={formData.title}
                                                     onChange={e => setFormData({ ...formData, title: e.target.value })}
                                                     className="w-full p-2 border-[2.5px] border-black font-bold focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:translate-x-[-2px] focus:translate-y-[-2px] transition-all outline-none bg-white text-black"
-                                                    placeholder="Prompt Title"
+                                                    placeholder={t('addPrompt.admin.promptTitle')}
                                                 />
                                             </div>
                                             {isAdmin && (
                                                 <div className="space-y-1">
-                                                    <label className="text-xs font-black uppercase text-black">Title (ZH)</label>
+                                                    <label className="text-xs font-black uppercase text-black">{t('addPrompt.admin.titleZh')}</label>
                                                     <input
                                                         value={formData.titleZh}
                                                         onChange={e => setFormData({ ...formData, titleZh: e.target.value })}
                                                         className="w-full p-2 border-[2.5px] border-black font-bold focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:translate-x-[-2px] focus:translate-y-[-2px] transition-all outline-none bg-white text-black"
-                                                        placeholder="中文标题"
+                                                        placeholder={t('addPrompt.admin.titleZhPlaceholder')}
                                                     />
                                                 </div>
                                             )}
@@ -332,17 +334,17 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                                     value={formData.description}
                                                     onChange={e => setFormData({ ...formData, description: e.target.value })}
                                                     className="w-full p-2 border-[2.5px] border-black font-bold text-sm outline-none resize-none h-24 bg-white text-black"
-                                                    placeholder="Short description for the card..."
+                                                    placeholder={t('addPrompt.admin.descEnPlaceholder')}
                                                 />
                                             </div>
                                             {isAdmin && (
                                                 <div className="space-y-1">
-                                                    <label className="text-xs font-black uppercase text-black">Description (ZH)</label>
+                                                    <label className="text-xs font-black uppercase text-black">{t('addPrompt.admin.descZh')}</label>
                                                     <textarea
                                                         value={formData.descriptionZh}
                                                         onChange={e => setFormData({ ...formData, descriptionZh: e.target.value })}
                                                         className="w-full p-2 border-[2.5px] border-black font-bold text-sm outline-none resize-none h-24 bg-white text-black"
-                                                        placeholder="中文描述..."
+                                                        placeholder={t('addPrompt.admin.descZhPlaceholder')}
                                                     />
                                                 </div>
                                             )}
@@ -362,7 +364,7 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                                     onChange={e => setTagInput(e.target.value)}
                                                     onKeyDown={handleAddTag}
                                                     className="flex-1 outline-none text-sm font-black min-w-[80px] bg-transparent text-black"
-                                                    placeholder="Add tag + Enter"
+                                                    placeholder={t('addPrompt.admin.tagPlaceholder')}
                                                 />
                                             </div>
                                         </div>
@@ -372,27 +374,27 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                     <div className="space-y-4 pt-4">
                                         <h3 className="text-sm font-black uppercase tracking-widest border-b-[3px] border-black pb-2 text-black flex justify-between items-center">
                                             <div className="flex items-center gap-2">
-                                                <span className="w-2 h-2 bg-red-500"></span> 2. Content
+                                                <span className="w-2 h-2 bg-red-500"></span> {t('addPrompt.admin.content')}
                                             </div>
-                                            <span className="text-[10px] bg-red-600 text-white px-2 py-0.5 font-black animate-pulse">REQUIRED</span>
+                                            <span className="text-[10px] bg-red-600 text-white px-2 py-0.5 font-black animate-pulse">{t('addPrompt.admin.required')}</span>
                                         </h3>
 
                                         <div className="space-y-1">
-                                            <label className="text-xs font-black uppercase text-black">English Content (JSON Compatible)</label>
+                                            <label className="text-xs font-black uppercase text-black">{t('addPrompt.admin.contentEnJson')}</label>
                                             <textarea
                                                 value={formData.content}
                                                 onChange={e => setFormData({ ...formData, content: e.target.value })}
                                                 className="w-full p-4 border-[2.5px] border-black font-mono text-sm leading-relaxed outline-none h-48 bg-[#1a1a1a] text-[#4ade80] shadow-inner focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
-                                                placeholder="Paste your English prompt here..."
+                                                placeholder={t('addPrompt.admin.contentEnPlaceholder')}
                                             />
                                         </div>
                                         <div className="space-y-1 pt-2">
-                                            <label className="text-xs font-black uppercase text-black">Chinese Content (Optional)</label>
+                                            <label className="text-xs font-black uppercase text-black">{t('addPrompt.admin.contentZhOptional')}</label>
                                             <textarea
                                                 value={formData.chineseContent}
                                                 onChange={e => setFormData({ ...formData, chineseContent: e.target.value })}
                                                 className="w-full p-4 border-[2.5px] border-black font-mono text-sm leading-relaxed outline-none h-40 bg-slate-50 text-black focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
-                                                placeholder="中文翻译..."
+                                                placeholder={t('addPrompt.admin.contentZhPlaceholder')}
                                             />
                                         </div>
                                     </div>
@@ -424,14 +426,14 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                             <div className="lg:w-[450px] bg-[#121212] flex flex-col border-l-[3px] border-black relative">
                                 <div className="p-4 border-b border-white/10 flex justify-between items-center bg-black/40">
                                     <h3 className="text-white font-black uppercase tracking-widest text-xs flex items-center gap-2">
-                                        <Code size={16} strokeWidth={3} className="text-teal-400" /> JSON Preview
+                                        <Code size={16} strokeWidth={3} className="text-teal-400" /> {t('addPrompt.admin.jsonPreview')}
                                     </h3>
                                     <button
                                         onClick={handleCopy}
                                         className="bg-[#2DD4BF] hover:bg-[#1fbfa6] text-black px-4 py-2 text-xs font-black uppercase flex items-center gap-1.5 transition-all shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] active:translate-y-0.5"
                                     >
                                         {copied ? <Check size={14} strokeWidth={3} /> : <Copy size={14} strokeWidth={3} />}
-                                        {copied ? 'Copied' : 'Copy JSON'}
+                                        {copied ? t('addPrompt.admin.copied') : t('addPrompt.admin.copyJson')}
                                     </button>
                                 </div>
 
@@ -453,38 +455,38 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                             }`}
                                     >
                                         {isSubmitting ? (
-                                            <><div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> {isAdmin ? 'Publishing...' : 'Submitting...'}</>
+                                            <><div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> {isAdmin ? t('addPrompt.admin.publishing') : t('addPrompt.admin.submitting')}</>
                                         ) : submitStatus === 'success' ? (
-                                            <><CheckCircle size={20} strokeWidth={3} /> {isAdmin ? 'Published!' : 'Submitted Successfully!'}</>
+                                            <><CheckCircle size={20} strokeWidth={3} /> {isAdmin ? t('addPrompt.admin.published') : t('addPrompt.admin.submittedSuccessfully')}</>
                                         ) : submitStatus === 'error' ? (
-                                            <><XCircle size={20} strokeWidth={3} /> {isAdmin ? 'Publish Failed' : 'Submission Failed'}</>
+                                            <><XCircle size={20} strokeWidth={3} /> {isAdmin ? t('addPrompt.admin.publishFailed') : t('addPrompt.admin.submissionFailed')}</>
                                         ) : (
-                                            <><Send size={18} strokeWidth={3} /> {isAdmin ? 'Publish to Database' : 'Submit for AI Review'}</>
+                                            <><Send size={18} strokeWidth={3} /> {isAdmin ? t('addPrompt.admin.publishToDb') : t('addPrompt.admin.submitForAiReview')}</>
                                         )}
                                     </button>
 
                                     {submitStatus === 'success' && (
                                         <div className="bg-green-950/50 border border-green-500 p-3 text-center">
                                             <p className="text-green-400 text-xs font-black uppercase">
-                                                {isAdmin ? 'Prompt successfully deployed!' : 'Thank you! AI Review in progress.'}
+                                                {isAdmin ? t('addPrompt.admin.deploySuccess') : t('addPrompt.admin.reviewInProgress')}
                                             </p>
                                         </div>
                                     )}
                                     {submitStatus === 'error' && (
                                         <div className="bg-red-950/50 border border-red-500 p-3 text-center">
                                             <p className="text-red-400 text-xs font-black uppercase">
-                                                {errorMessage || 'An error occurred. Please try again.'}
+                                                {errorMessage || t('addPrompt.admin.genericError')}
                                             </p>
                                         </div>
                                     )}
 
                                     {/* Manual Instructions */}
                                     <div className="bg-white/5 p-4 border border-white/10 rounded-sm">
-                                        <p className="text-slate-400 text-[10px] font-black uppercase mb-3 tracking-widest">Manual Publication:</p>
+                                        <p className="text-slate-400 text-[10px] font-black uppercase mb-3 tracking-widest">{t('addPrompt.admin.manualPublication')}</p>
                                         <ol className="text-slate-200 text-xs space-y-2 list-decimal list-inside font-bold">
-                                            <li>Click <span className="text-[#2DD4BF] underline">Copy JSON</span> above.</li>
-                                            <li>Go to <code className="bg-black/50 px-1 py-0.5 rounded text-teal-300">src/data/prompts-en.ts</code>.</li>
-                                            <li>Insert into the prompts array.</li>
+                                            <li>{t('addPrompt.admin.manualStep1')} <span className="text-[#2DD4BF] underline">{t('addPrompt.admin.copyJson')}</span> {t('addPrompt.admin.manualStep1Tail')}</li>
+                                            <li>{t('addPrompt.admin.manualStep2')} <code className="bg-black/50 px-1 py-0.5 rounded text-teal-300">src/data/prompts-en.ts</code>.</li>
+                                            <li>{t('addPrompt.admin.manualStep3')}</li>
                                         </ol>
                                     </div>
                                 </div>
