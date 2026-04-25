@@ -5,6 +5,34 @@
       "destination": "/api/$1"
     },
     {
+      "source": "/admin",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/prompts",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/prompt/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/collections/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/index.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
