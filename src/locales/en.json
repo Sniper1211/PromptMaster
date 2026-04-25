@@ -207,6 +207,61 @@
       "failed": "Failed to save"
     }
   },
+  "adminDashboard": {
+    "login": {
+      "title": "Admin Access",
+      "password": "Password",
+      "passwordPlaceholder": "Enter admin password",
+      "verifying": "Verifying...",
+      "loginButton": "Login",
+      "invalidPassword": "Invalid password",
+      "loginFailed": "Login failed"
+    },
+    "loading": "Loading prompts...",
+    "header": {
+      "title": "Prompt Operations",
+      "stats": "Manage {{total}} prompts | {{shown}} shown",
+      "addNew": "Add New Prompt",
+      "logout": "Logout"
+    },
+    "filters": {
+      "searchPlaceholder": "SEARCH BY TITLE OR ID...",
+      "allPrompts": "All Prompts",
+      "incompleteOnly": "Incomplete Only"
+    },
+    "table": {
+      "id": "ID",
+      "title": "Title",
+      "tips": "Tips",
+      "image": "Image",
+      "action": "Action",
+      "noPrompts": "No prompts found matching your criteria"
+    },
+    "status": {
+      "done": "Done",
+      "missing": "Missing"
+    },
+    "editor": {
+      "generationFailed": "Generation failed",
+      "invalidAiResponse": "Invalid response format from AI",
+      "chineseTips": "Chinese Tips (中文建议)",
+      "englishTips": "English Tips",
+      "aiGenerationFailed": "AI generation failed: {{message}}",
+      "saveFailed": "Save failed",
+      "saveError": "Save error",
+      "editPrefix": "Edit",
+      "originalPromptContent": "Original Prompt Content",
+      "previewImageUrl": "Preview Image URL",
+      "noImageSet": "No Image Set",
+      "usageTips": "Usage Tips (Markdown)",
+      "aiGenerating": "AI Generating...",
+      "autoGenerateTips": "Auto-Generate Tips",
+      "usagePlaceholder": "Enter usage tips here...\n- Tip 1\n- Tip 2",
+      "cancel": "Cancel",
+      "saveChanges": "Save Changes",
+      "savingChanges": "Saving Changes..."
+    }
+  },
   "noResults": {
     "message": "No prompts found matching your current filters.",
     "clear": "Clear all filters"
@@ -224,6 +279,60 @@
     "tabs": {
       "editor": "Editor",
       "preview": "Preview & Code"
+    },
+    "admin": {
+      "errorPasteContent": "Please paste some prompt content first.",
+      "errorAiAnalysisFailed": "AI analysis failed",
+      "errorSubmissionFailed": "Submission failed",
+      "headerTitle": "Admin: Add Prompt",
+      "jsonGenerator": "JSON Generator",
+      "step1": "Step 1: AI Magic Box",
+      "step2": "Step 2: Review & Publish",
+      "createExport": "Create & Export Prompt Data",
+      "backToInput": "Back to Input",
+      "magicSubtitle": "Just paste, we'll do the rest.",
+      "pastePromptLabel": "Paste Prompt Content (Any Language)",
+      "pastePromptPlaceholder": "Paste the raw prompt, a description, or even a link to a prompt here...",
+      "imageUrlOptional": "Image URL (Optional)",
+      "imageUrlPlaceholder": "https://your-bucket.com/preview.png",
+      "errorPrefix": "ERROR",
+      "aiAnalyzing": "AI IS ANALYZING...",
+      "generateEverything": "GENERATE EVERYTHING",
+      "reviewMode": "AI Review Mode: Check and refine the generated data.",
+      "redoAi": "Redo AI Generation",
+      "metadata": "1. Metadata",
+      "promptTitle": "Prompt Title",
+      "titleZh": "Title (ZH)",
+      "titleZhPlaceholder": "Chinese title",
+      "descEnPlaceholder": "Short description for the card...",
+      "descZh": "Description (ZH)",
+      "descZhPlaceholder": "Chinese description...",
+      "tagPlaceholder": "Add tag + Enter",
+      "content": "2. Content",
+      "required": "REQUIRED",
+      "contentEnJson": "English Content (JSON Compatible)",
+      "contentEnPlaceholder": "Paste your English prompt here...",
+      "contentZhOptional": "Chinese Content (Optional)",
+      "contentZhPlaceholder": "Chinese translation...",
+      "jsonPreview": "JSON Preview",
+      "copied": "Copied",
+      "copyJson": "Copy JSON",
+      "publishing": "Publishing...",
+      "submitting": "Submitting...",
+      "published": "Published!",
+      "submittedSuccessfully": "Submitted Successfully!",
+      "publishFailed": "Publish Failed",
+      "submissionFailed": "Submission Failed",
+      "publishToDb": "Publish to Database",
+      "submitForAiReview": "Submit for AI Review",
+      "deploySuccess": "Prompt successfully deployed!",
+      "reviewInProgress": "Thank you! AI review in progress.",
+      "genericError": "An error occurred. Please try again.",
+      "manualPublication": "Manual Publication:",
+      "manualStep1": "Click",
+      "manualStep1Tail": "above.",
+      "manualStep2": "Go to",
+      "manualStep3": "Insert into the prompts array."
     },
     "form": {
       "title": "Title",

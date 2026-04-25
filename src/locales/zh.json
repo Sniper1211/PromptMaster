@@ -220,6 +220,61 @@
       "failed": "保存失败"
     }
   },
+  "adminDashboard": {
+    "login": {
+      "title": "后台登录",
+      "password": "密码",
+      "passwordPlaceholder": "请输入管理员密码",
+      "verifying": "验证中...",
+      "loginButton": "登录",
+      "invalidPassword": "密码错误",
+      "loginFailed": "登录失败"
+    },
+    "loading": "提示词加载中...",
+    "header": {
+      "title": "提示词运营后台",
+      "stats": "共 {{total}} 条提示词 | 当前显示 {{shown}} 条",
+      "addNew": "新增提示词",
+      "logout": "退出登录"
+    },
+    "filters": {
+      "searchPlaceholder": "按标题或 ID 搜索...",
+      "allPrompts": "全部提示词",
+      "incompleteOnly": "仅看未完善"
+    },
+    "table": {
+      "id": "ID",
+      "title": "标题",
+      "tips": "提示",
+      "image": "图片",
+      "action": "操作",
+      "noPrompts": "没有符合条件的提示词"
+    },
+    "status": {
+      "done": "完成",
+      "missing": "缺失"
+    },
+    "editor": {
+      "generationFailed": "生成失败",
+      "invalidAiResponse": "AI 返回格式不正确",
+      "chineseTips": "中文建议",
+      "englishTips": "英文建议",
+      "aiGenerationFailed": "AI 生成失败：{{message}}",
+      "saveFailed": "保存失败",
+      "saveError": "保存异常",
+      "editPrefix": "编辑",
+      "originalPromptContent": "原始提示词内容",
+      "previewImageUrl": "预览图链接",
+      "noImageSet": "未设置图片",
+      "usageTips": "使用建议（Markdown）",
+      "aiGenerating": "AI 生成中...",
+      "autoGenerateTips": "自动生成建议",
+      "usagePlaceholder": "在这里填写使用建议...\n- 建议 1\n- 建议 2",
+      "cancel": "取消",
+      "saveChanges": "保存修改",
+      "savingChanges": "保存中..."
+    }
+  },
   "noResults": {
     "message": "未找到匹配当前筛选条件的提示词。",
     "clear": "清除所有筛选"
@@ -237,6 +292,60 @@
     "tabs": {
       "editor": "编辑",
       "preview": "预览与代码"
+    },
+    "admin": {
+      "errorPasteContent": "请先粘贴一些提示词内容。",
+      "errorAiAnalysisFailed": "AI 分析失败",
+      "errorSubmissionFailed": "提交失败",
+      "headerTitle": "后台：新增提示词",
+      "jsonGenerator": "JSON 生成器",
+      "step1": "步骤 1：AI 魔法输入",
+      "step2": "步骤 2：审核并发布",
+      "createExport": "创建并导出提示词数据",
+      "backToInput": "返回输入",
+      "magicSubtitle": "只需粘贴，其余交给我们。",
+      "pastePromptLabel": "粘贴提示词内容（任意语言）",
+      "pastePromptPlaceholder": "粘贴原始提示词、描述，或提示词链接...",
+      "imageUrlOptional": "图片链接（可选）",
+      "imageUrlPlaceholder": "https://your-bucket.com/preview.png",
+      "errorPrefix": "错误",
+      "aiAnalyzing": "AI 分析中...",
+      "generateEverything": "一键生成全部字段",
+      "reviewMode": "AI 审核模式：请检查并优化自动生成的数据。",
+      "redoAi": "重新 AI 生成",
+      "metadata": "1. 元数据",
+      "promptTitle": "提示词标题",
+      "titleZh": "标题（中文）",
+      "titleZhPlaceholder": "请输入中文标题",
+      "descEnPlaceholder": "用于卡片展示的简短描述...",
+      "descZh": "描述（中文）",
+      "descZhPlaceholder": "请输入中文描述...",
+      "tagPlaceholder": "输入标签后按回车",
+      "content": "2. 内容",
+      "required": "必填",
+      "contentEnJson": "英文内容（JSON 兼容）",
+      "contentEnPlaceholder": "请粘贴英文提示词内容...",
+      "contentZhOptional": "中文内容（可选）",
+      "contentZhPlaceholder": "请输入中文翻译...",
+      "jsonPreview": "JSON 预览",
+      "copied": "已复制",
+      "copyJson": "复制 JSON",
+      "publishing": "发布中...",
+      "submitting": "提交中...",
+      "published": "已发布！",
+      "submittedSuccessfully": "提交成功！",
+      "publishFailed": "发布失败",
+      "submissionFailed": "提交失败",
+      "publishToDb": "发布到数据库",
+      "submitForAiReview": "提交 AI 审核",
+      "deploySuccess": "提示词发布成功！",
+      "reviewInProgress": "感谢提交！AI 审核进行中。",
+      "genericError": "发生错误，请稍后重试。",
+      "manualPublication": "手动发布：",
+      "manualStep1": "点击上方",
+      "manualStep1Tail": "按钮。",
+      "manualStep2": "进入文件",
+      "manualStep3": "将内容插入 prompts 数组。"
     },
     "form": {
       "title": "标题",
