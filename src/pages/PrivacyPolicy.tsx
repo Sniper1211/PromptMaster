@@ -35,19 +35,23 @@ const PrivacyPolicy: React.FC = () => {
                         <h1 className="text-4xl md:text-5xl font-black uppercase italic mb-8 tracking-tighter">Privacy Policy</h1>
                         
                         <div className="prose prose-lg prose-slate max-w-none prose-headings:font-black prose-headings:uppercase prose-headings:tracking-wide prose-p:font-medium prose-p:leading-relaxed prose-a:font-bold prose-a:text-black prose-a:decoration-[3px] prose-a:decoration-[#FACC15] hover:prose-a:bg-[#FACC15] prose-a:transition-colors">
-                            <p className="text-xl font-bold mb-8">Last updated: January 12, 2026</p>
+                            <p className="text-xl font-bold mb-8">Last updated: July 5, 2026</p>
 
                             <h3>1. Introduction</h3>
                             <p>Welcome to PentaPrompt. We respect your privacy and are committed to protecting your personal data.</p>
 
                             <h3>2. Data We Collect</h3>
-                            <p>We do not collect personal data directly. However, we use third-party services like Google AdSense that may use cookies to serve ads based on prior visits to our website.</p>
+                            <p>We do not collect personal data directly through account registration. However, we use third-party services such as Google Analytics and Google AdSense, which may collect device, browser, referral, and interaction data to measure traffic and serve ads.</p>
 
                             <h3>3. Cookies</h3>
                             <p>Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to your website or other websites. Google's use of advertising cookies enables it and its partners to serve ads to your users based on their visit to your sites and/or other sites on the Internet.</p>
                             <p>Users may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="nofollow">Ads Settings</a>.</p>
 
-                            <h3>4. Contact Us</h3>
+                            <h3>4. Advertising</h3>
+                            <p>PentaPrompt displays advertising provided by Google AdSense. These ads may be personalized based on your browsing behavior, general location, and device information. Google may also work with partner networks to improve ad relevance and measure performance.</p>
+                            <p>Our advertising publisher identifier is <strong>ca-pub-9245714228354292</strong>. You can learn more about how Google uses information from partner sites in the <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="nofollow">Google partner sites policy</a>.</p>
+
+                            <h3>5. Contact Us</h3>
                             <p>If you have any questions about this Privacy Policy, please contact us.</p>
                         </div>
                     </div>

@@ -10,6 +10,8 @@
     "tutorials": "Prompt Tutorials"
   },
   "common": {
+    "advertisement": "Advertisement",
+    "sponsored": "Sponsored",
     "comingSoon": {
       "title": "Coming Soon",
       "description": "We are working hard on this feature. Stay tuned!"

@@ -5,6 +5,7 @@ import { Copy, Check, X, Search, Cpu, ArrowLeft, Tag, Layers, Calendar, ChevronR
 import { usePromptDetail } from '../hooks/usePromptDetail';
 import SEOHead from '../components/seo/SEOHead';
 import AdUnit from '../components/ads/AdUnit';
+import { ADSENSE_SLOTS } from '../lib/adsense';
 import PromptCard from '../components/PromptCard';
 import ImageWithSkeleton from '../components/common/ImageWithSkeleton';
 import PromptDetailSkeleton from '../components/detail/PromptDetailSkeleton';
@@ -309,7 +310,11 @@ const PromptDetailPage: React.FC = () => {
                             )}
 
                             {/* Ad Unit In-Content */}
-                            <AdUnit className="my-10" label="Sponsored Partner" />
+                            <AdUnit
+                                className="my-10"
+                                slotId={ADSENSE_SLOTS.promptDetailInline}
+                                label={t('common.sponsored')}
+                            />
 
                             {/* Usage Instructions */}
                             {prompt.usage && (() => {
@@ -429,7 +434,11 @@ const PromptDetailPage: React.FC = () => {
                             </div>
 
                             {/* Sidebar Ad */}
-                            <AdUnit format="rectangle" />
+                            <AdUnit
+                                format="rectangle"
+                                slotId={ADSENSE_SLOTS.promptDetailSidebar}
+                                label={t('common.advertisement')}
+                            />
                         </div>
                     </div>
 
