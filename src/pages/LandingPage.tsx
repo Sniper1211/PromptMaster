@@ -22,7 +22,7 @@ const LandingPage: React.FC = () => {
             searchParams.has('category') || searchParams.has('type') || searchParams.has('search');
         if (!hasLegacyFilters) return;
         const params = new URLSearchParams(searchParams);
-        navigate(`/prompts?${params.toString()}`, { replace: true });
+        navigate(`/?${params.toString()}`, { replace: true });
     }, [navigate, searchParams]);
 
     const scenarios = useMemo(
@@ -31,9 +31,9 @@ const LandingPage: React.FC = () => {
             { key: 'marketing', href: '/collections/marketing-prompts' },
             { key: 'seo', href: '/collections/seo-prompts' },
             { key: 'coding', href: '/collections/coding-prompts' },
-            { key: 'email', href: '/prompts?search=email' },
-            { key: 'learning', href: '/prompts?category=LEARNING' },
-            { key: 'product', href: '/prompts?search=product' },
+            { key: 'email', href: '/?search=email' },
+            { key: 'learning', href: '/?category=LEARNING' },
+            { key: 'product', href: '/?search=product' },
             { key: 'video', href: '/collections/video-prompts' }
         ],
         []
@@ -107,7 +107,7 @@ const LandingPage: React.FC = () => {
                 title={t('seo.home.title')}
                 description={t('seo.home.description')}
                 keywords={t('seo.home.keywords')}
-                url="https://pentaprompt.com"
+                url="https://pentaprompt.com/discover"
                 type="website"
                 structuredData={[websiteSchema, faqSchema]}
             />
@@ -131,7 +131,7 @@ const LandingPage: React.FC = () => {
                                 </span>
                             </button>
                             <Link
-                                to="/prompts"
+                                to="/"
                                 className="hidden sm:flex items-center gap-2 bg-[#FACC15] text-black px-4 py-2 border-[2.5px] border-black font-black uppercase tracking-widest text-xs shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
                             >
                                 <Search size={16} strokeWidth={2.5} />
@@ -154,14 +154,14 @@ const LandingPage: React.FC = () => {
 
                                 <div className="mt-10 flex flex-col sm:flex-row gap-4">
                                     <Link
-                                        to="/prompts"
+                                        to="/"
                                         className="inline-flex items-center justify-center gap-2 bg-black text-white px-7 py-4 border-[3px] border-black font-black uppercase tracking-widest text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
                                     >
                                         {t('landing.hero.ctaPrimary')}
                                         <ArrowRight size={18} strokeWidth={3} />
                                     </Link>
                                     <Link
-                                        to="/prompts?type=video"
+                                        to="/?type=video"
                                         className="inline-flex items-center justify-center gap-2 bg-[#FF4D4D] text-white px-7 py-4 border-[3px] border-black font-black uppercase tracking-widest text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
                                     >
                                         <PlayCircle size={18} strokeWidth={3} />
@@ -187,7 +187,7 @@ const LandingPage: React.FC = () => {
                                 </p>
                             </div>
                             <Link
-                                to="/prompts"
+                                to="/"
                                 className="hidden md:inline-flex items-center gap-2 text-sm font-black uppercase tracking-widest hover:underline decoration-4 underline-offset-4"
                             >
                                 {t('landing.scenarios.more')}
@@ -226,7 +226,7 @@ const LandingPage: React.FC = () => {
                                 {featuredCategories.map(key => (
                                     <Link
                                         key={key}
-                                        to={key === 'VIDEO' ? '/prompts?type=video' : `/prompts?category=${key}`}
+                                        to={key === 'VIDEO' ? '/?type=video' : `/?category=${key}`}
                                         className="group border-[3px] border-black bg-gray-50 p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-white hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
                                     >
                                         <div className="flex items-center justify-between gap-4">
@@ -303,14 +303,14 @@ const LandingPage: React.FC = () => {
 
                             <div className="mt-10 flex flex-col sm:flex-row gap-4">
                                 <Link
-                                    to="/prompts"
+                                    to="/"
                                     className="inline-flex items-center justify-center gap-2 bg-[#FACC15] text-black px-7 py-4 border-[3px] border-black font-black uppercase tracking-widest text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
                                 >
                                     {t('landing.faq.ctaBrowse')}
                                     <ArrowRight size={18} strokeWidth={3} />
                                 </Link>
                                 <Link
-                                    to="/prompts?category=SEO"
+                                    to="/?category=SEO"
                                     className="inline-flex items-center justify-center gap-2 bg-white text-black px-7 py-4 border-[3px] border-black font-black uppercase tracking-widest text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
                                 >
                                     {t('landing.faq.ctaSeo')}

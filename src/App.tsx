@@ -15,8 +15,9 @@ const App: React.FC = () => {
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/prompts" element={<HomePage />} />
+          <Route path="/discover" element={<LandingPage />} />
           <Route path="/collections/:slug" element={<CollectionPage />} />
           <Route path="/prompt/:id" element={<PromptDetailPage />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
