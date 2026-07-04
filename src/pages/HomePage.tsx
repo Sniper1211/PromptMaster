@@ -10,10 +10,11 @@ import AddPromptModal from '../components/admin/AddPromptModal';
 import ComingSoonModal from '../components/common/ComingSoonModal';
 import { usePrompts } from '../hooks/usePrompts';
 import SEOHead from '../components/seo/SEOHead';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
     const { t, i18n } = useTranslation();
+    const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
     const initialVideoOnly = searchParams.get('type') === 'video';
     const initialSearch = searchParams.get('search') || '';
@@ -222,10 +223,13 @@ const HomePage: React.FC = () => {
         "url": "https://pentaprompt.com",
         "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://pentaprompt.com/prompts?search={search_term_string}",
+            "target": "https://pentaprompt.com/?search={search_term_string}",
             "query-input": "required name=search_term_string"
         }
     };
+
+    const isCanonicalHome = location.pathname === '/';
+    const canonicalUrl = isCanonicalHome ? 'https://pentaprompt.com' : 'https://pentaprompt.com/prompts';
 
     return (
         <>
@@ -233,8 +237,9 @@ const HomePage: React.FC = () => {
                 title={t('seo.library.title')}
                 description={t('seo.library.description')}
                 keywords={t('seo.library.keywords')}
-                url="https://pentaprompt.com/prompts"
+                url={canonicalUrl}
                 type="website"
+                noindex={!isCanonicalHome}
                 structuredData={websiteSchema}
             />
             <div className="flex h-screen bg-gray-50 text-slate-900 overflow-hidden font-sans">

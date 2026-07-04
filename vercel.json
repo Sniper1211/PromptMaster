@@ -17,6 +17,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/discover",
+      "destination": "/index.html"
+    },
+    {
       "source": "/prompt/(.*)",
       "destination": "/index.html"
     },
