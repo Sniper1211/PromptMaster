@@ -10,6 +10,8 @@
     "tutorials": "提示词教程"
   },
   "common": {
+    "advertisement": "广告",
+    "sponsored": "赞助内容",
     "comingSoon": {
       "title": "功能开发中",
       "description": "我们正在努力开发此功能，敬请期待！"
@@ -32,6 +34,133 @@
   "home": {
     "exploreTitle": "探索提示词",
     "exploreSubtitle": "精选的最佳 AI 提示词合集。"
+  },
+  "landing": {
+    "header": {
+      "browse": "浏览提示词库"
+    },
+    "hero": {
+      "title": "AI 提示词库<br />专为真实工作打造",
+      "subtitle": "精选可直接复制使用的提示词模板，适配 ChatGPT、Claude、Gemini。按分类浏览、按专题探索，更快产出更好结果。",
+      "ctaPrimary": "浏览提示词",
+      "ctaVideo": "视频提示词",
+      "note": "免费使用 • 持续更新 • EN / 中文"
+    },
+    "scenarios": {
+      "title": "热门使用场景",
+      "subtitle": "从需求出发，不再从空白开始。",
+      "more": "查看更多",
+      "items": {
+        "writing": { "title": "写作", "desc": "写文章、改写润色、摘要总结、故事创作等。" },
+        "marketing": { "title": "营销", "desc": "广告文案、落地页、增长创意、品牌定位等。" },
+        "seo": { "title": "SEO", "desc": "关键词规划、文章大纲、Meta、内容 Brief。" },
+        "coding": { "title": "编程", "desc": "调试、重构、代码评审、架构设计与实现。" },
+        "email": { "title": "邮件", "desc": "冷邮件、跟进邮件、客服回复、商务沟通等。" },
+        "learning": { "title": "学习", "desc": "知识讲解、练习题、学习计划与复习。" },
+        "product": { "title": "产品", "desc": "PRD、用户故事、功能方案、UX 文案等。" },
+        "video": { "title": "视频", "desc": "视频脚本、分镜、镜头表、视频生成类提示词。" }
+      }
+    },
+    "categories": {
+      "title": "按分类浏览",
+      "subtitle": "快速找到与你工作流匹配的提示词。"
+    },
+    "categoryDescriptions": {
+      "WRITING": "文章、脚本、摘要与改写模板，可直接复制使用。",
+      "CODING": "代码生成、调试排错、评审与重构的实用模板。",
+      "MARKETING": "广告、落地页、定位与增长实验的文案框架。",
+      "SEO": "关键词、Meta、专题规划与内容 Brief 模板。",
+      "BUSINESS": "商业策略、分析框架、运营与决策辅助提示词。",
+      "PRODUCTIVITY": "计划、拆解、复盘与效率系统化模板。",
+      "LEARNING": "讲解、训练、测验与学习路径设计模板。",
+      "VIDEO": "视频生成提示词、分镜脚本与结构化模板。"
+    },
+    "collections": {
+      "title": "精选专题页",
+      "subtitle": "更利于 SEO 的“主题 + 意图”聚合页，便于收录与内链。",
+      "open": "打开专题"
+    },
+    "faq": {
+      "title": "常见问题",
+      "subtitle": "快速了解如何使用提示词模板。",
+      "ctaBrowse": "进入提示词库",
+      "ctaSeo": "查看 SEO 提示词",
+      "q1": {
+        "q": "PentaPrompt 是什么？",
+        "a": "PentaPrompt 是一个精选提示词库，提供可直接复制使用的模板，覆盖写作、编程、营销、SEO、学习与视频等常见场景。"
+      },
+      "q2": {
+        "q": "这些提示词适用于哪些模型？",
+        "a": "大多数提示词适用于 ChatGPT、Claude、Gemini。你也可以根据模型差异调整语气、约束和输出格式。"
+      },
+      "q3": {
+        "q": "提示词模板怎么用效果更好？",
+        "a": "打开详情页复制提示词，把占位符替换成你的上下文；补充目标读者、长度、风格和示例，会明显提升输出质量。"
+      },
+      "q4": {
+        "q": "网站有视频提示词吗？",
+        "a": "有。视频提示词更偏脚本、分镜、镜头表，以及视频生成流程中的结构化指令模板。"
+      },
+      "q5": {
+        "q": "是否支持中英文？",
+        "a": "支持。你可以在中英文之间切换，部分提示词还包含双语使用说明。"
+      },
+      "q6": {
+        "q": "提示词库多久更新一次？",
+        "a": "我们会持续添加新提示词，并优化旧内容，保证库长期可用且保持新鲜。"
+      }
+    }
+  },
+  "collections": {
+    "library": "提示词库",
+    "featured": "精选提示词",
+    "openInLibrary": "在库中打开",
+    "browseLibrary": "浏览提示词库",
+    "writing": { "title": "写作提示词", "desc": "文章、摘要、改写与脚本等可复制模板。" },
+    "seo": { "title": "SEO 提示词", "desc": "关键词研究、Meta、文章大纲与内容 Brief 模板。" },
+    "marketing": { "title": "营销提示词", "desc": "广告、落地页、定位与增长实验的文案框架。" },
+    "coding": { "title": "编程提示词", "desc": "调试、重构、代码生成与评审清单模板。" },
+    "video": { "title": "视频提示词", "desc": "视频脚本、分镜、镜头表与视频生成模板。" }
+  },
+  "collectionsFaq": {
+    "writing": {
+      "q1": { "q": "写作提示词适合做什么？", "a": "适合快速出初稿、润色改写、生成大纲、输出结构化脚本与内容总结。" },
+      "q2": { "q": "怎么避免产出太泛？", "a": "补充读者、角度、约束和示例；让模型输出多个版本，再给出推荐版本与理由。" },
+      "q3": { "q": "能用于长文吗？", "a": "能。先用“大纲提示词”拿到结构，再按章节逐段扩写并加入约束与来源。"
+      }
+    },
+    "seo": {
+      "q1": { "q": "SEO 提示词能帮我做什么？", "a": "用于关键词聚类、文章大纲、Meta 描述、内容 Brief，以及按搜索意图拆解任务。"
+      },
+      "q2": { "q": "AI 生成内容能排名吗？", "a": "关键在于内容是否有用且准确。用提示词生成结构化初稿后，补充真实经验、数据与核验，会更稳。"
+      },
+      "q3": { "q": "如何让输出更可执行？", "a": "要求表格、清单和步骤化任务；指定目标用户、漏斗阶段、长度与约束条件。"
+      }
+    },
+    "marketing": {
+      "q1": { "q": "营销提示词能生成哪些素材？", "a": "广告文案、落地页、定位语、邮件序列、社媒内容等。"
+      },
+      "q2": { "q": "如何保持品牌一致？", "a": "给出品牌语气、产品定位、示例内容；让模型输出多版本并给出最终推荐。"
+      },
+      "q3": { "q": "需要提供哪些上下文？", "a": "目标人群、卖点、差异化、常见异议、平台限制（字数/格式）等。"
+      }
+    },
+    "coding": {
+      "q1": { "q": "编程提示词用起来安全吗？", "a": "它是起点，不是终点。务必评审代码、跑测试，并验证安全与边界情况。"
+      },
+      "q2": { "q": "怎样让代码输出更靠谱？", "a": "提供技术栈、约束、输入输出示例；要求解释 + 测试用例 + 风险点。"
+      },
+      "q3": { "q": "可以用来做重构吗？", "a": "可以。让模型给出分步计划、风险评估，并以小步提交配合测试推进。"
+      }
+    },
+    "video": {
+      "q1": { "q": "视频提示词是什么？", "a": "用于生成视频脚本、分镜、镜头表，以及视频生成流程的结构化指令模板。"
+      },
+      "q2": { "q": "可以配合哪些工具使用？", "a": "大多数视频提示词与工具无关，你只需要把字段映射到你使用的生成器即可。"
+      },
+      "q3": { "q": "如何让结果更稳定一致？", "a": "明确时长、结构、语气与视觉风格；要求逐镜头输出，并提供统一的全局风格指南。"
+      }
+    }
   },
   "categories": {
     "ALL": "全部",
@@ -93,6 +222,61 @@
       "failed": "保存失败"
     }
   },
+  "adminDashboard": {
+    "login": {
+      "title": "后台登录",
+      "password": "密码",
+      "passwordPlaceholder": "请输入管理员密码",
+      "verifying": "验证中...",
+      "loginButton": "登录",
+      "invalidPassword": "密码错误",
+      "loginFailed": "登录失败"
+    },
+    "loading": "提示词加载中...",
+    "header": {
+      "title": "提示词运营后台",
+      "stats": "共 {{total}} 条提示词 | 当前显示 {{shown}} 条",
+      "addNew": "新增提示词",
+      "logout": "退出登录"
+    },
+    "filters": {
+      "searchPlaceholder": "按标题或 ID 搜索...",
+      "allPrompts": "全部提示词",
+      "incompleteOnly": "仅看未完善"
+    },
+    "table": {
+      "id": "ID",
+      "title": "标题",
+      "tips": "提示",
+      "image": "图片",
+      "action": "操作",
+      "noPrompts": "没有符合条件的提示词"
+    },
+    "status": {
+      "done": "完成",
+      "missing": "缺失"
+    },
+    "editor": {
+      "generationFailed": "生成失败",
+      "invalidAiResponse": "AI 返回格式不正确",
+      "chineseTips": "中文建议",
+      "englishTips": "英文建议",
+      "aiGenerationFailed": "AI 生成失败：{{message}}",
+      "saveFailed": "保存失败",
+      "saveError": "保存异常",
+      "editPrefix": "编辑",
+      "originalPromptContent": "原始提示词内容",
+      "previewImageUrl": "预览图链接",
+      "noImageSet": "未设置图片",
+      "usageTips": "使用建议（Markdown）",
+      "aiGenerating": "AI 生成中...",
+      "autoGenerateTips": "自动生成建议",
+      "usagePlaceholder": "在这里填写使用建议...\n- 建议 1\n- 建议 2",
+      "cancel": "取消",
+      "saveChanges": "保存修改",
+      "savingChanges": "保存中..."
+    }
+  },
   "noResults": {
     "message": "未找到匹配当前筛选条件的提示词。",
     "clear": "清除所有筛选"
@@ -110,6 +294,60 @@
     "tabs": {
       "editor": "编辑",
       "preview": "预览与代码"
+    },
+    "admin": {
+      "errorPasteContent": "请先粘贴一些提示词内容。",
+      "errorAiAnalysisFailed": "AI 分析失败",
+      "errorSubmissionFailed": "提交失败",
+      "headerTitle": "后台：新增提示词",
+      "jsonGenerator": "JSON 生成器",
+      "step1": "步骤 1：AI 魔法输入",
+      "step2": "步骤 2：审核并发布",
+      "createExport": "创建并导出提示词数据",
+      "backToInput": "返回输入",
+      "magicSubtitle": "只需粘贴，其余交给我们。",
+      "pastePromptLabel": "粘贴提示词内容（任意语言）",
+      "pastePromptPlaceholder": "粘贴原始提示词、描述，或提示词链接...",
+      "imageUrlOptional": "图片链接（可选）",
+      "imageUrlPlaceholder": "https://your-bucket.com/preview.png",
+      "errorPrefix": "错误",
+      "aiAnalyzing": "AI 分析中...",
+      "generateEverything": "一键生成全部字段",
+      "reviewMode": "AI 审核模式：请检查并优化自动生成的数据。",
+      "redoAi": "重新 AI 生成",
+      "metadata": "1. 元数据",
+      "promptTitle": "提示词标题",
+      "titleZh": "标题（中文）",
+      "titleZhPlaceholder": "请输入中文标题",
+      "descEnPlaceholder": "用于卡片展示的简短描述...",
+      "descZh": "描述（中文）",
+      "descZhPlaceholder": "请输入中文描述...",
+      "tagPlaceholder": "输入标签后按回车",
+      "content": "2. 内容",
+      "required": "必填",
+      "contentEnJson": "英文内容（JSON 兼容）",
+      "contentEnPlaceholder": "请粘贴英文提示词内容...",
+      "contentZhOptional": "中文内容（可选）",
+      "contentZhPlaceholder": "请输入中文翻译...",
+      "jsonPreview": "JSON 预览",
+      "copied": "已复制",
+      "copyJson": "复制 JSON",
+      "publishing": "发布中...",
+      "submitting": "提交中...",
+      "published": "已发布！",
+      "submittedSuccessfully": "提交成功！",
+      "publishFailed": "发布失败",
+      "submissionFailed": "提交失败",
+      "publishToDb": "发布到数据库",
+      "submitForAiReview": "提交 AI 审核",
+      "deploySuccess": "提示词发布成功！",
+      "reviewInProgress": "感谢提交！AI 审核进行中。",
+      "genericError": "发生错误，请稍后重试。",
+      "manualPublication": "手动发布：",
+      "manualStep1": "点击上方",
+      "manualStep1Tail": "按钮。",
+      "manualStep2": "进入文件",
+      "manualStep3": "将内容插入 prompts 数组。"
     },
     "form": {
       "title": "标题",
@@ -179,6 +417,43 @@
       "title": "优秀AI提示词库 | 收录高质量Prompt资源，助力效率与创意",
       "description": "发现精选AI提示词库，支持ChatGPT、Claude和Gemini。提升写作、编程、设计和创意效率。持续更新的高质量Prompt资源库。",
       "keywords": "提示词, Prompt, AI提示, 人工智能, 资源库, 优秀Prompt, 指令集, 创意工具, AI指令, 效率提升"
+    },
+    "library": {
+      "title": "浏览提示词库 | 分类筛选与搜索 - PentaPrompt",
+      "description": "按分类浏览与搜索精选提示词，包含视频提示词入口。可直接复制使用，适配 ChatGPT、Claude、Gemini。",
+      "keywords": "提示词库, AI提示词, Prompt模板, 分类筛选, 视频提示词, ChatGPT提示词, Claude提示词, Gemini提示词"
+    },
+    "collections": {
+      "fallback": {
+        "title": "提示词专题 | PentaPrompt",
+        "description": "按主题与意图浏览精选提示词专题页。",
+        "keywords": "提示词专题, Prompt合集, AI提示词"
+      },
+      "writing": {
+        "title": "写作提示词专题 | 文章大纲、改写润色与脚本模板",
+        "description": "精选写作提示词模板，覆盖文章、摘要、改写、脚本与结构化输出。复制即可用，快速提升写作效率。",
+        "keywords": "写作提示词, 文章大纲提示词, 改写润色提示词, 脚本提示词, Prompt模板"
+      },
+      "seo": {
+        "title": "SEO 提示词专题 | 关键词研究、Meta 与内容 Brief 模板",
+        "description": "SEO 提示词模板，覆盖关键词聚类、Meta 描述、文章大纲与内容 Brief，按搜索意图组织可执行输出。",
+        "keywords": "SEO提示词, Meta描述提示词, 关键词研究提示词, 内容Brief提示词, 专题规划提示词"
+      },
+      "marketing": {
+        "title": "营销提示词专题 | 广告、落地页与定位文案模板",
+        "description": "营销提示词模板，覆盖广告文案、落地页、定位与增长实验，帮助更快产出高质量营销素材。",
+        "keywords": "营销提示词, 广告文案提示词, 落地页提示词, 定位提示词, 增长提示词"
+      },
+      "coding": {
+        "title": "编程提示词专题 | 调试、重构与代码评审模板",
+        "description": "编程提示词模板，覆盖调试排错、重构规划、架构决策与代码评审清单，帮助写出更稳的代码。",
+        "keywords": "编程提示词, 调试提示词, 重构提示词, 代码评审提示词, 架构提示词"
+      },
+      "video": {
+        "title": "视频提示词专题 | 脚本、分镜与视频生成模板",
+        "description": "视频提示词模板，覆盖视频脚本、分镜、镜头表与视频生成流程，适合内容创作与视频生成工作流。",
+        "keywords": "视频提示词, 视频脚本提示词, 分镜提示词, 镜头表提示词, 视频生成提示词"
+      }
     },
     "promptDetail": {
       "titleSuffix": "- AI提示词 | PentaPrompt"

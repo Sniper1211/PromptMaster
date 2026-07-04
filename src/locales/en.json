@@ -10,6 +10,8 @@
     "tutorials": "Prompt Tutorials"
   },
   "common": {
+    "advertisement": "Advertisement",
+    "sponsored": "Sponsored",
     "comingSoon": {
       "title": "Coming Soon",
       "description": "We are working hard on this feature. Stay tuned!"
@@ -32,6 +34,120 @@
   "home": {
     "exploreTitle": "Explore Prompts",
     "exploreSubtitle": "Curated collection of the best AI prompts."
+  },
+  "landing": {
+    "header": {
+      "browse": "Browse Library"
+    },
+    "hero": {
+      "title": "AI Prompt Library<br />Built for Real Work",
+      "subtitle": "Curated, copy-ready prompt templates for ChatGPT, Claude, and Gemini. Browse by category, explore collections, and ship better results—faster.",
+      "ctaPrimary": "Browse Prompts",
+      "ctaVideo": "Video Prompts",
+      "note": "Free to use • Updated regularly • EN / 中文"
+    },
+    "scenarios": {
+      "title": "Popular Use Cases",
+      "subtitle": "Start from an intent, not a blank page.",
+      "more": "See more",
+      "items": {
+        "writing": { "title": "Writing", "desc": "Blog posts, summaries, rewrites, storytelling, and more." },
+        "marketing": { "title": "Marketing", "desc": "Ads, landing pages, hooks, positioning, and campaigns." },
+        "seo": { "title": "SEO", "desc": "Keyword clusters, outlines, meta tags, and content briefs." },
+        "coding": { "title": "Coding", "desc": "Debugging, refactors, code reviews, and architecture." },
+        "email": { "title": "Email", "desc": "Cold emails, follow-ups, customer support, and outreach." },
+        "learning": { "title": "Learning", "desc": "Study plans, explanations, quizzes, and practice tasks." },
+        "product": { "title": "Product", "desc": "PRDs, user stories, UX copy, and feature specs." },
+        "video": { "title": "Video", "desc": "Video scripts, shot lists, storyboards, and generation prompts." }
+      }
+    },
+    "categories": {
+      "title": "Browse by Category",
+      "subtitle": "Find prompts for your workflow in seconds."
+    },
+    "categoryDescriptions": {
+      "WRITING": "Ready-to-copy templates for blogs, scripts, and rewrites.",
+      "CODING": "Prompts for code generation, debugging, and reviews.",
+      "MARKETING": "Hooks, ads, positioning, and messaging frameworks.",
+      "SEO": "Meta, outlines, topical maps, and content briefs.",
+      "BUSINESS": "Strategy, analysis, ops, and decision support prompts.",
+      "PRODUCTIVITY": "Planning, prioritization, and work systems prompts.",
+      "LEARNING": "Explain concepts, practice, and study effectively.",
+      "VIDEO": "Video generation prompts and storyboard templates."
+    },
+    "collections": {
+      "title": "Featured Collections",
+      "subtitle": "SEO-friendly topic pages with clear intent and examples.",
+      "open": "Open collection"
+    },
+    "faq": {
+      "title": "FAQ",
+      "subtitle": "Quick answers for getting started.",
+      "ctaBrowse": "Explore the library",
+      "ctaSeo": "Explore SEO prompts",
+      "q1": {
+        "q": "What is PentaPrompt?",
+        "a": "PentaPrompt is a curated prompt library with copy-ready templates for common work scenarios—writing, coding, marketing, SEO, learning, and video."
+      },
+      "q2": {
+        "q": "Which models are these prompts for?",
+        "a": "Most prompts work well in ChatGPT, Claude, and Gemini. You can also adapt them for other LLMs by adjusting tone, constraints, and output format."
+      },
+      "q3": {
+        "q": "How do I use a prompt template?",
+        "a": "Open a prompt, copy it, and replace placeholders with your context. For best results, add constraints (audience, length, style) and examples."
+      },
+      "q4": {
+        "q": "Do you have video prompts?",
+        "a": "Yes. Video prompts focus on scripts, storyboards, shot lists, and generator-style prompts for video creation workflows."
+      },
+      "q5": {
+        "q": "Is the site bilingual?",
+        "a": "Yes. You can switch between English and Chinese. Some prompts include bilingual usage guidance."
+      },
+      "q6": {
+        "q": "How often is the library updated?",
+        "a": "We regularly add new prompts and improve existing ones to keep the collection useful and up-to-date."
+      }
+    }
+  },
+  "collections": {
+    "library": "Library",
+    "featured": "Featured Prompts",
+    "openInLibrary": "Open in Library",
+    "browseLibrary": "Browse Library",
+    "writing": { "title": "Writing Prompts", "desc": "Copy-ready templates for blogs, summaries, rewrites, and scripts." },
+    "seo": { "title": "SEO Prompts", "desc": "Prompts for keyword research, meta tags, outlines, and content briefs." },
+    "marketing": { "title": "Marketing Prompts", "desc": "Hooks, landing pages, ads, positioning, and growth experiments." },
+    "coding": { "title": "Coding Prompts", "desc": "Debugging, refactoring, code generation, and review checklists." },
+    "video": { "title": "Video Prompts", "desc": "Scripts, shot lists, storyboards, and video-generation prompts." }
+  },
+  "collectionsFaq": {
+    "writing": {
+      "q1": { "q": "What are writing prompts used for?", "a": "Use them to generate drafts faster, rewrite with a specific tone, and produce structured outputs like outlines and scripts." },
+      "q2": { "q": "How do I avoid generic writing?", "a": "Add your audience, angle, and constraints. Provide 2–3 examples of style, and ask for multiple variants." },
+      "q3": { "q": "Do these work for long-form content?", "a": "Yes. Start with an outline prompt, then expand section by section with clear constraints and sources." }
+    },
+    "seo": {
+      "q1": { "q": "What do SEO prompts help with?", "a": "They help you plan keyword clusters, create outlines, write meta descriptions, and produce content briefs aligned with search intent." },
+      "q2": { "q": "Can AI-written content rank on Google?", "a": "It can, if it is helpful and accurate. Use prompts to produce structured drafts, then add original insights and verification." },
+      "q3": { "q": "How do I make outputs more actionable?", "a": "Ask for tables, checklists, and step-by-step tasks. Specify target audience, funnel stage, and constraints." }
+    },
+    "marketing": {
+      "q1": { "q": "Which marketing assets can I generate?", "a": "Ads, landing page copy, positioning statements, email sequences, and social posts." },
+      "q2": { "q": "How do I keep messaging consistent?", "a": "Provide your brand voice, product positioning, and a few examples. Ask for multiple variants and a final recommended option." },
+      "q3": { "q": "What should I include as context?", "a": "Your audience, offer, benefits, differentiators, objections, and any constraints like length or platform." }
+    },
+    "coding": {
+      "q1": { "q": "Are coding prompts safe to use?", "a": "They are a starting point. Always review code, run tests, and validate security and edge cases." },
+      "q2": { "q": "How do I get better code outputs?", "a": "Provide the stack, constraints, input/output examples, and ask for explanations plus tests." },
+      "q3": { "q": "Can I use prompts for refactors?", "a": "Yes. Ask for step-by-step refactor plans, risk assessment, and incremental changes with tests." }
+    },
+    "video": {
+      "q1": { "q": "What are video prompts?", "a": "They are templates for generating scripts, storyboards, shot lists, and structured instructions for video creation workflows." },
+      "q2": { "q": "Which tools can I use them with?", "a": "Most video prompts are tool-agnostic. You can adapt them for your preferred generator by mapping fields like style, camera, and length." },
+      "q3": { "q": "How do I get more consistent results?", "a": "Specify duration, structure, tone, and visual style. Ask for scene-by-scene outputs and a single global style guide." }
+    }
   },
   "categories": {
     "ALL": "All",
@@ -93,6 +209,61 @@
       "failed": "Failed to save"
     }
   },
+  "adminDashboard": {
+    "login": {
+      "title": "Admin Access",
+      "password": "Password",
+      "passwordPlaceholder": "Enter admin password",
+      "verifying": "Verifying...",
+      "loginButton": "Login",
+      "invalidPassword": "Invalid password",
+      "loginFailed": "Login failed"
+    },
+    "loading": "Loading prompts...",
+    "header": {
+      "title": "Prompt Operations",
+      "stats": "Manage {{total}} prompts | {{shown}} shown",
+      "addNew": "Add New Prompt",
+      "logout": "Logout"
+    },
+    "filters": {
+      "searchPlaceholder": "SEARCH BY TITLE OR ID...",
+      "allPrompts": "All Prompts",
+      "incompleteOnly": "Incomplete Only"
+    },
+    "table": {
+      "id": "ID",
+      "title": "Title",
+      "tips": "Tips",
+      "image": "Image",
+      "action": "Action",
+      "noPrompts": "No prompts found matching your criteria"
+    },
+    "status": {
+      "done": "Done",
+      "missing": "Missing"
+    },
+    "editor": {
+      "generationFailed": "Generation failed",
+      "invalidAiResponse": "Invalid response format from AI",
+      "chineseTips": "Chinese Tips (中文建议)",
+      "englishTips": "English Tips",
+      "aiGenerationFailed": "AI generation failed: {{message}}",
+      "saveFailed": "Save failed",
+      "saveError": "Save error",
+      "editPrefix": "Edit",
+      "originalPromptContent": "Original Prompt Content",
+      "previewImageUrl": "Preview Image URL",
+      "noImageSet": "No Image Set",
+      "usageTips": "Usage Tips (Markdown)",
+      "aiGenerating": "AI Generating...",
+      "autoGenerateTips": "Auto-Generate Tips",
+      "usagePlaceholder": "Enter usage tips here...\n- Tip 1\n- Tip 2",
+      "cancel": "Cancel",
+      "saveChanges": "Save Changes",
+      "savingChanges": "Saving Changes..."
+    }
+  },
   "noResults": {
     "message": "No prompts found matching your current filters.",
     "clear": "Clear all filters"
@@ -110,6 +281,60 @@
     "tabs": {
       "editor": "Editor",
       "preview": "Preview & Code"
+    },
+    "admin": {
+      "errorPasteContent": "Please paste some prompt content first.",
+      "errorAiAnalysisFailed": "AI analysis failed",
+      "errorSubmissionFailed": "Submission failed",
+      "headerTitle": "Admin: Add Prompt",
+      "jsonGenerator": "JSON Generator",
+      "step1": "Step 1: AI Magic Box",
+      "step2": "Step 2: Review & Publish",
+      "createExport": "Create & Export Prompt Data",
+      "backToInput": "Back to Input",
+      "magicSubtitle": "Just paste, we'll do the rest.",
+      "pastePromptLabel": "Paste Prompt Content (Any Language)",
+      "pastePromptPlaceholder": "Paste the raw prompt, a description, or even a link to a prompt here...",
+      "imageUrlOptional": "Image URL (Optional)",
+      "imageUrlPlaceholder": "https://your-bucket.com/preview.png",
+      "errorPrefix": "ERROR",
+      "aiAnalyzing": "AI IS ANALYZING...",
+      "generateEverything": "GENERATE EVERYTHING",
+      "reviewMode": "AI Review Mode: Check and refine the generated data.",
+      "redoAi": "Redo AI Generation",
+      "metadata": "1. Metadata",
+      "promptTitle": "Prompt Title",
+      "titleZh": "Title (ZH)",
+      "titleZhPlaceholder": "Chinese title",
+      "descEnPlaceholder": "Short description for the card...",
+      "descZh": "Description (ZH)",
+      "descZhPlaceholder": "Chinese description...",
+      "tagPlaceholder": "Add tag + Enter",
+      "content": "2. Content",
+      "required": "REQUIRED",
+      "contentEnJson": "English Content (JSON Compatible)",
+      "contentEnPlaceholder": "Paste your English prompt here...",
+      "contentZhOptional": "Chinese Content (Optional)",
+      "contentZhPlaceholder": "Chinese translation...",
+      "jsonPreview": "JSON Preview",
+      "copied": "Copied",
+      "copyJson": "Copy JSON",
+      "publishing": "Publishing...",
+      "submitting": "Submitting...",
+      "published": "Published!",
+      "submittedSuccessfully": "Submitted Successfully!",
+      "publishFailed": "Publish Failed",
+      "submissionFailed": "Submission Failed",
+      "publishToDb": "Publish to Database",
+      "submitForAiReview": "Submit for AI Review",
+      "deploySuccess": "Prompt successfully deployed!",
+      "reviewInProgress": "Thank you! AI review in progress.",
+      "genericError": "An error occurred. Please try again.",
+      "manualPublication": "Manual Publication:",
+      "manualStep1": "Click",
+      "manualStep1Tail": "above.",
+      "manualStep2": "Go to",
+      "manualStep3": "Insert into the prompts array."
     },
     "form": {
       "title": "Title",
@@ -179,6 +404,43 @@
       "title": "Curated AI Prompt Library | High-Quality Prompt Resources for Efficiency & Creativity",
       "description": "Discover curated AI prompts for ChatGPT, Claude & Gemini. Boost productivity with writing, coding, design & creative prompts. Regularly updated library.",
       "keywords": "Prompts, Prompt Library, AI Prompts, Artificial Intelligence, Resource Hub, Best Prompts, Command Set, Creative Tools, AI Commands, Productivity"
+    },
+    "library": {
+      "title": "Browse AI Prompts by Category | PentaPrompt Library",
+      "description": "Explore the prompt library by category, search, and video prompts. Copy-ready templates for ChatGPT, Claude, and Gemini.",
+      "keywords": "AI prompt library, prompt templates, browse prompts, video prompts, ChatGPT prompts, Claude prompts, Gemini prompts"
+    },
+    "collections": {
+      "fallback": {
+        "title": "Prompt Collections | PentaPrompt",
+        "description": "Explore curated prompt collections by topic and intent.",
+        "keywords": "prompt collections, prompt templates, ai prompts"
+      },
+      "writing": {
+        "title": "Writing Prompts for ChatGPT & Claude | Templates & Examples",
+        "description": "Curated writing prompt templates for blogs, summaries, rewrites, and scripts. Copy, adapt, and produce better drafts faster.",
+        "keywords": "writing prompts, chatgpt writing prompts, prompt templates, blog outline prompt, rewrite prompt"
+      },
+      "seo": {
+        "title": "SEO Prompts | Keyword Research, Outlines & Meta Templates",
+        "description": "SEO prompt templates for keyword clusters, meta descriptions, content briefs, and search-intent driven outlines.",
+        "keywords": "seo prompts, meta description prompt, keyword research prompt, content brief prompt, topical map prompt"
+      },
+      "marketing": {
+        "title": "Marketing Prompts | Ads, Landing Pages & Positioning Templates",
+        "description": "Marketing prompt templates for hooks, ads, landing page copy, positioning, and growth experiments.",
+        "keywords": "marketing prompts, landing page prompt, ad copy prompt, positioning prompt, growth prompt"
+      },
+      "coding": {
+        "title": "Coding Prompts | Debugging, Refactors & Code Review Templates",
+        "description": "Coding prompt templates for debugging, refactoring, architecture decisions, and code review checklists.",
+        "keywords": "coding prompts, debugging prompt, refactor prompt, code review prompt, architecture prompt"
+      },
+      "video": {
+        "title": "Video Prompts | Scripts, Storyboards & Video Generation Templates",
+        "description": "Video prompt templates for scripts, shot lists, storyboards, and video generation workflows.",
+        "keywords": "video prompts, video script prompt, storyboard prompt, shot list prompt, video generation prompt"
+      }
     },
     "promptDetail": {
       "titleSuffix": "- AI Prompt | PentaPrompt"
