@@ -10,6 +10,8 @@
     "tutorials": "提示词教程"
   },
   "common": {
+    "advertisement": "广告",
+    "sponsored": "赞助内容",
     "comingSoon": {
       "title": "功能开发中",
       "description": "我们正在努力开发此功能，敬请期待！"
