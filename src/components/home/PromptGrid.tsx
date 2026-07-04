@@ -4,6 +4,7 @@ import { Compass } from 'lucide-react';
 import { Prompt } from '../../types';
 import PromptCard from '../PromptCard';
 import AdUnit from '../ads/AdUnit';
+import { ADSENSE_SLOTS } from '../../lib/adsense';
 
 interface PromptGridProps {
     prompts: Prompt[];
@@ -69,7 +70,7 @@ const PromptGrid: React.FC<PromptGridProps> = ({ prompts, onSelectPrompt, onClea
                                 onTry={onSelectPrompt}
                             />
                             {(originalIndex + 1) % 8 === 0 && (
-                                <AdUnit label="Sponsored" />
+                                <AdUnit slotId={ADSENSE_SLOTS.promptGridInFeed} label={t('common.sponsored')} />
                             )}
                         </React.Fragment>
                     ))}
