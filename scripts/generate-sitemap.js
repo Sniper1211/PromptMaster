@@ -26,6 +26,9 @@ const generateSitemap = async () => {
     // 1. Static Routes
     const staticRoutes = [
         '/',
+        '/discover',
+        '/about',
+        '/contact',
         '/privacy',
         '/terms'
     ];

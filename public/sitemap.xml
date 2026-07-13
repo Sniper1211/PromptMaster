@@ -6,6 +6,21 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://pentaprompt.com/discover</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pentaprompt.com/about</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pentaprompt.com/contact</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://pentaprompt.com/privacy</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -962,6 +977,11 @@
   </url>
   <url>
     <loc>https://pentaprompt.com/prompt/1768754234466156</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pentaprompt.com/prompt/1768754234466157</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

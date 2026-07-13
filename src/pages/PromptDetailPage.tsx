@@ -1,7 +1,7 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Copy, Check, X, Search, Cpu, ArrowLeft, Tag, Layers, Calendar, ChevronRight, Share2, Info, Flame } from 'lucide-react';
+import { Copy, Check, X, Cpu, Tag, Layers, Calendar, ChevronRight, Share2, Info, Flame } from 'lucide-react';
 import { usePromptDetail } from '../hooks/usePromptDetail';
 import SEOHead from '../components/seo/SEOHead';
 import AdUnit from '../components/ads/AdUnit';
@@ -38,7 +38,7 @@ const PromptDetailPage: React.FC = () => {
     };
     
     // Sync local count when prompt loads
-    useMemo(() => {
+    useEffect(() => {
         if (prompt && prompt.copyCount !== undefined) {
             setLocalCopyCount(prompt.copyCount);
         }
@@ -75,7 +75,7 @@ const PromptDetailPage: React.FC = () => {
             setTimeout(() => setCopied(false), 2000);
             
             // Optimistic update
-            setLocalCopyCount(prev => (prev || 0) + 1);
+            setLocalCopyCount((prev: number | undefined) => (prev || 0) + 1);
             
             // Send increment request silently
             fetch(`/api/increment-copy?id=${prompt.id}`, { method: 'POST' })
@@ -129,6 +129,36 @@ const PromptDetailPage: React.FC = () => {
 
     // JSON-LD for SEO
     const safeTags = Array.isArray(prompt.tags) ? prompt.tags : [];
+    const categoryLabel = t(`categories.${getCategoryKey(String(prompt.category))}`, {
+        defaultValue: String(prompt.category)
+    });
+    const tagSummary = safeTags.slice(0, 3).join(', ') || t('promptDetail.editorial.generalTagFallback');
+    const editorialSections: Array<{ key: 'scenario' | 'sampleInput' | 'sampleOutput'; content: string }> = [
+        {
+            key: 'scenario',
+            content: t('promptDetail.editorial.scenarioText', {
+                category: categoryLabel,
+                tags: tagSummary
+            })
+        },
+        {
+            key: 'sampleInput',
+            content: t('promptDetail.editorial.sampleInputText', {
+                title: prompt.title
+            })
+        },
+        {
+            key: 'sampleOutput',
+            content: t('promptDetail.editorial.sampleOutputText', {
+                category: categoryLabel
+            })
+        }
+    ];
+    const editorialNotes: string[] = [
+        t('promptDetail.editorial.note1'),
+        t('promptDetail.editorial.note2'),
+        t('promptDetail.editorial.note3')
+    ];
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "CreativeWork",
@@ -309,6 +339,54 @@ const PromptDetailPage: React.FC = () => {
                                 </div>
                             )}
 
+                            <section className="space-y-5">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-3 h-6 bg-[#2DD4BF]"></div>
+                                    <h3 className="text-xl font-black uppercase italic tracking-tight">
+                                        {t('promptDetail.editorial.title')}
+                                    </h3>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    {editorialSections.map((section) => (
+                                        <article
+                                            key={section.key}
+                                            className="bg-white border-[3px] border-black p-5 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
+                                        >
+                                            <h4 className="text-sm font-black uppercase tracking-widest text-slate-500">
+                                                {t(`promptDetail.editorial.${section.key}`)}
+                                            </h4>
+                                            <p className="mt-3 text-sm md:text-base font-medium leading-relaxed text-slate-800">
+                                                {section.content}
+                                            </p>
+                                        </article>
+                                    ))}
+
+                                    <article className="bg-[#FEF9C3] border-[3px] border-black p-5 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+                                        <h4 className="text-sm font-black uppercase tracking-widest text-slate-500">
+                                            {t('promptDetail.editorial.notes')}
+                                        </h4>
+                                        <div className="mt-3 space-y-3">
+                                            {editorialNotes.map((note: string, index: number) => (
+                                                <div key={index} className="flex items-start gap-3">
+                                                    <Info size={16} strokeWidth={2.5} className="mt-0.5 shrink-0" />
+                                                    <p className="text-sm md:text-base font-medium leading-relaxed text-slate-800">{note}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </article>
+                                </div>
+
+                                <div className="bg-black text-white border-[3px] border-black p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+                                    <p className="text-xs font-black uppercase tracking-[0.3em] text-white/60">
+                                        {t('promptDetail.editorial.editorNote')}
+                                    </p>
+                                    <p className="mt-3 text-sm md:text-base font-medium leading-relaxed text-white/90">
+                                        {t('promptDetail.editorial.editorNoteText')}
+                                    </p>
+                                </div>
+                            </section>
+
                             {/* Ad Unit In-Content */}
                             <AdUnit
                                 className="my-10"
@@ -421,7 +499,7 @@ const PromptDetailPage: React.FC = () => {
                                     <Tag size={16} /> {t('promptDetail.relatedKeywords')}
                                 </h3>
                                 <div className="flex flex-wrap gap-2">
-                                    {safeTags.map(tag => (
+                                    {safeTags.map((tag: string) => (
                                         <Link
                                             key={tag}
                                             to={`/prompts?search=${encodeURIComponent(tag)}`}
@@ -459,7 +537,7 @@ const PromptDetailPage: React.FC = () => {
 
                             {relatedPrompts.length > 0 ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                                    {relatedPrompts.map(p => (
+                                    {relatedPrompts.map((p: Prompt) => (
                                         <PromptCard key={p.id} prompt={p} />
                                     ))}
                                 </div>
@@ -489,7 +567,7 @@ const PromptDetailPage: React.FC = () => {
                         src={prompt.previewImageUrl}
                         alt={prompt.title}
                         className="max-w-[95%] max-h-[95vh] object-contain shadow-2xl"
-                        onClick={(e) => e.stopPropagation()}
+                        onClick={(e: React.MouseEvent<HTMLImageElement>) => e.stopPropagation()}
                     />
                 </div>
             )}
