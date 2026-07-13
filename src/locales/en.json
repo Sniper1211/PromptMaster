@@ -33,7 +33,101 @@
   },
   "home": {
     "exploreTitle": "Explore Prompts",
-    "exploreSubtitle": "Curated collection of the best AI prompts."
+    "exploreSubtitle": "Curated collection of the best AI prompts.",
+    "intro": {
+      "kicker": "Curated Library",
+      "title": "Prompt templates for work that needs real output",
+      "description": "PentaPrompt organizes tested prompt ideas into a searchable library for writing, coding, marketing, SEO, learning, and video workflows. Instead of browsing random snippets, you can start from a clear category, open a detailed prompt page, and adapt a structure that already fits a real task."
+    },
+    "whyTrust": {
+      "title": "Why people use this library",
+      "cards": {
+        "curated": {
+          "title": "Curated for practical tasks",
+          "desc": "Each prompt is grouped by a real workflow so you can browse with intent, not guesswork."
+        },
+        "bilingual": {
+          "title": "Bilingual and reusable",
+          "desc": "Switch between English and Chinese, then adapt prompts with your own context and constraints."
+        },
+        "transparent": {
+          "title": "Built for trust",
+          "desc": "We keep clear policy pages, a public contact email, and structured detail pages so users know how this library works."
+        }
+      }
+    },
+    "faq": {
+      "title": "Why bookmark this site?",
+      "items": {
+        "q1": {
+          "q": "What makes this different from a random prompt dump?",
+          "a": "The library is organized around actual use cases. You can filter by category, open a detailed page, and reuse a prompt with context instead of copying a vague one-liner."
+        },
+        "q2": {
+          "q": "Can I use these prompts as templates for client work?",
+          "a": "Yes. The safest workflow is to treat them as starting structures, then replace placeholders with your audience, goal, constraints, and examples."
+        },
+        "q3": {
+          "q": "How should I judge whether a prompt is good?",
+          "a": "A useful prompt should set a role, define the task clearly, add constraints, and describe the output format. We are gradually expanding detail pages around those criteria."
+        }
+      }
+    }
+  },
+  "about": {
+    "kicker": "About PentaPrompt",
+    "title": "A prompt library built to be useful, not just large",
+    "intro": "PentaPrompt is a curated AI prompt library focused on practical work scenarios. The goal is simple: help users start faster with prompts that are organized, searchable, and easier to adapt than scattered examples from social feeds or chat screenshots.",
+    "backToLibrary": "Back to Library",
+    "cards": {
+      "curated": {
+        "title": "Curated prompts",
+        "desc": "We group prompts by category and intent so users can find a workable starting point for a real task."
+      },
+      "trust": {
+        "title": "Clear editorial structure",
+        "desc": "We are improving prompt pages with usage guidance, examples, and context so each page can stand on its own."
+      },
+      "contact": {
+        "title": "Public contact",
+        "desc": "Users, partners, and reviewers can reach us through a visible site email instead of a hidden account."
+      }
+    },
+    "howWeWork": {
+      "title": "How the library is organized",
+      "p1": "The site is designed around common work categories such as writing, coding, marketing, SEO, learning, and video. That makes it easier to browse by intent and compare related prompts in one place.",
+      "p2": "Each prompt page is meant to do more than show raw text. We are expanding pages with guidance on when to use a prompt, what input to provide, what output to expect, and what to watch out for before copying it into production work.",
+      "p3": "We also maintain topic collections and a discovery page so search users can understand what the site covers before jumping into individual prompts."
+    },
+    "contactBlock": {
+      "title": "Need to reach us?",
+      "desc": "For partnership, policy, correction, or site feedback requests, use the contact email below."
+    }
+  },
+  "contact": {
+    "kicker": "Contact",
+    "title": "Get in touch with PentaPrompt",
+    "intro": "If you need to report a problem, request a correction, ask about policy, or discuss collaboration, email is the best way to reach us.",
+    "backToLibrary": "Back to Library",
+    "cards": {
+      "email": {
+        "title": "Email"
+      },
+      "response": {
+        "title": "Response window",
+        "desc": "We aim to review messages within a reasonable time, especially requests related to site access, policy, or content issues."
+      },
+      "scope": {
+        "title": "Best topics for email",
+        "desc": "Use this inbox for corrections, business questions, privacy requests, technical problems, and general site feedback."
+      }
+    },
+    "bestWay": {
+      "title": "What to include in your message",
+      "p1": "If you are reporting a broken page, include the exact URL and a short explanation of what went wrong.",
+      "p2": "If your request is about content accuracy or ownership, include enough detail for us to verify the issue quickly.",
+      "p3": "If you want to suggest a prompt category or partnership idea, tell us what use case you think the site should cover."
+    }
   },
   "landing": {
     "header": {
@@ -273,6 +367,8 @@
     "communityUses": "Community Uses",
     "openLibrary": "Open Library",
     "contribute": "Contribute your own prompts",
+    "about": "About",
+    "contact": "Contact",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service"
   },
@@ -397,7 +493,23 @@
     "viewAll": "View All",
     "noRelated": "No other prompts in this category found.",
     "totalCopies": "Total Copies",
-    "copies": "Copies"
+    "copies": "Copies",
+    "editorial": {
+      "title": "How to use this prompt well",
+      "scenario": "Best for",
+      "sampleInput": "Example input",
+      "sampleOutput": "Expected output",
+      "notes": "Things to watch",
+      "editorNote": "Editorial note",
+      "scenarioText": "Use this prompt when you need {{category}} help and want a reusable structure instead of starting from scratch. It works especially well for tasks related to {{tags}}.",
+      "generalTagFallback": "common workflow tasks",
+      "sampleInputText": "Give the model the exact goal, target audience, constraints, and source context for {{title}}. Better inputs usually include examples, formatting rules, and any edge cases you already know about.",
+      "sampleOutputText": "A strong result should return a usable draft, checklist, or structured answer aligned with {{category}} work. If the first output feels generic, add tighter constraints and ask for 2 to 3 variants.",
+      "note1": "Replace placeholders with real context before copying this prompt into production work.",
+      "note2": "If the output is too broad, add audience, tone, length, and formatting constraints.",
+      "note3": "Review factual claims, links, and sensitive decisions before using the result publicly.",
+      "editorNoteText": "This prompt is most valuable as a starting framework. The more specific your context is, the easier it becomes to turn the output into something genuinely useful."
+    }
   },
   "seo": {
     "home": {
@@ -452,6 +564,14 @@
     "privacyPolicy": {
       "title": "Privacy Policy | PentaPrompt",
       "description": "PentaPrompt's Privacy Policy. Learn how we protect your data, use cookies, and work with third-party services like Google AdSense."
+    },
+    "about": {
+      "title": "About PentaPrompt | Curated AI Prompt Library",
+      "description": "Learn what PentaPrompt is, how the prompt library is organized, and how to contact the team behind the site."
+    },
+    "contact": {
+      "title": "Contact PentaPrompt | Site Support and Business Inquiries",
+      "description": "Contact PentaPrompt for support, policy questions, corrections, and business inquiries."
     }
   },
   "notFound": {

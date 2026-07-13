@@ -47,6 +47,8 @@ const Footer: React.FC<FooterProps> = ({ onContribute }) => {
             <div className="border-t-[3px] border-black p-4 bg-black text-white flex flex-col md:flex-row items-center justify-between gap-4">
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em]">PentaPrompt © 2026 • DESIGNED FOR BUILDERS</p>
                 <div className="flex gap-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                    <Link to="/about" className="hover:text-white transition-colors">{t('footer.about')}</Link>
+                    <Link to="/contact" className="hover:text-white transition-colors">{t('footer.contact')}</Link>
                     <Link to="/privacy" className="hover:text-white transition-colors">{t('footer.privacyPolicy')}</Link>
                     <Link to="/terms" className="hover:text-white transition-colors">{t('footer.termsOfService')}</Link>
                 </div>

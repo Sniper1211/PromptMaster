@@ -7,6 +7,8 @@ import CollectionPage from './pages/CollectionPage';
 import PromptDetailPage from './pages/PromptDetailPage';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
 import AdminPage from './pages/AdminPage';
 import NotFoundPage from './pages/NotFoundPage';
 
@@ -20,6 +22,8 @@ const App: React.FC = () => {
           <Route path="/discover" element={<LandingPage />} />
           <Route path="/collections/:slug" element={<CollectionPage />} />
           <Route path="/prompt/:id" element={<PromptDetailPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/admin" element={<AdminPage />} />
