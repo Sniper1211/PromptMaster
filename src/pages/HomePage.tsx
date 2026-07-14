@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Plus, ArrowDown, ArrowRight, Globe, ShieldCheck, Sparkles, type LucideIcon } from 'lucide-react';
+import { Plus, ArrowDown, Globe, ShieldCheck, Sparkles, ChevronDown, ChevronUp, type LucideIcon } from 'lucide-react';
 import { Category, Prompt } from '../types';
 import PromptGrid from '../components/home/PromptGrid';
 import SkeletonGrid from '../components/home/SkeletonGrid';
@@ -65,6 +65,7 @@ const HomePage: React.FC = () => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
     const [categoryCounts, setCategoryCounts] = useState<Record<string, number> | null>(null);
+    const [expandedFaqIndex, setExpandedFaqIndex] = useState<number | null>(null);
     
     // Intersection Observer for Infinite Scroll
     const loaderRef = useRef<HTMLDivElement>(null);
@@ -318,81 +319,15 @@ const HomePage: React.FC = () => {
                         </header>
 
                         {isCanonicalHome && (
-                            <section className="mb-12 space-y-8">
-                                <div className="bg-white border-[3px] border-black p-8 md:p-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-                                    <p className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">{t('home.intro.kicker')}</p>
-                                    <h3 className="mt-4 text-3xl md:text-4xl font-black uppercase italic tracking-tighter leading-tight">
+                            <section className="mb-8">
+                                <div className="bg-white border-[3px] border-black px-6 py-5 md:px-7 md:py-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+                                    <p className="text-[10px] font-black uppercase tracking-[0.28em] text-slate-500">{t('home.intro.kicker')}</p>
+                                    <h3 className="mt-3 text-2xl md:text-3xl font-black uppercase italic tracking-tighter leading-tight">
                                         {t('home.intro.title')}
                                     </h3>
-                                    <p className="mt-5 max-w-4xl text-base md:text-lg text-slate-700 leading-relaxed font-medium">
+                                    <p className="mt-3 max-w-4xl text-sm md:text-base text-slate-700 leading-relaxed font-medium">
                                         {t('home.intro.description')}
                                     </p>
-
-                                    <div className="mt-6 flex flex-col sm:flex-row gap-4">
-                                        <Link
-                                            to="/about"
-                                            className="inline-flex items-center justify-center gap-2 bg-black text-white px-5 py-3 border-[3px] border-black font-black uppercase tracking-widest text-xs shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
-                                        >
-                                            {t('footer.about')}
-                                            <ArrowRight size={16} strokeWidth={3} />
-                                        </Link>
-                                        <Link
-                                            to="/contact"
-                                            className="inline-flex items-center justify-center gap-2 bg-[#FACC15] text-black px-5 py-3 border-[3px] border-black font-black uppercase tracking-widest text-xs shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
-                                        >
-                                            {t('footer.contact')}
-                                            <ArrowRight size={16} strokeWidth={3} />
-                                        </Link>
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                                    {trustCards.map((card: TrustCard) => {
-                                        const Icon = card.icon;
-                                        return (
-                                            <div
-                                                key={card.key}
-                                                className={`${card.bgClass} border-[3px] border-black p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]`}
-                                            >
-                                                <Icon size={22} strokeWidth={2.5} />
-                                                <h3 className="mt-4 text-lg font-black uppercase tracking-tight">
-                                                    {t(`home.whyTrust.cards.${card.key}.title`)}
-                                                </h3>
-                                                <p className="mt-3 text-sm font-medium leading-relaxed text-slate-800">
-                                                    {t(`home.whyTrust.cards.${card.key}.desc`)}
-                                                </p>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-
-                                <div className="bg-white border-[3px] border-black p-8 md:p-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-                                    <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-                                        <div>
-                                            <p className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">
-                                                {i18n.language.startsWith('zh') ? '常见问题' : 'FAQ'}
-                                            </p>
-                                            <h3 className="mt-3 text-3xl font-black uppercase tracking-tight">
-                                                {t('home.faq.title')}
-                                            </h3>
-                                        </div>
-                                        <Link
-                                            to="/discover"
-                                            className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-widest hover:underline decoration-4 underline-offset-4"
-                                        >
-                                            {i18n.language.startsWith('zh') ? '发现页' : 'Discover'}
-                                            <ArrowRight size={16} strokeWidth={3} />
-                                        </Link>
-                                    </div>
-
-                                    <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-5">
-                                        {faqItems.map((item: FaqItem, index: number) => (
-                                            <article key={index} className="border-[3px] border-black bg-gray-50 p-5">
-                                                <h4 className="text-base font-black leading-snug">{item.q}</h4>
-                                                <p className="mt-3 text-sm leading-relaxed text-slate-700 font-medium">{item.a}</p>
-                                            </article>
-                                        ))}
-                                    </div>
                                 </div>
                             </section>
                         )}
@@ -436,6 +371,93 @@ const HomePage: React.FC = () => {
                                             — End of Result —
                                         </p>
                                     </div>
+                                )}
+
+                                {isCanonicalHome && (
+                                    <section className="mt-16 space-y-6">
+                                        <div className="bg-white border-[3px] border-black p-6 md:p-7">
+                                            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                                                <div>
+                                                    <p className="text-[10px] font-black uppercase tracking-[0.28em] text-slate-500">
+                                                        {t('home.whyTrust.title')}
+                                                    </p>
+                                                    <p className="mt-2 text-sm md:text-base text-slate-700 font-medium">
+                                                        {i18n.language.startsWith('zh')
+                                                            ? '想了解站点如何整理提示词？查看 About / Contact / Policies。'
+                                                            : 'Want to understand how the library is organized? See About / Contact / Policies.'}
+                                                    </p>
+                                                </div>
+                                                <div className="flex flex-wrap gap-3 text-[11px] font-black uppercase tracking-widest">
+                                                    <Link to="/about" className="px-3 py-2 border-[2px] border-black bg-gray-50 hover:bg-[#FACC15] transition-colors">
+                                                        {t('footer.about')}
+                                                    </Link>
+                                                    <Link to="/contact" className="px-3 py-2 border-[2px] border-black bg-gray-50 hover:bg-[#E0F2FE] transition-colors">
+                                                        {t('footer.contact')}
+                                                    </Link>
+                                                    <Link to="/privacy" className="px-3 py-2 border-[2px] border-black bg-gray-50 hover:bg-white transition-colors">
+                                                        {t('footer.privacyPolicy')}
+                                                    </Link>
+                                                    <Link to="/terms" className="px-3 py-2 border-[2px] border-black bg-gray-50 hover:bg-white transition-colors">
+                                                        {t('footer.termsOfService')}
+                                                    </Link>
+                                                </div>
+                                            </div>
+
+                                            <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4">
+                                                {trustCards.map((card: TrustCard) => {
+                                                    const Icon = card.icon;
+                                                    return (
+                                                        <article key={card.key} className={`${card.bgClass} border-[2px] border-black px-4 py-4`}>
+                                                            <div className="flex items-center gap-3">
+                                                                <Icon size={18} strokeWidth={2.5} />
+                                                                <h3 className="text-sm font-black uppercase tracking-tight">
+                                                                    {t(`home.whyTrust.cards.${card.key}.title`)}
+                                                                </h3>
+                                                            </div>
+                                                            <p className="mt-3 text-xs md:text-sm font-medium leading-relaxed text-slate-800">
+                                                                {t(`home.whyTrust.cards.${card.key}.desc`)}
+                                                            </p>
+                                                        </article>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-white border-[3px] border-black p-6 md:p-7">
+                                            <p className="text-[10px] font-black uppercase tracking-[0.28em] text-slate-500">
+                                                {i18n.language.startsWith('zh') ? '常见问题' : 'FAQ'}
+                                            </p>
+                                            <h3 className="mt-2 text-2xl font-black uppercase tracking-tight">
+                                                {t('home.faq.title')}
+                                            </h3>
+
+                                            <div className="mt-5 space-y-3">
+                                                {faqItems.map((item: FaqItem, index: number) => {
+                                                    const isOpen = expandedFaqIndex === index;
+                                                    return (
+                                                        <article key={index} className="border-[2px] border-black bg-gray-50">
+                                                            <button
+                                                                onClick={() => setExpandedFaqIndex(isOpen ? null : index)}
+                                                                className="w-full flex items-center justify-between gap-4 px-4 py-4 text-left"
+                                                            >
+                                                                <span className="text-sm md:text-base font-black leading-snug">{item.q}</span>
+                                                                {isOpen ? (
+                                                                    <ChevronUp size={18} strokeWidth={2.5} className="shrink-0" />
+                                                                ) : (
+                                                                    <ChevronDown size={18} strokeWidth={2.5} className="shrink-0" />
+                                                                )}
+                                                            </button>
+                                                            {isOpen && (
+                                                                <div className="px-4 pb-4 text-sm leading-relaxed text-slate-700 font-medium">
+                                                                    {item.a}
+                                                                </div>
+                                                            )}
+                                                        </article>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    </section>
                                 )}
                             </>
                         )}
