@@ -69,7 +69,7 @@
         },
         "q3": {
           "q": "How should I judge whether a prompt is good?",
-          "a": "A useful prompt should set a role, define the task clearly, add constraints, and describe the output format. We are gradually expanding detail pages around those criteria."
+          "a": "A useful prompt should set a role, define the task clearly, add constraints, and describe the output format. Strong prompt pages also include context, examples, and usage notes so you can adapt them quickly."
         }
       }
     }
@@ -86,7 +86,7 @@
       },
       "trust": {
         "title": "Clear editorial structure",
-        "desc": "We are improving prompt pages with usage guidance, examples, and context so each page can stand on its own."
+        "desc": "Prompt pages include usage guidance, examples, and context so each page can stand on its own."
       },
       "contact": {
         "title": "Public contact",
@@ -96,7 +96,7 @@
     "howWeWork": {
       "title": "How the library is organized",
       "p1": "The site is designed around common work categories such as writing, coding, marketing, SEO, learning, and video. That makes it easier to browse by intent and compare related prompts in one place.",
-      "p2": "Each prompt page is meant to do more than show raw text. We are expanding pages with guidance on when to use a prompt, what input to provide, what output to expect, and what to watch out for before copying it into production work.",
+      "p2": "Each prompt page does more than show raw text. It includes guidance on when to use a prompt, what input to provide, what output to expect, and what to watch out for before using it in real work.",
       "p3": "We also maintain topic collections and a discovery page so search users can understand what the site covers before jumping into individual prompts."
     },
     "contactBlock": {

@@ -14,32 +14,32 @@ const GuidesPage: React.FC = () => {
         () => ({
             pageTitle: isZh ? 'AI Prompt 指南 | PentaPrompt' : 'AI Prompt Guides | PentaPrompt',
             pageDescription: isZh
-                ? '围绕提示词写作、SEO、商业视觉与团队工作流的实战指南，帮助 PentaPrompt 从模板库延伸为真正可阅读的内容站。'
-                : 'Practical guides on prompt writing, SEO, commercial visuals, and team workflows to complement the PentaPrompt library.',
+                ? '围绕提示词写作、SEO、商业视觉与团队工作流的实战指南，提供写法框架、示例与清单，帮助你获得更稳定的结果。'
+                : 'Practical guides on prompt writing, SEO, commercial visuals, and team workflows—frameworks, examples, and checklists for more reliable outputs.',
             kicker: isZh ? 'GUIDES' : 'GUIDES',
-            heroTitle: isZh ? '不止是提示词模板，我们也把方法讲清楚。' : 'Not just prompt templates. Real methods, too.',
+            heroTitle: isZh ? '实战指南：把提示词写得更稳' : 'Practical guides for better prompts',
             heroBody: isZh
-                ? '这一组长内容页面用来解释提示词为什么有效、该怎么改、怎么在真实工作里复用。对用户来说，它们能补足背景；对 AdSense 来说，它们也比单纯的目录页更像持续维护的内容资产。'
-                : 'These long-form guides explain why prompts work, how to refine them, and how to apply them in real workflows. They add user value and make the site feel like a maintained content resource, not only a directory.',
+                ? '这组长内容页面用具体案例解释：提示词为什么有效、怎样补上下文、怎样迭代改写，以及如何审阅输出。每篇都附带可直接复用的检查清单。'
+                : 'These long-form guides explain why prompts work, how to add the right context, how to iterate, and how to review outputs. Each guide includes a checklist you can reuse in real work.',
             heroPrimary: isZh ? '浏览提示词库' : 'Browse Library',
             heroSecondary: isZh ? '查看首页' : 'Visit Home',
             sectionTitle: isZh ? '当前已上线的指南' : 'Published Guides',
             sectionBody: isZh
-                ? '我们先上线第一批 5 篇，优先覆盖最适合沉淀原创内容的主题。后续可以继续沿着 SEO、视频、写作和商业视觉扩展。'
-                : 'This first batch focuses on topics where editorial depth matters most. More SEO, video, writing, and commercial guides can build on this foundation.',
+                ? '围绕高频工作场景整理：写作、SEO、商业视觉与团队协作。每篇都可以直接当作方法模板复用。'
+                : 'Organized around high-frequency work scenarios: writing, SEO, commercial visuals, and team workflows. Use each guide as a reusable method template.',
             readGuide: isZh ? '阅读指南' : 'Read Guide',
             browseCollection: isZh ? '查看相关专题' : 'Related Collection',
-            whyTitle: isZh ? '为什么要单独做 Guides？' : 'Why add a Guides section?',
+            whyTitle: isZh ? '你会得到什么' : "What you'll get",
             whyItems: isZh
                 ? [
-                      '它让站点不只是“模板聚合”，而是补上方法论、案例与判断标准。',
-                      '它可以给首页、专题页和详情页提供更自然的内链来源。',
-                      '它更接近 AdSense 喜欢看到的“有编辑痕迹、持续更新的内容页”。'
+                      '可复用的写法框架：从“任务目标”到“输出格式”。',
+                      '真实案例与对比：避免模板化，写得更贴近你的业务语境。',
+                      '检查清单与迭代建议：快速复盘，持续把结果调到可用。'
                   ]
                 : [
-                      'It turns the site from a template dump into an editorial resource with method, examples, and judgment.',
-                      'It creates natural internal links back to the homepage, collections, and prompt detail pages.',
-                      'It looks much closer to the kind of maintained content pages AdSense expects to see.'
+                      'Reusable frameworks: from job-to-be-done to output format.',
+                      'Concrete examples and comparisons to avoid generic results.',
+                      'Checklists and iteration tips to review and improve outputs faster.'
                   ]
         }),
         [isZh]

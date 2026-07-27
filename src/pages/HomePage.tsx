@@ -387,12 +387,12 @@ const HomePage: React.FC = () => {
                                                         {i18n.language.startsWith('zh') ? 'GUIDES' : 'GUIDES'}
                                                     </p>
                                                     <h3 className="mt-2 text-2xl font-black uppercase tracking-tight">
-                                                        {i18n.language.startsWith('zh') ? '开始补充更有深度的内容页' : 'Add deeper editorial content'}
+                                                        {i18n.language.startsWith('zh') ? '实战指南：把提示词写得更稳' : 'Guides: write better prompts'}
                                                     </h3>
                                                     <p className="mt-2 max-w-3xl text-sm md:text-base text-slate-700 font-medium leading-relaxed">
                                                         {i18n.language.startsWith('zh')
-                                                            ? '除了提示词模板，我们还补了一批可阅读的长内容页面，解释提示词怎么写、怎么改，以及如何在真实工作里使用。'
-                                                            : 'Beyond prompt templates, we now publish readable long-form guides that explain how prompts work, how to improve them, and how to use them in real workflows.'}
+                                                            ? '用写法框架、案例和检查清单，把提示词从模板变成可复用的方法，帮助你在真实工作里得到更稳定的输出。'
+                                                            : 'Frameworks, examples, and checklists that turn templates into reusable methods—and help you get more reliable outputs in real work.'}
                                                     </p>
                                                 </div>
                                                 <Link
@@ -437,8 +437,8 @@ const HomePage: React.FC = () => {
                                                     </p>
                                                     <p className="mt-2 text-sm md:text-base text-slate-700 font-medium">
                                                         {i18n.language.startsWith('zh')
-                                                            ? '想了解站点如何整理提示词？查看 About / Contact / Policies。'
-                                                            : 'Want to understand how the library is organized? See About / Contact / Policies.'}
+                                                            ? '站点信息与政策：关于我们 / 联系方式 / 隐私 / 条款。'
+                                                            : 'Site info & policies: About / Contact / Privacy / Terms.'}
                                                     </p>
                                                 </div>
                                                 <div className="flex flex-wrap gap-3 text-[11px] font-black uppercase tracking-widest">

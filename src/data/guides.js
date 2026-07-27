@@ -17,8 +17,8 @@ export const guideArticles = [
     kicker: l('Prompt Writing Guide', '提示词写作指南'),
     intro: [
       l(
-        'Many prompt libraries fail the AdSense test because they stop at the template. Real users need context: what to include, what to avoid, and how to iterate when the first answer is weak.',
-        '很多提示词站之所以显得“内容薄”，是因为它们只给模板，不给方法。真正的用户需要知道：应该提供哪些信息、应该避免哪些写法，以及第一次结果不理想时该如何调整。'
+        'Many prompt libraries stop at templates. Real work needs context: what to include, what to avoid, and how to iterate when the first answer is weak.',
+        '很多提示词库之所以用起来不顺，是因为只给模板，不给方法。真正的工作需要上下文：该提供什么、该避免什么，以及第一次结果不理想时如何迭代。'
       ),
       l(
         'This guide turns prompt writing into a repeatable workflow. Instead of hoping the model understands your intent, you give it a clear role, a concrete task, the right context, and an output format that reduces ambiguity.',
