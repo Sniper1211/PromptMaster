@@ -11,6 +11,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://pentaprompt.com/guides</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://pentaprompt.com/about</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -29,6 +34,31 @@
     <loc>https://pentaprompt.com/terms</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pentaprompt.com/guides/how-to-write-better-ai-prompts</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pentaprompt.com/guides/midjourney-prompt-structure</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pentaprompt.com/guides/commercial-photography-prompts</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pentaprompt.com/guides/seo-prompts-that-convert</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pentaprompt.com/guides/prompt-engineering-workflow</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://pentaprompt.com/prompt/1</loc>
