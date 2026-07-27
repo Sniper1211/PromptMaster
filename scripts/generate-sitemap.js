@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import pg from 'pg';
 import dotenv from 'dotenv';
+import { guideArticles } from '../src/data/guides.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,6 +28,7 @@ const generateSitemap = async () => {
     const staticRoutes = [
         '/',
         '/discover',
+        '/guides',
         '/about',
         '/contact',
         '/privacy',
@@ -58,6 +60,15 @@ const generateSitemap = async () => {
     <loc>${BASE_URL}${route}</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>`;
+    });
+
+    guideArticles.forEach((guide) => {
+        xml += `
+  <url>
+    <loc>${BASE_URL}/guides/${guide.slug}</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>`;
     });
 

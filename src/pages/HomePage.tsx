@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Plus, ArrowDown, Globe, ShieldCheck, Sparkles, ChevronDown, ChevronUp, type LucideIcon } from 'lucide-react';
+import { Plus, ArrowDown, ArrowRight, Globe, ShieldCheck, Sparkles, ChevronDown, ChevronUp, type LucideIcon } from 'lucide-react';
 import { Category, Prompt } from '../types';
 import PromptGrid from '../components/home/PromptGrid';
 import SkeletonGrid from '../components/home/SkeletonGrid';
@@ -11,6 +11,7 @@ import ComingSoonModal from '../components/common/ComingSoonModal';
 import { usePrompts } from '../hooks/usePrompts';
 import SEOHead from '../components/seo/SEOHead';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { featuredGuideSlugs, guideArticles } from '../data/guides.js';
 
 interface TrustCard {
     key: 'curated' | 'bilingual' | 'transparent';
@@ -258,6 +259,10 @@ const HomePage: React.FC = () => {
         ],
         [t]
     );
+    const featuredGuides = useMemo(
+        () => guideArticles.filter((guide: any) => featuredGuideSlugs.includes(guide.slug)),
+        []
+    );
     const faqSchema = {
         "@context": "https://schema.org",
         "@type": "FAQPage",
@@ -375,6 +380,55 @@ const HomePage: React.FC = () => {
 
                                 {isCanonicalHome && (
                                     <section className="mt-16 space-y-6">
+                                        <div className="bg-white border-[3px] border-black p-6 md:p-7">
+                                            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                                                <div>
+                                                    <p className="text-[10px] font-black uppercase tracking-[0.28em] text-slate-500">
+                                                        {i18n.language.startsWith('zh') ? 'GUIDES' : 'GUIDES'}
+                                                    </p>
+                                                    <h3 className="mt-2 text-2xl font-black uppercase tracking-tight">
+                                                        {i18n.language.startsWith('zh') ? '开始补充更有深度的内容页' : 'Add deeper editorial content'}
+                                                    </h3>
+                                                    <p className="mt-2 max-w-3xl text-sm md:text-base text-slate-700 font-medium leading-relaxed">
+                                                        {i18n.language.startsWith('zh')
+                                                            ? '除了提示词模板，我们还补了一批可阅读的长内容页面，解释提示词怎么写、怎么改，以及如何在真实工作里使用。'
+                                                            : 'Beyond prompt templates, we now publish readable long-form guides that explain how prompts work, how to improve them, and how to use them in real workflows.'}
+                                                    </p>
+                                                </div>
+                                                <Link
+                                                    to="/guides"
+                                                    className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest hover:underline"
+                                                >
+                                                    {i18n.language.startsWith('zh') ? '查看全部指南' : 'View all guides'}
+                                                    <ArrowRight size={14} strokeWidth={3} />
+                                                </Link>
+                                            </div>
+
+                                            <div className="mt-5 grid grid-cols-1 xl:grid-cols-3 gap-4">
+                                                {featuredGuides.map((guide: any) => (
+                                                    <article key={guide.slug} className="border-[2px] border-black bg-gray-50 p-4">
+                                                        <p className="text-[10px] font-black uppercase tracking-[0.24em] text-slate-500">
+                                                            {guide.readTime}
+                                                        </p>
+                                                        <h4 className="mt-2 text-base font-black uppercase tracking-tight leading-snug">
+                                                            {i18n.language.startsWith('zh') ? guide.title.zh : guide.title.en}
+                                                        </h4>
+                                                        <p className="mt-3 text-sm text-slate-700 font-medium leading-relaxed">
+                                                            {i18n.language.startsWith('zh') ? guide.description.zh : guide.description.en}
+                                                        </p>
+                                                        <div className="mt-4 flex flex-wrap gap-3 text-[11px] font-black uppercase tracking-widest">
+                                                            <Link to={`/guides/${guide.slug}`} className="hover:underline">
+                                                                {i18n.language.startsWith('zh') ? '阅读指南' : 'Read guide'}
+                                                            </Link>
+                                                            <Link to={`/collections/${guide.collectionSlug}`} className="text-slate-500 hover:text-black">
+                                                                {i18n.language.startsWith('zh') ? '相关专题' : 'Related collection'}
+                                                            </Link>
+                                                        </div>
+                                                    </article>
+                                                ))}
+                                            </div>
+                                        </div>
+
                                         <div className="bg-white border-[3px] border-black p-6 md:p-7">
                                             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                                                 <div>
