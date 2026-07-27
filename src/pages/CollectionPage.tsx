@@ -368,7 +368,7 @@ const CollectionPage: React.FC = () => {
                         <section className="mt-12 grid grid-cols-1 xl:grid-cols-[1.5fr_1fr] gap-6">
                             <div className="bg-white border-[3px] border-black p-6 md:p-7">
                                 <p className="text-[10px] font-black uppercase tracking-[0.28em] text-slate-500">
-                                    {i18n.language.startsWith('zh') ? 'HOW TO USE THIS COLLECTION' : 'HOW TO USE THIS COLLECTION'}
+                                    {i18n.language.startsWith('zh') ? '本专题怎么用' : 'HOW TO USE THIS COLLECTION'}
                                 </p>
                                 <div className="mt-4 space-y-4 text-sm md:text-base font-medium leading-relaxed text-slate-700">
                                     {collectionContent[slug as keyof typeof collectionContent].intro.map((paragraph: { en: string; zh: string }) => (
@@ -384,10 +384,10 @@ const CollectionPage: React.FC = () => {
 
                             <div className="bg-white border-[3px] border-black p-6 md:p-7">
                                 <p className="text-[10px] font-black uppercase tracking-[0.28em] text-slate-500">
-                                    {i18n.language.startsWith('zh') ? 'RELATED GUIDES' : 'RELATED GUIDES'}
+                                    {i18n.language.startsWith('zh') ? '相关指南' : 'RELATED GUIDES'}
                                 </p>
                                 <h2 className="mt-2 text-xl font-black uppercase tracking-tight">
-                                    {i18n.language.startsWith('zh') ? '先读一篇方法指南' : 'Read a guide first'}
+                                    {i18n.language.startsWith('zh') ? '延伸阅读' : 'Further reading'}
                                 </h2>
                                 <div className="mt-5 space-y-4">
                                     {relatedGuides.map((guide: any) => (
