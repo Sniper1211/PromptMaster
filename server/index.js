@@ -8,6 +8,19 @@ import dotenv from 'dotenv';
 import axios from 'axios';
 import pg from 'pg';
 import OpenAI from 'openai';
+import {
+  getClientIp,
+  makeRequestId,
+  makeInputHash,
+  makeInputPreview,
+  countRecentRequests,
+  logRequest,
+  logError,
+  isAuthorized
+} from '../api/_lib/aiLog.js';
+
+const RATE_WINDOW_MIN = 10;
+const RATE_MAX = parseInt(process.env.AI_RATE_LIMIT_MAX || '20', 10);
 
 dotenv.config();
 
@@ -83,10 +96,51 @@ app.put('/api/prompts', async (req, res) => {
 
 // --- API: Generate Tips with AI ---
 app.post('/api/generate-tips', async (req, res) => {
-  const { content } = req.body;
+  const startAt = Date.now();
+  const requestId = makeRequestId();
+  const endpoint = '/api/generate-tips';
+  const ip = getClientIp(req);
+  const userAgent = req.headers['user-agent'] || null;
+  const content = req.body?.content;
+
+  const base = {
+    requestId,
+    endpoint,
+    ip,
+    userAgent,
+    inputPreview: makeInputPreview(content),
+    inputHash: makeInputHash(content),
+    inputLength: content ? String(content).length : 0,
+    model: 'deepseek-chat'
+  };
+  const finish = (statusCode, success, extra = {}) =>
+    logRequest({ ...base, ...extra, statusCode, success, latencyMs: Date.now() - startAt });
+
   if (!content) return res.status(400).json({ error: 'Missing content' });
 
-  const apiKey = process.env.DEEPSEEK_API_KEY;
+  // 1) Auth check
+  if (!isAuthorized(req)) {
+    await finish(401, false, { isAdmin: false });
+    await logError({
+      requestId, endpoint, ip, userAgent, statusCode: 401,
+      errorMessage: 'Unauthorized', errorDetail: 'Missing or invalid admin token'
+    });
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  // 2) IP rate limiting
+  const recent = await countRecentRequests(ip, RATE_WINDOW_MIN);
+  if (recent >= RATE_MAX) {
+    await finish(429, false, { isAdmin: true });
+    await logError({
+      requestId, endpoint, ip, userAgent, statusCode: 429,
+      errorMessage: 'Rate limit exceeded',
+      errorDetail: `ip=${ip} recent=${recent} max=${RATE_MAX}`
+    });
+    return res.status(429).json({ error: 'Rate limit exceeded. Please try again later.' });
+  }
+
+  const apiKey = process.env.AI_API_KEY;
   if (!apiKey) {
     console.warn('[Mock] No Deepseek API Key found. Returning mock tips.');
     // Return mock data if no key (for dev without key)
@@ -98,7 +152,7 @@ app.post('/api/generate-tips', async (req, res) => {
 
   try {
     const openai = new OpenAI({
-      baseURL: 'https://api.deepseek.com',
+      baseURL: process.env.AI_BASE_URL || 'https://api.deepseek.com',
       apiKey: apiKey
     });
 
@@ -112,9 +166,16 @@ app.post('/api/generate-tips', async (req, res) => {
     });
 
     const result = JSON.parse(completion.choices[0].message.content);
+    await finish(200, true, { isAdmin: true });
     res.json(result);
   } catch (err) {
     console.error('AI Error:', err);
+    await finish(500, false, { isAdmin: true });
+    await logError({
+      requestId, endpoint, ip, userAgent, statusCode: 500,
+      errorMessage: 'DeepSeek call failed',
+      errorDetail: err.message || String(err)
+    });
     res.status(500).json({ error: 'AI Generation Failed' });
   }
 });
@@ -220,15 +281,49 @@ app.post('/api/upload', async (req, res) => {
 
 // --- API: Analyze Text via LLM ---
 app.post('/api/analyze', async (req, res) => {
-  // Auth Check
-  const adminPassword = process.env.ADMIN_PASSWORD;
-  const authHeader = req.headers.authorization;
-  if (adminPassword && (!authHeader || authHeader !== `Bearer ${adminPassword}`)) {
+  const startAt = Date.now();
+  const requestId = makeRequestId();
+  const endpoint = '/api/analyze';
+  const ip = getClientIp(req);
+  const userAgent = req.headers['user-agent'] || null;
+  const rawText = req.body?.rawText;
+
+  const base = {
+    requestId,
+    endpoint,
+    ip,
+    userAgent,
+    inputPreview: makeInputPreview(rawText),
+    inputHash: makeInputHash(rawText),
+    inputLength: rawText ? String(rawText).length : 0
+  };
+  const finish = (statusCode, success, extra = {}) =>
+    logRequest({ ...base, ...extra, statusCode, success, latencyMs: Date.now() - startAt });
+
+  // 1) Auth Check
+  if (!isAuthorized(req)) {
+    await finish(401, false, { isAdmin: false });
+    await logError({
+      requestId, endpoint, ip, userAgent, statusCode: 401,
+      errorMessage: 'Unauthorized', errorDetail: 'Missing or invalid admin token'
+    });
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
+  // 2) IP rate limiting
+  const recent = await countRecentRequests(ip, RATE_WINDOW_MIN);
+  if (recent >= RATE_MAX) {
+    await finish(429, false, { isAdmin: true });
+    await logError({
+      requestId, endpoint, ip, userAgent, statusCode: 429,
+      errorMessage: 'Rate limit exceeded',
+      errorDetail: `ip=${ip} recent=${recent} max=${RATE_MAX}`
+    });
+    return res.status(429).json({ error: 'Rate limit exceeded. Please try again later.' });
+  }
+
   try {
-    const { rawText, apiKey, baseUrl, model } = req.body;
+    const { apiKey, baseUrl, model } = req.body;
     
     // Use provided key or env key
     const FINAL_API_KEY = apiKey || process.env.AI_API_KEY;
@@ -236,10 +331,12 @@ app.post('/api/analyze', async (req, res) => {
     const FINAL_MODEL = model || process.env.AI_MODEL || 'gpt-3.5-turbo';
 
     if (!FINAL_API_KEY) {
+      await finish(400, false, { isAdmin: true });
       return res.status(400).json({ error: 'Missing API Key. Please provide it in the UI or .env file.' });
     }
 
     if (!rawText) {
+      await finish(400, false, { isAdmin: true });
       return res.status(400).json({ error: 'No text provided' });
     }
 
@@ -289,10 +386,17 @@ app.post('/api/analyze', async (req, res) => {
     const jsonString = content.replace(/```json/g, '').replace(/```/g, '').trim();
     const result = JSON.parse(jsonString);
 
+    await finish(200, true, { isAdmin: true, model: FINAL_MODEL });
     res.json(result);
 
   } catch (error) {
     console.error('[Analyze Error]', error.response?.data || error.message);
+    await finish(500, false, { isAdmin: true });
+    await logError({
+      requestId, endpoint, ip, userAgent, statusCode: 500,
+      errorMessage: 'AI Analysis Failed',
+      errorDetail: error.response?.data?.error?.message || error.message
+    });
     res.status(500).json({ 
       error: 'AI Analysis Failed', 
       details: error.response?.data?.error?.message || error.message 

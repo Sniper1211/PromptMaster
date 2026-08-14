@@ -288,9 +288,13 @@ const EditorModal: React.FC<{ prompt: any, onClose: () => void, onSave: () => vo
   const handleGenerateTips = async () => {
     setIsGenerating(true);
     try {
+      const token = localStorage.getItem('adminToken');
       const res = await fetch('/api/generate-tips', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
         body: JSON.stringify({ content: prompt.content })
       });
       const data = await res.json();
