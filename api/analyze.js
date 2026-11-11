@@ -61,12 +61,11 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { apiKey, baseUrl, model } = req.body;
-
-    // Use provided key or env key
-    const FINAL_API_KEY = apiKey || process.env.AI_API_KEY;
-    const FINAL_BASE_URL = baseUrl || process.env.AI_BASE_URL || 'https://api.openai.com/v1';
-    const FINAL_MODEL = model || process.env.AI_MODEL || 'gpt-3.5-turbo';
+    // SECURITY: never accept apiKey/baseUrl/model from the request body.
+    // A caller-supplied baseUrl would let the server forward the env AI key to an attacker (SSRF).
+    const FINAL_API_KEY = process.env.AI_API_KEY;
+    const FINAL_BASE_URL = process.env.AI_BASE_URL || 'https://api.openai.com/v1';
+    const FINAL_MODEL = process.env.AI_MODEL || 'gpt-3.5-turbo';
 
     if (!FINAL_API_KEY) {
       await finish(400, false, { isAdmin: true });

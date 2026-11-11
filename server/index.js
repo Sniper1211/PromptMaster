@@ -1,8 +1,5 @@
 
 import express from 'express';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import axios from 'axios';
@@ -25,8 +22,6 @@ const RATE_MAX = parseInt(process.env.AI_RATE_LIMIT_MAX || '20', 10);
 dotenv.config();
 
 const { Pool } = pg;
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 3001;
@@ -41,24 +36,6 @@ const pool = new Pool({
 
 app.use(cors());
 app.use(express.json());
-
-const DATA_FILE_ZH = path.resolve(__dirname, '../src/data/prompts-zh.ts');
-
-// --- Helper Functions ---
-const readDataFile = (filePath) => {
-  if (!fs.existsSync(filePath)) throw new Error(`Data file not found at ${filePath}`);
-  return fs.readFileSync(filePath, 'utf-8');
-};
-
-const getNextId = (content) => {
-  const ids = [];
-  const regex = /id:\s*'(\d+)'/g;
-  let match;
-  while ((match = regex.exec(content)) !== null) {
-    ids.push(parseInt(match[1], 10));
-  }
-  return ids.length === 0 ? 1 : Math.max(...ids) + 1;
-};
 
 // --- API: Verify Password ---
 app.post('/api/verify-password', (req, res) => {
@@ -323,12 +300,11 @@ app.post('/api/analyze', async (req, res) => {
   }
 
   try {
-    const { apiKey, baseUrl, model } = req.body;
-    
-    // Use provided key or env key
-    const FINAL_API_KEY = apiKey || process.env.AI_API_KEY;
-    const FINAL_BASE_URL = baseUrl || process.env.AI_BASE_URL || 'https://api.openai.com/v1';
-    const FINAL_MODEL = model || process.env.AI_MODEL || 'gpt-3.5-turbo';
+    // SECURITY: never accept apiKey/baseUrl/model from the request body.
+    // A caller-supplied baseUrl would let the server forward the env AI key to an attacker (SSRF).
+    const FINAL_API_KEY = process.env.AI_API_KEY;
+    const FINAL_BASE_URL = process.env.AI_BASE_URL || 'https://api.openai.com/v1';
+    const FINAL_MODEL = process.env.AI_MODEL || 'gpt-3.5-turbo';
 
     if (!FINAL_API_KEY) {
       await finish(400, false, { isAdmin: true });
@@ -858,53 +834,6 @@ app.get('/api/prompts', async (req, res) => {
     });
   } catch (error) {
     console.error('[DB API Error]', error);
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// --- LEGACY API: Save Prompt to File (Preserved) ---
-app.post('/api/prompts-legacy', (req, res) => {
-  try {
-    const newPromptData = req.body;
-    
-    if (!newPromptData.title || !newPromptData.content) {
-      return res.status(400).json({ error: 'Title and Content are required' });
-    }
-
-    let fileContent = readDataFile(DATA_FILE_ZH);
-    const nextId = getNextId(fileContent);
-    const now = new Date().toISOString();
-
-    const newEntryString = `
-  {
-    id: '${nextId}',
-    createdAt: '${now}',
-    title: ${JSON.stringify(newPromptData.title)},
-    description: ${JSON.stringify(newPromptData.description || '')},
-    category: Category.${(newPromptData.category || 'CODING').toUpperCase()},
-    tags: ${JSON.stringify(newPromptData.tags || [])},
-    content: ${JSON.stringify(newPromptData.content)},
-    chineseContent: ${JSON.stringify(newPromptData.chineseContent || '')},
-    expectedOutput: ${JSON.stringify(newPromptData.expectedOutput || '')},
-    usage: ${JSON.stringify(newPromptData.usage || '')}${newPromptData.previewImageUrl ? `,\n    previewImageUrl: '${newPromptData.previewImageUrl}'` : ''}
-  }`;
-
-    const lastBracketIndex = fileContent.lastIndexOf('];');
-    if (lastBracketIndex === -1) throw new Error('Could not find closing bracket "];"');
-
-    const insertPosition = lastBracketIndex;
-    const contentBefore = fileContent.substring(0, insertPosition).trimEnd();
-    const needsComma = !contentBefore.endsWith(',') && !contentBefore.endsWith('[');
-    
-    const finalString = contentBefore + (needsComma ? ',' : '') + newEntryString + '\n];\n';
-
-    fs.writeFileSync(DATA_FILE_ZH, finalString, 'utf-8');
-
-    console.log(`[API] Added prompt ${nextId}: ${newPromptData.title}`);
-    res.json({ success: true, id: nextId, message: 'Prompt added successfully' });
-
-  } catch (error) {
-    console.error('[API Error]', error);
     res.status(500).json({ error: error.message });
   }
 });
