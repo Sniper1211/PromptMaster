@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, Globe } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import SEOHead from '../components/seo/SEOHead';
+import SiteHeader from '../components/layout/SiteHeader';
 import Footer from '../components/layout/Footer';
 import { guideArticles } from '../data/guides.js';
 
@@ -68,33 +69,7 @@ const GuidesPage: React.FC = () => {
             />
 
             <div className="min-h-screen bg-gray-50 text-slate-900 font-sans">
-                <header className="bg-white border-b-[3px] border-black sticky top-0 z-40">
-                    <div className="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between gap-4">
-                        <Link to="/" className="text-xl font-black uppercase tracking-tight">
-                            PentaPrompt
-                        </Link>
-
-                        <div className="flex items-center gap-3">
-                            <button
-                                onClick={() => i18n.changeLanguage(isZh ? 'en' : 'zh')}
-                                className="flex items-center gap-2 px-3 py-2 bg-white border-[2.5px] border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
-                                aria-label="Switch language"
-                            >
-                                <Globe size={16} strokeWidth={2.5} />
-                                <span className="font-black text-xs uppercase tracking-widest">
-                                    {isZh ? 'EN' : '中文'}
-                                </span>
-                            </button>
-                            <Link
-                                to="/"
-                                className="hidden sm:inline-flex items-center gap-2 bg-[#FACC15] text-black px-4 py-2 border-[2.5px] border-black font-black uppercase tracking-widest text-xs shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
-                            >
-                                {copy.heroPrimary}
-                                <ArrowRight size={16} strokeWidth={3} />
-                            </Link>
-                        </div>
-                    </div>
-                </header>
+                <SiteHeader />
 
                 <main className="max-w-7xl mx-auto px-4 md:px-8 py-14">
                     <section className="bg-white border-[3px] border-black p-6 md:p-8 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
@@ -177,8 +152,8 @@ const GuidesPage: React.FC = () => {
                         </div>
                     </section>
 
-                    <Footer />
                 </main>
+                <Footer />
             </div>
         </>
     );

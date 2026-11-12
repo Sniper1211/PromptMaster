@@ -1,20 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-    LayoutGrid,
-    Search,
-    ArrowUpDown,
-    Clock,
-    Shuffle,
-    Users,
-    BookOpen,
-    Globe,
-    Plus,
-    Video
-} from 'lucide-react';
+import { LayoutGrid, Search, ArrowUpDown, Clock, Shuffle, BookOpen, Video } from 'lucide-react';
 import { Category } from '../../types';
 
-interface SidebarProps {
+export interface SidebarFiltersProps {
     activeCategory: Category;
     setActiveCategory: (category: Category) => void;
     videoOnly: boolean;
@@ -23,14 +12,13 @@ interface SidebarProps {
     setSearchQuery: (query: string) => void;
     sortOrder: 'recent' | 'random';
     setSortOrder: (order: 'recent' | 'random') => void;
-    toggleLanguage: () => void;
-    currentLanguage: string;
     onTutorialClick: () => void;
-    onLogoClick: () => void;
     categoryCounts?: Record<string, number> | null;
+    className?: string;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({
+/** Filter controls shared by the desktop rail and the mobile drawer. */
+export const SidebarFilters: React.FC<SidebarFiltersProps> = ({
     activeCategory,
     setActiveCategory,
     videoOnly,
@@ -39,168 +27,142 @@ const Sidebar: React.FC<SidebarProps> = ({
     setSearchQuery,
     sortOrder,
     setSortOrder,
-    toggleLanguage,
-    currentLanguage,
     onTutorialClick,
-    onLogoClick,
-    categoryCounts
+    categoryCounts,
+    className
 }) => {
     const { t } = useTranslation();
-
     const videoPromptCount = categoryCounts?.VIDEO_PROMPTS ?? 0;
 
     const categories = Object.keys(Category)
-        .filter(k => k !== 'ALL')
-        .filter(k => !categoryCounts || (categoryCounts[k] ?? 0) > 0);
+        .filter((k) => k !== 'ALL')
+        .filter((k) => !categoryCounts || (categoryCounts[k] ?? 0) > 0);
 
     return (
-        <aside className="w-64 border-r-[3px] border-black bg-white flex flex-col h-screen shrink-0 relative">
-            {/* Brand */}
-            <div 
-                onClick={onLogoClick}
-                className="p-6 border-b-[3px] border-black hover:bg-[#FACC15] transition-colors group cursor-pointer"
-            >
-                <h1 className="text-2xl font-black uppercase tracking-tighter group-hover:translate-x-[2px] group-hover:translate-y-[2px] transition-transform">PentaPrompt</h1>
-            </div>
-
+        <div className={className ?? 'py-6 px-4 space-y-8'}>
             {/* Search */}
-            <div className="p-4 px-6 border-b-[3px] border-black bg-white">
-                <div className="relative group">
-                    <input
-                        type="text"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder={t('hero.searchPlaceholder')}
-                        className="w-full pl-10 pr-4 py-2 border-[2.5px] border-black rounded-none focus:outline-none focus:ring-0 placeholder:text-slate-400 font-bold bg-white focus:bg-gray-50 transition-all focus:shadow-[inset_3px_3px_0px_0px_rgba(0,0,0,0.1)]"
-                    />
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-black" size={18} strokeWidth={3} />
-                </div>
+            <div className="relative group">
+                <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder={t('hero.searchPlaceholder')}
+                    aria-label={t('hero.searchPlaceholder')}
+                    className="w-full pl-10 pr-4 py-2 border-[2.5px] border-black rounded-none focus:outline-none focus:ring-0 placeholder:text-slate-400 font-bold bg-white focus:bg-gray-50 transition-all"
+                />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-black" size={18} strokeWidth={3} />
             </div>
 
-            {/* Navigation */}
-            <div className="flex-1 py-6 px-4 space-y-8 overflow-y-auto custom-scrollbar pb-20">
-                {/* Sort Section */}
-                <section className="space-y-3">
-                    <h2 className="flex items-center gap-2 px-1 text-black font-black uppercase tracking-widest text-[10px] border-b-[2px] border-black pb-1 w-fit">
-                        <ArrowUpDown size={12} strokeWidth={3} />
-                        <span>{t('sidebar.sort')}</span>
-                    </h2>
+            {/* Sort */}
+            <section className="space-y-3">
+                <h2 className="flex items-center gap-2 px-1 text-black font-black uppercase tracking-widest text-[10px] border-b-[2px] border-black pb-1 w-fit">
+                    <ArrowUpDown size={12} strokeWidth={3} />
+                    <span>{t('sidebar.sort')}</span>
+                </h2>
+                <div className="grid grid-cols-2 gap-2">
+                    <button
+                        type="button"
+                        onClick={() => setSortOrder('recent')}
+                        className={`flex items-center justify-center gap-2 px-2 py-2 border-[2px] transition-all text-black font-bold text-sm ${
+                            sortOrder === 'recent'
+                                ? 'border-black bg-[#FACC15] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+                                : 'border-transparent hover:border-black hover:bg-white'
+                        }`}
+                    >
+                        <Clock size={16} strokeWidth={2.5} />
+                        <span>{t('sidebar.recent')}</span>
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setSortOrder('random')}
+                        className={`flex items-center justify-center gap-2 px-2 py-2 border-[2px] transition-all text-black font-bold text-sm ${
+                            sortOrder === 'random'
+                                ? 'border-black bg-[#FACC15] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+                                : 'border-transparent hover:border-black hover:bg-white'
+                        }`}
+                    >
+                        <Shuffle size={16} strokeWidth={2.5} />
+                        <span>{t('sidebar.random')}</span>
+                    </button>
+                </div>
+            </section>
 
-                    <div className="grid grid-cols-2 gap-2">
-                        <button 
-                            onClick={() => setSortOrder('recent')}
-                            className={`flex items-center justify-center gap-2 px-2 py-2 border-[2px] transition-all text-black font-bold text-sm ${
-                                sortOrder === 'recent' 
-                                ? 'border-black bg-[#FACC15] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]' 
-                                : 'border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
-                            }`}
-                        >
-                            <Clock size={16} strokeWidth={2.5} />
-                            <span>{t('sidebar.recent')}</span>
-                        </button>
-
-                        <button 
-                            onClick={() => setSortOrder('random')}
-                            className={`flex items-center justify-center gap-2 px-2 py-2 border-[2px] transition-all text-black font-bold text-sm ${
-                                sortOrder === 'random' 
-                                ? 'border-black bg-[#FACC15] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]' 
-                                : 'border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
-                            }`}
-                        >
-                            <Shuffle size={16} strokeWidth={2.5} />
-                            <span>{t('sidebar.random')}</span>
-                        </button>
-                    </div>
-                </section>
-
-                {/* Categories Section */}
-                <section className="space-y-3">
-                    <h2 className="flex items-center gap-2 px-1 text-black font-black uppercase tracking-widest text-[10px] border-b-[2px] border-black pb-1 w-fit">
-                        <span>{t('sidebar.categories')}</span>
-                    </h2>
-
-                    <div className="space-y-2">
-                        <button
-                            onClick={() => setActiveCategory(Category.ALL)}
-                            className={`w-full flex items-center gap-3 px-3 py-2 border-[2px] transition-all text-sm font-bold ${!videoOnly && activeCategory === Category.ALL
+            {/* Categories */}
+            <section className="space-y-3">
+                <h2 className="px-1 text-black font-black uppercase tracking-widest text-[10px] border-b-[2px] border-black pb-1 w-fit">
+                    {t('sidebar.categories')}
+                </h2>
+                <div className="space-y-2">
+                    <button
+                        type="button"
+                        onClick={() => setActiveCategory(Category.ALL)}
+                        className={`w-full flex items-center gap-3 px-3 py-2 border-[2px] transition-all text-sm font-bold ${
+                            !videoOnly && activeCategory === Category.ALL
                                 ? 'border-black bg-[#FF4D4D] text-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
-                                : 'border-transparent text-black hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
-                                }`}
-                        >
-                            <LayoutGrid size={18} strokeWidth={2.5} />
-                            <span className="font-black italic uppercase">{t('sidebar.all')}</span>
-                        </button>
+                                : 'border-transparent text-black hover:border-black hover:bg-white'
+                        }`}
+                    >
+                        <LayoutGrid size={18} strokeWidth={2.5} />
+                        <span className="font-black italic uppercase">{t('sidebar.all')}</span>
+                    </button>
 
-                        {videoPromptCount > 0 && (
+                    {videoPromptCount > 0 && (
+                        <button
+                            type="button"
+                            onClick={onVideoOnlyClick}
+                            className={`w-full flex items-center justify-between px-3 py-2 border-[2px] transition-all text-sm font-bold ${
+                                videoOnly
+                                    ? 'border-black bg-[#FACC15] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+                                    : 'border-transparent text-black hover:border-black hover:bg-white'
+                            }`}
+                        >
+                            <span className="flex items-center gap-3">
+                                <Video size={18} strokeWidth={2.5} />
+                                <span>{t('sidebar.videoPrompts')}</span>
+                            </span>
+                        </button>
+                    )}
+
+                    {categories.map((key) => {
+                        const value = Category[key as keyof typeof Category];
+                        return (
                             <button
-                                onClick={onVideoOnlyClick}
+                                type="button"
+                                key={key}
+                                onClick={() => setActiveCategory(value)}
                                 className={`w-full flex items-center justify-between px-3 py-2 border-[2px] transition-all text-sm font-bold ${
-                                    videoOnly
+                                    activeCategory === value
                                         ? 'border-black bg-[#FACC15] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
-                                        : 'border-transparent text-black hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+                                        : 'border-transparent text-black hover:border-black hover:bg-white'
                                 }`}
                             >
-                                <span className="flex items-center gap-3">
-                                    <Video size={18} strokeWidth={2.5} />
-                                    <span>{t('sidebar.videoPrompts')}</span>
-                                </span>
+                                <span>{t(`categories.${key}`)}</span>
                             </button>
-                        )}
+                        );
+                    })}
+                </div>
+            </section>
 
-                        {categories.map((key) => {
-                            // key is 'CODING', 'WRITING', etc. (enum Key)
-                            // value is 'Coding', 'Writing' (enum Value)
-                            const value = Category[key as keyof typeof Category];
-                            
-                            return (
-                                <button
-                                    key={key}
-                                    onClick={() => setActiveCategory(value)}
-                                    className={`w-full flex items-center justify-between px-3 py-2 border-[2px] transition-all text-sm font-bold ${activeCategory === value
-                                        ? 'border-black bg-[#FACC15] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
-                                        : 'border-transparent text-black hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
-                                        }`}
-                                >
-                                    <span className="flex items-center gap-3">
-                                        <span>{t(`categories.${key}`)}</span>
-                                    </span>
-                                    {/* Optional: Show count badge */}
-                                    {/* <span className="text-xs bg-black/10 px-2 py-0.5 rounded-full">{count}</span> */}
-                                </button>
-                            );
-                        })}
-                    </div>
-                </section>
-
-                {/* Other Sections */}
-                <section className="space-y-2 border-t-[3px] border-black pt-6">
-                    <button 
-                        onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            console.log('Tutorial clicked');
-                            if (onTutorialClick) onTutorialClick();
-                        }}
-                        className="w-full flex items-center gap-3 px-3 py-2 border-[2px] border-transparent hover:border-black hover:bg-white hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all text-black font-bold text-sm cursor-pointer"
-                    >
-                        <BookOpen size={18} strokeWidth={2.5} />
-                        <span>{t('sidebar.tutorials')}</span>
-                    </button>
-                </section>
-            </div>
-
-            {/* Footer / Language */}
-            <div className="p-4 border-t-[3px] border-black bg-[#F2F2F2] mt-auto sticky bottom-0 z-10">
+            {/* Guides entry */}
+            <section className="space-y-2 border-t-[3px] border-black pt-6">
                 <button
-                    onClick={toggleLanguage}
-                    className="w-full flex items-center justify-between px-3 py-2 border-[2.5px] border-black bg-white hover:bg-[#2DD4BF] transition-all shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+                    type="button"
+                    onClick={onTutorialClick}
+                    className="w-full flex items-center gap-3 px-3 py-2 border-[2px] border-transparent hover:border-black hover:bg-white transition-all text-black font-bold text-sm"
                 >
-                    <Globe size={16} strokeWidth={2.5} />
-                    <span className="font-black text-xs uppercase">
-                        {currentLanguage.startsWith('zh') ? 'English' : '简体中文'}
-                    </span>
+                    <BookOpen size={18} strokeWidth={2.5} />
+                    <span>{t('sidebar.tutorials')}</span>
                 </button>
-            </div>
+            </section>
+        </div>
+    );
+};
+
+/** Desktop filter rail (hidden below 1024px; mobile users get the same controls in the header drawer). */
+const Sidebar: React.FC<SidebarFiltersProps> = (props) => {
+    return (
+        <aside className="hidden lg:flex w-64 shrink-0 border-r-[3px] border-black bg-white flex-col sticky top-16 h-[calc(100vh-4rem)]">
+            <SidebarFilters {...props} className="flex-1 overflow-y-auto custom-scrollbar py-6 px-4 space-y-8 pb-20" />
         </aside>
     );
 };

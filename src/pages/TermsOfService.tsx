@@ -3,6 +3,8 @@ import { ArrowLeft, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import SEOHead from '../components/seo/SEOHead';
+import SiteHeader from '../components/layout/SiteHeader';
+import Footer from '../components/layout/Footer';
 import { CONTACT_EMAIL, SITE_NAME } from '../lib/site';
 
 const TermsOfService: React.FC = () => {
@@ -122,25 +124,7 @@ const TermsOfService: React.FC = () => {
                 type="website"
             />
             <div className="min-h-screen bg-[#F8FAFC] font-sans text-slate-900">
-                <header className="bg-white border-b-[3px] border-black sticky top-0 z-40">
-                    <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
-                        <Link
-                            to="/"
-                            className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-widest hover:text-[#FF4D4D] transition-colors"
-                        >
-                            <ArrowLeft size={16} strokeWidth={3} />
-                            {isZh ? '返回提示词库' : 'Back to Library'}
-                        </Link>
-                        <h1 className="text-lg font-black uppercase italic tracking-tighter">{SITE_NAME} Terms</h1>
-                        <Link
-                            to="/contact"
-                            className="hidden sm:inline-flex items-center gap-2 text-sm font-black uppercase tracking-widest hover:text-[#FF4D4D] transition-colors"
-                        >
-                            <Mail size={16} strokeWidth={2.5} />
-                            {isZh ? '联系' : 'Contact'}
-                        </Link>
-                    </div>
-                </header>
+                <SiteHeader />
 
                 <div className="max-w-4xl mx-auto p-6 md:p-12">
                     <div className="bg-white border-[3px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-8 md:p-12">
@@ -187,6 +171,7 @@ const TermsOfService: React.FC = () => {
                         </div>
                     </div>
                 </div>
+                <Footer />
             </div>
         </>
     );

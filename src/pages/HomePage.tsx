@@ -4,7 +4,8 @@ import { Plus, ArrowDown, ArrowRight, Globe, ShieldCheck, Sparkles, ChevronDown,
 import { Category, Prompt } from '../types';
 import PromptGrid from '../components/home/PromptGrid';
 import SkeletonGrid from '../components/home/SkeletonGrid';
-import Sidebar from '../components/layout/Sidebar';
+import Sidebar, { SidebarFilters } from '../components/layout/Sidebar';
+import SiteHeader from '../components/layout/SiteHeader';
 import Footer from '../components/layout/Footer';
 import AddPromptModal from '../components/admin/AddPromptModal';
 import ComingSoonModal from '../components/common/ComingSoonModal';
@@ -162,13 +163,6 @@ const HomePage: React.FC = () => {
         };
     }, [hasMore, loading, loadingMore, loadMore]);
 
-    const toggleLanguage = () => {
-        const currentLang = i18n.language;
-        const isEnglish = currentLang.startsWith('en');
-        const newLang = isEnglish ? 'zh' : 'en';
-        i18n.changeLanguage(newLang);
-    };
-
     const handleSetSortOrder = (order: 'recent' | 'random') => {
         setSortOrder(order);
         // Hook will auto-refetch when sortOrder changes
@@ -287,40 +281,47 @@ const HomePage: React.FC = () => {
                 noindex={!isCanonicalHome}
                 structuredData={isCanonicalHome ? [websiteSchema, faqSchema] : websiteSchema}
             />
-            <div className="flex h-screen bg-gray-50 text-slate-900 overflow-hidden font-sans">
-                <Sidebar
-                    activeCategory={activeCategory}
-                    setActiveCategory={handleSetActiveCategory}
-                    videoOnly={videoOnly}
-                    onVideoOnlyClick={handleSetVideoOnly}
-                    searchQuery={searchQuery}
-                    setSearchQuery={setSearchQuery}
-                    sortOrder={sortOrder}
-                    setSortOrder={handleSetSortOrder}
-                    toggleLanguage={toggleLanguage}
-                    currentLanguage={i18n.language}
-                    onTutorialClick={() => setIsComingSoonOpen(true)}
-                    onLogoClick={clearFilters}
-                    categoryCounts={categoryCounts}
+            <div className="min-h-screen flex flex-col bg-gray-50 text-slate-900 font-sans">
+                <SiteHeader
+                    onContribute={() => setIsAddModalOpen(true)}
+                    drawerContent={
+                        <SidebarFilters
+                            activeCategory={activeCategory}
+                            setActiveCategory={handleSetActiveCategory}
+                            videoOnly={videoOnly}
+                            onVideoOnlyClick={handleSetVideoOnly}
+                            searchQuery={searchQuery}
+                            setSearchQuery={setSearchQuery}
+                            sortOrder={sortOrder}
+                            setSortOrder={handleSetSortOrder}
+                            onTutorialClick={() => setIsComingSoonOpen(true)}
+                            categoryCounts={categoryCounts}
+                            className="py-6 px-4 space-y-8 pb-20"
+                        />
+                    }
                 />
+                <div className="flex flex-1 min-h-0">
+                    <Sidebar
+                        activeCategory={activeCategory}
+                        setActiveCategory={handleSetActiveCategory}
+                        videoOnly={videoOnly}
+                        onVideoOnlyClick={handleSetVideoOnly}
+                        searchQuery={searchQuery}
+                        setSearchQuery={setSearchQuery}
+                        sortOrder={sortOrder}
+                        setSortOrder={handleSetSortOrder}
+                        onTutorialClick={() => setIsComingSoonOpen(true)}
+                        categoryCounts={categoryCounts}
+                    />
 
-                <main className="flex-1 flex flex-col min-w-0 h-full overflow-hidden border-l-[2.5px] border-black">
-                    <div className="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-10">
+                    <main id="main" className="flex-1 min-w-0 lg:border-l-[2.5px] border-black">
+                    <div className="p-4 sm:p-6 lg:p-10">
                         <header className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                             <div>
                                 <h2 className="text-4xl font-black italic uppercase tracking-tighter mb-2">{t('home.exploreTitle')}</h2>
                                 <p className="text-slate-500 font-medium">{t('home.exploreSubtitle')}</p>
                             </div>
 
-                            <div className="flex gap-4">
-                                <button
-                                    onClick={() => setIsAddModalOpen(true)}
-                                    className="flex items-center gap-2 bg-[#66D9E8] text-black px-6 py-3 border-[2.5px] border-black rounded-2xl font-black uppercase italic shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
-                                >
-                                    <Plus size={20} strokeWidth={3} />
-                                    <span>{t('nav.addPrompt')}</span>
-                                </button>
-                            </div>
                         </header>
 
                         {isCanonicalHome && (
@@ -516,9 +517,10 @@ const HomePage: React.FC = () => {
                             </>
                         )}
 
-                        <Footer onContribute={() => setIsAddModalOpen(true)} />
                     </div>
                 </main>
+                </div>
+                <Footer onContribute={() => setIsAddModalOpen(true)} />
 
                 {isAddModalOpen && (
                     <AddPromptModal

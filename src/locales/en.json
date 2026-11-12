@@ -23,7 +23,14 @@
     "guide": "Guide",
     "library": "Library",
     "proUpgrade": "Pro Upgrade",
-    "addPrompt": "Add Prompt"
+    "addPrompt": "Add Prompt",
+    "prompts": "Prompts",
+    "videoCollections": "Video Prompts",
+    "guides": "Guides",
+    "about": "About",
+    "menu": "Menu",
+    "close": "Close",
+    "language": "Language"
   },
   "hero": {
     "title": "Master the Art of\nAI Prompting",
@@ -145,14 +152,38 @@
       "subtitle": "Start from an intent, not a blank page.",
       "more": "See more",
       "items": {
-        "writing": { "title": "Writing", "desc": "Blog posts, summaries, rewrites, storytelling, and more." },
-        "marketing": { "title": "Marketing", "desc": "Ads, landing pages, hooks, positioning, and campaigns." },
-        "seo": { "title": "SEO", "desc": "Keyword clusters, outlines, meta tags, and content briefs." },
-        "coding": { "title": "Coding", "desc": "Debugging, refactors, code reviews, and architecture." },
-        "email": { "title": "Email", "desc": "Cold emails, follow-ups, customer support, and outreach." },
-        "learning": { "title": "Learning", "desc": "Study plans, explanations, quizzes, and practice tasks." },
-        "product": { "title": "Product", "desc": "PRDs, user stories, UX copy, and feature specs." },
-        "video": { "title": "Video", "desc": "Video scripts, shot lists, storyboards, and generation prompts." }
+        "writing": {
+          "title": "Writing",
+          "desc": "Blog posts, summaries, rewrites, storytelling, and more."
+        },
+        "marketing": {
+          "title": "Marketing",
+          "desc": "Ads, landing pages, hooks, positioning, and campaigns."
+        },
+        "seo": {
+          "title": "SEO",
+          "desc": "Keyword clusters, outlines, meta tags, and content briefs."
+        },
+        "coding": {
+          "title": "Coding",
+          "desc": "Debugging, refactors, code reviews, and architecture."
+        },
+        "email": {
+          "title": "Email",
+          "desc": "Cold emails, follow-ups, customer support, and outreach."
+        },
+        "learning": {
+          "title": "Learning",
+          "desc": "Study plans, explanations, quizzes, and practice tasks."
+        },
+        "product": {
+          "title": "Product",
+          "desc": "PRDs, user stories, UX copy, and feature specs."
+        },
+        "video": {
+          "title": "Video",
+          "desc": "Video scripts, shot lists, storyboards, and generation prompts."
+        }
       }
     },
     "categories": {
@@ -210,37 +241,97 @@
     "featured": "Featured Prompts",
     "openInLibrary": "Open in Library",
     "browseLibrary": "Browse Library",
-    "writing": { "title": "Writing Prompts", "desc": "Copy-ready templates for blogs, summaries, rewrites, and scripts." },
-    "seo": { "title": "SEO Prompts", "desc": "Prompts for keyword research, meta tags, outlines, and content briefs." },
-    "marketing": { "title": "Marketing Prompts", "desc": "Hooks, landing pages, ads, positioning, and growth experiments." },
-    "coding": { "title": "Coding Prompts", "desc": "Debugging, refactoring, code generation, and review checklists." },
-    "video": { "title": "Video Prompts", "desc": "Scripts, shot lists, storyboards, and video-generation prompts." }
+    "writing": {
+      "title": "Writing Prompts",
+      "desc": "Copy-ready templates for blogs, summaries, rewrites, and scripts."
+    },
+    "seo": {
+      "title": "SEO Prompts",
+      "desc": "Prompts for keyword research, meta tags, outlines, and content briefs."
+    },
+    "marketing": {
+      "title": "Marketing Prompts",
+      "desc": "Hooks, landing pages, ads, positioning, and growth experiments."
+    },
+    "coding": {
+      "title": "Coding Prompts",
+      "desc": "Debugging, refactoring, code generation, and review checklists."
+    },
+    "video": {
+      "title": "Video Prompts",
+      "desc": "Scripts, shot lists, storyboards, and video-generation prompts."
+    }
   },
   "collectionsFaq": {
     "writing": {
-      "q1": { "q": "What are writing prompts used for?", "a": "Use them to generate drafts faster, rewrite with a specific tone, and produce structured outputs like outlines and scripts." },
-      "q2": { "q": "How do I avoid generic writing?", "a": "Add your audience, angle, and constraints. Provide 2–3 examples of style, and ask for multiple variants." },
-      "q3": { "q": "Do these work for long-form content?", "a": "Yes. Start with an outline prompt, then expand section by section with clear constraints and sources." }
+      "q1": {
+        "q": "What are writing prompts used for?",
+        "a": "Use them to generate drafts faster, rewrite with a specific tone, and produce structured outputs like outlines and scripts."
+      },
+      "q2": {
+        "q": "How do I avoid generic writing?",
+        "a": "Add your audience, angle, and constraints. Provide 2–3 examples of style, and ask for multiple variants."
+      },
+      "q3": {
+        "q": "Do these work for long-form content?",
+        "a": "Yes. Start with an outline prompt, then expand section by section with clear constraints and sources."
+      }
     },
     "seo": {
-      "q1": { "q": "What do SEO prompts help with?", "a": "They help you plan keyword clusters, create outlines, write meta descriptions, and produce content briefs aligned with search intent." },
-      "q2": { "q": "Can AI-written content rank on Google?", "a": "It can, if it is helpful and accurate. Use prompts to produce structured drafts, then add original insights and verification." },
-      "q3": { "q": "How do I make outputs more actionable?", "a": "Ask for tables, checklists, and step-by-step tasks. Specify target audience, funnel stage, and constraints." }
+      "q1": {
+        "q": "What do SEO prompts help with?",
+        "a": "They help you plan keyword clusters, create outlines, write meta descriptions, and produce content briefs aligned with search intent."
+      },
+      "q2": {
+        "q": "Can AI-written content rank on Google?",
+        "a": "It can, if it is helpful and accurate. Use prompts to produce structured drafts, then add original insights and verification."
+      },
+      "q3": {
+        "q": "How do I make outputs more actionable?",
+        "a": "Ask for tables, checklists, and step-by-step tasks. Specify target audience, funnel stage, and constraints."
+      }
     },
     "marketing": {
-      "q1": { "q": "Which marketing assets can I generate?", "a": "Ads, landing page copy, positioning statements, email sequences, and social posts." },
-      "q2": { "q": "How do I keep messaging consistent?", "a": "Provide your brand voice, product positioning, and a few examples. Ask for multiple variants and a final recommended option." },
-      "q3": { "q": "What should I include as context?", "a": "Your audience, offer, benefits, differentiators, objections, and any constraints like length or platform." }
+      "q1": {
+        "q": "Which marketing assets can I generate?",
+        "a": "Ads, landing page copy, positioning statements, email sequences, and social posts."
+      },
+      "q2": {
+        "q": "How do I keep messaging consistent?",
+        "a": "Provide your brand voice, product positioning, and a few examples. Ask for multiple variants and a final recommended option."
+      },
+      "q3": {
+        "q": "What should I include as context?",
+        "a": "Your audience, offer, benefits, differentiators, objections, and any constraints like length or platform."
+      }
     },
     "coding": {
-      "q1": { "q": "Are coding prompts safe to use?", "a": "They are a starting point. Always review code, run tests, and validate security and edge cases." },
-      "q2": { "q": "How do I get better code outputs?", "a": "Provide the stack, constraints, input/output examples, and ask for explanations plus tests." },
-      "q3": { "q": "Can I use prompts for refactors?", "a": "Yes. Ask for step-by-step refactor plans, risk assessment, and incremental changes with tests." }
+      "q1": {
+        "q": "Are coding prompts safe to use?",
+        "a": "They are a starting point. Always review code, run tests, and validate security and edge cases."
+      },
+      "q2": {
+        "q": "How do I get better code outputs?",
+        "a": "Provide the stack, constraints, input/output examples, and ask for explanations plus tests."
+      },
+      "q3": {
+        "q": "Can I use prompts for refactors?",
+        "a": "Yes. Ask for step-by-step refactor plans, risk assessment, and incremental changes with tests."
+      }
     },
     "video": {
-      "q1": { "q": "What are video prompts?", "a": "They are templates for generating scripts, storyboards, shot lists, and structured instructions for video creation workflows." },
-      "q2": { "q": "Which tools can I use them with?", "a": "Most video prompts are tool-agnostic. You can adapt them for your preferred generator by mapping fields like style, camera, and length." },
-      "q3": { "q": "How do I get more consistent results?", "a": "Specify duration, structure, tone, and visual style. Ask for scene-by-scene outputs and a single global style guide." }
+      "q1": {
+        "q": "What are video prompts?",
+        "a": "They are templates for generating scripts, storyboards, shot lists, and structured instructions for video creation workflows."
+      },
+      "q2": {
+        "q": "Which tools can I use them with?",
+        "a": "Most video prompts are tool-agnostic. You can adapt them for your preferred generator by mapping fields like style, camera, and length."
+      },
+      "q3": {
+        "q": "How do I get more consistent results?",
+        "a": "Specify duration, structure, tone, and visual style. Ask for scene-by-scene outputs and a single global style guide."
+      }
     }
   },
   "categories": {
@@ -264,7 +355,7 @@
     "details": "Details",
     "chineseTranslation": "Chinese Translation"
   },
- "modal": {
+  "modal": {
     "title": "Prompt Details",
     "promptConfig": "Prompt Content",
     "expertTip": "Expert Tip",
@@ -364,7 +455,7 @@
   },
   "footer": {
     "curatedPrompts": "Curated Prompts",
-      "languages": "Languages",
+    "languages": "Languages",
     "communityUses": "Community Uses",
     "openLibrary": "Open Library",
     "contribute": "Contribute your own prompts",

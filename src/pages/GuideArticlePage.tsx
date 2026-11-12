@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ArrowRight, ChevronRight, Globe } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import SEOHead from '../components/seo/SEOHead';
+import SiteHeader from '../components/layout/SiteHeader';
 import Footer from '../components/layout/Footer';
 import { guideArticles, guidesBySlug } from '../data/guides.js';
 
@@ -100,30 +101,7 @@ const GuideArticlePage: React.FC = () => {
             />
 
             <div className="min-h-screen bg-gray-50 text-slate-900 font-sans">
-                <header className="bg-white border-b-[3px] border-black sticky top-0 z-40">
-                    <div className="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between gap-4">
-                        <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-slate-500 overflow-hidden">
-                            <Link to="/" className="hover:text-black shrink-0 transition-colors">
-                                PentaPrompt
-                            </Link>
-                            <ChevronRight size={14} className="shrink-0 text-slate-300" />
-                            <Link to="/guides" className="hover:text-black shrink-0 transition-colors">
-                                Guides
-                            </Link>
-                            <ChevronRight size={14} className="shrink-0 text-slate-300" />
-                            <span className="text-black truncate">{isZh ? guide.title.zh : guide.title.en}</span>
-                        </div>
-
-                        <button
-                            onClick={() => i18n.changeLanguage(isZh ? 'en' : 'zh')}
-                            className="flex items-center gap-2 px-3 py-2 bg-white border-[2.5px] border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
-                            aria-label="Switch language"
-                        >
-                            <Globe size={16} strokeWidth={2.5} />
-                            <span className="font-black text-xs uppercase tracking-widest">{isZh ? 'EN' : '中文'}</span>
-                        </button>
-                    </div>
-                </header>
+                <SiteHeader />
 
                 <main className="max-w-6xl mx-auto px-4 md:px-8 py-14">
                     <article className="bg-white border-[3px] border-black p-6 md:p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
@@ -250,8 +228,8 @@ const GuideArticlePage: React.FC = () => {
                         </div>
                     </section>
 
-                    <Footer />
                 </main>
+                <Footer />
             </div>
         </>
     );
