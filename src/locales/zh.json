@@ -26,7 +26,7 @@
     "addPrompt": "添加提示词"
   },
   "hero": {
-    "title": "精通 AI 提示词 <br /> 的艺术",
+    "title": "精通 AI 提示词\n的艺术",
     "subtitle": "发现精选的高效提示词集合。通过实例学习，优化您的 AI 交互体验。",
     "searchPlaceholder": "搜索提示词、标签或主题...",
     "searchButton": "搜索"
@@ -134,7 +134,7 @@
       "browse": "浏览提示词库"
     },
     "hero": {
-      "title": "AI 提示词库<br />专为真实工作打造",
+      "title": "AI 提示词库\n专为真实工作打造",
       "subtitle": "精选可直接复制使用的提示词模板，适配 ChatGPT、Claude、Gemini。按分类浏览、按专题探索，更快产出更好结果。",
       "ctaPrimary": "浏览提示词",
       "ctaVideo": "视频提示词",
@@ -377,6 +377,7 @@
   },
   "footer": {
     "curatedPrompts": "精选提示词",
+      "languages": "语言",
     "communityUses": "社区使用",
     "openLibrary": "开放库",
     "contribute": "贡献您的提示词",

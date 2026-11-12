@@ -145,7 +145,7 @@ const LandingPage: React.FC = () => {
                     <section className="bg-white border-b-[3px] border-black">
                         <div className="max-w-7xl mx-auto px-4 md:px-8 py-16">
                             <div className="max-w-4xl">
-                                <h1 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter leading-[0.95] text-black">
+                                <h1 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter leading-[0.95] text-black whitespace-pre-line">
                                     {t('landing.hero.title')}
                                 </h1>
                                 <p className="mt-6 text-lg md:text-xl text-slate-600 font-medium leading-relaxed">

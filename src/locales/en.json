@@ -26,7 +26,7 @@
     "addPrompt": "Add Prompt"
   },
   "hero": {
-    "title": "Master the Art of <br /> AI Prompting",
+    "title": "Master the Art of\nAI Prompting",
     "subtitle": "Discover a curated collection of high-performance prompts. Learn through real examples and optimize your AI interactions.",
     "searchPlaceholder": "Search for prompts by title, tag, or topic...",
     "searchButton": "Search"
@@ -134,7 +134,7 @@
       "browse": "Browse Library"
     },
     "hero": {
-      "title": "AI Prompt Library<br />Built for Real Work",
+      "title": "AI Prompt Library\nBuilt for Real Work",
       "subtitle": "Curated, copy-ready prompt templates for ChatGPT, Claude, and Gemini. Browse by category, explore collections, and ship better results—faster.",
       "ctaPrimary": "Browse Prompts",
       "ctaVideo": "Video Prompts",
@@ -364,6 +364,7 @@
   },
   "footer": {
     "curatedPrompts": "Curated Prompts",
+      "languages": "Languages",
     "communityUses": "Community Uses",
     "openLibrary": "Open Library",
     "contribute": "Contribute your own prompts",

@@ -173,12 +173,8 @@ const PromptDetailPage: React.FC = () => {
             "@type": "Organization",
             "name": "PentaPrompt",
             "url": "https://pentaprompt.com"
-        },
-        "interactionStatistic": {
-            "@type": "InteractionCounter",
-            "interactionType": "https://schema.org/ShareAction",
-            "userInteractionCount": localCopyCount || 100
         }
+
     };
 
     return (

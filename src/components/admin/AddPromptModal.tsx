@@ -480,15 +480,6 @@ const AddPromptModal: React.FC<AddPromptModalProps> = ({ onClose, nextId, isAdmi
                                         </div>
                                     )}
 
-                                    {/* Manual Instructions */}
-                                    <div className="bg-white/5 p-4 border border-white/10 rounded-sm">
-                                        <p className="text-slate-400 text-[10px] font-black uppercase mb-3 tracking-widest">{t('addPrompt.admin.manualPublication')}</p>
-                                        <ol className="text-slate-200 text-xs space-y-2 list-decimal list-inside font-bold">
-                                            <li>{t('addPrompt.admin.manualStep1')} <span className="text-[#2DD4BF] underline">{t('addPrompt.admin.copyJson')}</span> {t('addPrompt.admin.manualStep1Tail')}</li>
-                                            <li>{t('addPrompt.admin.manualStep2')} <code className="bg-black/50 px-1 py-0.5 rounded text-teal-300">src/data/prompts-en.ts</code>.</li>
-                                            <li>{t('addPrompt.admin.manualStep3')}</li>
-                                        </ol>
-                                    </div>
                                 </div>
                             </div>
                         </>
