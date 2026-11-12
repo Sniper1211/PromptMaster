@@ -15,7 +15,8 @@
     "comingSoon": {
       "title": "Coming Soon",
       "description": "We are working hard on this feature. Stay tuned!"
-    }
+    },
+    "copied": "Copied"
   },
   "nav": {
     "title": "PentaPrompt",
@@ -601,7 +602,8 @@
       "note2": "If the output is too broad, add audience, tone, length, and formatting constraints.",
       "note3": "Review factual claims, links, and sensitive decisions before using the result publicly.",
       "editorNoteText": "This prompt is most valuable as a starting framework. The more specific your context is, the easier it becomes to turn the output into something genuinely useful."
-    }
+    },
+    "viewSource": "View source"
   },
   "seo": {
     "home": {

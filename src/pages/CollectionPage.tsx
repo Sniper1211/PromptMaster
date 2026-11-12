@@ -253,7 +253,7 @@ const CollectionPage: React.FC = () => {
                         </p>
                         <div className="mt-10">
                             <Link
-                                to="/prompts"
+                                to="/"
                                 className="inline-flex items-center justify-center gap-2 bg-black text-white px-7 py-4 border-[3px] border-black font-black uppercase tracking-widest text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
                             >
                                 {t('collections.browseLibrary')}
@@ -285,7 +285,7 @@ const CollectionPage: React.FC = () => {
                                 PentaPrompt
                             </Link>
                             <ChevronRight size={14} className="shrink-0 text-slate-300" />
-                            <Link to="/prompts" className="hover:text-black shrink-0 transition-colors">
+                            <Link to="/" className="hover:text-black shrink-0 transition-colors">
                                 {t('collections.library')}
                             </Link>
                             <ChevronRight size={14} className="shrink-0 text-slate-300" />
@@ -333,7 +333,7 @@ const CollectionPage: React.FC = () => {
                             <ArrowRight size={18} strokeWidth={3} />
                         </Link>
                         <Link
-                            to="/prompts"
+                            to="/"
                             className="inline-flex items-center justify-center gap-2 bg-white text-black px-7 py-4 border-[3px] border-black font-black uppercase tracking-widest text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
                         >
                             {t('collections.browseLibrary')}

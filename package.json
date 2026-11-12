@@ -1,7 +1,7 @@
 {
   "name": "pentaprompt",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "concurrently \"vite\" \"node server/index.js\"",
@@ -40,5 +40,6 @@
     "tsx": "^4.21.0",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
-  }
+  },
+  "description": "PentaPrompt — a bilingual library of curated AI prompts (video, photography, writing, coding)."
 }

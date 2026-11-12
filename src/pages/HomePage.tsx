@@ -119,23 +119,8 @@ const HomePage: React.FC = () => {
         fetchCategoryCounts();
     }, [i18n.language]);
 
-    useEffect(() => {
-        if (!categoryCounts) return;
-        if (videoOnly) return;
-        if (activeCategory === Category.ALL) return;
-
-        const activeKey = Object.keys(Category).find(
-            key => Category[key as keyof typeof Category] === activeCategory
-        );
-
-        if (!activeKey) return;
-        if ((categoryCounts[activeKey] ?? 0) > 0) return;
-
-        setActiveCategory(Category.ALL);
-        const nextParams = new URLSearchParams(searchParams);
-        nextParams.delete('category');
-        setSearchParams(nextParams);
-    }, [activeCategory, categoryCounts, searchParams, setSearchParams]);
+    // Categories with zero prompts are kept selectable and render the explicit empty state
+    // (the old behaviour silently reset the user back to ALL, which was confusing).
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -316,27 +301,11 @@ const HomePage: React.FC = () => {
 
                     <main id="main" className="flex-1 min-w-0 lg:border-l-[2.5px] border-black">
                     <div className="p-4 sm:p-6 lg:p-10">
-                        <header className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                            <div>
-                                <h2 className="text-4xl font-black italic uppercase tracking-tighter mb-2">{t('home.exploreTitle')}</h2>
-                                <p className="text-slate-500 font-medium">{t('home.exploreSubtitle')}</p>
-                            </div>
-
+                        <header className="mb-8 max-w-4xl">
+                            <h1 className="text-3xl md:text-4xl font-black italic uppercase tracking-tighter mb-2">{t('home.exploreTitle')}</h1>
+                            <p className="text-slate-500 font-medium">{t('home.exploreSubtitle')}</p>
+                            <p className="mt-3 text-sm md:text-base text-slate-600 font-medium leading-relaxed">{t('home.intro.description')}</p>
                         </header>
-
-                        {isCanonicalHome && (
-                            <section className="mb-8">
-                                <div className="bg-white border-[3px] border-black px-6 py-5 md:px-7 md:py-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-                                    <p className="text-[10px] font-black uppercase tracking-[0.28em] text-slate-500">{t('home.intro.kicker')}</p>
-                                    <h3 className="mt-3 text-2xl md:text-3xl font-black uppercase italic tracking-tighter leading-tight">
-                                        {t('home.intro.title')}
-                                    </h3>
-                                    <p className="mt-3 max-w-4xl text-sm md:text-base text-slate-700 leading-relaxed font-medium">
-                                        {t('home.intro.description')}
-                                    </p>
-                                </div>
-                            </section>
-                        )}
 
                         {loading && prompts.length === 0 ? (
                             <SkeletonGrid />

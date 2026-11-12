@@ -89,7 +89,7 @@ const GuidesPage: React.FC = () => {
                                 <ArrowRight size={18} strokeWidth={3} />
                             </Link>
                             <Link
-                                to="/discover"
+                                to="/"
                                 className="inline-flex items-center justify-center gap-2 bg-white text-black px-7 py-4 border-[3px] border-black font-black uppercase tracking-widest text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
                             >
                                 {copy.heroSecondary}

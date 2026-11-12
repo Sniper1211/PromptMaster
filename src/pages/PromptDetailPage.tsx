@@ -13,6 +13,10 @@ import ImageWithSkeleton from '../components/common/ImageWithSkeleton';
 import PromptDetailSkeleton from '../components/detail/PromptDetailSkeleton';
 import { Category, Prompt } from '../types';
 
+// Import-time provenance tags are not user-facing keywords.
+const PROVENANCE_TAG_BLOCKLIST = /^(imported|nano\s*banana|ai\s*art|video|ai-video|seedance[\s-]*2(\.0)?|seedance)$/i;
+const isDisplayTag = (tag: string) => !PROVENANCE_TAG_BLOCKLIST.test(String(tag || '').trim());
+
 const PromptDetailPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     
@@ -130,7 +134,7 @@ const PromptDetailPage: React.FC = () => {
     };
 
     // JSON-LD for SEO
-    const safeTags = Array.isArray(prompt.tags) ? prompt.tags : [];
+    const safeTags = (Array.isArray(prompt.tags) ? prompt.tags : []).filter(isDisplayTag);
     const categoryLabel = t(`categories.${getCategoryKey(String(prompt.category))}`, {
         defaultValue: String(prompt.category)
     });
@@ -273,16 +277,19 @@ const PromptDetailPage: React.FC = () => {
                                     </h3>
                                     <div className="flex items-center gap-3">
                                         {/* Copy Count Badge */}
-                                        <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#FACC15] border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-xs font-black uppercase tracking-wider text-black transform hover:-translate-y-[1px] transition-transform cursor-help" title={t('promptDetail.totalCopies')}>
-                                            <Flame size={12} fill="black" /> 
-                                            {localCopyCount === undefined ? (
+                                        {localCopyCount === undefined ? (
+                                            <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#FACC15] border-2 border-black text-xs font-black uppercase tracking-wider text-black">
+                                                <Flame size={12} fill="black" />
                                                 <span className="inline-block w-10 h-3 bg-black opacity-20 animate-pulse"></span>
-                                            ) : (
-                                                <>
+                                            </div>
+                                        ) : (
+                                            localCopyCount > 0 && (
+                                                <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#FACC15] border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-xs font-black uppercase tracking-wider text-black" title={t('promptDetail.totalCopies')}>
+                                                    <Flame size={12} fill="black" />
                                                     {localCopyCount.toLocaleString()} <span className="ml-0.5 opacity-80 text-[10px]">{t('promptDetail.copies')}</span>
-                                                </>
-                                            )}
-                                        </div>
+                                                </div>
+                                            )
+                                        )}
                                         
                                         <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
                                             {prompt.content.length} {t('promptDetail.characters')}
@@ -316,7 +323,7 @@ const PromptDetailPage: React.FC = () => {
                             </div>
 
                             {/* Chinese Translation Block */}
-                            {prompt.chineseContent && (
+                            {prompt.chineseContent && prompt.chineseContent.trim() !== prompt.content.trim() && (
                                 <div className="mt-6">
                                     <h3 className="text-lg font-black uppercase italic tracking-tight flex items-center gap-2 mb-3">
                                         <div className="w-3 h-6 bg-[#FF4D4D]"></div> {t('card.chineseTranslation')}

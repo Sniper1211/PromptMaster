@@ -38,11 +38,11 @@ const PromptGrid: React.FC<PromptGridProps> = ({ prompts, onSelectPrompt, onClea
     if (prompts.length === 0) {
         return (
             <div className="py-20 text-center w-full">
-                <Compass size={48} className="mx-auto text-slate-600 mb-4 opacity-20" />
+                <Compass size={48} className="mx-auto text-slate-400 mb-4 opacity-40" />
                 <p className="text-slate-400 text-lg">{t('noResults.message')}</p>
                 <button
                     onClick={onClearFilters}
-                    className="mt-4 text-indigo-400 hover:underline"
+                    className="mt-4 text-black font-black uppercase tracking-widest text-xs underline hover:no-underline"
                 >
                     {t('noResults.clear')}
                 </button>

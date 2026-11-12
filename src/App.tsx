@@ -1,8 +1,7 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import HomePage from './pages/HomePage';
-import LandingPage from './pages/LandingPage';
 import CollectionPage from './pages/CollectionPage';
 import PromptDetailPage from './pages/PromptDetailPage';
 import PrivacyPolicy from './pages/PrivacyPolicy';
@@ -20,8 +19,9 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/prompts" element={<HomePage />} />
-          <Route path="/discover" element={<LandingPage />} />
+          {/* Legacy URLs: 301 redirects are configured in vercel.json; these cover client-side navigation. */}
+          <Route path="/prompts" element={<Navigate to="/" replace />} />
+          <Route path="/discover" element={<Navigate to="/" replace />} />
           <Route path="/collections/:slug" element={<CollectionPage />} />
           <Route path="/prompt/:id" element={<PromptDetailPage />} />
           <Route path="/about" element={<AboutPage />} />
