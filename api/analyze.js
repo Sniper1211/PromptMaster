@@ -130,9 +130,6 @@ export default async function handler(req, res) {
       errorMessage: 'AI Analysis Failed',
       errorDetail: error.response?.data?.error?.message || error.message
     });
-    return res.status(500).json({
-      error: 'AI Analysis Failed',
-      details: error.response?.data?.error?.message || error.message
-    });
+    return res.status(500).json({ error: 'AI Analysis Failed' });
   }
 }

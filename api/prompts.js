@@ -36,6 +36,7 @@ export default async function handler(req, res) {
         }, {});
         const videoResult = await pool.query(`SELECT COUNT(*)::int AS count FROM prompts WHERE prompt_type = 'video'`);
         const videoPromptCount = videoResult.rows?.[0]?.count ?? 0;
+        res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1200');
         return res.status(200).json({ counts, videoPromptCount });
       }
 
@@ -84,12 +85,22 @@ export default async function handler(req, res) {
           videoThumbnailUrl: row.video_thumbnail_url
         };
 
+        res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
         return res.status(200).json(prompt);
       }
 
       // --- Pagination & Random Sort Logic ---
-      const page = parseInt(req.query.page) || 1;
-      const limit = parseInt(req.query.limit) || 24;
+      const parsePageParam = (raw, fallback, max) => {
+        if (raw === undefined || raw === '') return fallback;
+        const n = parseInt(String(raw), 10);
+        if (!Number.isFinite(n) || n < 1 || n > max) return null;
+        return n;
+      };
+      const page = parsePageParam(req.query.page, 1, 100000);
+      const limit = parsePageParam(req.query.limit, 24, 120);
+      if (page === null || limit === null) {
+        return res.status(400).json({ error: 'Invalid pagination parameters' });
+      }
       const offset = (page - 1) * limit;
       const category = req.query.category; // Optional category filter
       const promptType = req.query.promptType; // Optional type filter: 'video' | 'text'
@@ -99,7 +110,7 @@ export default async function handler(req, res) {
       const hourKey = new Date().toISOString().slice(0, 13); 
 
       let queryCount = 'SELECT COUNT(*) FROM prompts';
-      let queryData = 'SELECT * FROM prompts';
+      let queryData = 'SELECT id, created_at, title_zh, title_en, description_zh, description_en, category, tags, preview_image_url, base_count, real_copy_count, prompt_type, source_link, author_name, video_thumbnail_url FROM prompts';
       let paramsCount = [];
       let paramsData = [limit, offset]; // $1=limit, $2=offset (will adjust index dynamically)
       
@@ -186,10 +197,6 @@ export default async function handler(req, res) {
           descriptionEn: row.description_en,
           category: row.category,
           tags: safeParseTags(row.tags),
-          content: row.content,
-          chineseContent: row.chinese_content,
-          expectedOutput: row.expected_output,
-          usage: row.usage,
           previewImageUrl: row.preview_image_url,
           // Calculate total copy count
           copyCount: (row.base_count || 0) + (row.real_copy_count || 0),
@@ -201,6 +208,7 @@ export default async function handler(req, res) {
         };
       });
 
+      res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
       return res.status(200).json({
         prompts,
         total,
@@ -209,7 +217,7 @@ export default async function handler(req, res) {
       });
     } catch (error) {
       console.error('[DB API Error]', error);
-      return res.status(500).json({ error: error.message });
+      return res.status(500).json({ error: 'Internal server error' });
     }
   } else if (req.method === 'POST') {
     // --- Auth Check ---
@@ -306,7 +314,7 @@ export default async function handler(req, res) {
 
     } catch (error) {
       console.error('[DB API Error]', error);
-      return res.status(500).json({ error: error.message });
+      return res.status(500).json({ error: 'Internal server error' });
     }
   } else if (req.method === 'PUT') {
     // --- Auth Check ---
@@ -371,7 +379,7 @@ export default async function handler(req, res) {
 
     } catch (error) {
       console.error('[DB Update Error]', error);
-      return res.status(500).json({ error: error.message });
+      return res.status(500).json({ error: 'Internal server error' });
     }
   } else {
     res.setHeader('Allow', ['GET', 'POST', 'PUT']);

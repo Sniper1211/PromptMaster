@@ -26,10 +26,32 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onTry: _onTry }) => {
   // Language badge: tell users when the card is showing the other language's original text.
   const showLanguageBadge = currentLang === 'zh' ? !hasCjk(prompt.title) : hasCjk(prompt.title);
 
-  const handleCopy = (event: React.MouseEvent) => {
+  const handleCopy = async (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
-    navigator.clipboard.writeText(prompt.content);
+
+    // List responses no longer include the full prompt text; fetch it on demand.
+    let text = prompt.content || '';
+    if (!text) {
+      try {
+        const res = await fetch(`/api/prompts?id=${encodeURIComponent(prompt.id)}&lang=${currentLang}`);
+        if (res.ok) {
+          const full = await res.json();
+          text = typeof full?.content === 'string' ? full.content : '';
+        }
+      } catch (err) {
+        console.error('Failed to load prompt content', err);
+      }
+    }
+    if (!text) return;
+
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (err) {
+      console.error('Clipboard write failed', err);
+      return;
+    }
+
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
 
