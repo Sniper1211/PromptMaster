@@ -38,7 +38,11 @@ const SEOHead: React.FC<SEOHeadProps> = ({
 
     const finalTitle = title || defaultTitle;
     const finalDescription = description || defaultDescription;
-    const finalImage = image || defaultImage;
+    // OG/Twitter images must be absolute URLs; prompt images may point at a local path.
+    const normalizedImage = image && !/^https?:\/\//i.test(image)
+        ? `${baseUrl}${image.startsWith('/') ? '' : '/'}${image}`
+        : image;
+    const finalImage = normalizedImage || defaultImage;
 
     // Canonical/hreflang are derived from the current route + language prefix
     // (English at the root, Chinese under /zh) so they are always self-consistent.
