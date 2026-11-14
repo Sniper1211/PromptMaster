@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import HomePage from './pages/HomePage';
+import LocaleNormalizer from './components/common/LocaleNormalizer';
 
 // Route-level code splitting: only the home page ships in the initial bundle.
 const PromptDetailPage = lazy(() => import('./pages/PromptDetailPage'));
@@ -25,12 +26,11 @@ const App: React.FC = () => {
   return (
     <HelmetProvider>
       <BrowserRouter>
+        <LocaleNormalizer />
         <Suspense fallback={<RouteFallback />}>
           <Routes>
+            {/* English (default, no prefix) */}
             <Route path="/" element={<HomePage />} />
-            {/* Legacy URLs: 301 redirects are configured in vercel.json; these cover client-side navigation. */}
-            <Route path="/prompts" element={<Navigate to="/" replace />} />
-            <Route path="/discover" element={<Navigate to="/" replace />} />
             <Route path="/collections/:slug" element={<CollectionPage />} />
             <Route path="/prompt/:id" element={<PromptDetailPage />} />
             <Route path="/about" element={<AboutPage />} />
@@ -42,6 +42,27 @@ const App: React.FC = () => {
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/admin/add" element={<AdminPage />} />
             <Route path="/admin/edit/:id" element={<AdminPage />} />
+
+            {/* Chinese (/zh prefix) */}
+            <Route path="/zh" element={<HomePage />} />
+            <Route path="/zh/collections/:slug" element={<CollectionPage />} />
+            <Route path="/zh/prompt/:id" element={<PromptDetailPage />} />
+            <Route path="/zh/about" element={<AboutPage />} />
+            <Route path="/zh/contact" element={<ContactPage />} />
+            <Route path="/zh/guides" element={<GuidesPage />} />
+            <Route path="/zh/guides/:slug" element={<GuideArticlePage />} />
+            <Route path="/zh/privacy" element={<PrivacyPolicy />} />
+            <Route path="/zh/terms" element={<TermsOfService />} />
+            <Route path="/zh/admin" element={<AdminPage />} />
+            <Route path="/zh/admin/add" element={<AdminPage />} />
+            <Route path="/zh/admin/edit/:id" element={<AdminPage />} />
+
+            {/* Legacy URLs: 308 redirects are configured in vercel.json; these cover client-side navigation. */}
+            <Route path="/prompts" element={<Navigate to="/" replace />} />
+            <Route path="/discover" element={<Navigate to="/" replace />} />
+            <Route path="/zh/prompts" element={<Navigate to="/zh" replace />} />
+            <Route path="/zh/discover" element={<Navigate to="/zh" replace />} />
+
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>

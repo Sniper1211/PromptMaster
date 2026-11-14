@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import Link from '../components/common/LocalizedLink';
+
 import { ArrowRight, BookOpen, Globe } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import SEOHead from '../components/seo/SEOHead';

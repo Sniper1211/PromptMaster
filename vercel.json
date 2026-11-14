@@ -1,29 +1,110 @@
 {
   "redirects": [
-    { "source": "/prompts", "destination": "/", "permanent": true },
-    { "source": "/discover", "destination": "/", "permanent": true }
+    {
+      "source": "/prompts",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/discover",
+      "destination": "/",
+      "permanent": true
+    }
   ],
   "rewrites": [
-    { "source": "/admin", "destination": "/index.html" },
-    { "source": "/admin/(.*)", "destination": "/index.html" },
-    { "source": "/about", "destination": "/index.html" },
-    { "source": "/contact", "destination": "/index.html" },
-    { "source": "/guides", "destination": "/index.html" },
-    { "source": "/guides/(.*)", "destination": "/index.html" },
-    { "source": "/prompt/(.*)", "destination": "/index.html" },
-    { "source": "/collections/(.*)", "destination": "/index.html" },
-    { "source": "/privacy", "destination": "/index.html" },
-    { "source": "/terms", "destination": "/index.html" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/prompt/:id",
+      "destination": "/prompt/:id/index.html"
+    },
+    {
+      "source": "/collections/:slug",
+      "destination": "/collections/:slug/index.html"
+    },
+    {
+      "source": "/guides/:slug",
+      "destination": "/guides/:slug/index.html"
+    },
+    {
+      "source": "/guides",
+      "destination": "/guides/index.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/about/index.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact/index.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy/index.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/terms/index.html"
+    },
+    {
+      "source": "/zh",
+      "destination": "/zh/index.html"
+    },
+    {
+      "source": "/zh/prompt/:id",
+      "destination": "/zh/prompt/:id/index.html"
+    },
+    {
+      "source": "/zh/collections/:slug",
+      "destination": "/zh/collections/:slug/index.html"
+    },
+    {
+      "source": "/zh/guides/:slug",
+      "destination": "/zh/guides/:slug/index.html"
+    },
+    {
+      "source": "/zh/guides",
+      "destination": "/zh/guides/index.html"
+    },
+    {
+      "source": "/zh/about",
+      "destination": "/zh/about/index.html"
+    },
+    {
+      "source": "/zh/contact",
+      "destination": "/zh/contact/index.html"
+    },
+    {
+      "source": "/zh/privacy",
+      "destination": "/zh/privacy/index.html"
+    },
+    {
+      "source": "/zh/terms",
+      "destination": "/zh/terms/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        },
         {
           "key": "Content-Security-Policy-Report-Only",
           "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://www.googletagmanager.com https://www.google-analytics.com https://*.googleadservices.com https://*.doubleclick.net https://*.adtrafficquality.google https://www.google.com https://tpc.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.googlesyndication.com https://www.googletagmanager.com https://*.doubleclick.net https://*.adtrafficquality.google; frame-src https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self'"
@@ -33,7 +114,10 @@
     {
       "source": "/assets/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     }
   ]

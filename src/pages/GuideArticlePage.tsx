@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import Link from '../components/common/LocalizedLink';
+import { useParams } from 'react-router-dom';
+
 import { ArrowRight, ChevronRight, Globe } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import SEOHead from '../components/seo/SEOHead';

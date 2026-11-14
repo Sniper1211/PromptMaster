@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from './common/LocalizedLink';
+
 import { Prompt, Category } from '../types';
 import { Copy, Check, Eye, Image as ImageIcon, Video } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -64,11 +65,8 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onTry: _onTry }) => {
   return (
     <div className="brutal-card group flex flex-col rounded-none">
       {/* Cover */}
-      <Link
-        to={`/prompt/${prompt.id}`}
-        className="relative block overflow-hidden border-b-[2.5px] border-black bg-slate-100"
-        aria-label={prompt.title}
-      >
+      <div className="relative overflow-hidden border-b-[2.5px] border-black bg-slate-100">
+        <Link to={`/prompt/${prompt.id}`} className="block" aria-label={prompt.title}>
         {prompt.previewImageUrl ? (
           <div className="aspect-[4/3] w-full">
             <img
@@ -85,6 +83,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onTry: _onTry }) => {
             <span className="text-[10px] font-black uppercase tracking-[0.24em] text-slate-500">{categoryLabel}</span>
           </div>
         )}
+        </Link>
 
         {/* Overlay actions (hover + keyboard focus) */}
         <div className="absolute inset-0 z-20 bg-black/40 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity flex items-center justify-center gap-4">
@@ -111,7 +110,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onTry: _onTry }) => {
             </a>
           )}
         </div>
-      </Link>
+      </div>
 
       {/* Content */}
       <div className="p-5 flex flex-col flex-1">

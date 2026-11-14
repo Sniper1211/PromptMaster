@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from '../common/LocalizedLink';
+
 import { useTranslation } from 'react-i18next';
 import { Layers } from 'lucide-react';
 

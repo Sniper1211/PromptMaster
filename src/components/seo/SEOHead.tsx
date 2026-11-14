@@ -1,6 +1,8 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
+import { stripLanguagePrefix } from '../../lib/locale';
 
 interface SEOHeadProps {
     title?: string;
@@ -24,6 +26,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
     structuredData
 }) => {
     const { t, i18n } = useTranslation();
+    const location = useLocation();
     const currentLang = i18n.language.startsWith('zh') ? 'zh' : 'en';
 
     const baseUrl = 'https://pentaprompt.com';
@@ -36,7 +39,14 @@ const SEOHead: React.FC<SEOHeadProps> = ({
     const finalTitle = title || defaultTitle;
     const finalDescription = description || defaultDescription;
     const finalImage = image || defaultImage;
-    const finalUrl = url || baseUrl;
+
+    // Canonical/hreflang are derived from the current route + language prefix
+    // (English at the root, Chinese under /zh) so they are always self-consistent.
+    const cleanPath = stripLanguagePrefix(location.pathname);
+    const enUrl = `${baseUrl}${cleanPath === '/' ? '' : cleanPath}`;
+    const zhUrl = `${baseUrl}${cleanPath === '/' ? '/zh' : `/zh${cleanPath}`}`;
+    const canonicalUrl = currentLang === 'zh' ? zhUrl : enUrl;
+    void url;
 
     // Organization structured data (appears on all pages)
     const organizationSchema = {
@@ -55,16 +65,6 @@ const SEOHead: React.FC<SEOHeadProps> = ({
             : [organizationSchema, structuredData]
         : [organizationSchema];
 
-    const getLocalizedUrl = (lang: string) => {
-        try {
-            const urlObj = new URL(finalUrl);
-            urlObj.searchParams.set('lng', lang);
-            return urlObj.toString();
-        } catch (e) {
-            return finalUrl;
-        }
-    };
-
     return (
         <Helmet>
             {/* Basic Meta Tags */}
@@ -74,22 +74,22 @@ const SEOHead: React.FC<SEOHeadProps> = ({
             {keywords && <meta name="keywords" content={keywords} />}
 
             {/* Canonical URL */}
-            <link rel="canonical" href={finalUrl} />
+            <link rel="canonical" href={canonicalUrl} />
 
             {/* Robots */}
             {noindex && <meta name="robots" content="noindex, follow" />}
 
             {/* Hreflang for i18n */}
-            <link rel="alternate" hreflang="en" href={getLocalizedUrl('en')} />
-            <link rel="alternate" hreflang="zh" href={getLocalizedUrl('zh')} />
-            <link rel="alternate" hreflang="x-default" href={finalUrl} />
+            <link rel="alternate" hreflang="en" href={enUrl} />
+            <link rel="alternate" hreflang="zh" href={zhUrl} />
+            <link rel="alternate" hreflang="x-default" href={enUrl} />
 
             {/* Open Graph */}
             <meta property="og:type" content={type} />
             <meta property="og:title" content={finalTitle} />
             <meta property="og:description" content={finalDescription} />
             <meta property="og:image" content={finalImage} />
-            <meta property="og:url" content={finalUrl} />
+            <meta property="og:url" content={canonicalUrl} />
             <meta property="og:site_name" content="PentaPrompt" />
             <meta property="og:locale" content={currentLang === 'zh' ? 'zh_CN' : 'en_US'} />
 

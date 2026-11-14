@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import Link from '../components/common/LocalizedLink';
+import { useParams } from 'react-router-dom';
+
 import { useTranslation } from 'react-i18next';
 import { Copy, Check, X, Cpu, Tag, Layers, Calendar, ChevronRight, Share2, Info, Flame } from 'lucide-react';
 import { usePromptDetail } from '../hooks/usePromptDetail';

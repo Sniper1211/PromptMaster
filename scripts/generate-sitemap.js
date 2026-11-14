@@ -30,21 +30,16 @@ const COLLECTION_SLUGS = [
     'video-prompts'
 ];
 
+const staticPaths = ['/', '/guides', '/about', '/contact', '/privacy', '/terms'];
+
+const urlsFor = (routePath) => ({
+    en: `${BASE_URL}${routePath === '/' ? '' : routePath}`,
+    zh: `${BASE_URL}${routePath === '/' ? '/zh' : `/zh${routePath}`}`
+});
+
 const generateSitemap = async () => {
     console.log('Generating sitemap...');
 
-    // 1. Static routes
-    const staticRoutes = [
-        '/',
-        '/guides',
-        '/about',
-        '/contact',
-        '/privacy',
-        '/terms'
-    ];
-
-    // 2. Dynamic routes (prompts from DB) — fail loudly if the DB is unreachable,
-    //    so we never deploy a sitemap that silently lost all prompt URLs.
     let promptRows = [];
     try {
         console.log('Fetching prompts from database...');
@@ -58,33 +53,44 @@ const generateSitemap = async () => {
     }
     await pool.end();
 
-    let xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+    // Each entry is emitted once per language (English at the root, Chinese under /zh)
+    // with xhtml:link alternates, which is what Google expects for localized sites.
+    const entries = [];
+    const addEntry = (routePath, lastmod) => entries.push({ routePath, lastmod });
 
-    const addUrl = (loc, lastmod, changefreq, priority) => {
-        xml += `
-  <url>
-    <loc>${BASE_URL}${loc}</loc>${lastmod ? `
-    <lastmod>${lastmod}</lastmod>` : ''}
-    <changefreq>${changefreq}</changefreq>
-    <priority>${priority}</priority>
-  </url>`;
-    };
-
-    staticRoutes.forEach((route) => addUrl(route, null, 'weekly', '0.8'));
-    COLLECTION_SLUGS.forEach((slug) => addUrl(`/collections/${slug}`, null, 'weekly', '0.7'));
-    guideArticles.forEach((guide) => addUrl(`/guides/${guide.slug}`, null, 'monthly', '0.7'));
+    staticPaths.forEach((routePath) => addEntry(routePath, null));
+    COLLECTION_SLUGS.forEach((slug) => addEntry(`/collections/${slug}`, null));
+    guideArticles.forEach((guide) => addEntry(`/guides/${guide.slug}`, null));
     promptRows.forEach((row) => {
         const lastmod = row.created_at ? new Date(row.created_at).toISOString().slice(0, 10) : null;
-        addUrl(`/prompt/${row.id}`, lastmod, 'monthly', '0.6');
+        addEntry(`/prompt/${row.id}`, lastmod);
     });
+
+    let xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">`;
+
+    for (const entry of entries) {
+        const { en, zh } = urlsFor(entry.routePath);
+        for (const loc of [en, zh]) {
+            xml += `
+  <url>
+    <loc>${loc}</loc>${entry.lastmod ? `
+    <lastmod>${entry.lastmod}</lastmod>` : ''}
+    <changefreq>${entry.routePath.startsWith('/prompt/') ? 'monthly' : 'weekly'}</changefreq>
+    <priority>${entry.routePath === '/' ? '1.0' : entry.routePath.startsWith('/prompt/') ? '0.7' : '0.8'}</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="${en}"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="${zh}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${en}"/>
+  </url>`;
+        }
+    }
 
     xml += `
 </urlset>`;
 
     const publicPath = path.join(__dirname, '../public/sitemap.xml');
     fs.writeFileSync(publicPath, xml);
-    console.log(`Sitemap written to ${publicPath} (${staticRoutes.length + COLLECTION_SLUGS.length + guideArticles.length + promptRows.length} URLs)`);
+    console.log(`Sitemap written to ${publicPath} (${entries.length * 2} localized URLs)`);
 };
 
 generateSitemap();

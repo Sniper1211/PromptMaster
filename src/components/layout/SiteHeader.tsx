@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Menu, X, Plus } from 'lucide-react';
 import LanguageSwitcher from './LanguageSwitcher';
+import { useLanguage } from '../../hooks/useLanguage';
 
 interface SiteHeaderProps {
     /** Optional "submit a prompt" action; hidden when not provided. */
@@ -25,6 +26,8 @@ const mobileLinkClass = ({ isActive }: { isActive: boolean }) =>
 
 const SiteHeader: React.FC<SiteHeaderProps> = ({ onContribute, drawerContent }) => {
     const { t } = useTranslation();
+    const { currentLanguage } = useLanguage();
+    const prefix = currentLanguage === 'zh' ? '/zh' : '';
     const [menuOpen, setMenuOpen] = useState(false);
     const location = useLocation();
 
@@ -48,10 +51,10 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ onContribute, drawerContent }) 
     }, [menuOpen]);
 
     const links = [
-        { to: '/', label: t('nav.prompts'), end: true },
-        { to: '/collections/video-prompts', label: t('nav.videoCollections'), end: false },
-        { to: '/guides', label: t('nav.guides'), end: false },
-        { to: '/about', label: t('nav.about'), end: false }
+        { to: prefix || '/', label: t('nav.prompts'), end: true },
+        { to: `${prefix}/collections/video-prompts`, label: t('nav.videoCollections'), end: false },
+        { to: `${prefix}/guides`, label: t('nav.guides'), end: false },
+        { to: `${prefix}/about`, label: t('nav.about'), end: false }
     ];
 
     return (
@@ -68,7 +71,7 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ onContribute, drawerContent }) 
                     <Menu size={20} strokeWidth={3} />
                 </button>
 
-                <Link to="/" className="font-black uppercase tracking-tighter text-lg md:text-2xl shrink-0">
+                <Link to={prefix || '/'} className="font-black uppercase tracking-tighter text-lg md:text-2xl shrink-0">
                     PentaPrompt
                 </Link>
 

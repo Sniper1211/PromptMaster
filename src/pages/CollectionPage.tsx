@@ -1,6 +1,9 @@
 import React, { useMemo } from 'react';
+import Link from '../components/common/LocalizedLink';
 import { useTranslation } from 'react-i18next';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useLanguage } from '../hooks/useLanguage';
+
 import { ArrowRight, ChevronRight, Globe } from 'lucide-react';
 import SEOHead from '../components/seo/SEOHead';
 import SiteHeader from '../components/layout/SiteHeader';
@@ -25,6 +28,7 @@ const CollectionPage: React.FC = () => {
     const { t, i18n } = useTranslation();
     const { slug } = useParams<{ slug: string }>();
     const navigate = useNavigate();
+    const { localize } = useLanguage();
 
     const toggleLanguage = () => {
         const currentLang = i18n.language;
@@ -229,7 +233,7 @@ const CollectionPage: React.FC = () => {
     );
 
     const handleSelectPrompt = (promptId: string) => {
-        navigate(`/prompt/${promptId}`);
+        navigate(localize(`/prompt/${promptId}`));
     };
 
     if (!config) {
@@ -400,7 +404,7 @@ const CollectionPage: React.FC = () => {
                                     <PromptGrid
                                         prompts={prompts}
                                         onSelectPrompt={(p: { id: string }) => handleSelectPrompt(p.id)}
-                                    onClearFilters={() => navigate(config.filterHref)}
+                                    onClearFilters={() => navigate(localize(config.filterHref))}
                                 />
                             )}
                         </div>

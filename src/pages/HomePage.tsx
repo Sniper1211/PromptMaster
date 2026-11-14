@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
+import Link from '../components/common/LocalizedLink';
 import { useTranslation } from 'react-i18next';
 import { Plus, ArrowDown, ArrowRight, Globe, ShieldCheck, Sparkles, ChevronDown, ChevronUp, type LucideIcon } from 'lucide-react';
 import { Category, Prompt } from '../types';
@@ -11,7 +12,8 @@ import AddPromptModal from '../components/admin/AddPromptModal';
 import ComingSoonModal from '../components/common/ComingSoonModal';
 import { usePrompts } from '../hooks/usePrompts';
 import SEOHead from '../components/seo/SEOHead';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
+
 import { featuredGuideSlugs, guideArticles } from '../data/guides.js';
 
 interface TrustCard {

@@ -1,6 +1,7 @@
 import React from 'react';
+import Link from '../components/common/LocalizedLink';
 import { ArrowLeft, Mail } from 'lucide-react';
-import { Link } from 'react-router-dom';
+
 import { useTranslation } from 'react-i18next';
 import SEOHead from '../components/seo/SEOHead';
 import SiteHeader from '../components/layout/SiteHeader';
