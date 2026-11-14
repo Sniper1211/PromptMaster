@@ -149,6 +149,14 @@ async function main() {
     }
     const template = fs.readFileSync(templatePath, 'utf8');
 
+    // SPA-only shell for non-indexable routes (admin) and unknown URLs served by the
+    // catch-all rewrite. It has no canonical/OG tags and explicitly asks not to index.
+    const noindexShell = template.replace(
+        '</head>',
+        '    <meta name="robots" content="noindex, nofollow">\n  </head>'
+    );
+    fs.writeFileSync(path.join(DIST, 'app.html'), noindexShell);
+
     const { Pool } = pg;
     const pool = new Pool({
         connectionString: process.env.DATABASE_URL,

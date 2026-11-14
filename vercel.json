@@ -9,9 +9,35 @@
       "source": "/discover",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/zh/prompts",
+      "destination": "/zh",
+      "permanent": true
+    },
+    {
+      "source": "/zh/discover",
+      "destination": "/zh",
+      "permanent": true
     }
   ],
   "rewrites": [
+    {
+      "source": "/admin",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/admin/(.*)",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/zh/admin",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/zh/admin/(.*)",
+      "destination": "/app.html"
+    },
     {
       "source": "/prompt/:id",
       "destination": "/prompt/:id/index.html"
@@ -82,7 +108,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": "/app.html"
     }
   ],
   "headers": [
