@@ -1,88 +1,97 @@
+import crypto from 'crypto';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
-// Initialize S3 Client (R2)
+const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/avif']);
+const MAX_BYTES = 4 * 1024 * 1024; // Vercel serverless request body limit on Hobby
+
 const S3 = new S3Client({
-  region: 'auto',
-  endpoint: process.env.R2_ENDPOINT, // e.g. https://<accountid>.r2.cloudflarestorage.com
-  credentials: {
-    accessKeyId: process.env.R2_ACCESS_KEY_ID,
-    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
-  },
+    region: 'auto',
+    endpoint: process.env.R2_ENDPOINT,
+    credentials: {
+        accessKeyId: process.env.R2_ACCESS_KEY_ID,
+        secretAccessKey: process.env.R2_SECRET_ACCESS_KEY
+    }
 });
 
+/**
+ * Admin image upload -> Cloudflare R2.
+ *
+ * POST /api/upload?promptId=<id>&filename=<name>
+ *   Authorization: Bearer <ADMIN_PASSWORD>
+ *   Content-Type: image/jpeg|png|webp|avif
+ *   Body: raw image bytes
+ *
+ * Returns the public URL + object key. It does NOT update the database:
+ * set prompts.preview_image_url yourself (or use scripts/import-generated-images.mjs,
+ * which converts to WebP, uploads and updates the DB in one step).
+ */
 export default async function handler(req, res) {
-  // 1. Auth Check
-  const adminPassword = process.env.ADMIN_PASSWORD;
-  const authHeader = req.headers.authorization;
-
-  if (adminPassword && (!authHeader || authHeader !== `Bearer ${adminPassword}`)) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-
-  // 2. Method Check
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  try {
-    const filename = req.query.filename;
-    if (!filename) {
-      return res.status(400).json({ error: 'Filename is required' });
+    if (req.method !== 'POST') {
+        res.setHeader('Allow', ['POST']);
+        return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    // Generate unique key with folder prefix
-    const uniqueKey = `pentaprompt/${Date.now()}-${filename}`;
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    if (!adminPassword) {
+        return res.status(503).json({ error: 'Admin auth is not configured' });
+    }
+    if (req.headers.authorization !== `Bearer ${adminPassword}`) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
 
-    // 3. Upload to R2
-    // req is a stream. We need to buffer it or stream it.
-    // Vercel Serverless 'req' is a Node.js IncomingMessage stream.
-    // @aws-sdk/client-s3 supports streaming bodies in Node.js.
-    
-    // We need to read the stream into a buffer because R2/S3 sometimes needs Content-Length
-    // or we can just pass the stream if Content-Length is unknown but chunked encoding is supported.
-    // However, for simplicity and reliability with images, let's buffer it.
-    
+    const promptId = String(req.query.promptId || '').trim();
+    if (!/^[0-9]{1,32}$/.test(promptId)) {
+        return res.status(400).json({ error: 'promptId is required and must be numeric' });
+    }
+
+    const contentType = String(req.headers['content-type'] || '').split(';')[0].trim().toLowerCase();
+    if (!ALLOWED_TYPES.has(contentType)) {
+        return res.status(415).json({ error: 'Unsupported image type' });
+    }
+
+    const bucket = process.env.R2_BUCKET_NAME;
+    const publicBase = (process.env.R2_PUBLIC_URL || '').replace(/\/$/, '');
+    if (!bucket || !publicBase) {
+        return res.status(503).json({ error: 'R2 storage is not configured' });
+    }
+
     const chunks = [];
+    let total = 0;
     for await (const chunk of req) {
-      chunks.push(chunk);
+        total += chunk.length;
+        if (total > MAX_BYTES) {
+            return res.status(413).json({ error: 'Image is larger than 4MB' });
+        }
+        chunks.push(chunk);
     }
     const buffer = Buffer.concat(chunks);
-
-    const uploadParams = {
-      Bucket: process.env.R2_BUCKET_NAME,
-      Key: uniqueKey,
-      Body: buffer,
-      ContentType: req.headers['content-type'] || 'application/octet-stream', // Try to get content type from header
-    };
-
-    await S3.send(new PutObjectCommand(uploadParams));
-
-    // 4. Construct Public URL
-    // R2 Public URL logic: https://<custom-domain>/<key> or https://pub-<id>.r2.dev/<key>
-    const publicUrlBase = process.env.R2_PUBLIC_URL; // e.g. https://images.pentaprompt.com
-    
-    if (!publicUrlBase) {
-      throw new Error('R2_PUBLIC_URL env var is not set');
+    if (buffer.length < 200) {
+        return res.status(400).json({ error: 'Empty or invalid image body' });
     }
 
-    // Ensure no double slashes
-    const finalUrl = `${publicUrlBase.replace(/\/$/, '')}/${uniqueKey}`;
+    try {
+        const hash = crypto.createHash('sha256').update(buffer).digest('hex').slice(0, 10);
+        const ext = contentType.split('/')[1] === 'jpeg' ? 'jpg' : contentType.split('/')[1];
+        const key = `pentaprompt/prompts/${promptId}-${hash}.${ext}`;
 
-    return res.status(200).json({ 
-      url: finalUrl,
-      pathname: uniqueKey,
-      contentType: uploadParams.ContentType
-    });
+        await S3.send(new PutObjectCommand({
+            Bucket: bucket,
+            Key: key,
+            Body: buffer,
+            ContentType: contentType,
+            CacheControl: 'public, max-age=31536000, immutable'
+        }));
 
-  } catch (error) {
-    console.error('Upload error:', error);
-    return res.status(500).json({ error: 'Upload failed' });
-  }
+        res.setHeader('Cache-Control', 'no-store');
+        return res.status(200).json({ url: `${publicBase}/${key}`, key, bytes: buffer.length });
+    } catch (error) {
+        console.error('[Upload Error]', error?.name, error?.message);
+        return res.status(500).json({ error: 'Upload failed' });
+    }
 }
 
 export const config = {
-  api: {
-    bodyParser: false, // We handle the stream manually
-  },
+    api: {
+        bodyParser: false
+    }
 };
