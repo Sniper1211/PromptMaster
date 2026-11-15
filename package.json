@@ -7,7 +7,8 @@
     "dev": "concurrently \"vite\" \"node server/index.js\"",
     "build": "npm run build:sitemap && vite build && node scripts/prerender-seo.mjs",
     "build:sitemap": "node scripts/generate-sitemap.js",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "publish:covers": "node scripts/publish-generated-images.mjs --apply --archive"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.969.0",

@@ -42,6 +42,7 @@ const MAX_WIDTH = parseInt(getArg('--max-width', '1200'), 10);
 const QUALITY = parseInt(getArg('--quality', '82'), 10);
 const PREFIX = getArg('--prefix', 'pentaprompt/prompts').replace(/\/$/, '');
 const CONCURRENCY = parseInt(getArg('--concurrency', '3'), 10);
+const REPORT_JSON = getArg('--report-json', '');
 const SUPPORTED = new Set(['.png', '.jpg', '.jpeg', '.webp', '.avif']);
 
 if (!DIR) {
@@ -97,7 +98,13 @@ const unknown = jobs.filter((job) => !current.has(job.id));
 if (unknown.length) {
     console.log('skip (prompt id not found):', unknown.map((j) => j.id).join(', '));
 }
+const skippedExisting = jobs.filter((job) => current.has(job.id) && !REPLACE && current.get(job.id));
 const work = jobs.filter((job) => current.has(job.id) && (REPLACE || !current.get(job.id)));
+
+const writeReport = (payload) => {
+    if (!REPORT_JSON) return;
+    fs.writeFileSync(REPORT_JSON, JSON.stringify(payload, null, 1));
+};
 
 const results = [];
 let cursor = 0;
@@ -147,6 +154,15 @@ console.log(`\nuploaded: ${ok.length} | failed: ${failed.length} | skipped: ${jo
 if (failed.length) console.log('failed ids:', failed.map((f) => f.id).join(', '));
 
 if (UPLOAD_ONLY || !APPLY) {
+    writeReport({
+        generatedAt: new Date().toISOString(),
+        dir: DIR,
+        applied: false,
+        uploaded: ok,
+        failed,
+        skippedExisting: skippedExisting.map((j) => ({ id: j.id, file: j.file, current: current.get(j.id) })),
+        unknownIds: unknown.map((j) => j.id)
+    });
     await pool.end();
     if (!UPLOAD_ONLY) console.log('dry run: R2 uploads done, database NOT changed. Pass --apply to update preview_image_url.');
     process.exit(0);
@@ -175,3 +191,13 @@ try {
 }
 console.log(`database updated: ${updated} rows`);
 console.log('Next: rebuild/redeploy so prerendered pages and OG images refresh.');
+writeReport({
+    generatedAt: new Date().toISOString(),
+    dir: DIR,
+    applied: true,
+    updated,
+    uploaded: ok,
+    failed,
+    skippedExisting: skippedExisting.map((j) => ({ id: j.id, file: j.file, current: current.get(j.id) })),
+    unknownIds: unknown.map((j) => j.id)
+});

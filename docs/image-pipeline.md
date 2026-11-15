@@ -76,3 +76,20 @@ prerendered pages and OG images pick up the new URLs.
 
 Install: `chrome://extensions` -> enable Developer mode -> "Load unpacked" -> select `tools/jimeng-downloader`.
 See `tools/jimeng-downloader/README.md` for setup and troubleshooting.
+
+### One-command publish
+
+After dropping generated images into `~/pm-images` (named `<promptId>.png`), run:
+
+```bash
+npm run publish:covers
+# = node scripts/publish-generated-images.mjs --apply --archive
+```
+
+It imports the images (WebP + R2 + DB), appends rows to `docs/generated-images.md`, commits and pushes
+to `main` (which triggers the Vercel deploy), polls production until the new OG image is live, checks the
+image URLs (200 / image-webp / cache HIT), archives the local sources to `~/pm-images-archive` and prints
+the remaining missing-image count.
+
+Useful flags: `--replace` (replace existing covers), `--no-deploy` (DB only), `--skip-verify`,
+`--dir <path>`, `--timeout <seconds>`. Without `--apply` it is a dry run.
