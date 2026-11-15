@@ -3,7 +3,7 @@
  * Generate the cover-progress tracker as a standalone HTML page (plus a pending-only CSV).
  *
  *   node scripts/generate-cover-tracker.mjs
- *   node scripts/generate-cover-tracker.mjs --out public/cover-tracker.html --csv-out /path/pending.csv
+ *   node scripts/generate-cover-tracker.mjs --out local/cover-tracker.html --csv-out /path/pending.csv
  *
  * The page lists prompts that still need a cover (⬜ 待补图) and prompts that already have an
  * AI-generated cover (✅ 已补图, kept for review, highlighted green). Original stock covers are
@@ -12,8 +12,8 @@
  * Features: live search (`/` to focus), status/category filters, sorting, one-click copy of the
  * prompt text / title / description, links to the prompt page and source.
  *
- * The publish script (scripts/publish-generated-images.mjs) regenerates this page after every import,
- * commits it together with docs/generated-images.md, and deploys it to https://pentaprompt.com/cover-tracker.html
+ * The page is internal only: it lives in the gitignored local/ folder and is never committed or deployed.
+ * The publish script (scripts/publish-generated-images.mjs) regenerates it locally after every import.
  */
 import fs from 'fs';
 import os from 'os';
@@ -30,7 +30,8 @@ const getArg = (name, fallback) => {
     return index >= 0 ? args[index + 1] : fallback;
 };
 const WORKSPACE = fs.existsSync(path.join(os.homedir(), 'dsh')) ? path.join(os.homedir(), 'dsh') : os.homedir();
-const OUT_HTML = path.resolve(getArg('--out', path.join(ROOT, 'public/cover-tracker.html')));
+const OUT_HTML = path.resolve(getArg('--out', path.join(ROOT, 'local/cover-tracker.html')));
+const SITE_BASE = 'https://pentaprompt.com';
 const OUT_CSV = path.resolve(getArg('--csv-out', path.join(WORKSPACE, 'PromptMaster-补图工作清单.csv')));
 const DOCS_LOG = path.join(ROOT, 'docs/generated-images.md');
 const PRIORITY = { PHOTOGRAPHY: 1, VIDEO: 2 };
@@ -89,14 +90,14 @@ const rowsHtml = visible.map((item) => {
     return `<tr data-id="${escapeHtml(item.id)}" data-status="${item.status}" data-cat="${escapeHtml(item.category || 'UNKNOWN')}" data-search="${escapeHtml(search)}">
 <td>${thumb}</td>
 <td class="status-cell"><span class="badge ${meta.className}">${meta.label}</span>${doneInfo}</td>
-<td><a class="id" href="/prompt/${escapeHtml(item.id)}" target="_blank">${escapeHtml(item.id)}</a><div class="meta">${escapeHtml(item.category || 'UNKNOWN')} · ${escapeHtml(item.prompt_type || 'text')}</div></td>
+<td><a class="id" href="${SITE_BASE}/prompt/${escapeHtml(item.id)}" target="_blank">${escapeHtml(item.id)}</a><div class="meta">${escapeHtml(item.category || 'UNKNOWN')} · ${escapeHtml(item.prompt_type || 'text')}</div></td>
 <td class="text-cell"><div class="title-zh">${escapeHtml(item.title_zh || '(无标题)')}</div><div class="muted">${escapeHtml(item.title_en || '')}</div></td>
 <td class="text-cell"><div class="desc">${escapeHtml(item.description_zh || '')}</div></td>
 <td class="ops">
 <button class="copy primary" data-copy="content" data-id="${escapeHtml(item.id)}">复制提示词</button>
 <button class="copy" data-copy="title" data-id="${escapeHtml(item.id)}">标题</button>
 <button class="copy" data-copy="description" data-id="${escapeHtml(item.id)}">描述</button>
-<a href="/prompt/${escapeHtml(item.id)}" target="_blank">详情</a>
+<a href="${SITE_BASE}/prompt/${escapeHtml(item.id)}" target="_blank">详情</a>
 ${source}
 </td>
 </tr>`;
@@ -177,7 +178,7 @@ const html = `<!doctype html>
 <body>
 <header>
   <h1>PentaPrompt 补图追踪表</h1>
-  <div class="sub">生成时间 ${escapeHtml(generatedAt)} · 本表列出待补图 + 已补图（共 ${visible.length} 条）；已有原图的 ${stock.length} 条省略（站内搜索仍可找到）。</div>
+  <div class="sub">本地文件，不对外公开 · 生成时间 ${escapeHtml(generatedAt)} · 本表列出待补图 + 已补图（共 ${visible.length} 条）；已有原图的 ${stock.length} 条省略（站内搜索仍可找到）。</div>
   <div class="stats">
     <div class="stat"><b>${total}</b><span>提示词总数</span></div>
     <div class="stat done"><b>${done.length}</b><span>✅ 已补图（AI 封面）</span></div>

@@ -41,8 +41,7 @@ const VERIFY_TIMEOUT_SECONDS = parseInt(getArg('--timeout', '300'), 10);
 const BASE_URL = 'https://pentaprompt.com';
 const DOCS_PATH = path.join(ROOT, 'docs/generated-images.md');
 const WORKSPACE = fs.existsSync(path.join(os.homedir(), 'dsh')) ? path.join(os.homedir(), 'dsh') : os.homedir();
-const TRACKER_PATH = path.join(ROOT, 'public/cover-tracker.html');
-const TRACKER_URL = 'https://pentaprompt.com/cover-tracker.html';
+const TRACKER_PATH = path.join(ROOT, 'local/cover-tracker.html');
 const ARCHIVE_DIR = path.join(os.homedir(), 'pm-images-archive');
 const startedAt = Date.now();
 
@@ -135,7 +134,7 @@ if (!NO_DEPLOY) {
     try {
         const branch = run('git', ['rev-parse', '--abbrev-ref', 'HEAD']).trim();
         if (branch !== 'main') fail(`当前分支是 ${branch}，请先切回 main 再发布`);
-        run('git', ['add', 'docs/generated-images.md', 'public/cover-tracker.html']);
+        run('git', ['add', 'docs/generated-images.md']);
         const staged = run('git', ['diff', '--cached', '--name-only']).trim();
         const message = `content: publish ${uploads.length} generated cover(s)\n\n${uploads.map((item) => `${item.id} -> ${item.url}`).join('\n')}`;
         run('git', ['commit', ...(staged ? [] : ['--allow-empty']), '-m', message]);
@@ -230,5 +229,5 @@ log(`封面: ${uploads.length} 张，${Math.round(uploads.reduce((sum, item) => 
 if (commitHash) log(`提交: ${commitHash}（已推送 main，触发生产部署）`);
 if (!NO_DEPLOY && !SKIP_VERIFY) log(`部署验收: ${verify.deployed ? '通过' : '未确认（稍后刷新页面看）'}`);
 if (verify.images.length) log(`图片: ${verify.images.filter((item) => item.status === 200 && item.type.startsWith('image/')).length}/${verify.images.length} 正常 200 + image/*`);
-if (remaining !== null) log(`剩余无图: ${remaining} 条（追踪表: ${TRACKER_URL}）`);
+if (remaining !== null) log(`剩余无图: ${remaining} 条（本地追踪表: ${TRACKER_PATH}，不提交/不部署）`);
 log(`耗时: ${seconds}s`);

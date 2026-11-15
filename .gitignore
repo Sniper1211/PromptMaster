@@ -28,3 +28,6 @@ dist-ssr
 *.sln
 *.sw?
 PHASE_1_GROWTH_PLAN.md
+
+# Local-only generated files (never commit / deploy)
+local/

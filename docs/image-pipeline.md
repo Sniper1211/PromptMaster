@@ -91,15 +91,18 @@ progress tracker, commits and pushes to `main` (which triggers the Vercel deploy
 the new OG image is live, checks the image URLs (200 / image-webp / cache HIT), archives the local sources
 to `~/pm-images-archive` and prints the remaining missing-image count.
 
-The progress tracker is generated as a static page: **public/cover-tracker.html**, published at
-<https://pentaprompt.com/cover-tracker.html> (noindex, not linked from the site). Regenerate it any time with
+The progress tracker is generated as a **local-only** static page: `local/cover-tracker.html`
+(gitignored, never committed or deployed). Regenerate it with
 `node scripts/generate-cover-tracker.mjs`; `npm run publish:covers` refreshes it after every import.
 
 - lists **待补图** (yellow) and **已补图** (green, kept for review) prompts; original stock covers are only
   summarised in the header to keep the page small;
 - live search (`/` to focus), status/category filters, sorting;
-- one-click copy of the prompt text / title / description, plus links to the prompt page and source;
+- one-click copy of the prompt text / title / description, plus absolute links to the prompt page and source
+  (so it also works when opened from the local file);
 - a pending-only `PromptMaster-补图工作清单.csv` is still written to the workspace for scripting/quick copy.
+
+The tracker intentionally never ships in `public/`: it is an internal working file, not a public page.
 
 Useful flags: `--replace` (replace existing covers), `--no-deploy` (DB only), `--skip-verify`,
 `--dir <path>`, `--timeout <seconds>`. Without `--apply` it is a dry run.
