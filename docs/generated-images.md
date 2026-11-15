@@ -23,3 +23,4 @@ Convention:
 | 2026-11-15 | 1768753694225476 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753694225476-bafa2df7.webp | generated with 即梦, 1728×1296 source, imported via extension |
 | 2026-11-15 | 1768753701887691 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753701887691-c7ea5c34.webp | generated with 即梦, 1728×1296 source, imported via extension |
 | 2026-11-15 | 176875370490538 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/176875370490538-c90308bc.webp | generated with 即梦, 1728×1296 source, imported via extension |
+| 2026-11-15 | 1768753707953143 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753707953143-5d1deaf9.webp | generated with 即梦, published via publish script |
