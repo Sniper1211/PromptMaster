@@ -91,15 +91,15 @@ progress tracker, commits and pushes to `main` (which triggers the Vercel deploy
 the new OG image is live, checks the image URLs (200 / image-webp / cache HIT), archives the local sources
 to `~/pm-images-archive` and prints the remaining missing-image count.
 
-The progress tracker is `~/dsh/PromptMaster-补图清单.xlsx` (regenerate any time with
-`node scripts/generate-cover-tracker.mjs`):
+The progress tracker is generated as a static page: **public/cover-tracker.html**, published at
+<https://pentaprompt.com/cover-tracker.html> (noindex, not linked from the site). Regenerate it any time with
+`node scripts/generate-cover-tracker.mjs`; `npm run publish:covers` refreshes it after every import.
 
-- **补图清单** — pending covers first (yellow), completed AI covers are kept and highlighted green;
-  original stock covers are excluded from this sheet;
-- **全部提示词** — all 560 prompts with the same status colours, for review;
-- **统计** — per-category counts of 已补图 / 待补图 / 原有图.
-
-A pending-only `PromptMaster-补图工作清单.csv` is written next to it for scripting/quick copy.
+- lists **待补图** (yellow) and **已补图** (green, kept for review) prompts; original stock covers are only
+  summarised in the header to keep the page small;
+- live search (`/` to focus), status/category filters, sorting;
+- one-click copy of the prompt text / title / description, plus links to the prompt page and source;
+- a pending-only `PromptMaster-补图工作清单.csv` is still written to the workspace for scripting/quick copy.
 
 Useful flags: `--replace` (replace existing covers), `--no-deploy` (DB only), `--skip-verify`,
 `--dir <path>`, `--timeout <seconds>`. Without `--apply` it is a dry run.
