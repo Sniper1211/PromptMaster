@@ -86,10 +86,20 @@ npm run publish:covers
 # = node scripts/publish-generated-images.mjs --apply --archive
 ```
 
-It imports the images (WebP + R2 + DB), appends rows to `docs/generated-images.md`, commits and pushes
-to `main` (which triggers the Vercel deploy), polls production until the new OG image is live, checks the
-image URLs (200 / image-webp / cache HIT), archives the local sources to `~/pm-images-archive` and prints
-the remaining missing-image count.
+It imports the images (WebP + R2 + DB), appends rows to `docs/generated-images.md`, regenerates the
+progress tracker, commits and pushes to `main` (which triggers the Vercel deploy), polls production until
+the new OG image is live, checks the image URLs (200 / image-webp / cache HIT), archives the local sources
+to `~/pm-images-archive` and prints the remaining missing-image count.
+
+The progress tracker is `~/dsh/PromptMaster-补图清单.xlsx` (regenerate any time with
+`node scripts/generate-cover-tracker.mjs`):
+
+- **补图清单** — pending covers first (yellow), completed AI covers are kept and highlighted green;
+  original stock covers are excluded from this sheet;
+- **全部提示词** — all 560 prompts with the same status colours, for review;
+- **统计** — per-category counts of 已补图 / 待补图 / 原有图.
+
+A pending-only `PromptMaster-补图工作清单.csv` is written next to it for scripting/quick copy.
 
 Useful flags: `--replace` (replace existing covers), `--no-deploy` (DB only), `--skip-verify`,
 `--dir <path>`, `--timeout <seconds>`. Without `--apply` it is a dry run.

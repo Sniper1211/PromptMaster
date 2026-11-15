@@ -40,6 +40,8 @@ const DIR = path.resolve(getArg('--dir', path.join(os.homedir(), 'pm-images')));
 const VERIFY_TIMEOUT_SECONDS = parseInt(getArg('--timeout', '300'), 10);
 const BASE_URL = 'https://pentaprompt.com';
 const DOCS_PATH = path.join(ROOT, 'docs/generated-images.md');
+const WORKSPACE = fs.existsSync(path.join(os.homedir(), 'dsh')) ? path.join(os.homedir(), 'dsh') : os.homedir();
+const TRACKER_PATH = process.env.COVER_TRACKER_OUT || path.join(WORKSPACE, 'PromptMaster-补图清单.xlsx');
 const ARCHIVE_DIR = path.join(os.homedir(), 'pm-images-archive');
 const startedAt = Date.now();
 
@@ -117,6 +119,12 @@ if (newRows.length) {
     log(`\n== 2/4 更新生成图片日志 ==\n新增 ${newRows.length} 行 -> docs/generated-images.md`);
 } else {
     log('\n== 2/4 更新生成图片日志 ==\n日志里已有这些 URL，无需追加。');
+}
+log('生成进度追踪表…');
+try {
+    execFileSync(process.execPath, [path.join(ROOT, 'scripts/generate-cover-tracker.mjs')], { cwd: ROOT, stdio: 'inherit' });
+} catch (error) {
+    log(`(warn) 追踪表生成失败: ${error.message.split('\n')[0]}`);
 }
 
 // ---------------------------------------------------------------- step 3: commit + deploy
@@ -221,5 +229,5 @@ log(`封面: ${uploads.length} 张，${Math.round(uploads.reduce((sum, item) => 
 if (commitHash) log(`提交: ${commitHash}（已推送 main，触发生产部署）`);
 if (!NO_DEPLOY && !SKIP_VERIFY) log(`部署验收: ${verify.deployed ? '通过' : '未确认（稍后刷新页面看）'}`);
 if (verify.images.length) log(`图片: ${verify.images.filter((item) => item.status === 200 && item.type.startsWith('image/')).length}/${verify.images.length} 正常 200 + image/*`);
-if (remaining !== null) log(`剩余无图: ${remaining} 条（详见 PromptMaster-补图工作清单.csv）`);
+if (remaining !== null) log(`剩余无图: ${remaining} 条（追踪表: ${TRACKER_PATH}）`);
 log(`耗时: ${seconds}s`);
