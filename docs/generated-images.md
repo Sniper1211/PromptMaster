@@ -18,3 +18,8 @@ Convention:
 | 2026-11-15 | 15 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/15-a091d171.webp | first generated cover (即梦, 1728×1296 source) |
 | 2026-11-15 | 15 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/15-d88580a9.webp | regenerated watermark-free via the Jimeng downloader extension (replaces the watermarked cover) |
 | 2026-11-15 | 16 | COMMERCIAL | https://img.ok9981.com/pentaprompt/prompts/16-26df7868.webp | generated with 即梦, downloaded via the extension |
+| 2026-11-15 | 1768753688286298 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753688286298-b3f114a2.webp | generated with 即梦, 1728×1296 source, imported via extension |
+| 2026-11-15 | 1768753691246985 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753691246985-a3326470.webp | generated with 即梦, 1728×1296 source, imported via extension |
+| 2026-11-15 | 1768753694225476 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753694225476-bafa2df7.webp | generated with 即梦, 1728×1296 source, imported via extension |
+| 2026-11-15 | 1768753701887691 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753701887691-c7ea5c34.webp | generated with 即梦, 1728×1296 source, imported via extension |
+| 2026-11-15 | 176875370490538 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/176875370490538-c90308bc.webp | generated with 即梦, 1728×1296 source, imported via extension |
