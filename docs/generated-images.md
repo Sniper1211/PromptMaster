@@ -16,3 +16,5 @@ Convention:
 | date | prompt id | category | R2 URL | notes |
 |---|---|---|---|---|
 | 2026-11-15 | 15 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/15-a091d171.webp | first generated cover (即梦, 1728×1296 source) |
+| 2026-11-15 | 15 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/15-d88580a9.webp | regenerated watermark-free via the Jimeng downloader extension (replaces the watermarked cover) |
+| 2026-11-15 | 16 | COMMERCIAL | https://img.ok9981.com/pentaprompt/prompts/16-26df7868.webp | generated with 即梦, downloaded via the extension |
