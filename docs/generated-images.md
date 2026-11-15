@@ -24,3 +24,7 @@ Convention:
 | 2026-11-15 | 1768753701887691 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753701887691-c7ea5c34.webp | generated with 即梦, 1728×1296 source, imported via extension |
 | 2026-11-15 | 176875370490538 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/176875370490538-c90308bc.webp | generated with 即梦, 1728×1296 source, imported via extension |
 | 2026-11-15 | 1768753707953143 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753707953143-5d1deaf9.webp | generated with 即梦, published via publish script |
+| 2026-11-15 | 1768753714574201 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753714574201-b9887e81.webp | generated with 即梦, published via publish script |
+| 2026-11-15 | 176875371754521 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/176875371754521-b2be7b19.webp | generated with 即梦, published via publish script |
+| 2026-11-15 | 1768753711747579 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753711747579-bcb78066.webp | generated with 即梦, published via publish script |
+| 2026-11-15 | 1768753720492926 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753720492926-34fa39ec.webp | generated with 即梦, published via publish script |
