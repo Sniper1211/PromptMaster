@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>PentaPrompt 即梦无水印下载 - 设置</title>
+    <link rel="stylesheet" href="ui.css" />
+</head>
+<body class="options">
+    <h1>PentaPrompt 即梦无水印下载</h1>
+    <p>从即梦页面提取无水印原图，一键保存到本机的 <code>pm-images</code> 文件夹，文件名使用提示词 ID（如 <code>16.webp</code>），方便和 <a href="https://pentaprompt.com" target="_blank" rel="noreferrer">PentaPrompt</a> 的补图清单对应。</p>
+
+    <div class="section">
+        <h2>保存文件夹</h2>
+        <div id="status" class="status warn">尚未选择保存文件夹</div>
+        <p>请选择本机的 <code>~/pm-images</code> 文件夹（就是你放补图的那个目录）。浏览器出于隐私不会显示完整路径，只显示文件夹名，请自己确认选对。</p>
+        <div class="actions">
+            <button id="pick" class="primary" type="button">选择 ~/pm-images 文件夹</button>
+            <button id="clear" type="button">清除绑定</button>
+        </div>
+        <p class="meta">第一次选择后，扩展会把文件夹句柄保存在本机浏览器里；之后在弹窗里点下载就直接写入，不需要再选。如果 Chrome 提示权限，请允许。</p>
+    </div>
+
+    <div class="section">
+        <h2>使用方法</h2>
+        <p>1. 在即梦打开生成结果页面（能看到图片的页面）。</p>
+        <p>2. 点击浏览器右上角扩展图标，扩展会自动扫描页面里的 <code>byteimg.com</code> 无水印原图链接，并默认选中推荐项。</p>
+        <p>3. 在「保存文件名」里填提示词 ID（会自动递增），点「下载到 pm-images」。</p>
+        <p>4. 回到 Claude / Agent 说一声，或自己运行：<code>node scripts/import-generated-images.mjs --dir ~/pm-images --apply</code>。</p>
+    </div>
+
+    <div class="section">
+        <h2>常见问题</h2>
+        <p><strong>没检测到图片？</strong>先刷新即梦页面，再点扩展里的「刷新检测」；仍不行就把审查元素里 <code>p*-dreamina-sign.byteimg.com</code> 的 URL 粘贴到弹窗的「图片 URL」里。</p>
+        <p><strong>没有「选择文件夹」选项或报错？</strong>这是 Chrome 的文件系统访问权限；更新 Chrome 到最新版。若仍不可用，扩展会回退到浏览器下载：弹保存对话框时选一次 ~/pm-images，Chrome 会记住。</p>
+        <p><strong>下载的是水印图？</strong>请选列表里的 <code>dreamina-sign</code> / <code>aigc_resize</code> 链接（通常默认选中的就是无水印原图）。</p>
+    </div>
+
+    <script src="idb.js"></script>
+    <script src="options.js"></script>
+</body>
+</html>

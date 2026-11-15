@@ -63,3 +63,16 @@ node scripts/import-generated-images.mjs --dir ~/pm-images --apply    # upload +
 The script converts to WebP (default max width 1200, q82), uploads to R2, backs up the current URLs to
 `/tmp/prompt-image-urls-backup-*.json`, and updates the database in one transaction. Redeploy afterwards so
 prerendered pages and OG images pick up the new URLs.
+
+## Chrome extension: watermark-free Jimeng downloads
+
+`tools/jimeng-downloader` is a small MV3 Chrome extension used to collect AI-generated covers:
+
+- scans the active Jimeng/Dreamina tab for signed `byteimg.com` image URLs (the clean, watermark-free
+  originals, usually `p*-dreamina-sign.byteimg.com/...aigc_resize...`);
+- lets you confirm the prompt ID (auto-increments) and saves the file as `~/pm-images/<id>.webp`
+  through the File System Access API (falls back to a normal download dialog);
+- after a batch, run `node scripts/import-generated-images.mjs --dir ~/pm-images --apply`.
+
+Install: `chrome://extensions` -> enable Developer mode -> "Load unpacked" -> select `tools/jimeng-downloader`.
+See `tools/jimeng-downloader/README.md` for setup and troubleshooting.

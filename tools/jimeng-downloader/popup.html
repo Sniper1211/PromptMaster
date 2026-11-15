@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>即梦无水印下载</title>
+    <link rel="stylesheet" href="ui.css" />
+</head>
+<body class="popup">
+    <h1>即梦无水印下载</h1>
+    <p>自动识别页面里的无水印原图，保存到本机 <code>pm-images</code> 文件夹，文件名用提示词 ID。</p>
+
+    <div id="status" class="status info">正在检测页面…</div>
+
+    <div class="section">
+        <h2>1. 检测到的图片</h2>
+        <div id="candidates" class="candidates"></div>
+        <div class="meta" id="candidateMeta">—</div>
+        <button class="link" id="refresh" type="button">刷新检测</button>
+    </div>
+
+    <div class="section">
+        <h2>2. 图片 URL</h2>
+        <input type="text" id="url" placeholder="自动填入；也可以粘贴审查元素里的 byteimg.com 链接" />
+        <small>优先选 dreamina-sign / aigc_resize 的链接，通常就是无水印原图。</small>
+    </div>
+
+    <div class="section">
+        <h2>3. 保存文件名</h2>
+        <input type="text" id="filename" placeholder="提示词 ID，例如 16" inputmode="numeric" />
+        <small>会保存为 <code>&lt;ID&gt;.webp</code>（或 png/jpg），写入你选择的 pm-images 文件夹；ID 会自动递增。</small>
+    </div>
+
+    <div class="section">
+        <div class="row">
+            <span id="folderStatus">未选择保存文件夹</span>
+            <button id="pickFolder" type="button">选择文件夹</button>
+        </div>
+    </div>
+
+    <button class="primary" id="download" type="button">下载到 pm-images</button>
+
+    <div class="footer" id="nextSteps" hidden>
+        <p>下载完成后，回到 Agent 说一声即可，或自己执行：</p>
+        <div class="meta"><code>node scripts/import-generated-images.mjs --dir ~/pm-images --apply</code></div>
+        <div class="actions">
+            <button id="copyCommand" type="button">复制导入命令</button>
+        </div>
+    </div>
+
+    <script src="idb.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>
