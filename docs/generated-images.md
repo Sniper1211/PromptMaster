@@ -40,3 +40,7 @@ Convention:
 | 2026-11-16 | 1768753753236694 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753753236694-1ea92086.webp | generated with 即梦, published via publish script |
 | 2026-11-16 | 1768753756161877 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753756161877-d1a534fb.webp | generated with 即梦, published via publish script |
 | 2026-11-16 | 1768753759258400 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753759258400-7ae7dde0.webp | generated with 即梦, published via publish script |
+| 2026-11-16 | 1768753762286163 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753762286163-735c8f60.webp | generated with 即梦, published via publish script |
+| 2026-11-16 | 1768753765216705 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753765216705-67c8553c.webp | generated with 即梦, published via publish script |
+| 2026-11-16 | 1768753768229477 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753768229477-21e2dbec.webp | generated with 即梦, published via publish script |
+| 2026-11-16 | 1768753771166295 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753771166295-6b26f990.webp | generated with 即梦, published via publish script |
