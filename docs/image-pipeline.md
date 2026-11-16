@@ -92,8 +92,23 @@ the new OG image is live, checks the image URLs (200 / image-webp / cache HIT), 
 to `~/pm-images-archive` and prints the remaining missing-image count.
 
 The progress tracker is generated as a **local-only** static page: `local/cover-tracker.html`
-(gitignored, never committed or deployed). Regenerate it with
-`node scripts/generate-cover-tracker.mjs`; `npm run publish:covers` refreshes it after every import.
+(gitignored, never committed or deployed), and it also has a **one-click publish button**.
+
+### Open the tracker with the publish button
+
+```bash
+npm run tracker          # or double-click start-cover-tracker.command in Finder
+```
+
+This starts a small server bound to `127.0.0.1:7788` and opens
+`http://127.0.0.1:7788`. The "发布新图" button runs
+`node scripts/publish-generated-images.mjs --apply --archive`, streams the live log, then reloads the
+tracker with the new statuses. Close the terminal (Ctrl+C) to stop the server.
+
+Opening the HTML file directly (`file://`) still works for searching/copying, but browsers cannot run local
+scripts from `file://` — the page shows a banner with the command in that mode. The server only listens on
+loopback and requires a random per-run token that is injected into the served page, so web pages cannot
+trigger publishes.
 
 - lists **待补图** (yellow) and **已补图** (green, kept for review) prompts; original stock covers are only
   summarised in the header to keep the page small;

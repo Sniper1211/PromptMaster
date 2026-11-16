@@ -169,6 +169,17 @@ const html = `<!doctype html>
   .ops button.primary { background:var(--accent); border-color:#0f766e; font-weight:600; }
   .ops button:hover, .ops a:hover { background:#f3f4f6; }
   .ops button.primary:hover { background:#5eead4; }
+  #publishBtn { border:1px solid #0f766e; background:#2dd4bf; font-weight:700; border-radius:8px; padding:8px 12px; font-size:12px; cursor:pointer; white-space:nowrap; }
+  #publishBtn:disabled { opacity:.55; cursor:wait; }
+  #fileModeBanner { padding:10px 28px; background:#fef3c7; border-bottom:1px solid #f59e0b; color:#78350f; font-size:13px; }
+  #fileModeBanner code { background:#fff7ed; }
+  #publishPanel { border:1px solid var(--line); background:#fff; border-radius:8px; padding:12px; margin-bottom:14px; }
+  #publishPanel h3 { margin:0 0 8px; font-size:13px; }
+  #publishStatus { font-size:12px; margin-bottom:8px; }
+  #publishLog { background:#111; color:#d1fae5; border-radius:6px; padding:10px; font-size:11px; line-height:1.5; max-height:280px; overflow:auto; white-space:pre-wrap; margin:0; }
+  .status-ok { color:#047857; font-weight:600; }
+  .status-err { color:#b91c1c; font-weight:600; }
+  .status-run { color:#92400e; font-weight:600; }
   #toast { position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:#111; color:#fff; padding:9px 16px; border-radius:8px; font-size:13px; opacity:0; pointer-events:none; transition:opacity .18s; z-index:50; }
   #toast.show { opacity:1; }
   .note { margin:14px 0 0; font-size:12px; color:var(--muted); }
@@ -186,6 +197,12 @@ const html = `<!doctype html>
     <div class="stat"><b>${stock.length}</b><span>已有原图（不在本表）</span></div>
   </div>
 </header>
+<div id="fileModeBanner" hidden>
+  当前是 <b>本地文件模式</b>：浏览器不允许直接执行本地脚本。请先启动本地服务：在项目目录运行
+  <code>npm run tracker</code>（或双击 <code>start-cover-tracker.command</code>），再打开
+  <code>http://127.0.0.1:7788</code> 使用「发布新图」按钮。
+  <button id="copyTrackerCmd" type="button" style="margin-left:8px;border:1px solid #92400e;background:#fff;border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer">复制命令</button>
+</div>
 <div class="toolbar">
   <input id="q" type="search" placeholder="搜索 ID / 标题 / 描述 / 提示词…（按 / 聚焦）" />
   <div class="filters">
@@ -200,9 +217,15 @@ const html = `<!doctype html>
     <option value="category">按分类</option>
     <option value="done">按完成日期</option>
   </select>
+  <button id="publishBtn" type="button">🚀 发布新图</button>
   <span id="count"></span>
 </div>
 <main>
+  <section id="publishPanel" hidden>
+    <h3>发布新图</h3>
+    <div id="publishStatus">准备中…</div>
+    <pre id="publishLog"></pre>
+  </section>
   <table>
     <thead><tr><th>封面</th><th>状态</th><th>ID / 分类</th><th>标题</th><th>描述</th><th>操作</th></tr></thead>
     <tbody id="rows">
@@ -302,6 +325,93 @@ ${rowsHtml}
     if (event.key === '/' && document.activeElement !== q) { event.preventDefault(); q.focus(); }
     if (event.key === 'Escape' && document.activeElement === q) { q.value = ''; state.query = ''; q.blur(); apply(); }
   });
+  // ---- one-click publish (only works when this page is served by scripts/tracker-server.mjs) ----
+  const publishBtn = document.getElementById('publishBtn');
+  const publishPanel = document.getElementById('publishPanel');
+  const publishStatus = document.getElementById('publishStatus');
+  const publishLog = document.getElementById('publishLog');
+  const fileModeBanner = document.getElementById('fileModeBanner');
+  const token = document.querySelector('meta[name="pp-token"]')?.content || '';
+  const servedByTracker = location.protocol !== 'file:' && Boolean(token);
+  let publishRunning = false;
+
+  if (!servedByTracker) {
+    fileModeBanner.hidden = false;
+    publishBtn.title = '本地文件模式无法执行脚本，请用 npm run tracker 启动本地服务';
+  }
+  document.getElementById('copyTrackerCmd')?.addEventListener('click', () => {
+    copyText('npm run tracker');
+  });
+
+  const setPublishStatus = (text, className = '') => {
+    publishStatus.className = className;
+    publishStatus.textContent = text;
+  };
+
+  const pollPublish = async () => {
+    try {
+      const response = await fetch('/api/status', { headers: { 'X-PP-Token': token } });
+      const state = await response.json();
+      if (state.log) {
+        publishLog.textContent = state.log.slice(-20000);
+        publishLog.scrollTop = publishLog.scrollHeight;
+      }
+      if (state.running) {
+        setPublishStatus('发布中…（导入图片 / 写库 / 提交部署 / 验收）', 'status-run');
+        setTimeout(pollPublish, 1200);
+        return;
+      }
+      publishRunning = false;
+      publishBtn.disabled = false;
+      publishBtn.textContent = '🚀 发布新图';
+      if (state.exitCode === 0) {
+        setPublishStatus('✅ 发布完成，页面即将刷新…', 'status-ok');
+        setTimeout(() => location.reload(), 1800);
+      } else {
+        setPublishStatus('❌ 发布失败（退出码 ' + state.exitCode + '），请查看下方日志', 'status-err');
+      }
+    } catch (error) {
+      publishRunning = false;
+      publishBtn.disabled = false;
+      publishBtn.textContent = '🚀 发布新图';
+      setPublishStatus('❌ 无法连接本地服务：' + error.message, 'status-err');
+    }
+  };
+
+  publishBtn.addEventListener('click', async () => {
+    if (!servedByTracker) {
+      fileModeBanner.hidden = false;
+      fileModeBanner.scrollIntoView({ behavior: 'smooth' });
+      toast('请先启动本地服务：npm run tracker');
+      return;
+    }
+    if (publishRunning) return;
+    if (!confirm('将导入 ~/pm-images 中的新图、写入数据库并提交部署，继续？')) return;
+    publishRunning = true;
+    publishBtn.disabled = true;
+    publishBtn.textContent = '发布中…';
+    publishPanel.hidden = false;
+    setPublishStatus('启动发布…', 'status-run');
+    publishLog.textContent = '';
+    try {
+      const response = await fetch('/api/publish', {
+        method: 'POST',
+        headers: { 'X-PP-Token': token, 'Content-Type': 'application/json' },
+        body: '{}'
+      });
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        throw new Error(body.error || ('HTTP ' + response.status));
+      }
+      pollPublish();
+    } catch (error) {
+      publishRunning = false;
+      publishBtn.disabled = false;
+      publishBtn.textContent = '🚀 发布新图';
+      setPublishStatus('❌ ' + error.message, 'status-err');
+    }
+  });
+
   apply();
 })();
 </script>
