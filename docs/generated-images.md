@@ -35,3 +35,8 @@ Convention:
 | 2026-11-16 | 1768753741232216 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753741232216-73655e00.webp | generated with 即梦, published via publish script |
 | 2026-11-16 | 1768753732372340 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753732372340-08632dae.webp | generated with 即梦, published via publish script |
 | 2026-11-16 | 1768753744196537 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753744196537-38761ef6.webp | generated with 即梦, published via publish script |
+| 2026-11-16 | 176875374719494 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/176875374719494-5bbe1585.webp | generated with 即梦, published via publish script |
+| 2026-11-16 | 1768753750170104 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753750170104-531061d9.webp | generated with 即梦, published via publish script |
+| 2026-11-16 | 1768753753236694 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753753236694-1ea92086.webp | generated with 即梦, published via publish script |
+| 2026-11-16 | 1768753756161877 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753756161877-d1a534fb.webp | generated with 即梦, published via publish script |
+| 2026-11-16 | 1768753759258400 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753759258400-7ae7dde0.webp | generated with 即梦, published via publish script |
