@@ -58,3 +58,6 @@ Convention:
 | 2026-11-17 | 1768753804487204 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753804487204-7f5feca3.webp | generated with 即梦, published via publish script |
 | 2026-11-17 | 1768753807487482 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753807487482-6296a63d.webp | generated with 即梦, published via publish script |
 | 2026-11-17 | 1768753813700719 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753813700719-f04b1b71.webp | generated with 即梦, published via publish script |
+| 2026-11-17 | 1768753819763256 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753819763256-0790df28.webp | generated with 即梦, published via publish script |
+| 2026-11-17 | 1768753816708416 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753816708416-4983fabf.webp | generated with 即梦, published via publish script |
+| 2026-11-17 | 309 | VIDEO | https://img.ok9981.com/pentaprompt/prompts/309-e06fe9ca.webp | generated with 即梦, published via publish script |
