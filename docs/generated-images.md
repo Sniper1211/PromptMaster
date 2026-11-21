@@ -61,3 +61,13 @@ Convention:
 | 2026-11-17 | 1768753819763256 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753819763256-0790df28.webp | generated with 即梦, published via publish script |
 | 2026-11-17 | 1768753816708416 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753816708416-4983fabf.webp | generated with 即梦, published via publish script |
 | 2026-11-17 | 309 | VIDEO | https://img.ok9981.com/pentaprompt/prompts/309-e06fe9ca.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 1768753829397475 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753829397475-df1c7b73.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 176875382390299 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/176875382390299-6dcc78ea.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 1768753834423213 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753834423213-60797caa.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 1768753839747692 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753839747692-3d2d7ff2.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 1768753844716869 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753844716869-a5083555.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 1768753855460973 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753855460973-aef68a94.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 1768753860954409 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753860954409-380b2cee.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 1768753850818214 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753850818214-c1bee7cb.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 1768753866882212 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753866882212-fa0107a6.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 1768753870717307 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753870717307-94743e41.webp | generated with 即梦, published via publish script |
