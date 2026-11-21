@@ -71,3 +71,12 @@ Convention:
 | 2026-11-21 | 1768753850818214 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753850818214-c1bee7cb.webp | generated with 即梦, published via publish script |
 | 2026-11-21 | 1768753866882212 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753866882212-fa0107a6.webp | generated with 即梦, published via publish script |
 | 2026-11-21 | 1768753870717307 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753870717307-94743e41.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 1768753881965587 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753881965587-a1c55707.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 1768753876419715 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753876419715-5df6825a.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 1768753886715369 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753886715369-6a6c364d.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 1768753892087323 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753892087323-828d3cf4.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 1768753902802300 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753902802300-6e535743.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 1768753897470110 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753897470110-e5dc88cf.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 1768753914111451 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753914111451-8420828c.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 1768753918603788 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753918603788-976226ec.webp | generated with 即梦, published via publish script |
+| 2026-11-21 | 1768753924568653 | PHOTOGRAPHY | https://img.ok9981.com/pentaprompt/prompts/1768753924568653-e53b69be.webp | generated with 即梦, published via publish script |
