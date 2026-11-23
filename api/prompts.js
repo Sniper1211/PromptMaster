@@ -99,7 +99,7 @@ export default async function handler(req, res) {
         return n;
       };
       const page = parsePageParam(req.query.page, 1, 100000);
-      const limit = parsePageParam(req.query.limit, 24, 120);
+      const limit = parsePageParam(req.query.limit, 24, 1000); // admin dashboard requests up to 1000; public GET is WAF-blocked
       if (page === null || limit === null) {
         return res.status(400).json({ error: 'Invalid pagination parameters' });
       }
