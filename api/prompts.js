@@ -36,8 +36,8 @@ export default async function handler(req, res) {
         }, {});
         const videoResult = await pool.query(`SELECT COUNT(*)::int AS count FROM prompts WHERE prompt_type = 'video'`);
         const videoPromptCount = videoResult.rows?.[0]?.count ?? 0;
-        res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
-        res.setHeader('Vercel-CDN-Cache-Control', 's-maxage=600, stale-while-revalidate=1200');
+        res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=86400, stale-while-revalidate=86400');
+        res.setHeader('Vercel-CDN-Cache-Control', 's-maxage=86400, stale-while-revalidate=86400');
         return res.status(200).json({ counts, videoPromptCount });
       }
 
@@ -86,8 +86,8 @@ export default async function handler(req, res) {
           videoThumbnailUrl: row.video_thumbnail_url
         };
 
-        res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
-        res.setHeader('Vercel-CDN-Cache-Control', 's-maxage=300, stale-while-revalidate=600');
+        res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=86400, stale-while-revalidate=86400');
+        res.setHeader('Vercel-CDN-Cache-Control', 's-maxage=86400, stale-while-revalidate=86400');
         return res.status(200).json(prompt);
       }
 
@@ -210,8 +210,8 @@ export default async function handler(req, res) {
         };
       });
 
-      res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
-      res.setHeader('Vercel-CDN-Cache-Control', 's-maxage=300, stale-while-revalidate=600');
+      res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=3600, stale-while-revalidate=3600');
+      res.setHeader('Vercel-CDN-Cache-Control', 's-maxage=3600, stale-while-revalidate=3600');
       return res.status(200).json({
         prompts,
         total,

@@ -104,7 +104,7 @@ const AdminPage: React.FC = () => {
 
 const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
   const { t, i18n } = useTranslation();
-  const { prompts, loading: promptsLoading, nextId } = usePrompts(undefined, 'recent', 1000) as any;
+  const { prompts, loading: promptsLoading, nextId } = usePrompts(undefined, 'recent', 1000, undefined, { live: true }) as any;
   const [filter, setFilter] = useState<'all' | 'incomplete'>('incomplete');
   const [searchTerm, setSearchTerm] = useState('');
   const [editingPrompt, setEditingPrompt] = useState<any | null>(null);

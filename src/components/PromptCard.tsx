@@ -4,6 +4,7 @@ import Link from './common/LocalizedLink';
 import { Prompt, Category } from '../types';
 import { Copy, Check, Eye, Image as ImageIcon, Video } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { fetchStaticDetail } from '../lib/staticData';
 
 interface PromptCardProps {
   prompt: Prompt;
@@ -35,10 +36,15 @@ const PromptCard: React.FC<PromptCardProps> = ({ prompt, onTry: _onTry }) => {
     let text = prompt.content || '';
     if (!text) {
       try {
-        const res = await fetch(`/api/prompts?id=${encodeURIComponent(prompt.id)}&lang=${currentLang}`);
-        if (res.ok) {
-          const full = await res.json();
-          text = typeof full?.content === 'string' ? full.content : '';
+        const staticDetail = await fetchStaticDetail(prompt.id);
+        if (staticDetail?.content) {
+          text = staticDetail.content;
+        } else {
+          const res = await fetch(`/api/prompts?id=${encodeURIComponent(prompt.id)}&lang=${currentLang}`);
+          if (res.ok) {
+            const full = await res.json();
+            text = typeof full?.content === 'string' ? full.content : '';
+          }
         }
       } catch (err) {
         console.error('Failed to load prompt content', err);

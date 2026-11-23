@@ -11,6 +11,7 @@ import Footer from '../components/layout/Footer';
 import AddPromptModal from '../components/admin/AddPromptModal';
 import ComingSoonModal from '../components/common/ComingSoonModal';
 import { usePrompts } from '../hooks/usePrompts';
+import { fetchStaticCategories } from '../lib/staticData';
 import SEOHead from '../components/seo/SEOHead';
 import { useLocation, useSearchParams } from 'react-router-dom';
 
@@ -77,9 +78,12 @@ const HomePage: React.FC = () => {
     useEffect(() => {
         const fetchCategoryCounts = async () => {
             try {
-                const res = await fetch(`/api/prompts?summary=categories&lang=${i18n.language.startsWith('zh') ? 'zh' : 'en'}`);
-                if (!res.ok) return;
-                const data = await res.json();
+                let data = await fetchStaticCategories();
+                if (!data) {
+                    const res = await fetch(`/api/prompts?summary=categories&lang=${i18n.language.startsWith('zh') ? 'zh' : 'en'}`);
+                    if (!res.ok) return;
+                    data = await res.json();
+                }
                 const counts = data?.counts && typeof data.counts === 'object' ? data.counts : data;
                 if (counts && typeof counts === 'object') {
                     const normalizeCategoryKey = (rawKey: string) => {

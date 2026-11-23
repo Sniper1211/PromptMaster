@@ -3,6 +3,7 @@ import Link from '../common/LocalizedLink';
 
 import { useTranslation } from 'react-i18next';
 import { Layers } from 'lucide-react';
+import { fetchStaticCategories } from '../../lib/staticData';
 
 interface FooterProps {
     onContribute?: () => void;
@@ -10,18 +11,23 @@ interface FooterProps {
 
 // Cached library stats: the footer appears on several pages, so fetch once per session.
 let libraryStatsPromise: Promise<{ total: number } | null> | null = null;
+const totalFromCounts = (counts: Record<string, number> | null | undefined) => {
+    if (!counts || typeof counts !== 'object') return null;
+    const total = Object.values(counts).reduce(
+        (sum, value) => sum + (typeof value === 'number' ? value : 0),
+        0
+    );
+    return total > 0 ? { total } : null;
+};
 const fetchLibraryStats = () => {
     if (!libraryStatsPromise) {
-        libraryStatsPromise = fetch('/api/prompts?summary=categories')
-            .then((res) => (res.ok ? res.json() : null))
+        libraryStatsPromise = fetchStaticCategories()
             .then((data) => {
-                const counts = data?.counts ?? data;
-                if (!counts || typeof counts !== 'object') return null;
-                const total = Object.values(counts).reduce(
-                    (sum: number, value) => sum + (typeof value === 'number' ? value : 0),
-                    0
-                );
-                return total > 0 ? { total } : null;
+                const fromStatic = totalFromCounts(data?.counts);
+                if (fromStatic) return fromStatic;
+                return fetch('/api/prompts?summary=categories')
+                    .then((res) => (res.ok ? res.json() : null))
+                    .then((apiData) => totalFromCounts(apiData?.counts ?? apiData));
             })
             .catch(() => null);
     }

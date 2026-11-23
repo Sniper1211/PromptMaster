@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"vite\" \"node server/index.js\"",
-    "build": "npm run build:sitemap && vite build && node scripts/prerender-seo.mjs",
+    "build": "npm run build:sitemap && node scripts/export-static-data.mjs && vite build && node scripts/prerender-seo.mjs",
     "build:sitemap": "node scripts/generate-sitemap.js",
     "preview": "vite preview",
     "publish:covers": "node scripts/publish-generated-images.mjs --apply --archive",

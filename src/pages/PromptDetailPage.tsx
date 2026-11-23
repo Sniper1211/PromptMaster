@@ -14,6 +14,7 @@ import PromptCard from '../components/PromptCard';
 import ImageWithSkeleton from '../components/common/ImageWithSkeleton';
 import PromptDetailSkeleton from '../components/detail/PromptDetailSkeleton';
 import { Category, Prompt } from '../types';
+import { fetchStaticIndex, mapStaticToListPrompt } from '../lib/staticData';
 
 // Import-time provenance tags are not user-facing keywords.
 const PROVENANCE_TAG_BLOCKLIST = /^(imported|nano\s*banana|ai\s*art|video|ai-video|seedance[\s-]*2(\.0)?|seedance)$/i;
@@ -58,8 +59,17 @@ const PromptDetailPage: React.FC = () => {
         
         const fetchRelated = async () => {
             try {
-                // Fetch 5 items, so we can filter out current one and still have 4
-                // We use the prompt's category
+                const index = await fetchStaticIndex();
+                if (index) {
+                    const related = index
+                        .filter((entry) => entry.category === prompt.category && entry.id !== prompt.id)
+                        .map((entry) => mapStaticToListPrompt(entry, i18n.language))
+                        .sort(() => Math.random() - 0.5)
+                        .slice(0, 4);
+                    setRelatedPrompts(related);
+                    return;
+                }
+                // Fallback for dev / missing build artifacts.
                 const res = await fetch(`/api/prompts?category=${encodeURIComponent(prompt.category)}&limit=5&sort=random`);
                 if (res.ok) {
                     const data = await res.json();
@@ -72,9 +82,9 @@ const PromptDetailPage: React.FC = () => {
                 console.error('Failed to fetch related prompts', err);
             }
         };
-        
+
         fetchRelated();
-    }, [prompt]);
+    }, [prompt, i18n.language]);
 
     const copyPrompt = () => {
         if (prompt) {

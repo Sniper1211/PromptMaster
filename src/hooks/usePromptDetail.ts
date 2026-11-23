@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Prompt } from '../types';
+import { fetchStaticDetail, mapStaticToDetailPrompt } from '../lib/staticData';
 
 export const usePromptDetail = (id: string | undefined) => {
     const { i18n } = useTranslation();
@@ -13,27 +14,31 @@ export const usePromptDetail = (id: string | undefined) => {
 
         let mounted = true;
         setLoading(true);
+        setError(null);
 
         const fetchPrompt = async () => {
+            // Prefer the build-time static JSON (no database round-trip).
+            const staticDetail = await fetchStaticDetail(id);
+            if (mounted && staticDetail) {
+                setPrompt(mapStaticToDetailPrompt(staticDetail, i18n.language));
+                setLoading(false);
+                return;
+            }
+
+            // Fallback: newly added prompts may not be in the static export yet.
             try {
-                // STRATEGY: Try API first, fallback to local (if we keep local file logic, but we are moving to pure API)
-                // For Detail, we stick to pure API.
-                
                 const lang = i18n.language.startsWith('zh') ? 'zh' : 'en';
-                const res = await fetch(`/api/prompts?id=${id}&lang=${lang}`);
-                
+                const res = await fetch(`/api/prompts?id=${encodeURIComponent(id)}&lang=${lang}`);
+
                 if (res.ok) {
                     const data = await res.json();
                     if (mounted) {
                         setPrompt(data);
                         setLoading(false);
                     }
-                } else {
-                    // Handle 404
-                    if (mounted) {
-                        setPrompt(null);
-                        setLoading(false);
-                    }
+                } else if (mounted) {
+                    setPrompt(null);
+                    setLoading(false);
                 }
             } catch (err) {
                 if (mounted) {

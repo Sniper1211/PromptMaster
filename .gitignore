@@ -31,3 +31,6 @@ PHASE_1_GROWTH_PLAN.md
 
 # Local-only generated files (never commit / deploy)
 local/
+
+# Build-time static data for public pages
+public/data/
