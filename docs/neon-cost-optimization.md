@@ -90,3 +90,20 @@ data migration does.
 
 If Neon usage is still higher than expected after a cycle, next candidates are batching copy counters
 and reducing deploy frequency further.
+
+## Follow-up: remaining anonymous API wakes (2026-11-24)
+
+After the static-data deploy (04:35Z), Cloudflare analytics still showed ~10 anonymous
+`GET /api/prompts` requests in 10 hours (cache misses, likely bots with random query strings or
+stale SPA bundles). Each one wakes the Neon compute for up to 5 minutes, so they still mattered.
+
+Changes:
+
+- New admin-only endpoint `/api/admin-prompts` (GET, requires `Authorization: Bearer ADMIN_PASSWORD`);
+  the admin dashboard now uses it (live list + detail), with the token from `localStorage.adminToken`.
+- Cloudflare WAF custom rule blocks **all** anonymous `GET /api/prompts*` at the edge. Public pages use
+  `/data/*`; the old API GET is only a local-dev fallback (WAF does not apply on localhost).
+- The API cache rule is now irrelevant for the blocked path and can be removed later.
+
+Expected: public/API scraper traffic in the database is now zero. Remaining DB traffic: copy increments
+(observed ~2 per 12h), admin actions, submissions, and build-time queries.

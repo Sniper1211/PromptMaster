@@ -97,14 +97,18 @@ const AdminPage: React.FC = () => {
     );
   }
 
-  return <AdminDashboard onLogout={handleLogout} />;
+  return <AdminDashboard onLogout={handleLogout} adminToken={localStorage.getItem('adminToken') || ''} />;
 };
 
 // --- Sub-components for Dashboard ---
 
-const AdminDashboard: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
+const AdminDashboard: React.FC<{ onLogout: () => void; adminToken: string }> = ({ onLogout, adminToken }) => {
   const { t, i18n } = useTranslation();
-  const { prompts, loading: promptsLoading, nextId } = usePrompts(undefined, 'recent', 1000, undefined, { live: true }) as any;
+  const { prompts, loading: promptsLoading, nextId } = usePrompts(undefined, 'recent', 1000, undefined, {
+    live: true,
+    apiBase: '/api/admin-prompts',
+    headers: adminToken ? { Authorization: `Bearer ${adminToken}` } : undefined
+  }) as any;
   const [filter, setFilter] = useState<'all' | 'incomplete'>('incomplete');
   const [searchTerm, setSearchTerm] = useState('');
   const [editingPrompt, setEditingPrompt] = useState<any | null>(null);
@@ -320,7 +324,7 @@ const EditorModal: React.FC<{ prompt: any, onClose: () => void, onSave: () => vo
     setIsSaving(true);
     try {
       const token = localStorage.getItem('adminToken');
-      const res = await fetch(`/api/prompts?id=${prompt.id}`, {
+      const res = await fetch(`/api/admin-prompts?id=${prompt.id}`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',

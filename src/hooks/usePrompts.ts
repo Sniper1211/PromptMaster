@@ -6,6 +6,10 @@ import { fetchStaticIndex, mapStaticToListPrompt } from '../lib/staticData';
 type UsePromptsOptions = {
     /** Admin screens need live data from the API instead of the build-time static index. */
     live?: boolean;
+    /** API base path for live mode (default: /api/prompts). */
+    apiBase?: string;
+    /** Extra request headers for live mode (e.g. admin Authorization). */
+    headers?: Record<string, string>;
 };
 
 const DB_CATEGORY_BY_VALUE: Record<string, string> = {
@@ -50,6 +54,7 @@ export const usePrompts = (
     options: UsePromptsOptions = {}
 ) => {
     const live = options.live === true;
+    const apiBase = options.apiBase || '/api/prompts';
     const { i18n } = useTranslation();
     const [prompts, setPrompts] = useState<Prompt[]>([]);
     const [loading, setLoading] = useState(true);
@@ -65,11 +70,11 @@ export const usePrompts = (
     const fetchFromApi = async (pageNum: number, isReset: boolean) => {
         try {
             const lang = i18n.language.startsWith('zh') ? 'zh' : 'en';
-            let url = `/api/prompts?page=${pageNum}&limit=${customLimit}&lang=${lang}&sort=${sortOrder}`;
+            let url = `${apiBase}?page=${pageNum}&limit=${customLimit}&lang=${lang}&sort=${sortOrder}`;
             if (category && category !== 'ALL') url += `&category=${encodeURIComponent(category)}`;
             if (promptType) url += `&promptType=${encodeURIComponent(promptType)}`;
 
-            const res = await fetch(url);
+            const res = await fetch(url, options.headers ? { headers: options.headers } : undefined);
             if (!res.ok) throw new Error('Failed to fetch');
             const data = await res.json();
             const newPrompts = data.prompts || [];
