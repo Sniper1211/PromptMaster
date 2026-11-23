@@ -60,3 +60,33 @@ Additional reductions:
 
 Revert the `static-data` commit and redeploy; the API endpoints were kept, so old behavior returns.
 `public/data/` is generated output; delete it safely if needed.
+
+## Applied Cloudflare changes (2026-11-23)
+
+Using the locally authenticated cf CLI OAuth credentials (Cloudflare API, account busivaa@gmail.com):
+
+- **Cache Rule** (Caching -> Cache Rules): `GET /api/prompts*` -> eligible for cache, Edge TTL "respect origin".
+  The API now sends `s-maxage=3600` (lists) / `s-maxage=86400` (detail, categories), so the edge caches it.
+- **WAF custom rule** (Security -> WAF -> Custom rules): "block common scanner paths" for `/.env`, `/.git`,
+  `/wp-admin`, `/wp-login`, `/xmlrpc.php`, `/index.php`, `/nuclei*`, `/phpmyadmin`, `/.aws`, `/vendor/phpunit`.
+  Verified: those paths now return 403.
+- **Bot Fight Mode was already on**: `fight_mode=true`, `enable_js=true`, `ai_bots_protection=block`,
+  `crawler_protection=enabled`, `ai_training=disallow`. Cloudflare also manages `robots.txt`
+  (`is_robots_txt_managed=true`), which is why the served robots file includes managed content signals.
+- `/data/*` static JSON gets a long cache header in `vercel.json` (browser 5 min, CDN 1 day with SWR).
+
+## Neon Free plan suspend setting
+
+There is no suspend-timeout setting on the Free plan; it is fixed at 5 minutes and only paid plans
+(Scale) can change it. The "Increase your limits" $5/month add-on changes quotas (250 compute hours,
+etc.), not the timeout. The fix is therefore to stop querying the database so often, which the static
+data migration does.
+
+## Remaining DB writes (acceptable)
+
+- `POST /api/increment-copy` on user copy clicks.
+- Admin actions (add/edit prompts), submissions, upload.
+- Build-time queries (sitemap, static export, prerender): one short burst per deploy.
+
+If Neon usage is still higher than expected after a cycle, next candidates are batching copy counters
+and reducing deploy frequency further.
