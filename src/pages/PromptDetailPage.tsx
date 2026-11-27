@@ -15,6 +15,7 @@ import ImageWithSkeleton from '../components/common/ImageWithSkeleton';
 import PromptDetailSkeleton from '../components/detail/PromptDetailSkeleton';
 import { Category, Prompt } from '../types';
 import { fetchStaticIndex, mapStaticToListPrompt } from '../lib/staticData';
+import { categoryEditorial, categoryEditorialFallback } from '../data/categoryEditorial';
 
 // Import-time provenance tags are not user-facing keywords.
 const PROVENANCE_TAG_BLOCKLIST = /^(imported|nano\s*banana|ai\s*art|video|ai-video|seedance[\s-]*2(\.0)?|seedance)$/i;
@@ -177,6 +178,8 @@ const PromptDetailPage: React.FC = () => {
         t('promptDetail.editorial.note2'),
         t('promptDetail.editorial.note3')
     ];
+    const categoryContext = (categoryEditorial[String(prompt.category)] || categoryEditorialFallback)[i18n.language.startsWith('zh') ? 'zh' : 'en'];
+
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "CreativeWork",
@@ -386,6 +389,15 @@ const PromptDetailPage: React.FC = () => {
                                             ))}
                                         </div>
                                     </article>
+                                </div>
+
+                                <div className="bg-white border-[3px] border-black p-5 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+                                    <h4 className="text-sm font-black uppercase tracking-widest text-slate-500">
+                                        {t('promptDetail.categoryContext')}
+                                    </h4>
+                                    <p className="mt-3 text-sm md:text-base font-medium leading-relaxed text-slate-800">
+                                        {categoryContext}
+                                    </p>
                                 </div>
 
                                 <div className="bg-black text-white border-[3px] border-black p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">

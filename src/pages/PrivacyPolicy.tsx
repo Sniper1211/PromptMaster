@@ -39,7 +39,7 @@ const PrivacyPolicy: React.FC = () => {
                 title: '4. Cookie 与第三方服务',
                 paragraphs: [
                     '本站可能使用由第三方服务提供的 Cookie 或类似技术，以支持流量分析、性能测量和广告投放。第三方供应商（包括 Google）可能基于你此前访问本站或其他网站的记录展示相关广告。',
-                    '你可以访问 Google 的 Ads Settings 管理个性化广告偏好，也可以通过浏览器设置限制或清除 Cookie。某些调整可能影响站点的部分体验或广告相关功能。'
+                    '你可以访问 Google 的 Ads Settings（https://adssettings.google.com）管理个性化广告偏好，也可以在 https://www.aboutads.info/choices/ 了解第三方广告 Cookie 的选择退出方式，或通过浏览器设置限制、清除 Cookie。某些调整可能影响站点的部分体验或广告相关功能。'
                 ]
             },
             {
@@ -90,7 +90,7 @@ const PrivacyPolicy: React.FC = () => {
                 title: '4. Cookies and Third-Party Services',
                 paragraphs: [
                     'The site may use cookies or similar technologies provided by third-party services for analytics, performance measurement, and advertising. Third-party vendors, including Google, may use cookies to show ads based on prior visits to this site or other websites.',
-                    'You can manage personalized advertising preferences through Google Ads Settings, and you can also control cookies through your browser. Limiting cookies may affect some functionality or ad-related behavior.'
+                    'You can manage personalized advertising preferences through Google Ads Settings (https://adssettings.google.com), and opt out of many third-party advertising cookies at https://www.aboutads.info/choices/. You can also control cookies through your browser. Limiting cookies may affect some functionality or ad-related behavior.'
                 ]
             },
             {

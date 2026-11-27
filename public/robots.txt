@@ -1,3 +1,10 @@
+# AdSense crawlers (Google)
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
 User-agent: *
 Allow: /
 

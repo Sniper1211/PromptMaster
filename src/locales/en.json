@@ -603,7 +603,8 @@
       "note3": "Review factual claims, links, and sensitive decisions before using the result publicly.",
       "editorNoteText": "This prompt is most valuable as a starting framework. The more specific your context is, the easier it becomes to turn the output into something genuinely useful."
     },
-    "viewSource": "View source"
+    "viewSource": "View source",
+    "categoryContext": "About this category"
   },
   "seo": {
     "home": {
