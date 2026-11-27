@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import pg from 'pg';
 import dotenv from 'dotenv';
-import { guideArticles } from '../src/data/guides.js';
+import { getPublishedGuides } from '../src/data/guides.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -30,7 +30,7 @@ const COLLECTION_SLUGS = [
     'video-prompts'
 ];
 
-const staticPaths = ['/', '/guides', '/about', '/contact', '/privacy', '/terms'];
+const staticPaths = ['/', '/guides', '/about', '/contact', '/privacy', '/terms', '/editorial-policy', '/copyright'];
 
 const urlsFor = (routePath) => ({
     en: `${BASE_URL}${routePath === '/' ? '' : routePath}`,
@@ -60,7 +60,7 @@ const generateSitemap = async () => {
 
     staticPaths.forEach((routePath) => addEntry(routePath, null));
     COLLECTION_SLUGS.forEach((slug) => addEntry(`/collections/${slug}`, null));
-    guideArticles.forEach((guide) => addEntry(`/guides/${guide.slug}`, null));
+    getPublishedGuides().forEach((guide) => addEntry(`/guides/${guide.slug}`, null));
     promptRows.forEach((row) => {
         const lastmod = row.created_at ? new Date(row.created_at).toISOString().slice(0, 10) : null;
         addEntry(`/prompt/${row.id}`, lastmod);

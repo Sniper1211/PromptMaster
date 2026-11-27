@@ -463,7 +463,9 @@
     "about": "About",
     "contact": "Contact",
     "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service"
+    "termsOfService": "Terms of Service",
+    "editorialPolicy": "Editorial Policy",
+    "copyright": "Copyright & DMCA"
   },
   "addPrompt": {
     "title": "Add New Prompt",
@@ -667,6 +669,14 @@
     "contact": {
       "title": "Contact PentaPrompt | Site Support and Business Inquiries",
       "description": "Contact PentaPrompt for support, policy questions, corrections, and business inquiries."
+    },
+    "editorialPolicy": {
+      "title": "Editorial Policy | PentaPrompt",
+      "description": "How PentaPrompt selects, edits, attributes and corrects prompt content."
+    },
+    "copyright": {
+      "title": "Copyright & DMCA | PentaPrompt",
+      "description": "Ownership of prompt text, rules for real people and copyrighted characters, submissions, and takedown requests."
     }
   },
   "notFound": {

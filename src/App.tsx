@@ -14,6 +14,8 @@ const ContactPage = lazy(() => import('./pages/ContactPage'));
 const AdminPage = lazy(() => import('./pages/AdminPage'));
 const GuidesPage = lazy(() => import('./pages/GuidesPage'));
 const GuideArticlePage = lazy(() => import('./pages/GuideArticlePage'));
+const EditorialPolicyPage = lazy(() => import('./pages/EditorialPolicyPage'));
+const CopyrightPage = lazy(() => import('./pages/CopyrightPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 const RouteFallback: React.FC = () => (

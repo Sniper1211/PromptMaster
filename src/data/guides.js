@@ -1,6 +1,8 @@
+import { newGuides } from './guidesNew.js';
+
 const l = (en, zh) => ({ en, zh });
 
-export const guideArticles = [
+const baseGuideArticles = [
   {
     slug: 'how-to-write-better-ai-prompts',
     collectionSlug: 'writing-prompts',
@@ -528,6 +530,8 @@ export const guideArticles = [
   }
 ];
 
+export const guideArticles = [...baseGuideArticles, ...newGuides];
+
 export const guidesBySlug = Object.fromEntries(
   guideArticles.map((guide) => [guide.slug, guide])
 );
@@ -537,3 +541,16 @@ export const featuredGuideSlugs = [
   'seo-prompts-that-convert',
   'prompt-engineering-workflow'
 ];
+
+/**
+ * Guides can carry an optional publishDate (YYYY-MM-DD). Guides without a date are
+ * treated as published; future-dated guides are excluded from lists, routes, prerender
+ * and the sitemap so a scheduled daily build can publish them one by one.
+ */
+export const isGuidePublished = (guide, now = new Date()) => {
+  if (!guide || !guide.publishDate) return true;
+  return String(guide.publishDate) <= now.toISOString().slice(0, 10);
+};
+
+export const getPublishedGuides = (now = new Date()) =>
+  guideArticles.filter((guide) => isGuidePublished(guide, now));

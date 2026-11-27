@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import SEOHead from '../components/seo/SEOHead';
 import SiteHeader from '../components/layout/SiteHeader';
 import Footer from '../components/layout/Footer';
-import { guideArticles } from '../data/guides.js';
+import { getPublishedGuides } from '../data/guides.js';
 
 const GuidesPage: React.FC = () => {
     const { i18n } = useTranslation();
@@ -50,7 +50,7 @@ const GuidesPage: React.FC = () => {
     const articleSchema = {
         '@context': 'https://schema.org',
         '@type': 'ItemList',
-        itemListElement: guideArticles.map((guide, index) => ({
+        itemListElement: getPublishedGuides().map((guide, index) => ({
             '@type': 'ListItem',
             position: index + 1,
             url: `https://pentaprompt.com/guides/${guide.slug}`,
@@ -105,7 +105,7 @@ const GuidesPage: React.FC = () => {
                         </p>
 
                         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-                            {guideArticles.map((guide: any) => (
+                            {getPublishedGuides().map((guide: any) => (
                                 <article
                                     key={guide.slug}
                                     className="bg-white border-[3px] border-black p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col"
@@ -130,12 +130,14 @@ const GuidesPage: React.FC = () => {
                                             {copy.readGuide}
                                             <ArrowRight size={14} strokeWidth={3} />
                                         </Link>
+                                        {guide.collectionSlug ? (
                                         <Link
                                             to={`/collections/${guide.collectionSlug}`}
                                             className="inline-flex items-center gap-2 bg-gray-50 text-black px-4 py-3 border-[2.5px] border-black font-black uppercase tracking-widest text-xs hover:bg-[#FACC15] transition-colors"
                                         >
                                             {copy.browseCollection}
                                         </Link>
+                                        ) : null}
                                     </div>
                                 </article>
                             ))}

@@ -97,6 +97,38 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pentaprompt.com/terms"/>
   </url>
   <url>
+    <loc>https://pentaprompt.com/editorial-policy</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pentaprompt.com/editorial-policy"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://pentaprompt.com/zh/editorial-policy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pentaprompt.com/editorial-policy"/>
+  </url>
+  <url>
+    <loc>https://pentaprompt.com/zh/editorial-policy</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pentaprompt.com/editorial-policy"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://pentaprompt.com/zh/editorial-policy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pentaprompt.com/editorial-policy"/>
+  </url>
+  <url>
+    <loc>https://pentaprompt.com/copyright</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pentaprompt.com/copyright"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://pentaprompt.com/zh/copyright"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pentaprompt.com/copyright"/>
+  </url>
+  <url>
+    <loc>https://pentaprompt.com/zh/copyright</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pentaprompt.com/copyright"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://pentaprompt.com/zh/copyright"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pentaprompt.com/copyright"/>
+  </url>
+  <url>
     <loc>https://pentaprompt.com/collections/writing-prompts</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

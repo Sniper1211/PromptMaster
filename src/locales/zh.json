@@ -463,7 +463,9 @@
     "about": "关于我们",
     "contact": "联系我们",
     "privacyPolicy": "隐私政策",
-    "termsOfService": "服务条款"
+    "termsOfService": "服务条款",
+    "editorialPolicy": "编辑政策",
+    "copyright": "版权与 DMCA"
   },
   "addPrompt": {
     "title": "添加新提示词",
@@ -667,6 +669,14 @@
     "contact": {
       "title": "联系 PentaPrompt | 站点支持与商务咨询",
       "description": "通过公开邮箱联系 PentaPrompt，处理支持、政策、更正和商务咨询。"
+    },
+    "editorialPolicy": {
+      "title": "编辑政策 | PentaPrompt",
+      "description": "PentaPrompt 如何筛选、编辑、标注来源与纠错提示词内容。"
+    },
+    "copyright": {
+      "title": "版权与 DMCA | PentaPrompt",
+      "description": "提示词权利、真人/品牌/角色政策、用户提交授权与版权下架流程。"
     }
   },
   "notFound": {

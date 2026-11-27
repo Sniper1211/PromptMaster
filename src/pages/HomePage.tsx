@@ -15,7 +15,7 @@ import { fetchStaticCategories } from '../lib/staticData';
 import SEOHead from '../components/seo/SEOHead';
 import { useLocation, useSearchParams } from 'react-router-dom';
 
-import { featuredGuideSlugs, guideArticles } from '../data/guides.js';
+import { featuredGuideSlugs, getPublishedGuides } from '../data/guides.js';
 
 interface TrustCard {
     key: 'curated' | 'bilingual' | 'transparent';
@@ -245,7 +245,7 @@ const HomePage: React.FC = () => {
         [t]
     );
     const featuredGuides = useMemo(
-        () => guideArticles.filter((guide: any) => featuredGuideSlugs.includes(guide.slug)),
+        () => getPublishedGuides().filter((guide: any) => featuredGuideSlugs.includes(guide.slug)),
         []
     );
     const faqSchema = {

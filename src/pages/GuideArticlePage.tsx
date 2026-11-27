@@ -7,13 +7,14 @@ import { useTranslation } from 'react-i18next';
 import SEOHead from '../components/seo/SEOHead';
 import SiteHeader from '../components/layout/SiteHeader';
 import Footer from '../components/layout/Footer';
-import { guideArticles, guidesBySlug } from '../data/guides.js';
+import { getPublishedGuides, isGuidePublished, guidesBySlug } from '../data/guides.js';
 
 const GuideArticlePage: React.FC = () => {
     const { slug } = useParams<{ slug: string }>();
     const { i18n } = useTranslation();
     const isZh = i18n.language.startsWith('zh');
-    const guide = slug ? guidesBySlug[slug] : null;
+    const candidate = slug ? guidesBySlug[slug] : null;
+    const guide = candidate && isGuidePublished(candidate) ? candidate : null;
 
     const copy = useMemo(
         () => ({
@@ -61,11 +62,11 @@ const GuideArticlePage: React.FC = () => {
         );
     }
 
-    const relatedGuides = guideArticles.filter((item) => item.slug !== guide.slug).slice(0, 3);
+    const relatedGuides = getPublishedGuides().filter((item) => item.slug !== guide.slug).slice(0, 3);
     const faqSchema = {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
-        mainEntity: guide.faqs.map((item) => ({
+        mainEntity: (guide.faqs || []).map((item) => ({
             '@type': 'Question',
             name: isZh ? item.q.zh : item.q.en,
             acceptedAnswer: {
@@ -99,7 +100,7 @@ const GuideArticlePage: React.FC = () => {
                 keywords={isZh ? 'AI提示词指南, Prompt教程, 内容策略' : 'ai prompt guide, prompt tutorial, content strategy'}
                 url={`https://pentaprompt.com/guides/${guide.slug}`}
                 type="article"
-                structuredData={[articleSchema, faqSchema]}
+                structuredData={guide.faqs && guide.faqs.length ? [articleSchema, faqSchema] : [articleSchema]}
             />
 
             <div className="min-h-screen bg-gray-50 text-slate-900 font-sans">
@@ -146,15 +147,18 @@ const GuideArticlePage: React.FC = () => {
                                             <p key={paragraph.en}>{isZh ? paragraph.zh : paragraph.en}</p>
                                         ))}
                                     </div>
+                                    {section.bullets && section.bullets.length ? (
                                     <ul className="mt-5 space-y-3 border-l-[3px] border-black pl-5 text-sm md:text-base font-medium leading-relaxed">
                                         {section.bullets.map((bullet) => (
                                             <li key={bullet.en}>{isZh ? bullet.zh : bullet.en}</li>
                                         ))}
                                     </ul>
+                                    ) : null}
                                 </section>
                             ))}
                         </div>
 
+                        {guide.checklistTitle && guide.checklist ? (
                         <section className="mt-12 bg-gray-50 border-[3px] border-black p-5 md:p-6">
                             <h2 className="text-xl font-black uppercase tracking-tight">
                                 {isZh ? guide.checklistTitle.zh : guide.checklistTitle.en}
@@ -165,7 +169,9 @@ const GuideArticlePage: React.FC = () => {
                                 ))}
                             </ol>
                         </section>
+                        ) : null}
 
+                        {guide.faqs && guide.faqs.length ? (
                         <section className="mt-12">
                             <h2 className="text-2xl font-black uppercase tracking-tight">{copy.faq}</h2>
                             <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -181,8 +187,10 @@ const GuideArticlePage: React.FC = () => {
                                 ))}
                             </div>
                         </section>
+                        ) : null}
 
                         <section className="mt-12 flex flex-col sm:flex-row gap-4">
+                            {guide.collectionSlug ? (
                             <Link
                                 to={`/collections/${guide.collectionSlug}`}
                                 className="inline-flex items-center justify-center gap-2 bg-black text-white px-7 py-4 border-[3px] border-black font-black uppercase tracking-widest text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
@@ -190,6 +198,7 @@ const GuideArticlePage: React.FC = () => {
                                 {copy.browseCollection}
                                 <ArrowRight size={18} strokeWidth={3} />
                             </Link>
+                            ) : null}
                             <Link
                                 to={guide.libraryHref}
                                 className="inline-flex items-center justify-center gap-2 bg-white text-black px-7 py-4 border-[3px] border-black font-black uppercase tracking-widest text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"

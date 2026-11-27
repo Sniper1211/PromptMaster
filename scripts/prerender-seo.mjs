@@ -15,7 +15,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import pg from 'pg';
 import dotenv from 'dotenv';
-import { guideArticles } from '../src/data/guides.js';
+import { getPublishedGuides } from '../src/data/guides.js';
 import { categoryEditorial, categoryEditorialFallback, categoryTitle } from '../src/data/categoryEditorial.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -147,7 +147,7 @@ const renderListBody = (title, description, rows, lang) => {
 
 const renderGuidesBody = (lang) => {
     const zh = lang === 'zh';
-    const items = guideArticles.map((guide) => `<li style="margin:12px 0"><a href="${hrefFor(lang, `/guides/${guide.slug}`)}" style="font-size:17px;color:#0f766e;text-decoration:none">${esc(localized(lang, guide.title))}</a><div style="font-size:14px;color:#4b5563;margin-top:4px">${esc(localized(lang, guide.description))}</div></li>`).join('');
+    const items = getPublishedGuides().map((guide) => `<li style="margin:12px 0"><a href="${hrefFor(lang, `/guides/${guide.slug}`)}" style="font-size:17px;color:#0f766e;text-decoration:none">${esc(localized(lang, guide.title))}</a><div style="font-size:14px;color:#4b5563;margin-top:4px">${esc(localized(lang, guide.description))}</div></li>`).join('');
     return bodyShell(`<h1 style="font-size:30px">${esc(lang === 'zh' ? 'AI 提示词指南' : 'AI Prompt Guides')}</h1><p style="font-size:16px;color:#374151">${esc(GUIDES_COPY[lang].description)}</p><ul style="padding-left:20px">${items}</ul>`);
 };
 
@@ -286,7 +286,9 @@ async function main() {
             { path: '/about', key: 'about' },
             { path: '/contact', key: 'contact' },
             { path: '/privacy', key: 'privacyPolicy' },
-            { path: '/terms', key: 'termsOfService' }
+            { path: '/terms', key: 'termsOfService' },
+            { path: '/editorial-policy', key: 'editorialPolicy' },
+            { path: '/copyright', key: 'copyright' }
         ];
         for (const page of staticPages) {
             const seo = L.seo?.[page.key] || {};
@@ -313,7 +315,7 @@ async function main() {
         });
 
         // Guide articles
-        for (const guide of guideArticles) {
+        for (const guide of getPublishedGuides()) {
             pages.push({
                 path: `/guides/${guide.slug}`,
                 title: `${guide.title[lang]} | PentaPrompt`,
